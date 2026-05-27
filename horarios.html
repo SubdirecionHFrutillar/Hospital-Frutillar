@@ -48,7 +48,6 @@
 <body class="font-sans antialiased bg-gray-100 text-gray-800">
 
 <!-- TOPBAR -->
-
 <div class="bg-primary-dark text-white text-xs py-1.5 border-b border-primary-light/30">
   <div class="container mx-auto px-4 flex justify-between items-center flex-wrap gap-2">
     <span class="text-white/70">Philippi 1000, Frutillar &nbsp;·&nbsp; Región de Los Lagos</span>
@@ -61,7 +60,6 @@
 </div>
 
 <!-- HEADER -->
-
 <header class="text-white w-full shadow-md" style="background: linear-gradient(135deg,#12465a 0%,#1a5f7a 55%,#4a9dbf 100%);">
   <div class="container mx-auto px-4 py-5">
     <div class="flex flex-col md:flex-row items-center justify-between gap-5">
@@ -98,7 +96,6 @@
 </header>
 
 <!-- NAVEGACIÓN -->
-
 <nav class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
   <div class="container mx-auto px-4">
     <ul class="flex flex-wrap items-center text-sm font-semibold text-gray-600">
@@ -168,11 +165,9 @@
 </nav>
 
 <!-- CONTENIDO -->
-
 <main class="container mx-auto px-4 py-8">
 
   <!-- Breadcrumb -->
-
   <div class="flex items-center gap-2 text-xs text-gray-400 mb-6">
     <a href="index.html" class="hover:text-primary-DEFAULT transition-colors">Inicio</a>
     <span class="material-symbols-outlined text-sm">chevron_right</span>
@@ -181,231 +176,227 @@
     <span class="text-primary-DEFAULT font-semibold">Horarios de Atención</span>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-7">
+  <div style="display:grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: start;">
 
-```
-<!-- COLUMNA PRINCIPAL -->
-<div class="lg:col-span-8">
+    <!-- COLUMNA PRINCIPAL -->
+    <div style="min-width:0;">
 
-  <!-- Título sección -->
-  <div class="mb-6">
-    <h2 class="font-serif text-2xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3 mb-1">Horarios de Atención</h2>
-    <p class="text-sm text-gray-500 pl-4">Información actualizada de los horarios de atención por servicio</p>
-  </div>
-
-  <!-- Aviso horario -->
-  <div class="flex items-start gap-3 bg-primary-bg border border-primary-light rounded-custom px-4 py-3 mb-7 text-sm text-primary-DEFAULT">
-    <span class="material-symbols-outlined text-primary-light mt-0.5">info</span>
-    <p>Los horarios pueden estar sujetos a cambios en períodos de alta demanda o festivos. Para consultas llame al <strong>600 360 7777</strong> (Salud Responde).</p>
-  </div>
-
-  <!-- Grilla de servicios -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-    <!-- SOME -->
-    <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-      <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary-light text-xl">medical_information</span>
-        <h3 class="text-white font-bold text-sm">SOME</h3>
+      <!-- Título sección -->
+      <div class="mb-6">
+        <h2 class="font-serif text-2xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3 mb-1">Horarios de Atención</h2>
+        <p class="text-sm text-gray-500 pl-4">Información actualizada de los horarios de atención por servicio</p>
       </div>
-      <div class="px-4 py-4">
-        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Servicio de Orientación Médica y Estadística</p>
-        <div class="flex flex-col gap-2 text-sm text-gray-700">
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Lunes a Jueves: <strong>08:00 – 17:00 hrs</strong></span>
-          </div>
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Viernes: <strong>08:00 – 16:00 hrs</strong></span>
-          </div>
-          <p class="text-xs text-gray-400 mt-1">Atención horario continuado</p>
-        </div>
-      </div>
-    </div>
 
-    <!-- OIRS -->
-    <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-      <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary-light text-xl">chat</span>
-        <h3 class="text-white font-bold text-sm">OIRS</h3>
+      <!-- Aviso horario -->
+      <div class="flex items-start gap-3 bg-primary-bg border border-primary-light rounded-custom px-4 py-3 mb-7 text-sm text-primary-DEFAULT">
+        <span class="material-symbols-outlined text-primary-light mt-0.5">info</span>
+        <p>Los horarios pueden estar sujetos a cambios en períodos de alta demanda o festivos. Para consultas llame al <strong>600 360 7777</strong> (Salud Responde).</p>
       </div>
-      <div class="px-4 py-4">
-        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Oficina de Informaciones, Reclamos y Sugerencias</p>
-        <div class="flex flex-col gap-2 text-sm text-gray-700">
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Lunes a Jueves: <strong>08:00 – 13:00</strong> y <strong>14:00 – 17:00 hrs</strong></span>
+
+      <!-- Grilla de servicios -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- SOME -->
+        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary-light text-xl">medical_information</span>
+            <h3 class="text-white font-bold text-sm">SOME</h3>
           </div>
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Viernes: <strong>08:00 – 13:00</strong> y <strong>14:00 – 16:00 hrs</strong></span>
+          <div class="px-4 py-4">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Servicio de Orientación Médica y Estadística</p>
+            <div class="flex flex-col gap-2 text-sm text-gray-700">
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Lunes a Jueves: <strong>08:00 – 17:00 hrs</strong></span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Viernes: <strong>08:00 – 16:00 hrs</strong></span>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">Atención horario continuado</p>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Farmacia -->
-    <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-      <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary-light text-xl">medication</span>
-        <h3 class="text-white font-bold text-sm">Farmacia</h3>
-      </div>
-      <div class="px-4 py-4">
-        <div class="flex flex-col gap-2 text-sm text-gray-700">
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Lunes a Jueves: <strong>08:30 – 16:30 hrs</strong></span>
+        <!-- OIRS -->
+        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary-light text-xl">chat</span>
+            <h3 class="text-white font-bold text-sm">OIRS</h3>
           </div>
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Viernes: <strong>08:30 – 15:30 hrs</strong></span>
-          </div>
-          <p class="text-xs text-gray-400 mt-1">Atención horario continuado</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Visita Hospitalizados -->
-    <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-      <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary-light text-xl">bed</span>
-        <h3 class="text-white font-bold text-sm">Visita Hospitalizados</h3>
-      </div>
-      <div class="px-4 py-4">
-        <div class="flex flex-col gap-2 text-sm text-gray-700">
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Lunes a Viernes: <strong>10:00 – 19:00 hrs</strong></span>
-          </div>
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Sábados, Domingos y Festivos: <strong>12:00 – 18:00 hrs</strong></span>
-          </div>
-          <p class="text-xs text-gray-400 mt-1">Horario continuado en fines de semana</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Rayos X -->
-    <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-      <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary-light text-xl">radiology</span>
-        <h3 class="text-white font-bold text-sm">Servicio Comunal de Rayos X</h3>
-      </div>
-      <div class="px-4 py-4">
-        <div class="flex flex-col gap-2 text-sm text-gray-700">
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Lunes a Viernes: atención programada</span>
+          <div class="px-4 py-4">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Oficina de Informaciones, Reclamos y Sugerencias</p>
+            <div class="flex flex-col gap-2 text-sm text-gray-700">
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Lunes a Jueves: <strong>08:00 – 13:00</strong> y <strong>14:00 – 17:00 hrs</strong></span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Viernes: <strong>08:00 – 13:00</strong> y <strong>14:00 – 16:00 hrs</strong></span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Laboratorio -->
-    <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-      <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary-light text-xl">biotech</span>
-        <h3 class="text-white font-bold text-sm">Laboratorio Comunal</h3>
-      </div>
-      <div class="px-4 py-4">
-        <div class="flex flex-col gap-2 text-sm text-gray-700">
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Lunes a Jueves: <strong>08:00 – 13:00</strong> y <strong>13:30 – 17:00 hrs</strong></span>
+        <!-- Farmacia -->
+        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary-light text-xl">medication</span>
+            <h3 class="text-white font-bold text-sm">Farmacia</h3>
           </div>
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-            <span>Viernes: <strong>08:00 – 13:00</strong> y <strong>13:30 – 16:00 hrs</strong></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Servicio Dental -->
-    <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow md:col-span-2">
-      <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-        <span class="material-symbols-outlined text-primary-light text-xl">dentistry</span>
-        <h3 class="text-white font-bold text-sm">Servicio Dental</h3>
-      </div>
-      <div class="px-4 py-4">
-        <div class="flex flex-col gap-2 text-sm text-gray-700">
-          <div class="flex items-start gap-2">
-            <span class="material-symbols-outlined text-primary-light text-base mt-0.5">info</span>
-            <span>Atención con números de urgencias reales todos los días en la mañana. Los otros horarios y otros días se atiende a usuarios bajo control con hora programada.</span>
+          <div class="px-4 py-4">
+            <div class="flex flex-col gap-2 text-sm text-gray-700">
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Lunes a Jueves: <strong>08:30 – 16:30 hrs</strong></span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Viernes: <strong>08:30 – 15:30 hrs</strong></span>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">Atención horario continuado</p>
+            </div>
           </div>
         </div>
+
+        <!-- Visita Hospitalizados -->
+        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary-light text-xl">bed</span>
+            <h3 class="text-white font-bold text-sm">Visita Hospitalizados</h3>
+          </div>
+          <div class="px-4 py-4">
+            <div class="flex flex-col gap-2 text-sm text-gray-700">
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Lunes a Viernes: <strong>10:00 – 19:00 hrs</strong></span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Sábados, Domingos y Festivos: <strong>12:00 – 18:00 hrs</strong></span>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">Horario continuado en fines de semana</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rayos X -->
+        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary-light text-xl">radiology</span>
+            <h3 class="text-white font-bold text-sm">Servicio Comunal de Rayos X</h3>
+          </div>
+          <div class="px-4 py-4">
+            <div class="flex flex-col gap-2 text-sm text-gray-700">
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Lunes a Viernes: atención programada</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Laboratorio -->
+        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary-light text-xl">biotech</span>
+            <h3 class="text-white font-bold text-sm">Laboratorio Comunal</h3>
+          </div>
+          <div class="px-4 py-4">
+            <div class="flex flex-col gap-2 text-sm text-gray-700">
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Lunes a Jueves: <strong>08:00 – 13:00</strong> y <strong>13:30 – 17:00 hrs</strong></span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
+                <span>Viernes: <strong>08:00 – 13:00</strong> y <strong>13:30 – 16:00 hrs</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Servicio Dental -->
+        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow md:col-span-2">
+          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary-light text-xl">dentistry</span>
+            <h3 class="text-white font-bold text-sm">Servicio Dental</h3>
+          </div>
+          <div class="px-4 py-4">
+            <div class="flex flex-col gap-2 text-sm text-gray-700">
+              <div class="flex items-start gap-2">
+                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">info</span>
+                <span>Atención con números de urgencias reales todos los días en la mañana. Los otros horarios y otros días se atiende a usuarios bajo control con hora programada.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
-  </div>
-</div>
+    <!-- SIDEBAR -->
+    <aside class="flex flex-col gap-5">
 
-<!-- SIDEBAR -->
-<aside class="lg:col-span-4 flex flex-col gap-5">
-
-  <!-- Accesos rápidos -->
-  <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
-    <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Accesos Rápidos</div>
-    <div class="flex flex-col">
-      <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-        <span class="material-symbols-outlined text-primary-DEFAULT text-xl">emergency</span>
-        <div><strong class="text-sm text-primary-DEFAULT block">Urgencias</strong><span class="text-xs text-gray-500">Horarios y categorización</span></div>
-      </a>
-      <a href="horarios.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100 bg-primary-bg" style="border-left-color:#1a5f7a;">
-        <span class="material-symbols-outlined text-primary-DEFAULT text-xl">schedule</span>
-        <div><strong class="text-sm text-primary-DEFAULT block">Horarios de Atención</strong><span class="text-xs text-gray-500">Página actual</span></div>
-      </a>
-      <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-        <span class="material-symbols-outlined text-primary-DEFAULT text-xl">biotech</span>
-        <div><strong class="text-sm text-primary-DEFAULT block">Laboratorio</strong><span class="text-xs text-gray-500">Resultados en línea</span></div>
-      </a>
-      <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-        <span class="material-symbols-outlined text-primary-DEFAULT text-xl">call</span>
-        <div><strong class="text-sm text-primary-DEFAULT block">Teléfonos del Hospital</strong><span class="text-xs text-gray-500">Directorio institucional</span></div>
-      </a>
-      <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-        <span class="material-symbols-outlined text-primary-DEFAULT text-xl">vaccines</span>
-        <div><strong class="text-sm text-primary-DEFAULT block">Vacunatorio</strong><span class="text-xs text-gray-500">Calendario y puntos</span></div>
-      </a>
-      <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3">
-        <span class="material-symbols-outlined text-primary-DEFAULT text-xl">description</span>
-        <div><strong class="text-sm text-primary-DEFAULT block">Informes Médicos</strong><span class="text-xs text-gray-500">Horarios de entrega</span></div>
-      </a>
-    </div>
-  </div>
-
-  <!-- Banners institucionales -->
-  <div class="flex flex-col gap-2.5">
-    <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-      <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Categorización Urgencias</span>
-    </a>
-    <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-      <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Visita de Hospitalizados</span>
-    </a>
-    <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-      <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Oficina de Información y Reclamos</span>
-    </a>
-    <a href="tel:600-360-7777" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
-      <div class="bg-primary-DEFAULT text-white p-2 rounded-full flex-shrink-0">
-        <span class="material-symbols-outlined text-xl">call</span>
+      <!-- Accesos rápidos -->
+      <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Accesos Rápidos</div>
+        <div class="flex flex-col">
+          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">emergency</span>
+            <div><strong class="text-sm text-primary-DEFAULT block">Urgencias</strong><span class="text-xs text-gray-500">Horarios y categorización</span></div>
+          </a>
+          <a href="horarios.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100 bg-primary-bg" style="border-left-color:#1a5f7a;">
+            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">schedule</span>
+            <div><strong class="text-sm text-primary-DEFAULT block">Horarios de Atención</strong><span class="text-xs text-gray-500">Página actual</span></div>
+          </a>
+          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">biotech</span>
+            <div><strong class="text-sm text-primary-DEFAULT block">Laboratorio</strong><span class="text-xs text-gray-500">Resultados en línea</span></div>
+          </a>
+          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">call</span>
+            <div><strong class="text-sm text-primary-DEFAULT block">Teléfonos del Hospital</strong><span class="text-xs text-gray-500">Directorio institucional</span></div>
+          </a>
+          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">vaccines</span>
+            <div><strong class="text-sm text-primary-DEFAULT block">Vacunatorio</strong><span class="text-xs text-gray-500">Calendario y puntos</span></div>
+          </a>
+          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3">
+            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">description</span>
+            <div><strong class="text-sm text-primary-DEFAULT block">Informes Médicos</strong><span class="text-xs text-gray-500">Horarios de entrega</span></div>
+          </a>
+        </div>
       </div>
-      <div>
-        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Salud Responde</span>
-        <span class="text-primary-DEFAULT text-xl font-black leading-none">600 360 7777</span>
+
+      <!-- Banners institucionales -->
+      <div class="flex flex-col gap-2.5">
+        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
+          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Categorización Urgencias</span>
+        </a>
+        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
+          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Visita de Hospitalizados</span>
+        </a>
+        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
+          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Oficina de Información y Reclamos</span>
+        </a>
+        <a href="tel:600-360-7777" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
+          <div class="bg-primary-DEFAULT text-white p-2 rounded-full flex-shrink-0">
+            <span class="material-symbols-outlined text-xl">call</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Salud Responde</span>
+            <span class="text-primary-DEFAULT text-xl font-black leading-none">600 360 7777</span>
+          </div>
+        </a>
       </div>
-    </a>
-  </div>
 
-</aside>
-```
-
+    </aside>
   </div>
 </main>
 
 <!-- FOOTER -->
-
 <footer class="bg-primary-dark text-gray-300 py-10 border-t-4 border-primary-light mt-10">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
