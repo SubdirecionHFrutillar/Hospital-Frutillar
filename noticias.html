@@ -3,7 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Horarios de Atención - Hospital de Frutillar</title>
+<title>Noticias y Comunicados - Hospital de Frutillar</title>
+<meta name="description" content="Últimas noticias, comunicados y novedades del Hospital de Frutillar y el Servicio de Salud Reloncaví.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CL">
+<meta property="og:site_name" content="Hospital de Frutillar">
+<meta property="og:title" content="Noticias y Comunicados - Hospital de Frutillar">
+<meta property="og:description" content="Últimas noticias, comunicados y novedades del Hospital de Frutillar.">
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
@@ -19,11 +25,11 @@
         },
         colors: {
           primary: {
-            DEFAULT: '#207daf',
-            light:   '#9bc8da',
-            pale:    '#d1e8f0',
-            bg:      '#eef6fb',
-            dark:    '#1a6595',
+            DEFAULT: '#1a5f7a',
+            light:   '#82c8e5',
+            pale:    '#c8eaf5',
+            bg:      '#eaf6fc',
+            dark:    '#12465a',
           },
         },
         borderRadius: { custom: '6px' }
@@ -33,22 +39,19 @@
 </script>
 <style>
   .banner-top { position: relative; }
-  .banner-top::before {
-    content: ''; position: absolute; top: 0; left: 0;
-    width: 55%; height: 3px; background: #207daf;
-  }
-  .banner-top::after {
-    content: ''; position: absolute; top: 0; left: 55%;
-    width: 45%; height: 3px; background: #c0392b;
-  }
-  .acceso-item { border-left: 4px solid #9bc8da; transition: border-color .15s, background .15s; }
-  .acceso-item:hover { border-left-color: #207daf; background: #eef6fb; }
+  .banner-top::before { content:''; position:absolute; top:0; left:0; width:55%; height:3px; background:#1a5f7a; }
+  .banner-top::after  { content:''; position:absolute; top:0; left:55%; width:45%; height:3px; background:#c0392b; }
+  .acceso-item { border-left: 4px solid #82c8e5; transition: border-color .15s, background .15s; }
+  .acceso-item:hover { border-left-color: #1a5f7a; background: #eaf6fc; }
+  .news-card { border-left: 4px solid #c8eaf5; transition: border-color .15s, box-shadow .15s; }
+  .news-card:hover { border-left-color: #1a5f7a; box-shadow: 0 4px 16px rgba(26,95,122,.10); }
+  .filter-btn.active { background: #1a5f7a; color: #fff; }
 </style>
 </head>
 <body class="font-sans antialiased bg-zinc-100 text-gray-800">
 <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-primary-DEFAULT focus:px-4 focus:py-2 focus:rounded-custom focus:shadow-lg focus:outline-none">Saltar al contenido principal</a>
 
-<!-- ACCENT BAR --><div class="h-[4px] w-full" style="background: linear-gradient(90deg, #207daf 0%, #207daf 60%, #E14D36 100%);"></div>
+<!-- ACCENT BAR --><div class="h-[4px] w-full" style="background: linear-gradient(90deg, #1a5f7a 0%, #1a5f7a 60%, #E14D36 100%);"></div>
 
 <!-- TOPBAR -->
 <div class="bg-[#27272a] text-white text-xs py-1.5 border-b border-white/10">
@@ -63,7 +66,7 @@
 </div>
 
 <!-- HEADER -->
-<header class="text-white w-full shadow-md" style="background: linear-gradient(135deg,#1a6595 0%,#207daf 55%,#5aaad8 100%);">
+<header class="text-white w-full shadow-md" style="background: linear-gradient(135deg,#12465a 0%,#1a5f7a 55%,#4a9dbf 100%);">
   <div class="container mx-auto px-4 py-5">
     <div class="flex flex-col md:flex-row items-center justify-between gap-5">
       <div class="flex items-center gap-5">
@@ -109,7 +112,9 @@
       <li class="border-r border-white/10">
         <a href="index.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Inicio</a>
       </li>
-      <li class="border-r border-white/10"><a href="noticias.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Noticias</a></li>
+      <li class="border-r border-white/10">
+        <a href="noticias.html" class="block py-4 px-5 text-white font-bold border-b-2 border-primary-light bg-white/15">Noticias</a>
+      </li>
       <li class="border-r border-white/10 relative group" role="none">
         <a href="quienes-somos.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">
           Quiénes Somos <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
@@ -137,11 +142,11 @@
         </div>
       </li>
       <li class="border-r border-white/10 relative group" role="none">
-        <a href="horarios.html" role="menuitem" class="flex items-center py-4 px-5 text-white font-bold border-b-2 border-primary-light bg-white/15">
+        <a href="horarios.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">
           Información al Usuario <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px]">
-          <a href="horarios.html" class="block px-5 py-3 text-sm bg-primary-bg text-primary-DEFAULT font-semibold border-b border-gray-100">Horarios de Atención</a>
+          <a href="horarios.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Horarios de Atención</a>
           <a href="carta-derechos.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Carta de Derechos y Deberes</a>
           <a href="aranceles.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Aranceles</a>
           <a href="copago-cero.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Copago Cero</a>
@@ -163,9 +168,11 @@
       <li class="border-r border-white/10">
         <a href="trabaja-con-nosotros.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Trabaja con Nosotros</a>
       </li>
-      <li class="border-r border-white/10"><a href="contacto.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Contacto</a></li>
+      <li class="border-r border-white/10">
+        <a href="contacto.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Contacto</a>
+      </li>
       <li>
-        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-1 py-4 px-5 text-primary-light font-bold hover:bg-primary-bg transition-colors">
+        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-1 py-4 px-5 text-primary-light font-bold hover:bg-white/10 transition-colors">
           <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span>
           Portal Funcionarios
         </a>
@@ -182,12 +189,8 @@
   <!-- Mobile menu dropdown -->
   <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-[#1e1e22] shadow-lg max-h-[80vh] overflow-y-auto">
     <ul class="divide-y divide-white/10 text-sm font-semibold text-white/85">
-      <li>
-        <a href="index.html" id="mnav-inicio" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Inicio</a>
-      </li>
-      <li>
-        <a href="noticias.html" id="mnav-noticias" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Noticias</a>
-      </li>
+      <li><a href="index.html" id="mnav-inicio" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Inicio</a></li>
+      <li><a href="noticias.html" id="mnav-noticias" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Noticias</a></li>
       <li>
         <button id="mnav-quienes" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-quienes">
           <span>Quiénes Somos</span>
@@ -242,14 +245,10 @@
           <a href="transparencia.html#cuentas-publicas" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Cuentas Públicas</a>
         </div>
       </li>
+      <li><a href="trabaja-con-nosotros.html" id="mnav-trabaja" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Trabaja con Nosotros</a></li>
+      <li><a href="contacto.html" id="mnav-contacto" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Contacto</a></li>
       <li>
-        <a href="trabaja-con-nosotros.html" id="mnav-trabaja" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Trabaja con Nosotros</a>
-      </li>
-      <li>
-        <a href="contacto.html" id="mnav-contacto" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Contacto</a>
-      </li>
-      <li>
-        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-light hover:bg-primary-bg font-bold">
+        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-light hover:bg-white/10 font-bold">
           <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span> Portal Funcionarios
         </a>
       </li>
@@ -258,22 +257,20 @@
 </nav>
 
 <!-- PAGE BANNER -->
-<section class="text-white py-8" style="background: linear-gradient(100deg, #1a6595 0%, #207daf 100%);">
+<section class="text-white py-8" style="background: linear-gradient(100deg, #12465a 0%, #1a5f7a 100%);">
   <div class="container mx-auto px-4">
     <div class="flex items-center gap-2 text-primary-light/80 text-xs mb-3 flex-wrap">
       <a href="index.html" class="hover:text-white transition-colors">Inicio</a>
       <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
-      <span>Información al Usuario</span>
-      <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
-      <span>Horarios de Atención</span>
+      <span>Noticias</span>
     </div>
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
-        <span aria-hidden="true" class="material-symbols-outlined text-2xl">schedule</span>
+        <span aria-hidden="true" class="material-symbols-outlined text-2xl">newspaper</span>
       </div>
       <div>
-        <h2 class="font-serif text-2xl md:text-3xl font-bold">Horarios de Atención</h2>
-        <p class="text-white/65 text-sm mt-0.5">Información actualizada de horarios por servicio y especialidad</p>
+        <h2 class="font-serif text-2xl md:text-3xl font-bold">Noticias y Comunicados</h2>
+        <p class="text-white/65 text-sm mt-0.5">Información institucional, campañas y novedades del Hospital de Frutillar</p>
       </div>
     </div>
   </div>
@@ -282,229 +279,220 @@
 <!-- CONTENIDO -->
 <main id="main-content" class="container mx-auto px-4 py-8">
 
-  <!-- Breadcrumb -->
   <div class="flex items-center gap-2 text-xs text-gray-400 mb-6">
     <a href="index.html" class="hover:text-primary-DEFAULT transition-colors">Inicio</a>
     <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
-    <span>Información al Usuario</span>
-    <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
-    <span class="text-primary-DEFAULT font-semibold">Horarios de Atención</span>
+    <span class="text-primary-DEFAULT font-semibold">Noticias</span>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-7 items-start">
 
     <!-- COLUMNA PRINCIPAL -->
-    <div style="min-width:0;">
+    <div style="min-width:0;" class="flex flex-col gap-5">
 
-      <!-- Título sección -->
-      <div class="mb-6">
-        <h2 class="font-serif text-2xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3 mb-1">Horarios de Atención</h2>
-        <p class="text-sm text-gray-500 pl-4">Información actualizada de los horarios de atención por servicio</p>
+      <!-- Filtros de categoría -->
+      <div class="flex flex-wrap gap-2 bg-white border border-gray-200 rounded-custom p-3 shadow-sm">
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest self-center mr-1">Filtrar:</span>
+        <button class="filter-btn active text-xs font-bold px-3 py-1.5 rounded-custom border border-primary-DEFAULT transition-colors" onclick="filterNews('all',this)">Todas</button>
+        <button class="filter-btn text-xs font-bold px-3 py-1.5 rounded-custom border border-gray-200 hover:border-primary-DEFAULT hover:text-primary-DEFAULT transition-colors" onclick="filterNews('institucional',this)">Institucional</button>
+        <button class="filter-btn text-xs font-bold px-3 py-1.5 rounded-custom border border-gray-200 hover:border-primary-DEFAULT hover:text-primary-DEFAULT transition-colors" onclick="filterNews('comunidad',this)">Comunidad</button>
+        <button class="filter-btn text-xs font-bold px-3 py-1.5 rounded-custom border border-gray-200 hover:border-primary-DEFAULT hover:text-primary-DEFAULT transition-colors" onclick="filterNews('farmacia',this)">Farmacia</button>
+        <button class="filter-btn text-xs font-bold px-3 py-1.5 rounded-custom border border-gray-200 hover:border-primary-DEFAULT hover:text-primary-DEFAULT transition-colors" onclick="filterNews('gestion',this)">Gestión</button>
+        <button class="filter-btn text-xs font-bold px-3 py-1.5 rounded-custom border border-gray-200 hover:border-primary-DEFAULT hover:text-primary-DEFAULT transition-colors" onclick="filterNews('acreditacion',this)">Acreditación</button>
       </div>
 
-      <!-- Aviso horario -->
-      <div class="flex items-start gap-3 bg-primary-bg border border-primary-light rounded-custom px-4 py-3 mb-7 text-sm text-primary-DEFAULT">
-        <span aria-hidden="true" class="material-symbols-outlined text-primary-light mt-0.5">info</span>
-        <p>Los horarios pueden estar sujetos a cambios en períodos de alta demanda o festivos. Para consultas llame al <strong>600 360 7777</strong> (Salud Responde).</p>
+      <!-- Noticias -->
+      <div id="news-list" class="flex flex-col gap-3">
+
+        <!-- Noticia 1 — Destacada -->
+        <article class="news-card bg-white rounded-custom shadow-sm overflow-hidden" data-cat="institucional">
+          <div class="p-5 flex gap-4">
+            <div class="w-14 h-14 rounded-custom bg-primary-bg flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-3xl">radiology</span>
+            </div>
+            <div class="flex flex-col justify-center gap-1.5">
+              <span class="inline-block px-2 py-0.5 bg-primary-DEFAULT text-white text-[10px] font-bold uppercase tracking-wide rounded w-fit">Institucional</span>
+              <h3 class="font-serif text-base md:text-lg font-bold text-gray-900 leading-snug">Inauguración de nuevo equipamiento de Imagenología 3D</h3>
+              <p class="text-sm text-gray-500 leading-snug">El hospital adquiere tecnología de punta para diagnósticos más precisos y rápidos en la zona sur. El nuevo equipo beneficiará a pacientes de Frutillar, Llanquihue y sectores rurales.</p>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="text-xs text-gray-400">24 de junio de 2026</span>
+                <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Noticia 2 -->
+        <article class="news-card bg-white rounded-custom shadow-sm overflow-hidden" data-cat="comunidad">
+          <div class="p-4 flex gap-4">
+            <div class="w-11 h-11 rounded-custom bg-blue-50 flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-blue-600 text-2xl">group</span>
+            </div>
+            <div class="flex flex-col justify-center gap-1">
+              <span class="inline-block px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wide rounded w-fit">Comunidad</span>
+              <h4 class="font-serif font-bold text-gray-800 text-sm leading-snug">Operativo de salud comunitaria en sector rural beneficia a 80 vecinos</h4>
+              <p class="text-xs text-gray-500 leading-snug mt-0.5">El equipo de salud se trasladó a Quilanto y alrededores realizando controles preventivos, vacunación y consejería nutricional.</p>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="text-xs text-gray-400">19 de mayo de 2026</span>
+                <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Noticia 3 -->
+        <article class="news-card bg-white rounded-custom shadow-sm overflow-hidden" data-cat="farmacia">
+          <div class="p-4 flex gap-4">
+            <div class="w-11 h-11 rounded-custom bg-green-50 flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-green-600 text-2xl">medication</span>
+            </div>
+            <div class="flex flex-col justify-center gap-1">
+              <span class="inline-block px-2 py-0.5 bg-green-50 text-green-700 text-[10px] font-bold uppercase tracking-wide rounded w-fit">Farmacia</span>
+              <h4 class="font-serif font-bold text-gray-800 text-sm leading-snug">Farmacia de Turno: horarios y coberturas vigentes para junio 2026</h4>
+              <p class="text-xs text-gray-500 leading-snug mt-0.5">Conozca los horarios de turno, los medicamentos disponibles sin receta y las condiciones de cobertura FONASA para el presente mes.</p>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="text-xs text-gray-400">15 de mayo de 2026</span>
+                <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Noticia 4 -->
+        <article class="news-card bg-white rounded-custom shadow-sm overflow-hidden" data-cat="gestion">
+          <div class="p-4 flex gap-4">
+            <div class="w-11 h-11 rounded-custom bg-gray-100 flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-gray-500 text-2xl">article</span>
+            </div>
+            <div class="flex flex-col justify-center gap-1">
+              <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase tracking-wide rounded w-fit">Gestión</span>
+              <h4 class="font-serif font-bold text-gray-800 text-sm leading-snug">Acta Equipo Gestor 19.05.2026 — resumen ejecutivo disponible</h4>
+              <p class="text-xs text-gray-500 leading-snug mt-0.5">El resumen ejecutivo de la reunión del equipo gestor del mes de mayo está disponible para el personal del establecimiento.</p>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="text-xs text-gray-400">12 de mayo de 2026</span>
+                <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Noticia 5 -->
+        <article class="news-card bg-white rounded-custom shadow-sm overflow-hidden" data-cat="acreditacion">
+          <div class="p-4 flex gap-4">
+            <div class="w-11 h-11 rounded-custom bg-yellow-50 flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-yellow-600 text-2xl">verified_user</span>
+            </div>
+            <div class="flex flex-col justify-center gap-1">
+              <span class="inline-block px-2 py-0.5 bg-yellow-50 text-yellow-700 text-[10px] font-bold uppercase tracking-wide rounded w-fit">Acreditación</span>
+              <h4 class="font-serif font-bold text-gray-800 text-sm leading-snug">Hospital actualiza programa de seguridad del paciente 2026</h4>
+              <p class="text-xs text-gray-500 leading-snug mt-0.5">El plan de mejora continua incorpora nuevos indicadores de calidad asistencial en cumplimiento de los estándares de la Superintendencia de Salud.</p>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="text-xs text-gray-400">5 de mayo de 2026</span>
+                <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Noticia 6 -->
+        <article class="news-card bg-white rounded-custom shadow-sm overflow-hidden" data-cat="comunidad">
+          <div class="p-4 flex gap-4">
+            <div class="w-11 h-11 rounded-custom bg-orange-50 flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-orange-500 text-2xl">vaccines</span>
+            </div>
+            <div class="flex flex-col justify-center gap-1">
+              <span class="inline-block px-2 py-0.5 bg-orange-50 text-orange-700 text-[10px] font-bold uppercase tracking-wide rounded w-fit">Comunidad</span>
+              <h4 class="font-serif font-bold text-gray-800 text-sm leading-snug">Campaña de vacunación antiinfluenza: fechas y puntos de vacunación</h4>
+              <p class="text-xs text-gray-500 leading-snug mt-0.5">La campaña de vacunación de invierno 2026 comienza el 28 de abril. Grupos priorizados: adultos mayores, menores de 2 años, embarazadas y pacientes crónicos.</p>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="text-xs text-gray-400">25 de abril de 2026</span>
+                <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Noticia 7 -->
+        <article class="news-card bg-white rounded-custom shadow-sm overflow-hidden" data-cat="institucional">
+          <div class="p-4 flex gap-4">
+            <div class="w-11 h-11 rounded-custom bg-purple-50 flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-purple-600 text-2xl">child_care</span>
+            </div>
+            <div class="flex flex-col justify-center gap-1">
+              <span class="inline-block px-2 py-0.5 bg-purple-50 text-purple-700 text-[10px] font-bold uppercase tracking-wide rounded w-fit">Institucional</span>
+              <h4 class="font-serif font-bold text-gray-800 text-sm leading-snug">Servicio de Maternidad recibe certificación como Hospital Amigo del Niño</h4>
+              <p class="text-xs text-gray-500 leading-snug mt-0.5">La OPS/OMS reconoció al Hospital de Frutillar por sus prácticas de lactancia materna y apego en el período postnatal.</p>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="text-xs text-gray-400">10 de abril de 2026</span>
+                <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
       </div>
 
-      <!-- Grilla de servicios -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-        <!-- SOME -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">medical_information</span>
-            <h3 class="text-white font-bold text-sm">SOME</h3>
-          </div>
-          <div class="px-4 py-4">
-            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Servicio de Orientación Médica y Estadística</p>
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:00 – 17:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:00 – 16:00 hrs</strong></span>
-              </div>
-              <p class="text-xs text-gray-400 mt-1">Atención horario continuado</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- OIRS -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">chat</span>
-            <h3 class="text-white font-bold text-sm">OIRS</h3>
-          </div>
-          <div class="px-4 py-4">
-            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Oficina de Informaciones, Reclamos y Sugerencias</p>
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:00 – 13:00</strong> y <strong>14:00 – 17:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:00 – 13:00</strong> y <strong>14:00 – 16:00 hrs</strong></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Farmacia -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">medication</span>
-            <h3 class="text-white font-bold text-sm">Farmacia</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:30 – 16:30 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:30 – 15:30 hrs</strong></span>
-              </div>
-              <p class="text-xs text-gray-400 mt-1">Atención horario continuado</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Visita Hospitalizados -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">bed</span>
-            <h3 class="text-white font-bold text-sm">Visita Hospitalizados</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Viernes: <strong>10:00 – 19:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Sábados, Domingos y Festivos: <strong>12:00 – 18:00 hrs</strong></span>
-              </div>
-              <p class="text-xs text-gray-400 mt-1">Horario continuado en fines de semana</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Rayos X -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">radiology</span>
-            <h3 class="text-white font-bold text-sm">Servicio Comunal de Rayos X</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Viernes: atención programada</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Laboratorio -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">biotech</span>
-            <h3 class="text-white font-bold text-sm">Laboratorio Comunal</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:00 – 13:00</strong> y <strong>13:30 – 17:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:00 – 13:00</strong> y <strong>13:30 – 16:00 hrs</strong></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Servicio Dental -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow md:col-span-2">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">dentistry</span>
-            <h3 class="text-white font-bold text-sm">Servicio Dental</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">info</span>
-                <span>Atención con números de urgencias reales todos los días en la mañana. Los otros horarios y otros días se atiende a usuarios bajo control con hora programada.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <!-- Paginación -->
+      <div class="flex justify-center items-center gap-2 text-xs font-semibold text-gray-400 mt-2">
+        <span class="px-2">« Anterior</span>
+        <span class="w-7 h-7 flex items-center justify-center bg-primary-DEFAULT text-white rounded font-bold">1</span>
+        <a href="#" class="w-7 h-7 flex items-center justify-center hover:bg-gray-200 rounded transition-colors">2</a>
+        <a href="#" class="w-7 h-7 flex items-center justify-center hover:bg-gray-200 rounded transition-colors">3</a>
+        <span>Siguiente »</span>
       </div>
     </div>
 
     <!-- SIDEBAR -->
     <aside class="flex flex-col gap-5">
 
+      <!-- Buscador -->
+      <div>
+        <h3 class="font-bold text-gray-600 mb-2 text-xs uppercase tracking-widest border-b border-gray-200 pb-2">Buscar noticias</h3>
+        <div class="flex shadow-sm">
+          <input type="text" placeholder="Buscar..." class="flex-1 border border-gray-300 rounded-l-custom px-3 py-2 text-sm outline-none focus:border-primary-DEFAULT">
+          <button class="bg-primary-DEFAULT text-white px-3 py-2 rounded-r-custom hover:bg-primary-dark transition-colors" aria-label="Buscar">
+            <span aria-hidden="true" class="material-symbols-outlined text-lg">search</span>
+          </button>
+        </div>
+      </div>
+
       <!-- Accesos rápidos -->
       <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
-        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Accesos Rápidos</div>
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5 flex items-center gap-2">
+          <span aria-hidden="true" class="material-symbols-outlined text-base text-primary-light">bolt</span>
+          Accesos Rápidos
+        </div>
         <div class="flex flex-col">
           <a href="servicios.html#urgencia" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">emergency</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Urgencias</strong><span class="text-xs text-gray-500">Horarios y categorización</span></div>
+            <span aria-hidden="true" class="material-symbols-outlined text-red-500 text-lg">emergency</span>
+            <div><strong class="text-sm text-primary-DEFAULT block">Urgencias 24/7</strong><span class="text-xs text-gray-500">Atención inmediata</span></div>
           </a>
-          <a href="horarios.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100 bg-primary-bg" style="border-left-color:#207daf;">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">schedule</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Horarios de Atención</strong><span class="text-xs text-gray-500">Página actual</span></div>
+          <a href="horarios.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-lg">schedule</span>
+            <div><strong class="text-sm text-primary-DEFAULT block">Horarios de Atención</strong><span class="text-xs text-gray-500">Consultas y especialidades</span></div>
           </a>
-          <a href="servicios.html#laboratorio" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">biotech</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Laboratorio</strong><span class="text-xs text-gray-500">Resultados en línea</span></div>
+          <a href="contacto.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-lg">mail</span>
+            <div><strong class="text-sm text-primary-DEFAULT block">Contáctenos</strong><span class="text-xs text-gray-500">Formulario y ubicación</span></div>
           </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">call</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Teléfonos del Hospital</strong><span class="text-xs text-gray-500">Directorio institucional</span></div>
-          </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">vaccines</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Vacunatorio</strong><span class="text-xs text-gray-500">Calendario y puntos</span></div>
-          </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">description</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Informes Médicos</strong><span class="text-xs text-gray-500">Horarios de entrega</span></div>
+          <a href="tel:600-360-7777" class="acceso-item flex items-center gap-3 px-4 py-3">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-lg">call</span>
+            <div><strong class="text-sm text-primary-DEFAULT block">Salud Responde</strong><span class="text-xs text-gray-500">600 360 7777</span></div>
           </a>
         </div>
       </div>
 
-      <!-- Banners institucionales -->
-      <div class="flex flex-col gap-2.5">
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Categorización Urgencias</span>
-        </a>
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Visita de Hospitalizados</span>
-        </a>
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Oficina de Información y Reclamos</span>
-        </a>
-        <a href="tel:600-360-7777" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
-          <div class="bg-primary-DEFAULT text-white p-2 rounded-full flex-shrink-0">
-            <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
-          </div>
-          <div>
-            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Salud Responde</span>
-            <span class="text-primary-DEFAULT text-xl font-black leading-none">600 360 7777</span>
-          </div>
-        </a>
+      <!-- Redes sociales -->
+      <div>
+        <h3 class="font-bold text-gray-600 mb-3 text-xs uppercase tracking-widest border-b border-gray-200 pb-2">Síguenos</h3>
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm" aria-label="Facebook">
+            <span aria-hidden="true" class="material-symbols-outlined text-base">facebook</span>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm" style="background:linear-gradient(135deg,#f09433,#e6683c,#bc1888)" aria-label="Instagram">
+            <span aria-hidden="true" class="material-symbols-outlined text-base">photo_camera</span>
+          </a>
+        </div>
       </div>
 
     </aside>
@@ -512,7 +500,7 @@
 </main>
 
 <!-- FOOTER -->
-<footer class="text-gray-300 py-10 mt-10" style="background: linear-gradient(135deg, #27272a 0%, #3f3f46 100%);">
+<footer class="text-gray-300 py-10 mt-10" style="background: linear-gradient(135deg, #0a2e3e 0%, #12465a 100%);">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
       <div class="md:col-span-2">
@@ -535,10 +523,10 @@
       <div>
         <h4 class="text-white font-bold text-sm mb-3 uppercase tracking-wide">Información</h4>
         <ul class="space-y-1.5 text-sm">
-          <li><a href="horarios.html" class="hover:text-white transition-colors text-primary-light">Horarios de Atención</a></li>
+          <li><a href="horarios.html" class="hover:text-white transition-colors">Horarios de Atención</a></li>
           <li><a href="carta-derechos.html" class="hover:text-white transition-colors">Carta de Derechos y Deberes</a></li>
-          <li><a href="transparencia.html#activa" class="hover:text-white transition-colors">Transparencia Activa</a></li>
-          <li><a href="transparencia.html#ley-lobby" class="hover:text-white transition-colors">Ley del Lobby</a></li>
+          <li><a href="faq.html" class="hover:text-white transition-colors">Preguntas Frecuentes</a></li>
+          <li><a href="contacto.html" class="hover:text-white transition-colors">Contacto y Cómo Llegar</a></li>
           <li><a href="transparencia.html#solicitud" class="hover:text-white transition-colors">Solicitud de Información</a></li>
         </ul>
       </div>
@@ -574,12 +562,15 @@
       this.querySelector('.expand-icon').textContent=s.classList.contains('hidden')?'expand_more':'expand_less';
     });
   });
-  var page=(window.location.pathname.split('/').pop()||'index.html');
-  var map={'index.html':'mnav-inicio','quienes-somos.html':'mnav-quienes','servicios.html':'mnav-servicios','horarios.html':'mnav-info','carta-derechos.html':'mnav-info','aranceles.html':'mnav-info','copago-cero.html':'mnav-info','ley-ricarte-soto.html':'mnav-info','transparencia.html':'mnav-transp','trabaja-con-nosotros.html':'mnav-trabaja','noticias.html':'mnav-noticias','faq.html':'mnav-info','contacto.html':'mnav-contacto'};
-  var aid=map[page];
-  if(aid){var ae=document.getElementById(aid);if(ae){ae.classList.add('text-primary-DEFAULT','bg-primary-bg');if(ae.classList.contains('mobile-submenu-btn')){var sub=document.getElementById(ae.dataset.target);if(sub){sub.classList.remove('hidden');var ei=ae.querySelector('.expand-icon');if(ei)ei.textContent='expand_less';}}}}
-  document.querySelectorAll('#mobile-menu a').forEach(function(l){if(l.getAttribute('href')===page)l.classList.add('text-primary-DEFAULT','font-semibold');});
 })();
+
+function filterNews(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); b.style.background=''; b.style.color=''; });
+  btn.classList.add('active');
+  document.querySelectorAll('#news-list article').forEach(function(a){
+    a.style.display = (cat === 'all' || a.dataset.cat === cat) ? '' : 'none';
+  });
+}
 </script>
 </body>
 </html>

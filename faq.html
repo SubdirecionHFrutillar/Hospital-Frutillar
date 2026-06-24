@@ -3,7 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Horarios de Atención - Hospital de Frutillar</title>
+<title>Preguntas Frecuentes - Hospital de Frutillar</title>
+<meta name="description" content="Respuestas a las preguntas más frecuentes sobre atención, trámites, FONASA y servicios del Hospital de Frutillar.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CL">
+<meta property="og:site_name" content="Hospital de Frutillar">
+<meta property="og:title" content="Preguntas Frecuentes - Hospital de Frutillar">
+<meta property="og:description" content="Respuestas a las preguntas más frecuentes sobre atención y servicios del Hospital de Frutillar.">
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
@@ -19,11 +25,11 @@
         },
         colors: {
           primary: {
-            DEFAULT: '#207daf',
-            light:   '#9bc8da',
-            pale:    '#d1e8f0',
-            bg:      '#eef6fb',
-            dark:    '#1a6595',
+            DEFAULT: '#1a5f7a',
+            light:   '#82c8e5',
+            pale:    '#c8eaf5',
+            bg:      '#eaf6fc',
+            dark:    '#12465a',
           },
         },
         borderRadius: { custom: '6px' }
@@ -33,22 +39,21 @@
 </script>
 <style>
   .banner-top { position: relative; }
-  .banner-top::before {
-    content: ''; position: absolute; top: 0; left: 0;
-    width: 55%; height: 3px; background: #207daf;
-  }
-  .banner-top::after {
-    content: ''; position: absolute; top: 0; left: 55%;
-    width: 45%; height: 3px; background: #c0392b;
-  }
-  .acceso-item { border-left: 4px solid #9bc8da; transition: border-color .15s, background .15s; }
-  .acceso-item:hover { border-left-color: #207daf; background: #eef6fb; }
+  .banner-top::before { content:''; position:absolute; top:0; left:0; width:55%; height:3px; background:#1a5f7a; }
+  .banner-top::after  { content:''; position:absolute; top:0; left:55%; width:45%; height:3px; background:#c0392b; }
+  .acceso-item { border-left: 4px solid #82c8e5; transition: border-color .15s, background .15s; }
+  .acceso-item:hover { border-left-color: #1a5f7a; background: #eaf6fc; }
+  details summary { cursor: pointer; list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] summary .expand-icon { transform: rotate(180deg); }
+  .expand-icon { transition: transform .2s; }
+  details[open] { background: #eaf6fc; }
 </style>
 </head>
 <body class="font-sans antialiased bg-zinc-100 text-gray-800">
 <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-primary-DEFAULT focus:px-4 focus:py-2 focus:rounded-custom focus:shadow-lg focus:outline-none">Saltar al contenido principal</a>
 
-<!-- ACCENT BAR --><div class="h-[4px] w-full" style="background: linear-gradient(90deg, #207daf 0%, #207daf 60%, #E14D36 100%);"></div>
+<!-- ACCENT BAR --><div class="h-[4px] w-full" style="background: linear-gradient(90deg, #1a5f7a 0%, #1a5f7a 60%, #E14D36 100%);"></div>
 
 <!-- TOPBAR -->
 <div class="bg-[#27272a] text-white text-xs py-1.5 border-b border-white/10">
@@ -63,7 +68,7 @@
 </div>
 
 <!-- HEADER -->
-<header class="text-white w-full shadow-md" style="background: linear-gradient(135deg,#1a6595 0%,#207daf 55%,#5aaad8 100%);">
+<header class="text-white w-full shadow-md" style="background: linear-gradient(135deg,#12465a 0%,#1a5f7a 55%,#4a9dbf 100%);">
   <div class="container mx-auto px-4 py-5">
     <div class="flex flex-col md:flex-row items-center justify-between gap-5">
       <div class="flex items-center gap-5">
@@ -109,7 +114,9 @@
       <li class="border-r border-white/10">
         <a href="index.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Inicio</a>
       </li>
-      <li class="border-r border-white/10"><a href="noticias.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Noticias</a></li>
+      <li class="border-r border-white/10">
+        <a href="noticias.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Noticias</a>
+      </li>
       <li class="border-r border-white/10 relative group" role="none">
         <a href="quienes-somos.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">
           Quiénes Somos <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
@@ -141,12 +148,12 @@
           Información al Usuario <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px]">
-          <a href="horarios.html" class="block px-5 py-3 text-sm bg-primary-bg text-primary-DEFAULT font-semibold border-b border-gray-100">Horarios de Atención</a>
+          <a href="horarios.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Horarios de Atención</a>
           <a href="carta-derechos.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Carta de Derechos y Deberes</a>
           <a href="aranceles.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Aranceles</a>
           <a href="copago-cero.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Copago Cero</a>
           <a href="ley-ricarte-soto.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Ley Ricarte Soto</a>
-          <a href="faq.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Preguntas Frecuentes</a>
+          <a href="faq.html" class="block px-5 py-3 text-sm bg-primary-bg text-primary-DEFAULT font-semibold">Preguntas Frecuentes</a>
         </div>
       </li>
       <li class="border-r border-white/10 relative group" role="none">
@@ -163,9 +170,11 @@
       <li class="border-r border-white/10">
         <a href="trabaja-con-nosotros.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Trabaja con Nosotros</a>
       </li>
-      <li class="border-r border-white/10"><a href="contacto.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Contacto</a></li>
+      <li class="border-r border-white/10">
+        <a href="contacto.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Contacto</a>
+      </li>
       <li>
-        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-1 py-4 px-5 text-primary-light font-bold hover:bg-primary-bg transition-colors">
+        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-1 py-4 px-5 text-primary-light font-bold hover:bg-white/10 transition-colors">
           <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span>
           Portal Funcionarios
         </a>
@@ -182,12 +191,8 @@
   <!-- Mobile menu dropdown -->
   <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-[#1e1e22] shadow-lg max-h-[80vh] overflow-y-auto">
     <ul class="divide-y divide-white/10 text-sm font-semibold text-white/85">
-      <li>
-        <a href="index.html" id="mnav-inicio" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Inicio</a>
-      </li>
-      <li>
-        <a href="noticias.html" id="mnav-noticias" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Noticias</a>
-      </li>
+      <li><a href="index.html" id="mnav-inicio" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Inicio</a></li>
+      <li><a href="noticias.html" id="mnav-noticias" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Noticias</a></li>
       <li>
         <button id="mnav-quienes" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-quienes">
           <span>Quiénes Somos</span>
@@ -242,14 +247,10 @@
           <a href="transparencia.html#cuentas-publicas" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Cuentas Públicas</a>
         </div>
       </li>
+      <li><a href="trabaja-con-nosotros.html" id="mnav-trabaja" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Trabaja con Nosotros</a></li>
+      <li><a href="contacto.html" id="mnav-contacto" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Contacto</a></li>
       <li>
-        <a href="trabaja-con-nosotros.html" id="mnav-trabaja" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Trabaja con Nosotros</a>
-      </li>
-      <li>
-        <a href="contacto.html" id="mnav-contacto" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Contacto</a>
-      </li>
-      <li>
-        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-light hover:bg-primary-bg font-bold">
+        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-light hover:bg-white/10 font-bold">
           <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span> Portal Funcionarios
         </a>
       </li>
@@ -258,22 +259,22 @@
 </nav>
 
 <!-- PAGE BANNER -->
-<section class="text-white py-8" style="background: linear-gradient(100deg, #1a6595 0%, #207daf 100%);">
+<section class="text-white py-8" style="background: linear-gradient(100deg, #12465a 0%, #1a5f7a 100%);">
   <div class="container mx-auto px-4">
     <div class="flex items-center gap-2 text-primary-light/80 text-xs mb-3 flex-wrap">
       <a href="index.html" class="hover:text-white transition-colors">Inicio</a>
       <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
       <span>Información al Usuario</span>
       <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
-      <span>Horarios de Atención</span>
+      <span>Preguntas Frecuentes</span>
     </div>
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
-        <span aria-hidden="true" class="material-symbols-outlined text-2xl">schedule</span>
+        <span aria-hidden="true" class="material-symbols-outlined text-2xl">help</span>
       </div>
       <div>
-        <h2 class="font-serif text-2xl md:text-3xl font-bold">Horarios de Atención</h2>
-        <p class="text-white/65 text-sm mt-0.5">Información actualizada de horarios por servicio y especialidad</p>
+        <h2 class="font-serif text-2xl md:text-3xl font-bold">Preguntas Frecuentes</h2>
+        <p class="text-white/65 text-sm mt-0.5">Respuestas a las dudas más comunes sobre la atención en el Hospital de Frutillar</p>
       </div>
     </div>
   </div>
@@ -282,219 +283,215 @@
 <!-- CONTENIDO -->
 <main id="main-content" class="container mx-auto px-4 py-8">
 
-  <!-- Breadcrumb -->
   <div class="flex items-center gap-2 text-xs text-gray-400 mb-6">
     <a href="index.html" class="hover:text-primary-DEFAULT transition-colors">Inicio</a>
     <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
-    <span>Información al Usuario</span>
+    <a href="horarios.html" class="hover:text-primary-DEFAULT transition-colors">Información al Usuario</a>
     <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
-    <span class="text-primary-DEFAULT font-semibold">Horarios de Atención</span>
+    <span class="text-primary-DEFAULT font-semibold">Preguntas Frecuentes</span>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-7 items-start">
 
     <!-- COLUMNA PRINCIPAL -->
-    <div style="min-width:0;">
+    <div style="min-width:0;" class="flex flex-col gap-7">
 
-      <!-- Título sección -->
-      <div class="mb-6">
-        <h2 class="font-serif text-2xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3 mb-1">Horarios de Atención</h2>
-        <p class="text-sm text-gray-500 pl-4">Información actualizada de los horarios de atención por servicio</p>
-      </div>
+      <!-- Antes de venir -->
+      <section>
+        <h2 class="font-serif text-xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3 mb-4">Antes de venir al hospital</h2>
+        <div class="flex flex-col gap-2">
 
-      <!-- Aviso horario -->
-      <div class="flex items-start gap-3 bg-primary-bg border border-primary-light rounded-custom px-4 py-3 mb-7 text-sm text-primary-DEFAULT">
+          <details class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+              <span class="font-semibold text-sm text-gray-800">¿Qué documentos necesito para atenderme?</span>
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
+              <ul class="space-y-2 mt-2">
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Cédula de identidad vigente</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Credencial FONASA (o número de RUT para verificar en el sistema)</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Orden de derivación o interconsulta, si fue enviado desde otro establecimiento</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Exámenes o imágenes previas relacionadas con su consulta</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Lista de medicamentos que toma regularmente</li>
+              </ul>
+              <p class="mt-3 text-xs text-gray-500">En caso de urgencia, no es necesario portar documentación: se atiende primero y se verifica la documentación después.</p>
+            </div>
+          </details>
+
+          <details class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+              <span class="font-semibold text-sm text-gray-800">¿Cómo solicito hora de atención?</span>
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
+              <p>Las horas en el Hospital de Frutillar se solicitan a través de:</p>
+              <ul class="space-y-2 mt-2">
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Derivación desde su CESFAM o consultorio de cabecera (vía SOME)</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Llamada directa a la Oficina de Informaciones del hospital</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Sistema AUGE/GES para patologías garantizadas</li>
+              </ul>
+              <p class="mt-3">Para urgencias, acuda directamente al Servicio de Urgencias las 24 horas. No requiere hora previa.</p>
+            </div>
+          </details>
+
+          <details class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+              <span class="font-semibold text-sm text-gray-800">¿Puedo atenderme si no tengo FONASA?</span>
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
+              <p>Las urgencias se atienden siempre, independientemente de si tiene o no FONASA. Para consultas programadas, puede afiliarse a FONASA en cualquier momento. Los trámites de afiliación son gratuitos en el propio hospital o en la oficina FONASA de su localidad.</p>
+              <p class="mt-2">Pacientes sin previsión deben cancelar los aranceles correspondientes. Consulte los valores en nuestra sección <a href="aranceles.html" class="text-primary-DEFAULT font-semibold hover:underline">Aranceles</a>.</p>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <!-- En el hospital -->
+      <section>
+        <h2 class="font-serif text-xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3 mb-4">En el hospital</h2>
+        <div class="flex flex-col gap-2">
+
+          <details class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+              <span class="font-semibold text-sm text-gray-800">¿Cuáles son los horarios de visita para hospitalizados?</span>
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
+              <ul class="space-y-2 mt-2">
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> <span><strong>Lunes a Viernes:</strong> 10:00 a 19:00 hrs</span></li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> <span><strong>Fines de semana y festivos:</strong> 12:00 a 18:00 hrs</span></li>
+              </ul>
+              <p class="mt-3 text-xs text-gray-500">Se recomienda un máximo de dos visitas simultáneas por paciente. En casos especiales (menores de edad hospitalizados, cuidados paliativos), consulte con el equipo de enfermería.</p>
+            </div>
+          </details>
+
+          <details class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+              <span class="font-semibold text-sm text-gray-800">¿Dónde puedo retirar resultados de exámenes de laboratorio?</span>
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
+              <p>Los resultados de laboratorio se retiran directamente en la ventanilla del Laboratorio Comunal, presentando su cédula de identidad. Los plazos habituales son:</p>
+              <ul class="space-y-2 mt-2">
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Exámenes básicos (hemograma, glicemia, orina): mismo día o al día siguiente</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Cultivos y exámenes especiales: 3 a 7 días hábiles</li>
+              </ul>
+              <p class="mt-3">Horario del Laboratorio: Lun–Jue 08:00–17:00 hrs, Vie 08:00–16:00 hrs.</p>
+            </div>
+          </details>
+
+          <details class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+              <span class="font-semibold text-sm text-gray-800">¿Cómo puedo solicitar un informe médico o licencia?</span>
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
+              <p>Los informes médicos y licencias médicas se solicitan directamente con el médico tratante durante la consulta. Para tramitar una licencia posterior a la consulta:</p>
+              <ul class="space-y-2 mt-2">
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Diríjase a la Oficina de Admisión y SOME</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Presente su cédula y el número de atención</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> El médico debe haber registrado la licencia en el sistema</li>
+              </ul>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <!-- Pagos y FONASA -->
+      <section>
+        <h2 class="font-serif text-xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3 mb-4">Pagos y FONASA</h2>
+        <div class="flex flex-col gap-2">
+
+          <details class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+              <span class="font-semibold text-sm text-gray-800">¿Qué cubre FONASA en el hospital?</span>
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
+              <p>FONASA cubre la atención en establecimientos públicos (como el Hospital de Frutillar) según el tramo de afiliación:</p>
+              <ul class="space-y-2 mt-2">
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> <strong>Tramo A:</strong> Sin copago (indigentes, embarazadas, menores de 6 años)</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> <strong>Tramo B:</strong> Sin copago en establecimientos públicos</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> <strong>Tramo C:</strong> Copago del 10% del arancel</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> <strong>Tramo D:</strong> Copago del 20% del arancel</li>
+              </ul>
+              <p class="mt-3">Además, la <a href="copago-cero.html" class="text-primary-DEFAULT font-semibold hover:underline">Ley de Copago Cero</a> elimina el copago para los tramos C y D en determinadas atenciones. Consulte los detalles en nuestra sección correspondiente.</p>
+            </div>
+          </details>
+
+          <details class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+              <span class="font-semibold text-sm text-gray-800">¿Cómo saber a qué tramo FONASA pertenezco?</span>
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
+              <p>Puede consultar su tramo en:</p>
+              <ul class="space-y-2 mt-2">
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> La página web de FONASA: <a href="https://www.fonasa.cl" target="_blank" class="text-primary-DEFAULT font-semibold hover:underline">www.fonasa.cl</a></li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> La app FONASA para móviles</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> Llamando al 600 360 3000 (FONASA)</li>
+                <li class="flex items-start gap-2"><span class="text-primary-light font-bold mt-0.5">•</span> En la Oficina de Admisión del hospital</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+              <span class="font-semibold text-sm text-gray-800">¿Qué es la Ley Ricarte Soto?</span>
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
+              <p>La Ley N° 20.850, conocida como Ley Ricarte Soto, financia medicamentos y tratamientos de alto costo para enfermedades graves y poco frecuentes. El Estado cubre el 100% del costo para los beneficiarios del sistema público de salud.</p>
+              <p class="mt-2">Para más información, visite nuestra sección <a href="ley-ricarte-soto.html" class="text-primary-DEFAULT font-semibold hover:underline">Ley Ricarte Soto</a>.</p>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <!-- Nota final -->
+      <div class="flex items-start gap-3 bg-primary-bg border border-primary-pale rounded-custom px-5 py-4 text-sm text-primary-dark">
         <span aria-hidden="true" class="material-symbols-outlined text-primary-light mt-0.5">info</span>
-        <p>Los horarios pueden estar sujetos a cambios en períodos de alta demanda o festivos. Para consultas llame al <strong>600 360 7777</strong> (Salud Responde).</p>
+        <p>¿No encontró la respuesta que buscaba? <a href="contacto.html" class="font-bold hover:underline">Contáctenos</a> o llame a <strong>Salud Responde: 600 360 7777</strong> para orientación gratuita las 24 horas.</p>
       </div>
 
-      <!-- Grilla de servicios -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-        <!-- SOME -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">medical_information</span>
-            <h3 class="text-white font-bold text-sm">SOME</h3>
-          </div>
-          <div class="px-4 py-4">
-            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Servicio de Orientación Médica y Estadística</p>
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:00 – 17:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:00 – 16:00 hrs</strong></span>
-              </div>
-              <p class="text-xs text-gray-400 mt-1">Atención horario continuado</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- OIRS -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">chat</span>
-            <h3 class="text-white font-bold text-sm">OIRS</h3>
-          </div>
-          <div class="px-4 py-4">
-            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Oficina de Informaciones, Reclamos y Sugerencias</p>
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:00 – 13:00</strong> y <strong>14:00 – 17:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:00 – 13:00</strong> y <strong>14:00 – 16:00 hrs</strong></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Farmacia -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">medication</span>
-            <h3 class="text-white font-bold text-sm">Farmacia</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:30 – 16:30 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:30 – 15:30 hrs</strong></span>
-              </div>
-              <p class="text-xs text-gray-400 mt-1">Atención horario continuado</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Visita Hospitalizados -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">bed</span>
-            <h3 class="text-white font-bold text-sm">Visita Hospitalizados</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Viernes: <strong>10:00 – 19:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Sábados, Domingos y Festivos: <strong>12:00 – 18:00 hrs</strong></span>
-              </div>
-              <p class="text-xs text-gray-400 mt-1">Horario continuado en fines de semana</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Rayos X -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">radiology</span>
-            <h3 class="text-white font-bold text-sm">Servicio Comunal de Rayos X</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Viernes: atención programada</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Laboratorio -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">biotech</span>
-            <h3 class="text-white font-bold text-sm">Laboratorio Comunal</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:00 – 13:00</strong> y <strong>13:30 – 17:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:00 – 13:00</strong> y <strong>13:30 – 16:00 hrs</strong></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Servicio Dental -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow md:col-span-2">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">dentistry</span>
-            <h3 class="text-white font-bold text-sm">Servicio Dental</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">info</span>
-                <span>Atención con números de urgencias reales todos los días en la mañana. Los otros horarios y otros días se atiende a usuarios bajo control con hora programada.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
     </div>
 
     <!-- SIDEBAR -->
     <aside class="flex flex-col gap-5">
 
-      <!-- Accesos rápidos -->
+      <!-- Categorías rápidas -->
       <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
-        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Accesos Rápidos</div>
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Categorías</div>
         <div class="flex flex-col">
-          <a href="servicios.html#urgencia" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">emergency</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Urgencias</strong><span class="text-xs text-gray-500">Horarios y categorización</span></div>
-          </a>
-          <a href="horarios.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100 bg-primary-bg" style="border-left-color:#207daf;">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">schedule</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Horarios de Atención</strong><span class="text-xs text-gray-500">Página actual</span></div>
-          </a>
-          <a href="servicios.html#laboratorio" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">biotech</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Laboratorio</strong><span class="text-xs text-gray-500">Resultados en línea</span></div>
+          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-lg">checklist</span>
+            <span class="text-sm text-primary-DEFAULT font-semibold">Antes de venir</span>
           </a>
           <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">call</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Teléfonos del Hospital</strong><span class="text-xs text-gray-500">Directorio institucional</span></div>
-          </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">vaccines</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Vacunatorio</strong><span class="text-xs text-gray-500">Calendario y puntos</span></div>
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-lg">local_hospital</span>
+            <span class="text-sm text-primary-DEFAULT font-semibold">En el hospital</span>
           </a>
           <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">description</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Informes Médicos</strong><span class="text-xs text-gray-500">Horarios de entrega</span></div>
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-lg">payments</span>
+            <span class="text-sm text-primary-DEFAULT font-semibold">Pagos y FONASA</span>
           </a>
         </div>
       </div>
 
-      <!-- Banners institucionales -->
+      <!-- Accesos rápidos -->
       <div class="flex flex-col gap-2.5">
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Categorización Urgencias</span>
+        <a href="horarios.html" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
+          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Horarios de Atención</span>
         </a>
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Visita de Hospitalizados</span>
+        <a href="aranceles.html" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
+          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Aranceles</span>
         </a>
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Oficina de Información y Reclamos</span>
+        <a href="contacto.html" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
+          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Contacto y Mapa</span>
         </a>
         <a href="tel:600-360-7777" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
           <div class="bg-primary-DEFAULT text-white p-2 rounded-full flex-shrink-0">
@@ -512,7 +509,7 @@
 </main>
 
 <!-- FOOTER -->
-<footer class="text-gray-300 py-10 mt-10" style="background: linear-gradient(135deg, #27272a 0%, #3f3f46 100%);">
+<footer class="text-gray-300 py-10 mt-10" style="background: linear-gradient(135deg, #0a2e3e 0%, #12465a 100%);">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
       <div class="md:col-span-2">
@@ -535,10 +532,10 @@
       <div>
         <h4 class="text-white font-bold text-sm mb-3 uppercase tracking-wide">Información</h4>
         <ul class="space-y-1.5 text-sm">
-          <li><a href="horarios.html" class="hover:text-white transition-colors text-primary-light">Horarios de Atención</a></li>
+          <li><a href="horarios.html" class="hover:text-white transition-colors">Horarios de Atención</a></li>
           <li><a href="carta-derechos.html" class="hover:text-white transition-colors">Carta de Derechos y Deberes</a></li>
-          <li><a href="transparencia.html#activa" class="hover:text-white transition-colors">Transparencia Activa</a></li>
-          <li><a href="transparencia.html#ley-lobby" class="hover:text-white transition-colors">Ley del Lobby</a></li>
+          <li><a href="faq.html" class="hover:text-white transition-colors">Preguntas Frecuentes</a></li>
+          <li><a href="contacto.html" class="hover:text-white transition-colors">Contacto y Cómo Llegar</a></li>
           <li><a href="transparencia.html#solicitud" class="hover:text-white transition-colors">Solicitud de Información</a></li>
         </ul>
       </div>

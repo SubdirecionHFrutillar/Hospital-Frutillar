@@ -109,6 +109,7 @@
       <li class="border-r border-white/10">
         <a href="index.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Inicio</a>
       </li>
+      <li class="border-r border-white/10"><a href="noticias.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Noticias</a></li>
       <li class="border-r border-white/10 relative group" role="none">
         <a href="quienes-somos.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">
           Quiénes Somos <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
@@ -144,7 +145,8 @@
           <a href="carta-derechos.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Carta de Derechos y Deberes</a>
           <a href="aranceles.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Aranceles</a>
           <a href="copago-cero.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Copago Cero</a>
-          <a href="ley-ricarte-soto.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Ley Ricarte Soto</a>
+          <a href="ley-ricarte-soto.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Ley Ricarte Soto</a>
+          <a href="faq.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Preguntas Frecuentes</a>
         </div>
       </li>
       <li class="border-r border-white/10 relative group" role="none">
@@ -161,6 +163,7 @@
       <li class="border-r border-white/10">
         <a href="trabaja-con-nosotros.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Trabaja con Nosotros</a>
       </li>
+      <li class="border-r border-white/10"><a href="contacto.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Contacto</a></li>
       <li>
         <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-1 py-4 px-5 text-primary-light font-bold hover:bg-primary-bg transition-colors">
           <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span>
@@ -181,6 +184,9 @@
     <ul class="divide-y divide-white/10 text-sm font-semibold text-white/85">
       <li>
         <a href="index.html" id="mnav-inicio" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Inicio</a>
+      </li>
+      <li>
+        <a href="noticias.html" id="mnav-noticias" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Noticias</a>
       </li>
       <li>
         <button id="mnav-quienes" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-quienes">
@@ -220,7 +226,8 @@
           <a href="carta-derechos.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Carta de Derechos y Deberes</a>
           <a href="aranceles.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Aranceles</a>
           <a href="copago-cero.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Copago Cero</a>
-          <a href="ley-ricarte-soto.html" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Ley Ricarte Soto</a>
+          <a href="ley-ricarte-soto.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Ley Ricarte Soto</a>
+          <a href="faq.html" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Preguntas Frecuentes</a>
         </div>
       </li>
       <li>
@@ -237,6 +244,9 @@
       </li>
       <li>
         <a href="trabaja-con-nosotros.html" id="mnav-trabaja" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Trabaja con Nosotros</a>
+      </li>
+      <li>
+        <a href="contacto.html" id="mnav-contacto" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Contacto</a>
       </li>
       <li>
         <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-light hover:bg-primary-bg font-bold">
@@ -548,7 +558,7 @@
     });
   });
   var page=(window.location.pathname.split('/').pop()||'index.html');
-  var map={'index.html':'mnav-inicio','quienes-somos.html':'mnav-quienes','servicios.html':'mnav-servicios','horarios.html':'mnav-info','carta-derechos.html':'mnav-info','aranceles.html':'mnav-info','copago-cero.html':'mnav-info','ley-ricarte-soto.html':'mnav-info','transparencia.html':'mnav-transp','trabaja-con-nosotros.html':'mnav-trabaja'};
+  var map={'index.html':'mnav-inicio','quienes-somos.html':'mnav-quienes','servicios.html':'mnav-servicios','horarios.html':'mnav-info','carta-derechos.html':'mnav-info','aranceles.html':'mnav-info','copago-cero.html':'mnav-info','ley-ricarte-soto.html':'mnav-info','transparencia.html':'mnav-transp','trabaja-con-nosotros.html':'mnav-trabaja','noticias.html':'mnav-noticias','faq.html':'mnav-info','contacto.html':'mnav-contacto'};
   var aid=map[page];
   if(aid){var ae=document.getElementById(aid);if(ae){ae.classList.add('text-primary-DEFAULT','bg-primary-bg');if(ae.classList.contains('mobile-submenu-btn')){var sub=document.getElementById(ae.dataset.target);if(sub){sub.classList.remove('hidden');var ei=ae.querySelector('.expand-icon');if(ei)ei.textContent='expand_less';}}}}
   document.querySelectorAll('#mobile-menu a').forEach(function(l){if(l.getAttribute('href')===page)l.classList.add('text-primary-DEFAULT','font-semibold');});
