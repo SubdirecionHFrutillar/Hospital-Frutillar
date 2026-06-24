@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Horarios de Atención - Hospital de Frutillar</title>
+<title>Transparencia - Hospital de Frutillar</title>
+<meta name="description" content="Información de transparencia del Hospital de Frutillar: transparencia activa, solicitudes de información, Ley del Lobby y cuentas públicas.">
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
@@ -33,14 +34,8 @@
 </script>
 <style>
   .banner-top { position: relative; }
-  .banner-top::before {
-    content: ''; position: absolute; top: 0; left: 0;
-    width: 55%; height: 3px; background: #1a5f7a;
-  }
-  .banner-top::after {
-    content: ''; position: absolute; top: 0; left: 55%;
-    width: 45%; height: 3px; background: #c0392b;
-  }
+  .banner-top::before { content:''; position:absolute; top:0; left:0; width:55%; height:3px; background:#1a5f7a; }
+  .banner-top::after  { content:''; position:absolute; top:0; left:55%; width:45%; height:3px; background:#c0392b; }
   .acceso-item { border-left: 4px solid #82c8e5; transition: border-color .15s, background .15s; }
   .acceso-item:hover { border-left-color: #1a5f7a; background: #eaf6fc; }
 </style>
@@ -129,11 +124,11 @@
         </div>
       </li>
       <li class="border-r border-gray-200 relative group">
-        <a href="horarios.html" class="flex items-center py-4 px-5 text-primary-DEFAULT font-bold border-b-2 border-primary-light">
+        <a href="horarios.html" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
           Información al Usuario <span class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px]">
-          <a href="horarios.html" class="block px-5 py-3 text-sm bg-primary-bg text-primary-DEFAULT font-semibold border-b border-gray-100">Horarios de Atención</a>
+          <a href="horarios.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Horarios de Atención</a>
           <a href="carta-derechos.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Carta de Derechos y Deberes</a>
           <a href="aranceles.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Aranceles</a>
           <a href="copago-cero.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Copago Cero</a>
@@ -141,11 +136,11 @@
         </div>
       </li>
       <li class="border-r border-gray-200 relative group">
-        <a href="transparencia.html" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
+        <a href="transparencia.html" class="flex items-center py-4 px-5 text-primary-DEFAULT font-bold border-b-2 border-primary-light">
           Transparencia <span class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[210px]">
-          <a href="transparencia.html#activa" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Transparencia Activa</a>
+          <a href="transparencia.html#activa" class="block px-5 py-3 text-sm bg-primary-bg text-primary-DEFAULT font-semibold border-b border-gray-100">Transparencia Activa</a>
           <a href="transparencia.html#solicitud" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Solicitud de Información</a>
           <a href="transparencia.html#ley-lobby" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Ley del Lobby</a>
           <a href="transparencia.html#cuentas-publicas" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Cuentas Públicas</a>
@@ -171,215 +166,134 @@
   <div class="flex items-center gap-2 text-xs text-gray-400 mb-6">
     <a href="index.html" class="hover:text-primary-DEFAULT transition-colors">Inicio</a>
     <span class="material-symbols-outlined text-sm">chevron_right</span>
-    <span>Información al Usuario</span>
-    <span class="material-symbols-outlined text-sm">chevron_right</span>
-    <span class="text-primary-DEFAULT font-semibold">Horarios de Atención</span>
+    <span class="text-primary-DEFAULT font-semibold">Transparencia</span>
   </div>
 
   <div style="display:grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: start;">
 
     <!-- COLUMNA PRINCIPAL -->
-    <div style="min-width:0;">
+    <div style="min-width:0;" class="flex flex-col gap-7">
 
-      <!-- Título sección -->
-      <div class="mb-6">
-        <h2 class="font-serif text-2xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3 mb-1">Horarios de Atención</h2>
-        <p class="text-sm text-gray-500 pl-4">Información actualizada de los horarios de atención por servicio</p>
+      <div class="mb-2">
+        <h2 class="font-serif text-2xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3 mb-1">Transparencia Institucional</h2>
+        <p class="text-sm text-gray-500 pl-4">Información pública del Hospital de Frutillar según normativa vigente</p>
       </div>
 
-      <!-- Aviso horario -->
-      <div class="flex items-start gap-3 bg-primary-bg border border-primary-light rounded-custom px-4 py-3 mb-7 text-sm text-primary-DEFAULT">
-        <span class="material-symbols-outlined text-primary-light mt-0.5">info</span>
-        <p>Los horarios pueden estar sujetos a cambios en períodos de alta demanda o festivos. Para consultas llame al <strong>600 360 7777</strong> (Salud Responde).</p>
+      <!-- TRANSPARENCIA ACTIVA -->
+      <div id="activa" class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-DEFAULT px-5 py-3 flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary-light text-xl">visibility</span>
+          <h2 class="text-white font-bold text-base tracking-wide uppercase">Transparencia Activa</h2>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-3">
+          <p class="text-sm text-gray-700 leading-relaxed">
+            En cumplimiento de la <strong class="text-primary-DEFAULT">Ley N° 20.285 de Transparencia</strong>, el Hospital de Frutillar publica en el Portal de Transparencia del Consejo para la Transparencia la información que los organismos públicos están obligados a mantener a disposición permanente del público.
+          </p>
+          <div class="flex items-start gap-2 text-sm text-primary-DEFAULT bg-primary-bg border border-primary-pale rounded-custom px-4 py-3">
+            <span class="material-symbols-outlined text-primary-light mt-0.5 text-base">info</span>
+            <p>La información de Transparencia Activa se encuentra actualizada en el Portal de Transparencia del Gobierno de Chile.</p>
+          </div>
+          <a href="https://www.portaltransparencia.cl" target="_blank" class="inline-flex items-center gap-2 bg-primary-DEFAULT text-white text-sm font-bold px-4 py-2.5 rounded-custom hover:bg-primary-dark transition-colors w-fit">
+            <span class="material-symbols-outlined text-base">open_in_new</span>
+            Ir al Portal de Transparencia
+          </a>
+        </div>
       </div>
 
-      <!-- Grilla de servicios -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-        <!-- SOME -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary-light text-xl">medical_information</span>
-            <h3 class="text-white font-bold text-sm">SOME</h3>
-          </div>
-          <div class="px-4 py-4">
-            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Servicio de Orientación Médica y Estadística</p>
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:00 – 17:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:00 – 16:00 hrs</strong></span>
-              </div>
-              <p class="text-xs text-gray-400 mt-1">Atención horario continuado</p>
+      <!-- SOLICITUD DE INFORMACIÓN -->
+      <div id="solicitud" class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-DEFAULT px-5 py-3 flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary-light text-xl">request_page</span>
+          <h2 class="text-white font-bold text-base tracking-wide uppercase">Solicitud de Información</h2>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-3">
+          <p class="text-sm text-gray-700 leading-relaxed">
+            Cualquier persona tiene derecho a solicitar y recibir información de los actos, resoluciones, procedimientos y documentos del Hospital de Frutillar, conforme a la <strong class="text-primary-DEFAULT">Ley N° 20.285</strong>. Las solicitudes se tramitan a través del Portal de Transparencia.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="bg-gray-50 border border-gray-100 rounded-custom p-4">
+              <p class="text-xs font-bold text-primary-DEFAULT uppercase tracking-wide mb-1">Plazo de respuesta</p>
+              <p class="text-sm text-gray-700">Hasta <strong>20 días hábiles</strong> desde la recepción de la solicitud.</p>
+            </div>
+            <div class="bg-gray-50 border border-gray-100 rounded-custom p-4">
+              <p class="text-xs font-bold text-primary-DEFAULT uppercase tracking-wide mb-1">Costo</p>
+              <p class="text-sm text-gray-700">Sin costo para el solicitante, salvo reproducción material.</p>
             </div>
           </div>
+          <a href="https://www.portaltransparencia.cl" target="_blank" class="inline-flex items-center gap-2 bg-primary-DEFAULT text-white text-sm font-bold px-4 py-2.5 rounded-custom hover:bg-primary-dark transition-colors w-fit">
+            <span class="material-symbols-outlined text-base">open_in_new</span>
+            Ingresar solicitud en Portal de Transparencia
+          </a>
         </div>
-
-        <!-- OIRS -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary-light text-xl">chat</span>
-            <h3 class="text-white font-bold text-sm">OIRS</h3>
-          </div>
-          <div class="px-4 py-4">
-            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Oficina de Informaciones, Reclamos y Sugerencias</p>
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:00 – 13:00</strong> y <strong>14:00 – 17:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:00 – 13:00</strong> y <strong>14:00 – 16:00 hrs</strong></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Farmacia -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary-light text-xl">medication</span>
-            <h3 class="text-white font-bold text-sm">Farmacia</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:30 – 16:30 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:30 – 15:30 hrs</strong></span>
-              </div>
-              <p class="text-xs text-gray-400 mt-1">Atención horario continuado</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Visita Hospitalizados -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary-light text-xl">bed</span>
-            <h3 class="text-white font-bold text-sm">Visita Hospitalizados</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Viernes: <strong>10:00 – 19:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Sábados, Domingos y Festivos: <strong>12:00 – 18:00 hrs</strong></span>
-              </div>
-              <p class="text-xs text-gray-400 mt-1">Horario continuado en fines de semana</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Rayos X -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary-light text-xl">radiology</span>
-            <h3 class="text-white font-bold text-sm">Servicio Comunal de Rayos X</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Viernes: atención programada</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Laboratorio -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary-light text-xl">biotech</span>
-            <h3 class="text-white font-bold text-sm">Laboratorio Comunal</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Lunes a Jueves: <strong>08:00 – 13:00</strong> y <strong>13:30 – 17:00 hrs</strong></span>
-              </div>
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-                <span>Viernes: <strong>08:00 – 13:00</strong> y <strong>13:30 – 16:00 hrs</strong></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Servicio Dental -->
-        <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow md:col-span-2">
-          <div class="bg-primary-DEFAULT px-4 py-3 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary-light text-xl">dentistry</span>
-            <h3 class="text-white font-bold text-sm">Servicio Dental</h3>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col gap-2 text-sm text-gray-700">
-              <div class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-primary-light text-base mt-0.5">info</span>
-                <span>Atención con números de urgencias reales todos los días en la mañana. Los otros horarios y otros días se atiende a usuarios bajo control con hora programada.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
+
+      <!-- LEY DEL LOBBY -->
+      <div id="ley-lobby" class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-DEFAULT px-5 py-3 flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary-light text-xl">gavel</span>
+          <h2 class="text-white font-bold text-base tracking-wide uppercase">Ley del Lobby</h2>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-3">
+          <p class="text-sm text-gray-700 leading-relaxed">
+            La <strong class="text-primary-DEFAULT">Ley N° 20.730</strong> regula el lobby y las gestiones que representen intereses particulares ante autoridades y funcionarios. El Hospital de Frutillar publica las audiencias, viajes y donativos de las autoridades afectas a esta normativa.
+          </p>
+          <a href="https://www.leylobby.gob.cl" target="_blank" class="inline-flex items-center gap-2 bg-primary-DEFAULT text-white text-sm font-bold px-4 py-2.5 rounded-custom hover:bg-primary-dark transition-colors w-fit">
+            <span class="material-symbols-outlined text-base">open_in_new</span>
+            Plataforma Ley del Lobby
+          </a>
+        </div>
+      </div>
+
+      <!-- CUENTAS PÚBLICAS -->
+      <div id="cuentas-publicas" class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-DEFAULT px-5 py-3 flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary-light text-xl">bar_chart</span>
+          <h2 class="text-white font-bold text-base tracking-wide uppercase">Cuentas Públicas</h2>
+        </div>
+        <div class="px-6 py-5 flex flex-col gap-3">
+          <p class="text-sm text-gray-700 leading-relaxed">
+            El Hospital de Frutillar realiza anualmente una Cuenta Pública Participativa en la que informa a la comunidad sobre su gestión, logros, desafíos y resultados en salud del período, en cumplimiento de las instrucciones del Ministerio de Salud.
+          </p>
+          <div class="flex items-start gap-2 text-sm text-primary-DEFAULT bg-primary-bg border border-primary-pale rounded-custom px-4 py-3">
+            <span class="material-symbols-outlined text-primary-light mt-0.5 text-base">info</span>
+            <p>Los documentos de cuentas públicas anteriores se encuentran en proceso de carga. Próximamente disponibles para descarga.</p>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- SIDEBAR -->
     <aside class="flex flex-col gap-5">
 
-      <!-- Accesos rápidos -->
       <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
-        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Accesos Rápidos</div>
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">En esta sección</div>
         <div class="flex flex-col">
-          <a href="servicios.html#urgencia" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">emergency</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Urgencias</strong><span class="text-xs text-gray-500">Horarios y categorización</span></div>
+          <a href="#activa" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">visibility</span>
+            <strong class="text-sm text-primary-DEFAULT">Transparencia Activa</strong>
           </a>
-          <a href="horarios.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100 bg-primary-bg" style="border-left-color:#1a5f7a;">
-            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">schedule</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Horarios de Atención</strong><span class="text-xs text-gray-500">Página actual</span></div>
+          <a href="#solicitud" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">request_page</span>
+            <strong class="text-sm text-primary-DEFAULT">Solicitud de Información</strong>
           </a>
-          <a href="servicios.html#laboratorio" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">biotech</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Laboratorio</strong><span class="text-xs text-gray-500">Resultados en línea</span></div>
+          <a href="#ley-lobby" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">gavel</span>
+            <strong class="text-sm text-primary-DEFAULT">Ley del Lobby</strong>
           </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">call</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Teléfonos del Hospital</strong><span class="text-xs text-gray-500">Directorio institucional</span></div>
-          </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">vaccines</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Vacunatorio</strong><span class="text-xs text-gray-500">Calendario y puntos</span></div>
-          </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3">
-            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">description</span>
-            <div><strong class="text-sm text-primary-DEFAULT block">Informes Médicos</strong><span class="text-xs text-gray-500">Horarios de entrega</span></div>
+          <a href="#cuentas-publicas" class="acceso-item flex items-center gap-3 px-4 py-3">
+            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">bar_chart</span>
+            <strong class="text-sm text-primary-DEFAULT">Cuentas Públicas</strong>
           </a>
         </div>
       </div>
 
-      <!-- Banners institucionales -->
       <div class="flex flex-col gap-2.5">
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Categorización Urgencias</span>
+        <a href="https://www.portaltransparencia.cl" target="_blank" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
+          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Portal de Transparencia</span>
         </a>
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Visita de Hospitalizados</span>
-        </a>
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Oficina de Información y Reclamos</span>
+        <a href="https://www.leylobby.gob.cl" target="_blank" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
+          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Plataforma Ley del Lobby</span>
         </a>
         <a href="tel:600-360-7777" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
           <div class="bg-primary-DEFAULT text-white p-2 rounded-full flex-shrink-0">
@@ -413,9 +327,9 @@
       <div>
         <h4 class="text-white font-bold text-sm mb-3 uppercase tracking-wide">Información</h4>
         <ul class="space-y-1.5 text-sm">
-          <li><a href="horarios.html" class="hover:text-white transition-colors text-primary-light">Horarios de Atención</a></li>
+          <li><a href="horarios.html" class="hover:text-white transition-colors">Horarios de Atención</a></li>
           <li><a href="carta-derechos.html" class="hover:text-white transition-colors">Carta de Derechos y Deberes</a></li>
-          <li><a href="transparencia.html#activa" class="hover:text-white transition-colors">Transparencia Activa</a></li>
+          <li><a href="transparencia.html#activa" class="hover:text-white transition-colors text-primary-light">Transparencia Activa</a></li>
           <li><a href="transparencia.html#ley-lobby" class="hover:text-white transition-colors">Ley del Lobby</a></li>
           <li><a href="transparencia.html#solicitud" class="hover:text-white transition-colors">Solicitud de Información</a></li>
         </ul>
