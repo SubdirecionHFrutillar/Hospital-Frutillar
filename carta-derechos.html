@@ -85,9 +85,13 @@
           <p class="text-[11px] tracking-widest uppercase text-white/65">Servicio de Salud del Reloncaví</p>
         </div>
       </div>
-      <div class="flex flex-col items-end gap-2">
-        <span class="text-[10px] tracking-widest uppercase text-white/50">Gobierno de Chile</span>
-        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 bg-primary-light text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom hover:bg-white transition-colors shadow">
+      <div class="flex flex-col items-center md:items-end gap-3">
+        <span class="text-[10px] tracking-widest uppercase text-white/40">Gobierno de Chile</span>
+        <a href="tel:6003607777" class="flex items-center gap-2 text-white/80 hover:text-white text-sm transition-colors group">
+          <span aria-hidden="true" class="material-symbols-outlined text-lg text-primary-light group-hover:text-white transition-colors">call</span>
+          <span>Salud Responde <strong class="text-white">600 360 7777</strong></span>
+        </a>
+        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 bg-white/15 hover:bg-white text-white hover:text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom transition-all shadow border border-white/30">
           <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span>
           Portal Funcionarios
         </a>
@@ -240,6 +244,28 @@
     </ul>
   </div>
 </nav>
+
+<!-- PAGE BANNER -->
+<section class="text-white py-8" style="background: linear-gradient(100deg, #12465a 0%, #1a5f7a 100%);">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center gap-2 text-primary-light/80 text-xs mb-3 flex-wrap">
+      <a href="index.html" class="hover:text-white transition-colors">Inicio</a>
+      <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
+      <span>Información al Usuario</span>
+      <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
+      <span>Carta de Derechos y Deberes</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
+        <span aria-hidden="true" class="material-symbols-outlined text-2xl">policy</span>
+      </div>
+      <div>
+        <h2 class="font-serif text-2xl md:text-3xl font-bold">Carta de Derechos y Deberes</h2>
+        <p class="text-white/65 text-sm mt-0.5">Ley 20.584 — Sus derechos y deberes como paciente</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- CONTENIDO -->
 <main id="main-content" class="container mx-auto px-4 py-8">
@@ -407,17 +433,24 @@
 </main>
 
 <!-- FOOTER -->
-<footer class="bg-primary-dark text-gray-300 py-10 border-t-4 border-primary-light mt-10">
+<footer class="text-gray-300 py-10 mt-10" style="background: linear-gradient(135deg, #0a2e3e 0%, #12465a 100%);">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
       <div class="md:col-span-2">
-        <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
-          <span aria-hidden="true" class="material-symbols-outlined">local_hospital</span> Hospital de Frutillar
-        </h4>
-        <p class="text-sm leading-relaxed mb-3">Cuidado de excelencia en el corazón de la cuenca del Lago Llanquihue.</p>
-        <div class="flex items-start gap-2 text-sm">
-          <span aria-hidden="true" class="material-symbols-outlined text-gray-400 text-base mt-0.5">location_on</span>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-full border-2 border-red-400 bg-primary-dark flex items-center justify-center flex-shrink-0">
+            <span aria-hidden="true" class="material-symbols-outlined text-lg text-white">local_hospital</span>
+          </div>
+          <h4 class="text-white font-bold text-base leading-tight">Hospital de Frutillar<br><span class="text-primary-light font-normal text-sm">Servicio de Salud Reloncaví</span></h4>
+        </div>
+        <p class="text-sm leading-relaxed mb-4 text-gray-400">Cuidado de excelencia en el corazón de la cuenca del Lago Llanquihue. Comprometidos con la salud y bienestar de nuestra comunidad.</p>
+        <div class="flex items-start gap-2 text-sm text-gray-400">
+          <span aria-hidden="true" class="material-symbols-outlined text-gray-500 text-base mt-0.5">location_on</span>
           <span>Philippi 1000, Frutillar, Región de Los Lagos</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-gray-400 mt-1.5">
+          <span aria-hidden="true" class="material-symbols-outlined text-gray-500 text-base">call</span>
+          <a href="tel:6003607777" class="hover:text-white transition-colors">600 360 7777 — Salud Responde</a>
         </div>
       </div>
       <div>
@@ -440,8 +473,13 @@
         </ul>
       </div>
     </div>
-    <div class="border-t border-white/10 pt-6 text-xs text-center text-gray-500">
-      © 2026 Hospital de Frutillar &nbsp;·&nbsp; Servicio de Salud Reloncaví &nbsp;·&nbsp; Gobierno de Chile
+    <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-gray-500">
+      <span>© 2026 Hospital de Frutillar &nbsp;·&nbsp; Servicio de Salud Reloncaví &nbsp;·&nbsp; Gobierno de Chile</span>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-gray-300 transition-colors">Política de Privacidad</a>
+        <a href="#" class="hover:text-gray-300 transition-colors">Accesibilidad</a>
+        <a href="404.html" class="hover:text-gray-300 transition-colors">Mapa del Sitio</a>
+      </div>
     </div>
   </div>
 </footer>

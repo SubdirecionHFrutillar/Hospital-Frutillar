@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Inicio - Hospital de Frutillar</title>
+<meta name="description" content="Hospital de Frutillar — Servicio de Salud Reloncaví. Atención médica pública de excelencia en la Región de Los Lagos.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CL">
+<meta property="og:site_name" content="Hospital de Frutillar">
+<meta property="og:title" content="Inicio - Hospital de Frutillar">
+<meta property="og:description" content="Hospital de Frutillar — Servicio de Salud Reloncaví. Atención médica pública de excelencia en la Región de Los Lagos.">
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
@@ -32,8 +38,7 @@
   }
 </script>
 <style>
-  /* Barra decorativa azul-roja estilo gobierno */
-  .link-card { position: relative; }
+  .link-card { position: relative; overflow: hidden; }
   .link-card::before {
     content: '';
     position: absolute; top: 0; left: 0;
@@ -46,31 +51,62 @@
     width: 45%; height: 3px;
     background: #c0392b;
   }
-  /* Barra lateral izquierda accesos */
   .acceso-item { border-left: 4px solid #82c8e5; transition: border-color .15s, background .15s; }
   .acceso-item:hover { border-left-color: #1a5f7a; background: #eaf6fc; }
-  /* Banner accent top */
-  .banner-top { position: relative; }
-  .banner-top::before {
+  .banner-side { position: relative; }
+  .banner-side::before {
     content: '';
     position: absolute; top: 0; left: 0;
     width: 50%; height: 3px; background: #005bb7;
   }
-  .banner-top::after {
+  .banner-side::after {
     content: '';
     position: absolute; top: 0; left: 50%;
     width: 50%; height: 3px; background: #d71920;
   }
+  /* Hero decorative shapes */
+  .hero-blob-1 {
+    position: absolute; right: -100px; top: -100px;
+    width: 480px; height: 480px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero-blob-2 {
+    position: absolute; right: 140px; bottom: -160px;
+    width: 320px; height: 320px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero-blob-3 {
+    position: absolute; left: -60px; bottom: -80px;
+    width: 220px; height: 220px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  /* Service card */
+  .service-card { transition: transform .15s, box-shadow .15s; }
+  .service-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(26,95,122,0.15); }
+  /* News card */
+  .news-card { transition: box-shadow .15s, border-color .15s; border-left: 4px solid #c8eaf5; }
+  .news-card:hover { border-left-color: #1a5f7a; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+  /* Stat number */
+  .stat-num { font-variant-numeric: tabular-nums; }
 </style>
 </head>
 <body class="font-sans antialiased bg-gray-100 text-gray-800">
 <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-primary-DEFAULT focus:px-4 focus:py-2 focus:rounded-custom focus:shadow-lg focus:outline-none">Saltar al contenido principal</a>
 
 <!-- TOPBAR -->
-<div class="bg-primary-dark text-white text-xs py-1.5 border-b border-primary-light/30">
+<div class="bg-primary-dark text-white text-xs py-1.5 border-b border-primary-light/20">
   <div class="container mx-auto px-4 flex justify-between items-center flex-wrap gap-2">
-    <span class="text-white/70">Philippi 1000, Frutillar &nbsp;·&nbsp; Región de Los Lagos</span>
-    <div class="flex gap-5 text-white/70">
+    <div class="flex items-center gap-1.5 text-white/65">
+      <span aria-hidden="true" class="material-symbols-outlined text-xs">location_on</span>
+      Philippi 1000, Frutillar &nbsp;·&nbsp; Región de Los Lagos
+    </div>
+    <div class="flex gap-5 text-white/65">
       <a href="#" class="hover:text-white transition-colors">Facebook</a>
       <a href="#" class="hover:text-white transition-colors">Instagram</a>
       <a href="https://www.ssreloncavi.cl" target="_blank" class="hover:text-white transition-colors">Servicio de Salud Reloncaví</a>
@@ -79,33 +115,37 @@
 </div>
 
 <!-- HEADER -->
-<header class="bg-primary-DEFAULT text-white w-full shadow-md" style="background: linear-gradient(135deg,#12465a 0%,#1a5f7a 55%,#4a9dbf 100%);">
+<header class="text-white w-full shadow-lg" style="background: linear-gradient(135deg,#0d3648 0%,#1a5f7a 55%,#2c8ab0 100%);">
   <div class="container mx-auto px-4 py-5">
     <div class="flex flex-col md:flex-row items-center justify-between gap-5">
 
-      <!-- Badge circular estilo Ancud/Stitch -->
       <div class="flex items-center gap-5">
-        <div class="w-20 h-20 rounded-full border-4 border-red-500 bg-primary-dark flex flex-col items-center justify-center relative shadow-lg flex-shrink-0">
+        <!-- Logo badge -->
+        <div class="w-20 h-20 rounded-full border-4 border-red-500 bg-primary-dark flex flex-col items-center justify-center relative shadow-xl flex-shrink-0">
           <span aria-hidden="true" class="material-symbols-outlined text-2xl text-white">local_hospital</span>
-          <span class="text-[9px] font-bold text-center leading-tight mt-0.5">Hospital de<br>Frutillar</span>
+          <span class="text-[9px] font-bold text-center leading-tight mt-0.5 text-white/90">Hospital de<br>Frutillar</span>
           <div class="absolute bottom-2 flex gap-1">
-            <span class="w-1 h-1 bg-white rounded-full"></span>
-            <span class="w-1 h-1 bg-white rounded-full"></span>
-            <span class="w-1 h-1 bg-white rounded-full"></span>
+            <span class="w-1 h-1 bg-white/70 rounded-full"></span>
+            <span class="w-1 h-1 bg-white/70 rounded-full"></span>
+            <span class="w-1 h-1 bg-white/70 rounded-full"></span>
           </div>
         </div>
         <div>
-          <p class="text-[10px] font-bold tracking-widest uppercase text-white/60 mb-1">Trabajando para usted</p>
+          <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-white/55 mb-1">Trabajando para usted</p>
           <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight leading-tight">Hospital de <span class="text-primary-light">Frutillar</span></h1>
-          <div class="w-48 border-t-2 border-dashed border-white/30 my-1.5"></div>
-          <p class="text-[11px] tracking-widest uppercase text-white/65">Servicio de Salud del Reloncaví</p>
+          <div class="w-48 border-t border-dashed border-white/25 my-2"></div>
+          <p class="text-[11px] tracking-[0.18em] uppercase text-white/55">Servicio de Salud del Reloncaví</p>
         </div>
       </div>
 
-      <!-- Botón Portal Funcionarios -->
-      <div class="flex flex-col items-end gap-2">
-        <span class="text-[10px] tracking-widest uppercase text-white/50">Gobierno de Chile</span>
-        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 bg-primary-light text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom hover:bg-white transition-colors shadow">
+      <!-- Right: phone + portal -->
+      <div class="flex flex-col items-center md:items-end gap-3">
+        <span class="text-[10px] tracking-widest uppercase text-white/40">Gobierno de Chile</span>
+        <a href="tel:6003607777" class="flex items-center gap-2 text-white/80 hover:text-white text-sm transition-colors group">
+          <span aria-hidden="true" class="material-symbols-outlined text-lg text-primary-light group-hover:text-white transition-colors">call</span>
+          <span>Salud Responde <strong class="text-white">600 360 7777</strong></span>
+        </a>
+        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 bg-white/15 hover:bg-white text-white hover:text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom transition-all shadow border border-white/30">
           <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span>
           Portal Funcionarios
         </a>
@@ -114,12 +154,12 @@
   </div>
 </header>
 
-<!-- NAVEGACIÓN -->
+<!-- NAVEGACIÓN DESKTOP + MOBILE -->
 <nav class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm" role="navigation" aria-label="Menú principal">
   <div class="container mx-auto px-4">
     <ul class="hidden md:flex flex-wrap items-center text-sm font-semibold text-gray-600">
       <li class="border-r border-gray-200">
-        <a href="index.html" class="block py-4 px-5 text-primary-DEFAULT border-b-2 border-primary-light">Inicio</a>
+        <a href="index.html" class="block py-4 px-5 text-primary-DEFAULT border-b-2 border-primary-DEFAULT bg-primary-bg/40">Inicio</a>
       </li>
       <li class="border-r border-gray-200 relative group" role="none">
         <a href="quienes-somos.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
@@ -174,7 +214,7 @@
         <a href="trabaja-con-nosotros.html" class="block py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">Trabaja con Nosotros</a>
       </li>
       <li>
-        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-1 py-4 px-5 text-primary-light font-bold hover:bg-primary-bg transition-colors">
+        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-1 py-4 px-5 text-primary-DEFAULT font-bold hover:bg-primary-bg transition-colors">
           <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span>
           Portal Funcionarios
         </a>
@@ -191,9 +231,7 @@
   <!-- Mobile menu dropdown -->
   <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white shadow-lg max-h-[80vh] overflow-y-auto">
     <ul class="divide-y divide-gray-100 text-sm font-semibold text-gray-700">
-      <li>
-        <a href="index.html" id="mnav-inicio" class="flex items-center px-4 py-3.5 hover:bg-gray-50 transition-colors">Inicio</a>
-      </li>
+      <li><a href="index.html" id="mnav-inicio" class="flex items-center px-4 py-3.5 hover:bg-gray-50 transition-colors">Inicio</a></li>
       <li>
         <button id="mnav-quienes" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-quienes">
           <span>Quiénes Somos</span>
@@ -247,11 +285,9 @@
           <a href="transparencia.html#cuentas-publicas" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-DEFAULT font-normal">Cuentas Públicas</a>
         </div>
       </li>
+      <li><a href="trabaja-con-nosotros.html" id="mnav-trabaja" class="flex items-center px-4 py-3.5 hover:bg-gray-50 transition-colors">Trabaja con Nosotros</a></li>
       <li>
-        <a href="trabaja-con-nosotros.html" id="mnav-trabaja" class="flex items-center px-4 py-3.5 hover:bg-gray-50 transition-colors">Trabaja con Nosotros</a>
-      </li>
-      <li>
-        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-light hover:bg-primary-bg font-bold">
+        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-DEFAULT hover:bg-primary-bg font-bold">
           <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span> Portal Funcionarios
         </a>
       </li>
@@ -259,86 +295,266 @@
   </div>
 </nav>
 
+<!-- HERO SECTION -->
+<section class="relative overflow-hidden text-white" style="background: linear-gradient(135deg, #0a2e3e 0%, #1a5f7a 55%, #1e86ab 100%);" aria-label="Bienvenida al Hospital de Frutillar">
+  <div class="hero-blob-1" aria-hidden="true"></div>
+  <div class="hero-blob-2" aria-hidden="true"></div>
+  <div class="hero-blob-3" aria-hidden="true"></div>
+  <!-- Decorative medical cross -->
+  <div class="absolute right-10 top-1/2 -translate-y-1/2 hidden xl:block opacity-[0.06]" aria-hidden="true">
+    <svg width="180" height="180" viewBox="0 0 180 180" fill="white">
+      <rect x="60" y="0" width="60" height="180" rx="12"/>
+      <rect x="0" y="60" width="180" height="60" rx="12"/>
+    </svg>
+  </div>
+  <div class="container mx-auto px-4 py-14 md:py-20 relative z-10">
+    <div class="max-w-2xl">
+      <p class="text-primary-light text-xs font-bold uppercase tracking-[0.2em] mb-3">Servicio de Salud Reloncaví · Región de Los Lagos</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold mb-5 leading-tight">
+        Cuidando tu salud<br>
+        <span class="text-primary-light">con dedicación</span>
+      </h2>
+      <p class="text-white/75 text-base md:text-lg mb-8 max-w-xl leading-relaxed">
+        Atención médica pública de excelencia para Frutillar, Llanquihue y las comunidades del Lago Llanquihue.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="servicios.html#urgencia" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-custom transition-colors shadow-lg">
+          <span aria-hidden="true" class="material-symbols-outlined text-xl">emergency</span>
+          Urgencias 24/7
+        </a>
+        <a href="horarios.html" class="flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-custom transition-colors border border-white/30 hover:bg-white/15">
+          <span aria-hidden="true" class="material-symbols-outlined text-xl">schedule</span>
+          Horarios
+        </a>
+        <a href="servicios.html" class="flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-custom transition-colors border border-white/30 hover:bg-white/15">
+          <span aria-hidden="true" class="material-symbols-outlined text-xl">medical_services</span>
+          Servicios
+        </a>
+      </div>
+    </div>
+    <!-- Stats strip -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-10 border-t border-white/15">
+      <div class="text-center">
+        <div class="stat-num font-black text-4xl text-primary-light leading-none">24/7</div>
+        <div class="text-sm text-white/60 mt-1.5 font-medium">Urgencias</div>
+      </div>
+      <div class="text-center">
+        <div class="stat-num font-black text-4xl text-primary-light leading-none">8</div>
+        <div class="text-sm text-white/60 mt-1.5 font-medium">Especialidades</div>
+      </div>
+      <div class="text-center">
+        <div class="stat-num font-black text-4xl text-primary-light leading-none">+65</div>
+        <div class="text-sm text-white/60 mt-1.5 font-medium">Años de servicio</div>
+      </div>
+      <div class="text-center">
+        <div class="stat-num font-black text-2xl md:text-3xl text-primary-light leading-none">FONASA</div>
+        <div class="text-sm text-white/60 mt-1.5 font-medium">Tramos A, B, C y D</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS GRID -->
+<section class="bg-white border-b border-gray-200 py-10" aria-label="Nuestros servicios">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center gap-3 mb-7">
+      <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-2xl">medical_services</span>
+      <h2 class="font-serif text-2xl font-bold text-primary-DEFAULT">Nuestros Servicios</h2>
+      <div class="h-px bg-gray-200 flex-1"></div>
+      <a href="servicios.html" class="text-xs font-bold text-primary-DEFAULT hover:underline whitespace-nowrap">Ver todos →</a>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <a href="servicios.html#urgencia" class="service-card bg-red-50 border border-red-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
+        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+          <span aria-hidden="true" class="material-symbols-outlined text-red-600 text-2xl">emergency</span>
+        </div>
+        <span class="font-bold text-sm text-gray-800">Urgencia</span>
+        <span class="text-xs text-gray-500 leading-snug">Atención de emergencias las 24 horas</span>
+      </a>
+      <a href="servicios.html#hospitalizacion" class="service-card bg-primary-bg border border-primary-pale rounded-custom p-4 flex flex-col items-center text-center gap-2">
+        <div class="w-12 h-12 bg-primary-pale rounded-full flex items-center justify-center">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-2xl">bed</span>
+        </div>
+        <span class="font-bold text-sm text-gray-800">Hospitalización</span>
+        <span class="text-xs text-gray-500 leading-snug">Cuidado integral durante tu internación</span>
+      </a>
+      <a href="servicios.html#hospitalizacion-domiciliaria" class="service-card bg-teal-50 border border-teal-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
+        <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
+          <span aria-hidden="true" class="material-symbols-outlined text-teal-700 text-2xl">home_health</span>
+        </div>
+        <span class="font-bold text-sm text-gray-800">HODOM</span>
+        <span class="text-xs text-gray-500 leading-snug">Hospitalización en tu domicilio</span>
+      </a>
+      <a href="servicios.html#pabellon" class="service-card bg-purple-50 border border-purple-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
+        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+          <span aria-hidden="true" class="material-symbols-outlined text-purple-700 text-2xl">surgical</span>
+        </div>
+        <span class="font-bold text-sm text-gray-800">Pabellón</span>
+        <span class="text-xs text-gray-500 leading-snug">Cirugía programada y de urgencia</span>
+      </a>
+      <a href="servicios.html#maternidad" class="service-card bg-pink-50 border border-pink-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
+        <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center">
+          <span aria-hidden="true" class="material-symbols-outlined text-pink-600 text-2xl">child_friendly</span>
+        </div>
+        <span class="font-bold text-sm text-gray-800">Maternidad</span>
+        <span class="text-xs text-gray-500 leading-snug">Atención integral del parto y recién nacido</span>
+      </a>
+      <a href="servicios.html#laboratorio" class="service-card bg-amber-50 border border-amber-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
+        <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+          <span aria-hidden="true" class="material-symbols-outlined text-amber-700 text-2xl">biotech</span>
+        </div>
+        <span class="font-bold text-sm text-gray-800">Laboratorio</span>
+        <span class="text-xs text-gray-500 leading-snug">Análisis clínicos y resultados en línea</span>
+      </a>
+      <a href="servicios.html#imagenologia" class="service-card bg-indigo-50 border border-indigo-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
+        <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+          <span aria-hidden="true" class="material-symbols-outlined text-indigo-700 text-2xl">radiology</span>
+        </div>
+        <span class="font-bold text-sm text-gray-800">Imagenología</span>
+        <span class="text-xs text-gray-500 leading-snug">Rayos X, ecografía y mamografía</span>
+      </a>
+      <a href="servicios.html#farmacia" class="service-card bg-green-50 border border-green-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
+        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+          <span aria-hidden="true" class="material-symbols-outlined text-green-700 text-2xl">medication</span>
+        </div>
+        <span class="font-bold text-sm text-gray-800">Farmacia</span>
+        <span class="text-xs text-gray-500 leading-snug">Dispensación de medicamentos FONASA</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- CONTENIDO PRINCIPAL -->
 <main id="main-content" class="container mx-auto px-4 py-8">
   <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-7 items-start">
 
     <!-- COLUMNA PRINCIPAL -->
-    <div style="min-width:0;" class="flex flex-col gap-6">
-
-      <h2 class="font-serif text-2xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3">Últimas Noticias</h2>
-
-      <!-- Noticia hero -->
-      <div class="relative rounded-custom overflow-hidden shadow-md bg-white border border-gray-200">
-        <div class="w-full h-72 bg-gradient-to-br from-primary-dark to-primary-DEFAULT"></div>
-        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
-          <span class="inline-block px-2 py-1 bg-primary-DEFAULT text-xs font-semibold rounded-custom mb-2">Institucional</span>
-          <h3 class="font-serif text-xl font-bold mb-1 leading-snug">Inauguración de nuevo equipamiento de Imagenología 3D</h3>
-          <p class="text-sm text-gray-200 mb-3">El hospital adquiere tecnología de punta para diagnósticos más precisos y rápidos en la zona sur.</p>
-          <a href="#" class="inline-block px-4 py-2 bg-white text-primary-DEFAULT text-sm font-bold rounded-custom hover:bg-primary-pale transition-colors">Leer más</a>
-        </div>
-      </div>
+    <div style="min-width:0;" class="flex flex-col gap-5">
 
       <!-- Banner HODOM -->
-      <div class="flex items-center justify-between gap-4 bg-primary-DEFAULT text-white px-6 py-4 rounded-custom shadow flex-wrap" style="background:linear-gradient(90deg,#12465a,#1a7a9e);">
-        <div>
-          <h3 class="font-serif font-bold text-lg">Hospitalización Domiciliaria (HODOM)</h3>
-          <p class="text-sm text-white/75">Atención clínica en tu hogar &nbsp;·&nbsp; Frutillar y sectores rurales del Lago Llanquihue</p>
-        </div>
-        <a href="#" class="bg-primary-light text-primary-dark font-bold text-sm px-5 py-2 rounded-custom hover:bg-white transition-colors whitespace-nowrap">Más información</a>
-      </div>
-
-      <!-- Noticias lista -->
-      <div class="flex flex-col gap-3">
-        <div class="bg-white rounded-custom shadow-sm border border-gray-200 overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-shadow">
-          <div class="md:w-1/3 h-28 md:h-auto bg-gradient-to-br from-primary-pale to-primary-light flex-shrink-0"></div>
-          <div class="p-4 flex flex-col justify-center gap-1">
-            <span class="text-[10px] font-bold uppercase tracking-wide text-primary-light bg-primary-bg px-2 py-0.5 rounded w-fit">Comunidad</span>
-            <h4 class="font-serif font-bold text-primary-DEFAULT text-sm leading-snug">Operativo de salud comunitaria en sector rural beneficia a 80 vecinos</h4>
-            <p class="text-xs text-gray-400">19 de mayo de 2026</p>
-            <a href="#" class="text-xs font-bold text-gray-500 hover:text-primary-DEFAULT transition-colors">Leer más »</a>
+      <div class="rounded-custom overflow-hidden shadow-md">
+        <div class="flex items-center gap-4 px-6 py-4 text-white flex-wrap" style="background: linear-gradient(100deg, #0d4f66, #1a7a9e);">
+          <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
+            <span aria-hidden="true" class="material-symbols-outlined text-2xl text-white">home_health</span>
           </div>
-        </div>
-        <div class="bg-white rounded-custom shadow-sm border border-gray-200 overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-shadow">
-          <div class="md:w-1/3 h-28 md:h-auto bg-gradient-to-br from-primary-pale to-primary-light flex-shrink-0"></div>
-          <div class="p-4 flex flex-col justify-center gap-1">
-            <span class="text-[10px] font-bold uppercase tracking-wide text-primary-light bg-primary-bg px-2 py-0.5 rounded w-fit">Farmacia</span>
-            <h4 class="font-serif font-bold text-primary-DEFAULT text-sm leading-snug">Farmacia de Turno: horarios y coberturas vigentes para junio 2026</h4>
-            <p class="text-xs text-gray-400">15 de mayo de 2026</p>
-            <a href="#" class="text-xs font-bold text-gray-500 hover:text-primary-DEFAULT transition-colors">Leer más »</a>
+          <div class="flex-1">
+            <h3 class="font-serif font-bold text-lg leading-tight">Hospitalización Domiciliaria <span class="font-normal text-white/75 text-base">(HODOM)</span></h3>
+            <p class="text-sm text-white/70 mt-0.5">Atención clínica en tu hogar · Frutillar y sectores rurales del Lago Llanquihue</p>
           </div>
-        </div>
-        <div class="bg-white rounded-custom shadow-sm border border-gray-200 overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-shadow">
-          <div class="md:w-1/3 h-28 md:h-auto bg-gradient-to-br from-primary-pale to-primary-light flex-shrink-0"></div>
-          <div class="p-4 flex flex-col justify-center gap-1">
-            <span class="text-[10px] font-bold uppercase tracking-wide text-primary-light bg-primary-bg px-2 py-0.5 rounded w-fit">Gestión</span>
-            <h4 class="font-serif font-bold text-primary-DEFAULT text-sm leading-snug">Acta Equipo Gestor 19.05.2026 — resumen ejecutivo disponible en intranet</h4>
-            <p class="text-xs text-gray-400">12 de mayo de 2026</p>
-            <a href="#" class="text-xs font-bold text-gray-500 hover:text-primary-DEFAULT transition-colors">Leer más »</a>
-          </div>
-        </div>
-        <div class="bg-white rounded-custom shadow-sm border border-gray-200 overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-shadow">
-          <div class="md:w-1/3 h-28 md:h-auto bg-gradient-to-br from-primary-pale to-primary-light flex-shrink-0"></div>
-          <div class="p-4 flex flex-col justify-center gap-1">
-            <span class="text-[10px] font-bold uppercase tracking-wide text-primary-light bg-primary-bg px-2 py-0.5 rounded w-fit">Acreditación</span>
-            <h4 class="font-serif font-bold text-primary-DEFAULT text-sm leading-snug">Hospital de Frutillar actualiza programa de seguridad del paciente 2026</h4>
-            <p class="text-xs text-gray-400">5 de mayo de 2026</p>
-            <a href="#" class="text-xs font-bold text-gray-500 hover:text-primary-DEFAULT transition-colors">Leer más »</a>
-          </div>
+          <a href="servicios.html#hospitalizacion-domiciliaria" class="bg-white text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom hover:bg-primary-pale transition-colors whitespace-nowrap flex-shrink-0">Más información</a>
         </div>
       </div>
 
-      <!-- Paginación -->
-      <div class="flex justify-center items-center gap-2 text-xs font-semibold text-gray-500">
-        <span>« Anterior</span>
-        <span class="text-primary-DEFAULT font-bold">1</span>
-        <a href="#" class="hover:text-primary-DEFAULT">2</a>
-        <a href="#" class="hover:text-primary-DEFAULT">3</a>
-        <span>...</span>
-        <a href="#" class="hover:text-primary-DEFAULT">42</a>
-        <span>Siguiente »</span>
+      <!-- Noticias -->
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <h2 class="font-serif text-2xl font-bold text-primary-DEFAULT border-l-4 border-primary-light pl-3">Últimas Noticias</h2>
+          <div class="h-px bg-gray-200 flex-1"></div>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <!-- Noticia destacada -->
+          <div class="news-card bg-white rounded-custom shadow-sm overflow-hidden">
+            <div class="p-5 flex gap-4">
+              <div class="w-14 h-14 rounded-custom bg-primary-bg flex items-center justify-center flex-shrink-0">
+                <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-3xl">radiology</span>
+              </div>
+              <div class="flex flex-col justify-center gap-1.5">
+                <span class="inline-block px-2 py-0.5 bg-primary-DEFAULT text-white text-[10px] font-bold uppercase tracking-wide rounded w-fit">Institucional</span>
+                <h3 class="font-serif text-base md:text-lg font-bold text-gray-900 leading-snug">Inauguración de nuevo equipamiento de Imagenología 3D</h3>
+                <p class="text-sm text-gray-500 leading-snug">El hospital adquiere tecnología de punta para diagnósticos más precisos y rápidos en la zona sur.</p>
+                <div class="flex items-center gap-3 mt-1">
+                  <span class="text-xs text-gray-400">26 de junio de 2026</span>
+                  <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Noticia 2 -->
+          <div class="news-card bg-white rounded-custom shadow-sm overflow-hidden">
+            <div class="p-4 flex gap-4">
+              <div class="w-11 h-11 rounded-custom bg-blue-50 flex items-center justify-center flex-shrink-0">
+                <span aria-hidden="true" class="material-symbols-outlined text-blue-600 text-2xl">group</span>
+              </div>
+              <div class="flex flex-col justify-center gap-1">
+                <span class="inline-block px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wide rounded w-fit">Comunidad</span>
+                <h4 class="font-serif font-bold text-gray-800 text-sm leading-snug">Operativo de salud comunitaria en sector rural beneficia a 80 vecinos</h4>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-gray-400">19 de mayo de 2026</span>
+                  <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Noticia 3 -->
+          <div class="news-card bg-white rounded-custom shadow-sm overflow-hidden">
+            <div class="p-4 flex gap-4">
+              <div class="w-11 h-11 rounded-custom bg-green-50 flex items-center justify-center flex-shrink-0">
+                <span aria-hidden="true" class="material-symbols-outlined text-green-600 text-2xl">medication</span>
+              </div>
+              <div class="flex flex-col justify-center gap-1">
+                <span class="inline-block px-2 py-0.5 bg-green-50 text-green-700 text-[10px] font-bold uppercase tracking-wide rounded w-fit">Farmacia</span>
+                <h4 class="font-serif font-bold text-gray-800 text-sm leading-snug">Farmacia de Turno: horarios y coberturas vigentes para junio 2026</h4>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-gray-400">15 de mayo de 2026</span>
+                  <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Noticia 4 -->
+          <div class="news-card bg-white rounded-custom shadow-sm overflow-hidden">
+            <div class="p-4 flex gap-4">
+              <div class="w-11 h-11 rounded-custom bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <span aria-hidden="true" class="material-symbols-outlined text-gray-500 text-2xl">article</span>
+              </div>
+              <div class="flex flex-col justify-center gap-1">
+                <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase tracking-wide rounded w-fit">Gestión</span>
+                <h4 class="font-serif font-bold text-gray-800 text-sm leading-snug">Acta Equipo Gestor 19.05.2026 — resumen ejecutivo disponible en intranet</h4>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-gray-400">12 de mayo de 2026</span>
+                  <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Noticia 5 -->
+          <div class="news-card bg-white rounded-custom shadow-sm overflow-hidden">
+            <div class="p-4 flex gap-4">
+              <div class="w-11 h-11 rounded-custom bg-yellow-50 flex items-center justify-center flex-shrink-0">
+                <span aria-hidden="true" class="material-symbols-outlined text-yellow-600 text-2xl">verified_user</span>
+              </div>
+              <div class="flex flex-col justify-center gap-1">
+                <span class="inline-block px-2 py-0.5 bg-yellow-50 text-yellow-700 text-[10px] font-bold uppercase tracking-wide rounded w-fit">Acreditación</span>
+                <h4 class="font-serif font-bold text-gray-800 text-sm leading-snug">Hospital de Frutillar actualiza programa de seguridad del paciente 2026</h4>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-gray-400">5 de mayo de 2026</span>
+                  <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paginación -->
+        <div class="flex justify-center items-center gap-2 text-xs font-semibold text-gray-400 mt-5">
+          <span>« Anterior</span>
+          <span class="w-7 h-7 flex items-center justify-center bg-primary-DEFAULT text-white rounded font-bold">1</span>
+          <a href="#" class="w-7 h-7 flex items-center justify-center hover:bg-gray-200 rounded transition-colors">2</a>
+          <a href="#" class="w-7 h-7 flex items-center justify-center hover:bg-gray-200 rounded transition-colors">3</a>
+          <span>...</span>
+          <a href="#" class="w-7 h-7 flex items-center justify-center hover:bg-gray-200 rounded transition-colors">42</a>
+          <span>Siguiente »</span>
+        </div>
+        <a href="#" class="mt-3 flex items-center justify-center gap-2 w-full py-2.5 bg-white border border-gray-200 rounded-custom text-primary-DEFAULT text-sm font-bold hover:bg-primary-bg transition-colors shadow-sm">
+          <span aria-hidden="true" class="material-symbols-outlined text-base">add</span>
+          Ver más noticias
+        </a>
       </div>
-      <a href="#" class="block w-full py-2.5 bg-white border border-gray-300 rounded-custom text-center text-primary-DEFAULT text-sm font-bold hover:bg-primary-bg transition-colors">+ Ver más Noticias</a>
     </div>
 
     <!-- SIDEBAR -->
@@ -346,112 +562,133 @@
 
       <!-- Buscador -->
       <div>
-        <h3 class="font-bold text-gray-700 mb-2 text-sm uppercase tracking-wide border-b border-gray-300 pb-2">Buscar en el sitio</h3>
-        <div class="flex">
-          <input type="text" placeholder="Buscar..." class="flex-1 border border-gray-300 rounded-l-custom px-3 py-2 text-sm outline-none focus:border-primary-light">
-          <button class="bg-primary-DEFAULT text-white px-3 py-2 rounded-r-custom hover:bg-primary-dark transition-colors">
+        <h3 class="font-bold text-gray-600 mb-2 text-xs uppercase tracking-widest border-b border-gray-200 pb-2">Buscar en el sitio</h3>
+        <div class="flex shadow-sm">
+          <input type="text" placeholder="Buscar..." class="flex-1 border border-gray-300 rounded-l-custom px-3 py-2 text-sm outline-none focus:border-primary-DEFAULT">
+          <button class="bg-primary-DEFAULT text-white px-3 py-2 rounded-r-custom hover:bg-primary-dark transition-colors" aria-label="Buscar">
             <span aria-hidden="true" class="material-symbols-outlined text-lg">search</span>
           </button>
         </div>
       </div>
 
-      <!-- Accesos rápidos con barra lateral -->
+      <!-- Accesos rápidos -->
       <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
-        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Accesos Rápidos</div>
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5 flex items-center gap-2">
+          <span aria-hidden="true" class="material-symbols-outlined text-base text-primary-light">bolt</span>
+          Accesos Rápidos
+        </div>
         <div class="flex flex-col">
-          <a href="servicios.html#urgencia" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100 cursor-pointer">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">emergency</span>
+          <a href="servicios.html#urgencia" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <div class="w-9 h-9 bg-red-50 rounded-full flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-red-500 text-lg">emergency</span>
+            </div>
             <div><strong class="text-sm text-primary-DEFAULT block">Urgencias</strong><span class="text-xs text-gray-500">Horarios y categorización</span></div>
           </a>
-          <a href="horarios.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100 cursor-pointer">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">schedule</span>
+          <a href="horarios.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <div class="w-9 h-9 bg-primary-bg rounded-full flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-lg">schedule</span>
+            </div>
             <div><strong class="text-sm text-primary-DEFAULT block">Horarios de Atención</strong><span class="text-xs text-gray-500">Consultas y especialidades</span></div>
           </a>
-          <a href="servicios.html#laboratorio" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100 cursor-pointer">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">biotech</span>
+          <a href="servicios.html#laboratorio" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <div class="w-9 h-9 bg-amber-50 rounded-full flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-amber-600 text-lg">biotech</span>
+            </div>
             <div><strong class="text-sm text-primary-DEFAULT block">Laboratorio</strong><span class="text-xs text-gray-500">Resultados en línea</span></div>
           </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100 cursor-pointer">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">call</span>
+          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <div class="w-9 h-9 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-green-600 text-lg">call</span>
+            </div>
             <div><strong class="text-sm text-primary-DEFAULT block">Teléfonos del Hospital</strong><span class="text-xs text-gray-500">Directorio institucional</span></div>
           </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100 cursor-pointer">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">vaccines</span>
+          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <div class="w-9 h-9 bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-blue-500 text-lg">vaccines</span>
+            </div>
             <div><strong class="text-sm text-primary-DEFAULT block">Vacunatorio</strong><span class="text-xs text-gray-500">Calendario y puntos</span></div>
           </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 cursor-pointer">
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">description</span>
+          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3">
+            <div class="w-9 h-9 bg-purple-50 rounded-full flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-purple-600 text-lg">description</span>
+            </div>
             <div><strong class="text-sm text-primary-DEFAULT block">Informes Médicos</strong><span class="text-xs text-gray-500">Horarios de entrega</span></div>
           </a>
         </div>
       </div>
 
-      <!-- Banners institucionales estilo Stitch/Ancud -->
-      <div class="flex flex-col gap-2.5">
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Hospital Amigo</span>
+      <!-- Banners institucionales -->
+      <div class="flex flex-col gap-2">
+        <a href="#" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl flex-shrink-0">favorite</span>
+          <span class="text-primary-dark text-sm font-bold">Hospital Amigo</span>
         </a>
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Categorización Urgencias</span>
+        <a href="#" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-red-500 text-xl flex-shrink-0">emergency</span>
+          <span class="text-primary-dark text-sm font-bold">Categorización Urgencias</span>
         </a>
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Oficina de Información y Reclamos</span>
+        <a href="#" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-amber-600 text-xl flex-shrink-0">campaign</span>
+          <span class="text-primary-dark text-sm font-bold">Oficina de Información y Reclamos</span>
         </a>
-        <a href="quienes-somos.html#plan-estrategico" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight">Plan Estratégico</span>
+        <a href="quienes-somos.html#plan-estrategico" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-indigo-600 text-xl flex-shrink-0">flag</span>
+          <span class="text-primary-dark text-sm font-bold">Plan Estratégico</span>
         </a>
-        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Visita de Hospitalizados</span>
+        <a href="#" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-teal-600 text-xl flex-shrink-0">hotel</span>
+          <span class="text-primary-dark text-sm font-bold">Visita de Hospitalizados</span>
         </a>
-        <a href="https://www.ssreloncavi.cl" target="_blank" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
-          <span class="text-primary-DEFAULT text-sm font-extrabold uppercase tracking-tight leading-tight">Servicio de Salud del Reloncaví</span>
+        <a href="https://www.ssreloncavi.cl" target="_blank" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl flex-shrink-0">account_balance</span>
+          <span class="text-primary-dark text-sm font-bold leading-tight">Servicio de Salud del Reloncaví</span>
         </a>
         <!-- Salud Responde -->
-        <a href="tel:600-360-7777" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
-          <div class="bg-primary-DEFAULT text-white p-2 rounded-full flex-shrink-0">
+        <a href="tel:6003607777" class="banner-side bg-primary-DEFAULT text-white rounded-custom px-4 py-3 shadow-md hover:bg-primary-dark transition-colors flex items-center gap-3 min-h-[56px]">
+          <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
             <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
           </div>
           <div>
-            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Salud Responde</span>
-            <span class="text-primary-DEFAULT text-xl font-black leading-none">600 360 7777</span>
+            <span class="text-[10px] font-bold text-white/60 uppercase tracking-widest block">Salud Responde</span>
+            <span class="text-xl font-black leading-none">600 360 7777</span>
           </div>
         </a>
       </div>
 
       <!-- Campañas -->
       <div>
-        <h3 class="font-bold text-gray-700 mb-3 text-sm uppercase tracking-wide border-b border-gray-300 pb-2">Campañas y Salud</h3>
-        <div class="grid grid-cols-2 gap-2.5">
-          <a href="#" class="bg-orange-50 p-3 rounded-custom border border-orange-200 text-center hover:shadow-md transition-shadow cursor-pointer">
-            <span aria-hidden="true" class="material-symbols-outlined text-orange-500 block mb-1">light_mode</span>
-            <span class="text-xs font-bold text-orange-700 uppercase">Alerta de Calor</span>
+        <h3 class="font-bold text-gray-600 mb-3 text-xs uppercase tracking-widest border-b border-gray-200 pb-2">Campañas y Salud</h3>
+        <div class="grid grid-cols-2 gap-2">
+          <a href="#" class="bg-orange-50 p-3 rounded-custom border border-orange-100 text-center hover:shadow-md transition-shadow">
+            <span aria-hidden="true" class="material-symbols-outlined text-orange-500 block mb-1 text-2xl">light_mode</span>
+            <span class="text-xs font-bold text-orange-700">Alerta de Calor</span>
           </a>
-          <a href="#" class="bg-blue-50 p-3 rounded-custom border border-blue-200 text-center hover:shadow-md transition-shadow cursor-pointer">
-            <span aria-hidden="true" class="material-symbols-outlined text-blue-500 block mb-1">ac_unit</span>
-            <span class="text-xs font-bold text-blue-700 uppercase">Campaña Invierno</span>
+          <a href="#" class="bg-blue-50 p-3 rounded-custom border border-blue-100 text-center hover:shadow-md transition-shadow">
+            <span aria-hidden="true" class="material-symbols-outlined text-blue-500 block mb-1 text-2xl">ac_unit</span>
+            <span class="text-xs font-bold text-blue-700">Campaña Invierno</span>
           </a>
-          <a href="copago-cero.html" class="bg-green-50 p-3 rounded-custom border border-green-200 text-center hover:shadow-md transition-shadow cursor-pointer">
-            <span aria-hidden="true" class="material-symbols-outlined text-green-600 block mb-1">payments</span>
-            <span class="text-xs font-bold text-green-700 uppercase">Copago Cero</span>
+          <a href="copago-cero.html" class="bg-green-50 p-3 rounded-custom border border-green-100 text-center hover:shadow-md transition-shadow">
+            <span aria-hidden="true" class="material-symbols-outlined text-green-600 block mb-1 text-2xl">payments</span>
+            <span class="text-xs font-bold text-green-700">Copago Cero</span>
           </a>
-          <a href="#" class="bg-red-50 p-3 rounded-custom border border-red-200 text-center hover:shadow-md transition-shadow cursor-pointer">
-            <span aria-hidden="true" class="material-symbols-outlined text-red-500 block mb-1">shield_with_heart</span>
-            <span class="text-xs font-bold text-red-700 uppercase">Edúcate / VIH</span>
+          <a href="#" class="bg-red-50 p-3 rounded-custom border border-red-100 text-center hover:shadow-md transition-shadow">
+            <span aria-hidden="true" class="material-symbols-outlined text-red-500 block mb-1 text-2xl">shield_with_heart</span>
+            <span class="text-xs font-bold text-red-700">Edúcate / VIH</span>
           </a>
         </div>
       </div>
 
       <!-- Síguenos -->
       <div>
-        <h3 class="font-bold text-gray-700 mb-3 text-sm uppercase tracking-wide border-b border-gray-300 pb-2">Síguenos</h3>
+        <h3 class="font-bold text-gray-600 mb-3 text-xs uppercase tracking-widest border-b border-gray-200 pb-2">Síguenos</h3>
         <div class="flex gap-3">
-          <a href="#" class="w-10 h-10 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity">
+          <a href="#" class="w-10 h-10 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm" aria-label="Facebook">
             <span aria-hidden="true" class="material-symbols-outlined text-base">facebook</span>
           </a>
-          <a href="#" class="w-10 h-10 rounded-full text-white flex items-center justify-center hover:opacity-90 transition-opacity" style="background:linear-gradient(135deg,#f09433,#e6683c,#bc1888)">
+          <a href="#" class="w-10 h-10 rounded-full text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm" style="background:linear-gradient(135deg,#f09433,#e6683c,#bc1888)" aria-label="Instagram">
             <span aria-hidden="true" class="material-symbols-outlined text-base">photo_camera</span>
           </a>
-          <a href="#" class="w-10 h-10 rounded-full bg-[#FF0000] text-white flex items-center justify-center hover:opacity-90 transition-opacity">
+          <a href="#" class="w-10 h-10 rounded-full bg-[#FF0000] text-white flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm" aria-label="YouTube">
             <span aria-hidden="true" class="material-symbols-outlined text-base">play_arrow</span>
           </a>
         </div>
@@ -462,51 +699,66 @@
 </main>
 
 <!-- LINKS DE INTERÉS -->
-<section class="container mx-auto px-4 py-10">
-  <div class="flex items-center justify-center gap-6 mb-7">
-    <div class="h-px bg-primary-light flex-1"></div>
-    <h2 class="font-bold text-primary-light text-xl uppercase tracking-widest whitespace-nowrap">Links de Interés</h2>
-    <div class="h-px bg-primary-light flex-1"></div>
-  </div>
-  <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
-    <a href="https://www.minsal.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-sm p-5 flex items-center justify-center min-h-[80px] shadow-sm hover:shadow-md transition-shadow">
-      <span class="text-xs font-bold text-gray-600 uppercase text-center leading-tight">Ministerio de Salud</span>
-    </a>
-    <a href="https://www.supersalud.gob.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-sm p-5 flex items-center justify-center min-h-[80px] shadow-sm hover:shadow-md transition-shadow">
-      <span class="text-xs font-bold text-gray-600 uppercase text-center leading-tight">Superintendencia de Salud</span>
-    </a>
-    <a href="https://www.leylobby.gob.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-sm p-5 flex items-center justify-center min-h-[80px] shadow-sm hover:shadow-md transition-shadow">
-      <span class="text-xs font-bold text-gray-600 uppercase text-center leading-tight">Plataforma Ley del Lobby</span>
-    </a>
-    <a href="https://www.portaltransparencia.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-sm p-5 flex items-center justify-center min-h-[80px] shadow-sm hover:shadow-md transition-shadow">
-      <span class="text-xs font-bold text-gray-600 uppercase text-center leading-tight">Transparencia Activa</span>
-    </a>
-    <a href="https://www.fonasa.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-sm p-5 flex items-center justify-center min-h-[80px] shadow-sm hover:shadow-md transition-shadow">
-      <span class="text-xs font-bold text-gray-600 uppercase text-center leading-tight">FONASA</span>
-    </a>
-    <a href="https://www.empleospublicos.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-sm p-5 flex items-center justify-center min-h-[80px] shadow-sm hover:shadow-md transition-shadow">
-      <span class="text-xs font-bold text-gray-600 uppercase text-center leading-tight">Empleos Públicos</span>
-    </a>
+<section class="bg-white border-t border-gray-200 py-12 mt-4">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center gap-4 mb-7">
+      <div class="h-px bg-gray-200 flex-1"></div>
+      <h2 class="font-bold text-gray-500 text-xs uppercase tracking-[0.2em] whitespace-nowrap">Links de Interés</h2>
+      <div class="h-px bg-gray-200 flex-1"></div>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
+      <a href="https://www.minsal.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex items-center gap-3 min-h-[72px] shadow-sm hover:shadow-md transition-shadow group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary-DEFAULT transition-colors text-2xl flex-shrink-0">local_hospital</span>
+        <span class="text-xs font-bold text-gray-600 group-hover:text-primary-DEFAULT transition-colors leading-tight">Ministerio de Salud</span>
+      </a>
+      <a href="https://www.supersalud.gob.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex items-center gap-3 min-h-[72px] shadow-sm hover:shadow-md transition-shadow group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary-DEFAULT transition-colors text-2xl flex-shrink-0">gavel</span>
+        <span class="text-xs font-bold text-gray-600 group-hover:text-primary-DEFAULT transition-colors leading-tight">Superintendencia de Salud</span>
+      </a>
+      <a href="https://www.leylobby.gob.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex items-center gap-3 min-h-[72px] shadow-sm hover:shadow-md transition-shadow group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary-DEFAULT transition-colors text-2xl flex-shrink-0">handshake</span>
+        <span class="text-xs font-bold text-gray-600 group-hover:text-primary-DEFAULT transition-colors leading-tight">Plataforma Ley del Lobby</span>
+      </a>
+      <a href="https://www.portaltransparencia.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex items-center gap-3 min-h-[72px] shadow-sm hover:shadow-md transition-shadow group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary-DEFAULT transition-colors text-2xl flex-shrink-0">visibility</span>
+        <span class="text-xs font-bold text-gray-600 group-hover:text-primary-DEFAULT transition-colors leading-tight">Transparencia Activa</span>
+      </a>
+      <a href="https://www.fonasa.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex items-center gap-3 min-h-[72px] shadow-sm hover:shadow-md transition-shadow group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary-DEFAULT transition-colors text-2xl flex-shrink-0">health_and_safety</span>
+        <span class="text-xs font-bold text-gray-600 group-hover:text-primary-DEFAULT transition-colors leading-tight">FONASA</span>
+      </a>
+      <a href="https://www.empleospublicos.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex items-center gap-3 min-h-[72px] shadow-sm hover:shadow-md transition-shadow group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary-DEFAULT transition-colors text-2xl flex-shrink-0">work</span>
+        <span class="text-xs font-bold text-gray-600 group-hover:text-primary-DEFAULT transition-colors leading-tight">Empleos Públicos</span>
+      </a>
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="bg-primary-dark text-gray-300 py-10 border-t-4 border-primary-light">
+<footer class="text-gray-300 py-10" style="background: linear-gradient(135deg, #0a2e3e 0%, #12465a 100%);">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
       <div class="md:col-span-2">
-        <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
-          <span aria-hidden="true" class="material-symbols-outlined">local_hospital</span> Hospital de Frutillar
-        </h4>
-        <p class="text-sm leading-relaxed mb-3">Cuidado de excelencia en el corazón de la cuenca del Lago Llanquihue. Comprometidos con la salud y bienestar de nuestra comunidad.</p>
-        <div class="flex items-start gap-2 text-sm">
-          <span aria-hidden="true" class="material-symbols-outlined text-gray-400 text-base mt-0.5">location_on</span>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-full border-2 border-red-400 bg-primary-dark flex items-center justify-center flex-shrink-0">
+            <span aria-hidden="true" class="material-symbols-outlined text-lg text-white">local_hospital</span>
+          </div>
+          <h4 class="text-white font-bold text-base leading-tight">Hospital de Frutillar<br><span class="text-primary-light font-normal text-sm">Servicio de Salud Reloncaví</span></h4>
+        </div>
+        <p class="text-sm leading-relaxed mb-4 text-gray-400">Cuidado de excelencia en el corazón de la cuenca del Lago Llanquihue. Comprometidos con la salud y bienestar de nuestra comunidad.</p>
+        <div class="flex items-start gap-2 text-sm text-gray-400">
+          <span aria-hidden="true" class="material-symbols-outlined text-gray-500 text-base mt-0.5">location_on</span>
           <span>Philippi 1000, Frutillar, Región de Los Lagos</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-gray-400 mt-1.5">
+          <span aria-hidden="true" class="material-symbols-outlined text-gray-500 text-base">call</span>
+          <a href="tel:6003607777" class="hover:text-white transition-colors">600 360 7777 — Salud Responde</a>
         </div>
       </div>
       <div>
-        <h4 class="text-white font-bold text-sm mb-3 uppercase tracking-wide">Información</h4>
-        <ul class="space-y-1.5 text-sm">
+        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wide">Información</h4>
+        <ul class="space-y-2 text-sm">
           <li><a href="carta-derechos.html" class="hover:text-white transition-colors">Carta de Derechos y Deberes</a></li>
           <li><a href="transparencia.html#activa" class="hover:text-white transition-colors">Transparencia Activa</a></li>
           <li><a href="transparencia.html#ley-lobby" class="hover:text-white transition-colors">Ley del Lobby</a></li>
@@ -515,18 +767,23 @@
         </ul>
       </div>
       <div>
-        <h4 class="text-white font-bold text-sm mb-3 uppercase tracking-wide">Institucional</h4>
-        <ul class="space-y-1.5 text-sm">
+        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wide">Institucional</h4>
+        <ul class="space-y-2 text-sm">
           <li><a href="https://www.ssreloncavi.cl" target="_blank" class="hover:text-white transition-colors">Servicio de Salud Reloncaví</a></li>
           <li><a href="https://www.minsal.cl" target="_blank" class="hover:text-white transition-colors">Ministerio de Salud</a></li>
           <li><a href="https://www.fonasa.cl" target="_blank" class="hover:text-white transition-colors">FONASA</a></li>
           <li><a href="https://www.supersalud.gob.cl" target="_blank" class="hover:text-white transition-colors">Superintendencia de Salud</a></li>
-          <li><a href="tel:600-360-7777" class="hover:text-white transition-colors">600 360 7777 — Salud Responde</a></li>
+          <li><a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="hover:text-white transition-colors">Portal Funcionarios</a></li>
         </ul>
       </div>
     </div>
-    <div class="border-t border-white/10 pt-6 text-xs text-center text-gray-500">
-      © 2026 Hospital de Frutillar &nbsp;·&nbsp; Servicio de Salud Reloncaví &nbsp;·&nbsp; Gobierno de Chile
+    <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-gray-500">
+      <span>© 2026 Hospital de Frutillar &nbsp;·&nbsp; Servicio de Salud Reloncaví &nbsp;·&nbsp; Gobierno de Chile</span>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-gray-300 transition-colors">Política de Privacidad</a>
+        <a href="#" class="hover:text-gray-300 transition-colors">Accesibilidad</a>
+        <a href="404.html" class="hover:text-gray-300 transition-colors">Mapa del Sitio</a>
+      </div>
     </div>
   </div>
 </footer>
