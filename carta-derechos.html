@@ -25,11 +25,11 @@
         },
         colors: {
           primary: {
-            DEFAULT: '#1a5f7a',
-            light:   '#82c8e5',
-            pale:    '#c8eaf5',
-            bg:      '#eaf6fc',
-            dark:    '#12465a',
+            DEFAULT: '#207daf',
+            light:   '#9bc8da',
+            pale:    '#d1e8f0',
+            bg:      '#eef6fb',
+            dark:    '#1a6595',
           },
         },
         borderRadius: { custom: '6px' }
@@ -39,17 +39,19 @@
 </script>
 <style>
   .banner-top { position: relative; }
-  .banner-top::before { content:''; position:absolute; top:0; left:0; width:55%; height:3px; background:#1a5f7a; }
+  .banner-top::before { content:''; position:absolute; top:0; left:0; width:55%; height:3px; background:#207daf; }
   .banner-top::after  { content:''; position:absolute; top:0; left:55%; width:45%; height:3px; background:#c0392b; }
-  .acceso-item { border-left: 4px solid #82c8e5; transition: border-color .15s, background .15s; }
-  .acceso-item:hover { border-left-color: #1a5f7a; background: #eaf6fc; }
+  .acceso-item { border-left: 4px solid #9bc8da; transition: border-color .15s, background .15s; }
+  .acceso-item:hover { border-left-color: #207daf; background: #eef6fb; }
 </style>
 </head>
-<body class="font-sans antialiased bg-gray-100 text-gray-800">
+<body class="font-sans antialiased bg-zinc-100 text-gray-800">
 <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-primary-DEFAULT focus:px-4 focus:py-2 focus:rounded-custom focus:shadow-lg focus:outline-none">Saltar al contenido principal</a>
 
+<!-- ACCENT BAR --><div class="h-[4px] w-full" style="background: linear-gradient(90deg, #207daf 0%, #207daf 60%, #E14D36 100%);"></div>
+
 <!-- TOPBAR -->
-<div class="bg-primary-dark text-white text-xs py-1.5 border-b border-primary-light/30">
+<div class="bg-[#27272a] text-white text-xs py-1.5 border-b border-white/10">
   <div class="container mx-auto px-4 flex justify-between items-center flex-wrap gap-2">
     <span class="text-white/70">Philippi 1000, Frutillar &nbsp;·&nbsp; Región de Los Lagos</span>
     <div class="flex gap-5 text-white/70">
@@ -61,7 +63,7 @@
 </div>
 
 <!-- HEADER -->
-<header class="text-white w-full shadow-md" style="background: linear-gradient(135deg,#12465a 0%,#1a5f7a 55%,#4a9dbf 100%);">
+<header class="text-white w-full shadow-md" style="background: linear-gradient(135deg,#1a6595 0%,#207daf 55%,#5aaad8 100%);">
   <div class="container mx-auto px-4 py-5">
     <div class="flex flex-col md:flex-row items-center justify-between gap-5">
       <div class="flex items-center gap-5">
@@ -101,14 +103,14 @@
 </header>
 
 <!-- NAVEGACIÓN -->
-<nav class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm" role="navigation" aria-label="Menú principal">
+<nav class="bg-[#27272a] sticky top-0 z-40 shadow-lg" role="navigation" aria-label="Menú principal">
   <div class="container mx-auto px-4">
-    <ul class="hidden md:flex flex-wrap items-center text-sm font-semibold text-gray-600">
-      <li class="border-r border-gray-200">
-        <a href="index.html" class="block py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">Inicio</a>
+    <ul class="hidden md:flex flex-wrap items-center text-sm font-semibold text-white/80">
+      <li class="border-r border-white/10">
+        <a href="index.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Inicio</a>
       </li>
-      <li class="border-r border-gray-200 relative group" role="none">
-        <a href="quienes-somos.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
+      <li class="border-r border-white/10 relative group" role="none">
+        <a href="quienes-somos.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">
           Quiénes Somos <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[200px]">
@@ -118,8 +120,8 @@
           <a href="quienes-somos.html#plan-estrategico" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Plan Estratégico</a>
         </div>
       </li>
-      <li class="border-r border-gray-200 relative group" role="none">
-        <a href="servicios.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
+      <li class="border-r border-white/10 relative group" role="none">
+        <a href="servicios.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">
           Servicios <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px]">
@@ -133,8 +135,8 @@
           <a href="servicios.html#farmacia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Farmacia</a>
         </div>
       </li>
-      <li class="border-r border-gray-200 relative group" role="none">
-        <a href="horarios.html" role="menuitem" class="flex items-center py-4 px-5 text-primary-DEFAULT font-bold border-b-2 border-primary-light">
+      <li class="border-r border-white/10 relative group" role="none">
+        <a href="horarios.html" role="menuitem" class="flex items-center py-4 px-5 text-white font-bold border-b-2 border-primary-light bg-white/15">
           Información al Usuario <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px]">
@@ -145,8 +147,8 @@
           <a href="ley-ricarte-soto.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Ley Ricarte Soto</a>
         </div>
       </li>
-      <li class="border-r border-gray-200 relative group" role="none">
-        <a href="transparencia.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
+      <li class="border-r border-white/10 relative group" role="none">
+        <a href="transparencia.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">
           Transparencia <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[210px]">
@@ -156,8 +158,8 @@
           <a href="transparencia.html#cuentas-publicas" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Cuentas Públicas</a>
         </div>
       </li>
-      <li class="border-r border-gray-200">
-        <a href="trabaja-con-nosotros.html" class="block py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">Trabaja con Nosotros</a>
+      <li class="border-r border-white/10">
+        <a href="trabaja-con-nosotros.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Trabaja con Nosotros</a>
       </li>
       <li>
         <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-1 py-4 px-5 text-primary-light font-bold hover:bg-primary-bg transition-colors">
@@ -167,74 +169,74 @@
       </li>
     <!-- Mobile header bar -->
     <div class="flex md:hidden items-center justify-between py-3">
-      <span class="text-sm font-bold text-primary-DEFAULT">Hospital de Frutillar</span>
-      <button id="menu-toggle" class="flex items-center gap-1 text-primary-DEFAULT" aria-label="Abrir menú">
+      <span class="text-sm font-bold text-white">Hospital de Frutillar</span>
+      <button id="menu-toggle" class="flex items-center gap-1 text-white" aria-label="Abrir menú">
         <span id="menu-icon" aria-hidden="true" class="material-symbols-outlined text-2xl">menu</span>
         <span class="text-sm font-semibold">Menú</span>
       </button>
     </div>
   </div>
   <!-- Mobile menu dropdown -->
-  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white shadow-lg max-h-[80vh] overflow-y-auto">
-    <ul class="divide-y divide-gray-100 text-sm font-semibold text-gray-700">
+  <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-[#1e1e22] shadow-lg max-h-[80vh] overflow-y-auto">
+    <ul class="divide-y divide-white/10 text-sm font-semibold text-white/85">
       <li>
-        <a href="index.html" id="mnav-inicio" class="flex items-center px-4 py-3.5 hover:bg-gray-50 transition-colors">Inicio</a>
+        <a href="index.html" id="mnav-inicio" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Inicio</a>
       </li>
       <li>
-        <button id="mnav-quienes" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-quienes">
+        <button id="mnav-quienes" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-quienes">
           <span>Quiénes Somos</span>
-          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-white/40">expand_more</span>
         </button>
-        <div id="msub-quienes" class="hidden bg-primary-bg/40 border-t border-gray-100">
-          <a href="quienes-somos.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Misión y Visión</a>
-          <a href="quienes-somos.html#historia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Historia del Hospital</a>
-          <a href="quienes-somos.html#autoridades" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Autoridades</a>
-          <a href="quienes-somos.html#plan-estrategico" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-DEFAULT font-normal">Plan Estratégico</a>
+        <div id="msub-quienes" class="hidden bg-white/5 border-t border-white/10">
+          <a href="quienes-somos.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Misión y Visión</a>
+          <a href="quienes-somos.html#historia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Historia del Hospital</a>
+          <a href="quienes-somos.html#autoridades" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Autoridades</a>
+          <a href="quienes-somos.html#plan-estrategico" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Plan Estratégico</a>
         </div>
       </li>
       <li>
-        <button id="mnav-servicios" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-servicios">
+        <button id="mnav-servicios" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-servicios">
           <span>Servicios</span>
-          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-white/40">expand_more</span>
         </button>
-        <div id="msub-servicios" class="hidden bg-primary-bg/40 border-t border-gray-100">
-          <a href="servicios.html#urgencia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Urgencia</a>
-          <a href="servicios.html#hospitalizacion" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Hospitalización</a>
-          <a href="servicios.html#hospitalizacion-domiciliaria" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Hospitalización Domiciliaria</a>
-          <a href="servicios.html#pabellon" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Pabellón Quirúrgico</a>
-          <a href="servicios.html#maternidad" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Maternidad</a>
-          <a href="servicios.html#laboratorio" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Laboratorio</a>
-          <a href="servicios.html#imagenologia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Imagenología</a>
-          <a href="servicios.html#farmacia" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-DEFAULT font-normal">Farmacia</a>
+        <div id="msub-servicios" class="hidden bg-white/5 border-t border-white/10">
+          <a href="servicios.html#urgencia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Urgencia</a>
+          <a href="servicios.html#hospitalizacion" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Hospitalización</a>
+          <a href="servicios.html#hospitalizacion-domiciliaria" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Hospitalización Domiciliaria</a>
+          <a href="servicios.html#pabellon" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Pabellón Quirúrgico</a>
+          <a href="servicios.html#maternidad" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Maternidad</a>
+          <a href="servicios.html#laboratorio" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Laboratorio</a>
+          <a href="servicios.html#imagenologia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Imagenología</a>
+          <a href="servicios.html#farmacia" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Farmacia</a>
         </div>
       </li>
       <li>
-        <button id="mnav-info" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-info">
+        <button id="mnav-info" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-info">
           <span>Información al Usuario</span>
-          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-white/40">expand_more</span>
         </button>
-        <div id="msub-info" class="hidden bg-primary-bg/40 border-t border-gray-100">
-          <a href="horarios.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Horarios de Atención</a>
-          <a href="carta-derechos.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Carta de Derechos y Deberes</a>
-          <a href="aranceles.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Aranceles</a>
-          <a href="copago-cero.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Copago Cero</a>
-          <a href="ley-ricarte-soto.html" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-DEFAULT font-normal">Ley Ricarte Soto</a>
+        <div id="msub-info" class="hidden bg-white/5 border-t border-white/10">
+          <a href="horarios.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Horarios de Atención</a>
+          <a href="carta-derechos.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Carta de Derechos y Deberes</a>
+          <a href="aranceles.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Aranceles</a>
+          <a href="copago-cero.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Copago Cero</a>
+          <a href="ley-ricarte-soto.html" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Ley Ricarte Soto</a>
         </div>
       </li>
       <li>
-        <button id="mnav-transp" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-transp">
+        <button id="mnav-transp" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-transp">
           <span>Transparencia</span>
-          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-white/40">expand_more</span>
         </button>
-        <div id="msub-transp" class="hidden bg-primary-bg/40 border-t border-gray-100">
-          <a href="transparencia.html#activa" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Transparencia Activa</a>
-          <a href="transparencia.html#solicitud" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Solicitud de Información</a>
-          <a href="transparencia.html#ley-lobby" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Ley del Lobby</a>
-          <a href="transparencia.html#cuentas-publicas" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-DEFAULT font-normal">Cuentas Públicas</a>
+        <div id="msub-transp" class="hidden bg-white/5 border-t border-white/10">
+          <a href="transparencia.html#activa" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Transparencia Activa</a>
+          <a href="transparencia.html#solicitud" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Solicitud de Información</a>
+          <a href="transparencia.html#ley-lobby" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Ley del Lobby</a>
+          <a href="transparencia.html#cuentas-publicas" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Cuentas Públicas</a>
         </div>
       </li>
       <li>
-        <a href="trabaja-con-nosotros.html" id="mnav-trabaja" class="flex items-center px-4 py-3.5 hover:bg-gray-50 transition-colors">Trabaja con Nosotros</a>
+        <a href="trabaja-con-nosotros.html" id="mnav-trabaja" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Trabaja con Nosotros</a>
       </li>
       <li>
         <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-light hover:bg-primary-bg font-bold">
@@ -246,7 +248,7 @@
 </nav>
 
 <!-- PAGE BANNER -->
-<section class="text-white py-8" style="background: linear-gradient(100deg, #12465a 0%, #1a5f7a 100%);">
+<section class="text-white py-8" style="background: linear-gradient(100deg, #1a6595 0%, #207daf 100%);">
   <div class="container mx-auto px-4">
     <div class="flex items-center gap-2 text-primary-light/80 text-xs mb-3 flex-wrap">
       <a href="index.html" class="hover:text-white transition-colors">Inicio</a>
@@ -399,7 +401,7 @@
             <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">schedule</span>
             <strong class="text-sm text-primary-DEFAULT">Horarios de Atención</strong>
           </a>
-          <a href="carta-derechos.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100" style="border-left-color:#1a5f7a; background:#eaf6fc;">
+          <a href="carta-derechos.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100" style="border-left-color:#207daf; background:#eef6fb;">
             <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">verified_user</span>
             <strong class="text-sm text-primary-DEFAULT">Carta de Derechos y Deberes</strong>
           </a>
@@ -433,7 +435,7 @@
 </main>
 
 <!-- FOOTER -->
-<footer class="text-gray-300 py-10 mt-10" style="background: linear-gradient(135deg, #0a2e3e 0%, #12465a 100%);">
+<footer class="text-gray-300 py-10 mt-10" style="background: linear-gradient(135deg, #27272a 0%, #3f3f46 100%);">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
       <div class="md:col-span-2">
