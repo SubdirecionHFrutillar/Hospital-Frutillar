@@ -5,6 +5,11 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Trabaja con Nosotros - Hospital de Frutillar</title>
 <meta name="description" content="Oportunidades de empleo y concursos públicos del Hospital de Frutillar.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CL">
+<meta property="og:site_name" content="Hospital de Frutillar">
+<meta property="og:title" content="Trabaja con Nosotros - Hospital de Frutillar">
+<meta property="og:description" content="Oportunidades de empleo y concursos públicos del Hospital de Frutillar.">
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
@@ -41,6 +46,7 @@
 </style>
 </head>
 <body class="font-sans antialiased bg-gray-100 text-gray-800">
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-primary-DEFAULT focus:px-4 focus:py-2 focus:rounded-custom focus:shadow-lg focus:outline-none">Saltar al contenido principal</a>
 
 <!-- TOPBAR -->
 <div class="bg-primary-dark text-white text-xs py-1.5 border-b border-primary-light/30">
@@ -61,7 +67,7 @@
       <div class="flex items-center gap-5">
         <a href="index.html">
           <div class="w-20 h-20 rounded-full border-4 border-red-500 bg-primary-dark flex flex-col items-center justify-center relative shadow-lg flex-shrink-0">
-            <span class="material-symbols-outlined text-2xl text-white">local_hospital</span>
+            <span aria-hidden="true" class="material-symbols-outlined text-2xl text-white">local_hospital</span>
             <span class="text-[9px] font-bold text-center leading-tight mt-0.5">Hospital de<br>Frutillar</span>
             <div class="absolute bottom-2 flex gap-1">
               <span class="w-1 h-1 bg-white rounded-full"></span>
@@ -82,7 +88,7 @@
       <div class="flex flex-col items-end gap-2">
         <span class="text-[10px] tracking-widest uppercase text-white/50">Gobierno de Chile</span>
         <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 bg-primary-light text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom hover:bg-white transition-colors shadow">
-          <span class="material-symbols-outlined text-base">lock</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span>
           Portal Funcionarios
         </a>
       </div>
@@ -91,15 +97,15 @@
 </header>
 
 <!-- NAVEGACIÓN -->
-<nav class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+<nav class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm" role="navigation" aria-label="Menú principal">
   <div class="container mx-auto px-4">
     <ul class="hidden md:flex flex-wrap items-center text-sm font-semibold text-gray-600">
       <li class="border-r border-gray-200">
         <a href="index.html" class="block py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">Inicio</a>
       </li>
-      <li class="border-r border-gray-200 relative group">
-        <a href="quienes-somos.html" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
-          Quiénes Somos <span class="material-symbols-outlined text-sm ml-1">expand_more</span>
+      <li class="border-r border-gray-200 relative group" role="none">
+        <a href="quienes-somos.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
+          Quiénes Somos <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[200px]">
           <a href="quienes-somos.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Misión y Visión</a>
@@ -108,9 +114,9 @@
           <a href="quienes-somos.html#plan-estrategico" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Plan Estratégico</a>
         </div>
       </li>
-      <li class="border-r border-gray-200 relative group">
-        <a href="servicios.html" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
-          Servicios <span class="material-symbols-outlined text-sm ml-1">expand_more</span>
+      <li class="border-r border-gray-200 relative group" role="none">
+        <a href="servicios.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
+          Servicios <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px]">
           <a href="servicios.html#urgencia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Urgencia</a>
@@ -123,9 +129,9 @@
           <a href="servicios.html#farmacia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Farmacia</a>
         </div>
       </li>
-      <li class="border-r border-gray-200 relative group">
-        <a href="horarios.html" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
-          Información al Usuario <span class="material-symbols-outlined text-sm ml-1">expand_more</span>
+      <li class="border-r border-gray-200 relative group" role="none">
+        <a href="horarios.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
+          Información al Usuario <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px]">
           <a href="horarios.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Horarios de Atención</a>
@@ -135,9 +141,9 @@
           <a href="ley-ricarte-soto.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT">Ley Ricarte Soto</a>
         </div>
       </li>
-      <li class="border-r border-gray-200 relative group">
-        <a href="transparencia.html" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
-          Transparencia <span class="material-symbols-outlined text-sm ml-1">expand_more</span>
+      <li class="border-r border-gray-200 relative group" role="none">
+        <a href="transparencia.html" role="menuitem" class="flex items-center py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">
+          Transparencia <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
         </a>
         <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[210px]">
           <a href="transparencia.html#activa" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary-DEFAULT border-b border-gray-100">Transparencia Activa</a>
@@ -151,7 +157,7 @@
       </li>
       <li>
         <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-1 py-4 px-5 text-primary-light font-bold hover:bg-primary-bg transition-colors">
-          <span class="material-symbols-outlined text-base">lock</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span>
           Portal Funcionarios
         </a>
       </li>
@@ -159,7 +165,7 @@
     <div class="flex md:hidden items-center justify-between py-3">
       <span class="text-sm font-bold text-primary-DEFAULT">Hospital de Frutillar</span>
       <button id="menu-toggle" class="flex items-center gap-1 text-primary-DEFAULT" aria-label="Abrir menú">
-        <span id="menu-icon" class="material-symbols-outlined text-2xl">menu</span>
+        <span id="menu-icon" aria-hidden="true" class="material-symbols-outlined text-2xl">menu</span>
         <span class="text-sm font-semibold">Menú</span>
       </button>
     </div>
@@ -173,7 +179,7 @@
       <li>
         <button id="mnav-quienes" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-quienes">
           <span>Quiénes Somos</span>
-          <span class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
         </button>
         <div id="msub-quienes" class="hidden bg-primary-bg/40 border-t border-gray-100">
           <a href="quienes-somos.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Misión y Visión</a>
@@ -185,7 +191,7 @@
       <li>
         <button id="mnav-servicios" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-servicios">
           <span>Servicios</span>
-          <span class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
         </button>
         <div id="msub-servicios" class="hidden bg-primary-bg/40 border-t border-gray-100">
           <a href="servicios.html#urgencia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Urgencia</a>
@@ -201,7 +207,7 @@
       <li>
         <button id="mnav-info" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-info">
           <span>Información al Usuario</span>
-          <span class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
         </button>
         <div id="msub-info" class="hidden bg-primary-bg/40 border-t border-gray-100">
           <a href="horarios.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Horarios de Atención</a>
@@ -214,7 +220,7 @@
       <li>
         <button id="mnav-transp" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-transp">
           <span>Transparencia</span>
-          <span class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
         </button>
         <div id="msub-transp" class="hidden bg-primary-bg/40 border-t border-gray-100">
           <a href="transparencia.html#activa" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Transparencia Activa</a>
@@ -228,7 +234,7 @@
       </li>
       <li>
         <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-light hover:bg-primary-bg font-bold">
-          <span class="material-symbols-outlined text-base">lock</span> Portal Funcionarios
+          <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span> Portal Funcionarios
         </a>
       </li>
     </ul>
@@ -236,12 +242,12 @@
 </nav>
 
 <!-- CONTENIDO -->
-<main class="container mx-auto px-4 py-8">
+<main id="main-content" class="container mx-auto px-4 py-8">
 
   <!-- Breadcrumb -->
   <div class="flex items-center gap-2 text-xs text-gray-400 mb-6">
     <a href="index.html" class="hover:text-primary-DEFAULT transition-colors">Inicio</a>
-    <span class="material-symbols-outlined text-sm">chevron_right</span>
+    <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
     <span class="text-primary-DEFAULT font-semibold">Trabaja con Nosotros</span>
   </div>
 
@@ -257,12 +263,12 @@
 
       <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
         <div class="bg-primary-DEFAULT px-5 py-3 flex items-center gap-2">
-          <span class="material-symbols-outlined text-primary-light text-xl">work</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">work</span>
           <h2 class="text-white font-bold text-base tracking-wide uppercase">Oportunidades de Empleo</h2>
         </div>
         <div class="px-6 py-6 flex flex-col gap-4">
           <div class="flex items-start gap-3 bg-primary-bg border border-primary-pale rounded-custom px-4 py-4">
-            <span class="material-symbols-outlined text-primary-DEFAULT mt-0.5">info</span>
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT mt-0.5">info</span>
             <div>
               <p class="text-sm font-bold text-primary-DEFAULT mb-1">Contenido en actualización</p>
               <p class="text-sm text-gray-700">Los concursos y convocatorias vigentes serán publicados en esta sección. Consulte también el portal de empleos del Servicio Civil.</p>
@@ -272,7 +278,7 @@
             Los procesos de selección del Hospital de Frutillar se rigen por las normas del Estatuto Administrativo y las instrucciones del Servicio Civil para el sector público de salud. Los cargos vacantes son publicados en el Portal de Empleos Públicos.
           </p>
           <a href="https://www.empleospublicos.cl" target="_blank" class="inline-flex items-center gap-2 bg-primary-DEFAULT text-white text-sm font-bold px-4 py-2.5 rounded-custom hover:bg-primary-dark transition-colors w-fit">
-            <span class="material-symbols-outlined text-base">open_in_new</span>
+            <span aria-hidden="true" class="material-symbols-outlined text-base">open_in_new</span>
             Portal de Empleos Públicos
           </a>
         </div>
@@ -287,15 +293,15 @@
         <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Accesos directos</div>
         <div class="flex flex-col">
           <a href="quienes-somos.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">groups</span>
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">groups</span>
             <strong class="text-sm text-primary-DEFAULT">Quiénes Somos</strong>
           </a>
           <a href="horarios.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">schedule</span>
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">schedule</span>
             <strong class="text-sm text-primary-DEFAULT">Horarios de Atención</strong>
           </a>
           <a href="transparencia.html" class="acceso-item flex items-center gap-3 px-4 py-3">
-            <span class="material-symbols-outlined text-primary-DEFAULT text-xl">visibility</span>
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-xl">visibility</span>
             <strong class="text-sm text-primary-DEFAULT">Transparencia</strong>
           </a>
         </div>
@@ -303,7 +309,7 @@
 
       <a href="tel:600-360-7777" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
         <div class="bg-primary-DEFAULT text-white p-2 rounded-full flex-shrink-0">
-          <span class="material-symbols-outlined text-xl">call</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
         </div>
         <div>
           <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Salud Responde</span>
@@ -321,11 +327,11 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
       <div class="md:col-span-2">
         <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
-          <span class="material-symbols-outlined">local_hospital</span> Hospital de Frutillar
+          <span aria-hidden="true" class="material-symbols-outlined">local_hospital</span> Hospital de Frutillar
         </h4>
         <p class="text-sm leading-relaxed mb-3">Cuidado de excelencia en el corazón de la cuenca del Lago Llanquihue.</p>
         <div class="flex items-start gap-2 text-sm">
-          <span class="material-symbols-outlined text-gray-400 text-base mt-0.5">location_on</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-gray-400 text-base mt-0.5">location_on</span>
           <span>Philippi 1000, Frutillar, Región de Los Lagos</span>
         </div>
       </div>
