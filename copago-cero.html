@@ -93,7 +93,7 @@
 <!-- NAVEGACIÓN -->
 <nav class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
   <div class="container mx-auto px-4">
-    <ul class="flex flex-wrap items-center text-sm font-semibold text-gray-600">
+    <ul class="hidden md:flex flex-wrap items-center text-sm font-semibold text-gray-600">
       <li class="border-r border-gray-200">
         <a href="index.html" class="block py-4 px-5 hover:bg-gray-50 hover:text-primary-DEFAULT transition-colors">Inicio</a>
       </li>
@@ -155,6 +155,82 @@
           Portal Funcionarios
         </a>
       </li>
+    <!-- Mobile header bar -->
+    <div class="flex md:hidden items-center justify-between py-3">
+      <span class="text-sm font-bold text-primary-DEFAULT">Hospital de Frutillar</span>
+      <button id="menu-toggle" class="flex items-center gap-1 text-primary-DEFAULT" aria-label="Abrir menú">
+        <span id="menu-icon" class="material-symbols-outlined text-2xl">menu</span>
+        <span class="text-sm font-semibold">Menú</span>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile menu dropdown -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white shadow-lg max-h-[80vh] overflow-y-auto">
+    <ul class="divide-y divide-gray-100 text-sm font-semibold text-gray-700">
+      <li>
+        <a href="index.html" id="mnav-inicio" class="flex items-center px-4 py-3.5 hover:bg-gray-50 transition-colors">Inicio</a>
+      </li>
+      <li>
+        <button id="mnav-quienes" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-quienes">
+          <span>Quiénes Somos</span>
+          <span class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+        </button>
+        <div id="msub-quienes" class="hidden bg-primary-bg/40 border-t border-gray-100">
+          <a href="quienes-somos.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Misión y Visión</a>
+          <a href="quienes-somos.html#historia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Historia del Hospital</a>
+          <a href="quienes-somos.html#autoridades" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Autoridades</a>
+          <a href="quienes-somos.html#plan-estrategico" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-DEFAULT font-normal">Plan Estratégico</a>
+        </div>
+      </li>
+      <li>
+        <button id="mnav-servicios" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-servicios">
+          <span>Servicios</span>
+          <span class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+        </button>
+        <div id="msub-servicios" class="hidden bg-primary-bg/40 border-t border-gray-100">
+          <a href="servicios.html#urgencia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Urgencia</a>
+          <a href="servicios.html#hospitalizacion" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Hospitalización</a>
+          <a href="servicios.html#hospitalizacion-domiciliaria" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Hospitalización Domiciliaria</a>
+          <a href="servicios.html#pabellon" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Pabellón Quirúrgico</a>
+          <a href="servicios.html#maternidad" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Maternidad</a>
+          <a href="servicios.html#laboratorio" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Laboratorio</a>
+          <a href="servicios.html#imagenologia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Imagenología</a>
+          <a href="servicios.html#farmacia" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-DEFAULT font-normal">Farmacia</a>
+        </div>
+      </li>
+      <li>
+        <button id="mnav-info" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-info">
+          <span>Información al Usuario</span>
+          <span class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+        </button>
+        <div id="msub-info" class="hidden bg-primary-bg/40 border-t border-gray-100">
+          <a href="horarios.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Horarios de Atención</a>
+          <a href="carta-derechos.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Carta de Derechos y Deberes</a>
+          <a href="aranceles.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Aranceles</a>
+          <a href="copago-cero.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Copago Cero</a>
+          <a href="ley-ricarte-soto.html" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-DEFAULT font-normal">Ley Ricarte Soto</a>
+        </div>
+      </li>
+      <li>
+        <button id="mnav-transp" class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors" data-target="msub-transp">
+          <span>Transparencia</span>
+          <span class="material-symbols-outlined text-lg expand-icon text-gray-400">expand_more</span>
+        </button>
+        <div id="msub-transp" class="hidden bg-primary-bg/40 border-t border-gray-100">
+          <a href="transparencia.html#activa" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Transparencia Activa</a>
+          <a href="transparencia.html#solicitud" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Solicitud de Información</a>
+          <a href="transparencia.html#ley-lobby" class="block pl-8 pr-4 py-2.5 text-sm border-b border-gray-100 hover:text-primary-DEFAULT font-normal">Ley del Lobby</a>
+          <a href="transparencia.html#cuentas-publicas" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-DEFAULT font-normal">Cuentas Públicas</a>
+        </div>
+      </li>
+      <li>
+        <a href="trabaja-con-nosotros.html" id="mnav-trabaja" class="flex items-center px-4 py-3.5 hover:bg-gray-50 transition-colors">Trabaja con Nosotros</a>
+      </li>
+      <li>
+        <a href="https://hospitaldefrutilla.wixsite.com/salud" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-light hover:bg-primary-bg font-bold">
+          <span class="material-symbols-outlined text-base">lock</span> Portal Funcionarios
+        </a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -171,7 +247,7 @@
     <span class="text-primary-DEFAULT font-semibold">Copago Cero</span>
   </div>
 
-  <div style="display:grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: start;">
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-7 items-start">
 
     <!-- COLUMNA PRINCIPAL -->
     <div style="min-width:0;" class="flex flex-col gap-6">
@@ -299,5 +375,23 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  var t=document.getElementById('menu-toggle'),m=document.getElementById('mobile-menu'),i=document.getElementById('menu-icon');
+  if(t){t.addEventListener('click',function(){m.classList.toggle('hidden');i.textContent=m.classList.contains('hidden')?'menu':'close';});}
+  document.querySelectorAll('.mobile-submenu-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var s=document.getElementById(this.dataset.target);
+      s.classList.toggle('hidden');
+      this.querySelector('.expand-icon').textContent=s.classList.contains('hidden')?'expand_more':'expand_less';
+    });
+  });
+  var page=(window.location.pathname.split('/').pop()||'index.html');
+  var map={'index.html':'mnav-inicio','quienes-somos.html':'mnav-quienes','servicios.html':'mnav-servicios','horarios.html':'mnav-info','carta-derechos.html':'mnav-info','aranceles.html':'mnav-info','copago-cero.html':'mnav-info','ley-ricarte-soto.html':'mnav-info','transparencia.html':'mnav-transp','trabaja-con-nosotros.html':'mnav-trabaja'};
+  var aid=map[page];
+  if(aid){var ae=document.getElementById(aid);if(ae){ae.classList.add('text-primary-DEFAULT','bg-primary-bg');if(ae.classList.contains('mobile-submenu-btn')){var sub=document.getElementById(ae.dataset.target);if(sub){sub.classList.remove('hidden');var ei=ae.querySelector('.expand-icon');if(ei)ei.textContent='expand_less';}}}}
+  document.querySelectorAll('#mobile-menu a').forEach(function(l){if(l.getAttribute('href')===page)l.classList.add('text-primary-DEFAULT','font-semibold');});
+})();
+</script>
 </body>
 </html>
