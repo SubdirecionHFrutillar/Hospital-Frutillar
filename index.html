@@ -463,20 +463,33 @@
 
         <div class="flex flex-col gap-3">
           <!-- Noticia destacada -->
-          <div class="news-card bg-white rounded-custom shadow-sm overflow-hidden">
-            <div class="p-5 flex gap-4">
-              <div class="w-14 h-14 rounded-custom bg-primary-bg flex items-center justify-center flex-shrink-0">
-                <span aria-hidden="true" class="material-symbols-outlined text-primary-DEFAULT text-3xl">radiology</span>
+          <div class="news-card bg-white rounded-custom shadow-md overflow-hidden">
+            <!-- Foto / imagen de portada -->
+            <div class="relative h-52 md:h-60 overflow-hidden" style="background: linear-gradient(135deg, #1a3a4a 0%, #207daf 60%, #3a9ac2 100%);">
+              <!-- Ícono decorativo de fondo -->
+              <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                <span class="material-symbols-outlined text-white/10" style="font-size:160px; line-height:1;">radiology</span>
               </div>
-              <div class="flex flex-col justify-center gap-1.5">
-                <span class="inline-block px-2 py-0.5 bg-primary-DEFAULT text-white text-[10px] font-bold uppercase tracking-wide rounded w-fit">Institucional</span>
-                <h3 class="font-serif text-base md:text-lg font-bold text-gray-900 leading-snug">Inauguración de nuevo equipamiento de Imagenología 3D</h3>
-                <p class="text-sm text-gray-500 leading-snug">El hospital adquiere tecnología de punta para diagnósticos más precisos y rápidos en la zona sur.</p>
-                <div class="flex items-center gap-3 mt-1">
-                  <span class="text-xs text-gray-400">26 de junio de 2026</span>
-                  <a href="#" class="text-xs font-bold text-primary-DEFAULT hover:underline">Leer más →</a>
-                </div>
+              <!-- Degradado inferior para legibilidad -->
+              <div class="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-black/50 to-transparent"></div>
+              <!-- Badge de categoría -->
+              <div class="absolute top-3 left-3">
+                <span class="inline-block px-2.5 py-1 bg-primary-DEFAULT text-white text-[10px] font-bold uppercase tracking-wider rounded shadow-md">Institucional</span>
               </div>
+              <!-- Fecha sobre la foto -->
+              <div class="absolute bottom-3 left-4 flex items-center gap-1.5 text-white/80 text-xs">
+                <span aria-hidden="true" class="material-symbols-outlined text-sm">calendar_today</span>
+                26 de junio de 2026
+              </div>
+            </div>
+            <!-- Contenido -->
+            <div class="p-5">
+              <h3 class="font-serif text-xl md:text-2xl font-bold text-gray-900 leading-snug mb-2">Inauguración de nuevo equipamiento de Imagenología 3D</h3>
+              <p class="text-sm text-gray-500 leading-relaxed mb-4">El hospital adquiere tecnología de punta para diagnósticos más precisos y rápidos, beneficiando a pacientes de Frutillar, Llanquihue y sectores rurales de la cuenca del Lago Llanquihue.</p>
+              <a href="#" class="inline-flex items-center gap-2 bg-primary-DEFAULT hover:bg-primary-dark text-white text-sm font-bold px-4 py-2 rounded-custom transition-colors">
+                Leer noticia
+                <span aria-hidden="true" class="material-symbols-outlined text-base">arrow_forward</span>
+              </a>
             </div>
           </div>
 
