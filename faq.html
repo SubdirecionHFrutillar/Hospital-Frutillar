@@ -25,11 +25,11 @@
         },
         colors: {
           primary: {
-            DEFAULT: '#1a5f7a',
-            light:   '#82c8e5',
-            pale:    '#c8eaf5',
-            bg:      '#eaf6fc',
-            dark:    '#12465a',
+            DEFAULT: '#207daf',
+            light:   '#9bc8da',
+            pale:    '#d1e8f0',
+            bg:      '#eef6fb',
+            dark:    '#1a6595',
           },
         },
         borderRadius: { custom: '6px' }
@@ -39,21 +39,21 @@
 </script>
 <style>
   .banner-top { position: relative; }
-  .banner-top::before { content:''; position:absolute; top:0; left:0; width:55%; height:3px; background:#1a5f7a; }
+  .banner-top::before { content:''; position:absolute; top:0; left:0; width:55%; height:3px; background:#207daf; }
   .banner-top::after  { content:''; position:absolute; top:0; left:55%; width:45%; height:3px; background:#c0392b; }
-  .acceso-item { border-left: 4px solid #82c8e5; transition: border-color .15s, background .15s; }
-  .acceso-item:hover { border-left-color: #1a5f7a; background: #eaf6fc; }
+  .acceso-item { border-left: 4px solid #9bc8da; transition: border-color .15s, background .15s; }
+  .acceso-item:hover { border-left-color: #207daf; background: #eef6fb; }
   details summary { cursor: pointer; list-style: none; }
   details summary::-webkit-details-marker { display: none; }
   details[open] summary .expand-icon { transform: rotate(180deg); }
   .expand-icon { transition: transform .2s; }
-  details[open] { background: #eaf6fc; }
+  details[open] { background: #eef6fb; }
 </style>
 </head>
 <body class="font-sans antialiased bg-zinc-100 text-gray-800">
 <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-primary-DEFAULT focus:px-4 focus:py-2 focus:rounded-custom focus:shadow-lg focus:outline-none">Saltar al contenido principal</a>
 
-<!-- ACCENT BAR --><div class="h-[4px] w-full" style="background: linear-gradient(90deg, #1a5f7a 0%, #1a5f7a 60%, #E14D36 100%);"></div>
+<!-- ACCENT BAR --><div class="h-[4px] w-full" style="background: linear-gradient(90deg, #207daf 0%, #207daf 60%, #E14D36 100%);"></div>
 
 <!-- TOPBAR -->
 <div class="bg-[#27272a] text-white text-xs py-1.5 border-b border-white/10">
@@ -68,7 +68,7 @@
 </div>
 
 <!-- HEADER -->
-<header class="text-white w-full shadow-md" style="background: linear-gradient(135deg,#12465a 0%,#1a5f7a 55%,#4a9dbf 100%);">
+<header class="text-white w-full shadow-md" style="background: linear-gradient(135deg,#1a6595 0%,#207daf 55%,#4a9dbf 100%);">
   <div class="container mx-auto px-4 py-5">
     <div class="flex flex-col md:flex-row items-center justify-between gap-5">
       <div class="flex items-center gap-5">
@@ -259,7 +259,7 @@
 </nav>
 
 <!-- PAGE BANNER -->
-<section class="text-white py-8" style="background: linear-gradient(100deg, #12465a 0%, #1a5f7a 100%);">
+<section class="text-white py-8" style="background: linear-gradient(100deg, #1a6595 0%, #207daf 100%);">
   <div class="container mx-auto px-4">
     <div class="flex items-center gap-2 text-primary-light/80 text-xs mb-3 flex-wrap">
       <a href="index.html" class="hover:text-white transition-colors">Inicio</a>
@@ -509,7 +509,7 @@
 </main>
 
 <!-- FOOTER -->
-<footer class="text-gray-300 py-10 mt-10" style="background: linear-gradient(135deg, #0a2e3e 0%, #12465a 100%);">
+<footer class="text-gray-300 py-10 mt-10" style="background: linear-gradient(135deg, #0a2e3e 0%, #1a6595 100%);">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
       <div class="md:col-span-2">
