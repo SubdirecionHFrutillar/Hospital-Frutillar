@@ -19,7 +19,7 @@
       "ubicacion": ""
     },
     {
-      "nombre": "Hospitalización Domiciliaria (HODOM)",
+      "nombre": "Hospitalización Domiciliaria ",
       "id": "hospitalizacion-domiciliaria",
       "icon": "home_health",
       "descripcion": "El programa de Hospitalización Domiciliaria (HODOM) permite a pacientes estables recibir atención clínica equivalente a la hospitalización en la comodidad de su hogar. El equipo de salud realiza visitas domiciliarias programadas para el seguimiento y tratamiento.",
@@ -32,33 +32,33 @@
       "id": "pabellon",
       "icon": "surgical",
       "descripcion": "El Pabellón Quirúrgico del hospital lleva el nombre del Dr. Augusto Courbis, cirujano pionero que inició las actividades quirúrgicas en el establecimiento. Realiza cirugías electivas y de urgencia bajo estrictos protocolos de seguridad del paciente.",
-      "horario": "",
-      "horario_icon": "",
-      "ubicacion": ""
+      "horario": "TBD",
+      "horario_icon": "TBD",
+      "ubicacion": "TBD"
     },
     {
-      "nombre": "Maternidad",
+      "nombre": "Unidad de Salud de la Mujer",
       "id": "maternidad",
       "icon": "child_care",
-      "descripcion": "El Servicio de Maternidad atiende el proceso de parto y el período postnatal inmediato tanto para la madre como para el recién nacido. Cuenta con matronas y médicos especializados en la atención del embarazo y parto de bajo riesgo.",
-      "horario": "",
+      "descripcion": "La Unidad de Salud de la Mujer...",
+      "horario": "...........",
       "horario_icon": "info",
-      "ubicacion": "Para embarazos de alto riesgo se coordina derivación oportuna al centro de referencia."
+      "ubicacion": "..........."
     },
     {
-      "nombre": "Laboratorio Comunal",
+      "nombre": "Laboratorio",
       "id": "laboratorio",
       "icon": "biotech",
       "descripcion": "El Laboratorio Comunal realiza exámenes de hematología, bioquímica, microbiología y otros análisis clínicos. Presta servicio a pacientes ambulatorios con orden médica y a los hospitalizados.",
-      "horario": "Lunes a Jueves: 08:00–13:00 y 13:30–17:00 hrs · Viernes: 08:00–13:00 y 13:30–16:00 hrs",
+      "horario": "Lunes a Viernes: atención programada",
       "horario_icon": "schedule",
       "ubicacion": ""
     },
     {
-      "nombre": "Servicio Comunal de Imagenología",
+      "nombre": "Servicio Imagenología",
       "id": "imagenologia",
       "icon": "radiology",
-      "descripcion": "El Servicio de Imagenología (Rayos X) realiza estudios radiológicos para el diagnóstico de diversas patologías. La atención es programada de lunes a viernes para pacientes ambulatorios con indicación médica.",
+      "descripcion": "El Servicio de Imagenología realiza estudios radiológicos para el diagnóstico de diversas patologías. La atención es programada de lunes a viernes para pacientes ambulatorios previo a atención médica.",
       "horario": "Lunes a Viernes: atención programada",
       "horario_icon": "schedule",
       "ubicacion": ""
@@ -68,7 +68,7 @@
       "id": "farmacia",
       "icon": "medication",
       "descripcion": "La Farmacia del hospital dispensa medicamentos a los pacientes hospitalizados y a quienes cuentan con receta médica del establecimiento. El equipo de químicos farmacéuticos y técnicos asegura la correcta dispensación y seguimiento farmacoterapéutico.",
-      "horario": "Lunes a Jueves: 08:30–16:30 hrs · Viernes: 08:30–15:30 hrs",
+      "horario": "Lunes a Jueves: 08:30–16:30 hrs · Viernes: 08:30–15:30 hrs ",
       "horario_icon": "schedule",
       "ubicacion": ""
     }
