@@ -248,47 +248,63 @@ permalink: index.html
 </nav>
 </div>
 
-<!-- SERVICIOS GRID -->
-<section class="bg-white border-b border-gray-200 py-10" aria-label="Nuestros servicios">
+<!-- ATENCIÓN DE USUARIOS -->
+<section class="bg-white border-b border-gray-200 py-10" aria-label="Atención de usuarios">
   <div class="container mx-auto px-4">
     <div class="flex items-center gap-3 mb-7">
-      <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-2xl">medical_services</span>
-      <h2 class="font-sans text-2xl font-bold text-primary">Nuestros Servicios</h2>
+      <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-2xl">support_agent</span>
+      <h2 class="font-sans text-2xl font-bold text-primary">Atención de Usuarios</h2>
       <div class="h-px bg-gray-200 flex-1"></div>
-      <a href="servicios.html" class="text-xs font-bold text-primary hover:underline whitespace-nowrap">Ver todos →</a>
+      <a href="faq.html" class="text-xs font-bold text-primary hover:underline whitespace-nowrap">Preguntas frecuentes →</a>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-      <a href="servicios.html#urgencia" class="service-card bg-red-50 border border-red-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
-        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center"><span aria-hidden="true" class="material-symbols-outlined text-red-600 text-2xl">emergency</span></div>
-        <span class="font-bold text-sm text-gray-800">Urgencia</span><span class="text-xs text-gray-500 leading-snug">Atención de emergencias las 24 horas</span>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+      <!-- Ver imágenes de exámenes -->
+      <a href="https://examenes.ssdr.gob.cl" target="_blank" rel="noopener" class="group bg-primary-bg border border-primary-pale rounded-custom p-5 flex flex-col gap-3 hover:shadow-md hover:border-primary-light transition-all">
+        <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+          <span aria-hidden="true" class="material-symbols-outlined text-white text-2xl">radiology</span>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">Ver Imágenes de Exámenes</h3>
+          <p class="text-xs text-gray-500 leading-relaxed">Accede a tus imágenes de radiología, ecografía y otros exámenes en línea</p>
+        </div>
+        <span class="text-xs font-bold text-primary group-hover:underline">Acceder →</span>
       </a>
-      <a href="servicios.html#hospitalizacion" class="service-card bg-primary-bg border border-primary-pale rounded-custom p-4 flex flex-col items-center text-center gap-2">
-        <div class="w-12 h-12 bg-primary-pale rounded-full flex items-center justify-center"><span aria-hidden="true" class="material-symbols-outlined text-primary text-2xl">bed</span></div>
-        <span class="font-bold text-sm text-gray-800">Hospitalización</span><span class="text-xs text-gray-500 leading-snug">Cuidado integral durante tu internación</span>
+
+      <!-- Solicitar Ficha Clínica -->
+      <a href="carta-derechos.html" class="group bg-amber-50 border border-amber-100 rounded-custom p-5 flex flex-col gap-3 hover:shadow-md transition-all">
+        <div class="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
+          <span aria-hidden="true" class="material-symbols-outlined text-white text-2xl">folder_shared</span>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">Solicitar Ficha Clínica</h3>
+          <p class="text-xs text-gray-500 leading-relaxed">Solicita copia de tu ficha clínica según Ley N° 20.584 sobre derechos del paciente</p>
+        </div>
+        <span class="text-xs font-bold text-amber-600 group-hover:underline">Más información →</span>
       </a>
-      <a href="servicios.html#hospitalizacion-domiciliaria" class="service-card bg-teal-50 border border-teal-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
-        <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center"><span aria-hidden="true" class="material-symbols-outlined text-teal-700 text-2xl">home_health</span></div>
-        <span class="font-bold text-sm text-gray-800">HODOM</span><span class="text-xs text-gray-500 leading-snug">Hospitalización en tu domicilio</span>
+
+      <!-- OIRS -->
+      <a href="contacto.html" class="group bg-teal-50 border border-teal-100 rounded-custom p-5 flex flex-col gap-3 hover:shadow-md transition-all">
+        <div class="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center flex-shrink-0">
+          <span aria-hidden="true" class="material-symbols-outlined text-white text-2xl">campaign</span>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">OIRS</h3>
+          <p class="text-xs text-gray-500 leading-relaxed">Oficina de Información, Reclamos y Sugerencias. Haz llegar tu opinión o reclamo.</p>
+        </div>
+        <span class="text-xs font-bold text-teal-600 group-hover:underline">Contactar →</span>
       </a>
-      <a href="servicios.html#pabellon" class="service-card bg-purple-50 border border-purple-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
-        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center"><span aria-hidden="true" class="material-symbols-outlined text-purple-700 text-2xl">surgical</span></div>
-        <span class="font-bold text-sm text-gray-800">Pabellón</span><span class="text-xs text-gray-500 leading-snug">Cirugía programada y de urgencia</span>
-      </a>
-      <a href="servicios.html#maternidad" class="service-card bg-pink-50 border border-pink-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
-        <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center"><span aria-hidden="true" class="material-symbols-outlined text-pink-600 text-2xl">child_friendly</span></div>
-        <span class="font-bold text-sm text-gray-800">Maternidad</span><span class="text-xs text-gray-500 leading-snug">Atención integral del parto y recién nacido</span>
-      </a>
-      <a href="servicios.html#laboratorio" class="service-card bg-amber-50 border border-amber-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
-        <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center"><span aria-hidden="true" class="material-symbols-outlined text-amber-700 text-2xl">biotech</span></div>
-        <span class="font-bold text-sm text-gray-800">Laboratorio</span><span class="text-xs text-gray-500 leading-snug">Análisis clínicos y resultados en línea</span>
-      </a>
-      <a href="servicios.html#imagenologia" class="service-card bg-indigo-50 border border-indigo-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
-        <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center"><span aria-hidden="true" class="material-symbols-outlined text-indigo-700 text-2xl">radiology</span></div>
-        <span class="font-bold text-sm text-gray-800">Imagenología</span><span class="text-xs text-gray-500 leading-snug">Rayos X, ecografía y mamografía</span>
-      </a>
-      <a href="servicios.html#farmacia" class="service-card bg-green-50 border border-green-100 rounded-custom p-4 flex flex-col items-center text-center gap-2">
-        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center"><span aria-hidden="true" class="material-symbols-outlined text-green-700 text-2xl">medication</span></div>
-        <span class="font-bold text-sm text-gray-800">Farmacia</span><span class="text-xs text-gray-500 leading-snug">Dispensación de medicamentos FONASA</span>
+
+      <!-- Preguntas Frecuentes -->
+      <a href="faq.html" class="group bg-purple-50 border border-purple-100 rounded-custom p-5 flex flex-col gap-3 hover:shadow-md transition-all">
+        <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+          <span aria-hidden="true" class="material-symbols-outlined text-white text-2xl">help</span>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">Preguntas Frecuentes</h3>
+          <p class="text-xs text-gray-500 leading-relaxed">Respuestas sobre atención, horarios, pagos FONASA y trámites en el hospital</p>
+        </div>
+        <span class="text-xs font-bold text-purple-600 group-hover:underline">Ver respuestas →</span>
       </a>
     </div>
   </div>
@@ -423,31 +439,50 @@ permalink: index.html
           </a>
         </div>
       </div>
-      <!-- Banners institucionales -->
+      <!-- Campañas MINSAL -->
       <div class="flex flex-col gap-2">
-        <a href="#" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
-          <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl flex-shrink-0">favorite</span>
-          <span class="text-primary-dark text-sm font-bold">Hospital Amigo</span>
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Campañas de Salud</p>
+        <a href="https://www.minsal.cl/influenza/" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#1565C0,#1976D2);">
+          <span aria-hidden="true" class="material-symbols-outlined text-blue-200 text-xl flex-shrink-0">masks</span>
+          <div>
+            <span class="text-[9px] font-bold text-blue-200 uppercase tracking-widest block">Plan de Invierno</span>
+            <span class="text-sm font-bold leading-tight">Vacúnate contra la Influenza</span>
+          </div>
         </a>
-        <a href="/servicios.html#urgencia" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
-          <span aria-hidden="true" class="material-symbols-outlined text-red-500 text-xl flex-shrink-0">emergency</span>
-          <span class="text-primary-dark text-sm font-bold">Categorización Urgencias</span>
+        <a href="https://www.crececontigo.gob.cl" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#C2185B,#E91E8C);">
+          <span aria-hidden="true" class="material-symbols-outlined text-pink-200 text-xl flex-shrink-0">child_care</span>
+          <div>
+            <span class="text-[9px] font-bold text-pink-200 uppercase tracking-widest block">Primera Infancia</span>
+            <span class="text-sm font-bold leading-tight">Chile Crece Contigo</span>
+          </div>
         </a>
-        <a href="/contacto.html" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
-          <span aria-hidden="true" class="material-symbols-outlined text-amber-600 text-xl flex-shrink-0">campaign</span>
-          <span class="text-primary-dark text-sm font-bold">Oficina de Información y Reclamos</span>
+        <a href="https://www.minsal.cl/salud-mental/" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#00695C,#00897B);">
+          <span aria-hidden="true" class="material-symbols-outlined text-teal-200 text-xl flex-shrink-0">psychology</span>
+          <div>
+            <span class="text-[9px] font-bold text-teal-200 uppercase tracking-widest block">Bienestar Mental</span>
+            <span class="text-sm font-bold leading-tight">Salud Mental Importa</span>
+          </div>
         </a>
-        <a href="/quienes-somos.html#plan-estrategico" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
-          <span aria-hidden="true" class="material-symbols-outlined text-indigo-600 text-xl flex-shrink-0">flag</span>
-          <span class="text-primary-dark text-sm font-bold">Plan Estratégico</span>
+        <a href="https://www.minsal.cl/vih-sida/" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#B71C1C,#D32F2F);">
+          <span aria-hidden="true" class="material-symbols-outlined text-red-200 text-xl flex-shrink-0">ribbon</span>
+          <div>
+            <span class="text-[9px] font-bold text-red-200 uppercase tracking-widest block">Prevención</span>
+            <span class="text-sm font-bold leading-tight">No+VIH</span>
+          </div>
         </a>
-        <a href="/horarios.html" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
-          <span aria-hidden="true" class="material-symbols-outlined text-teal-600 text-xl flex-shrink-0">hotel</span>
-          <span class="text-primary-dark text-sm font-bold">Visita de Hospitalizados</span>
+        <a href="https://www.minsal.cl/cancer/" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#4527A0,#5E35B1);">
+          <span aria-hidden="true" class="material-symbols-outlined text-purple-200 text-xl flex-shrink-0">oncology</span>
+          <div>
+            <span class="text-[9px] font-bold text-purple-200 uppercase tracking-widest block">Detección Temprana</span>
+            <span class="text-sm font-bold leading-tight">Prevención del Cáncer</span>
+          </div>
         </a>
-        <a href="{{ site.ssreloncavi }}" target="_blank" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
-          <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl flex-shrink-0">account_balance</span>
-          <span class="text-primary-dark text-sm font-bold leading-tight">Servicio de Salud del Reloncaví</span>
+        <a href="https://www.minsal.cl/alimentacion-saludable/" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#2E7D32,#388E3C);">
+          <span aria-hidden="true" class="material-symbols-outlined text-green-200 text-xl flex-shrink-0">nutrition</span>
+          <div>
+            <span class="text-[9px] font-bold text-green-200 uppercase tracking-widest block">Hábitos Saludables</span>
+            <span class="text-sm font-bold leading-tight">Come Sano, Vive Mejor</span>
+          </div>
         </a>
         <!-- Salud Responde -->
         <a href="tel:6003607777" class="banner-side bg-primary text-white rounded-custom px-4 py-3 shadow-md hover:bg-primary-dark transition-colors flex items-center gap-3 min-h-[56px]">
@@ -472,18 +507,30 @@ permalink: index.html
       <h2 class="font-bold text-gray-500 text-xs uppercase tracking-[0.2em] whitespace-nowrap">Links de Interés</h2>
       <div class="h-px bg-gray-200 flex-1"></div>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
-      <a href="https://www.minsal.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex items-center gap-3 min-h-[72px] shadow-sm hover:shadow-md transition-shadow group">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl flex-shrink-0">local_hospital</span>
-        <span class="text-xs font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Ministerio de Salud</span>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-5xl mx-auto">
+      <a href="https://www.minsal.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">local_hospital</span>
+        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Ministerio de Salud</span>
       </a>
-      <a href="https://www.supersalud.gob.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex items-center gap-3 min-h-[72px] shadow-sm hover:shadow-md transition-shadow group">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl flex-shrink-0">gavel</span>
-        <span class="text-xs font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Superintendencia de Salud</span>
+      <a href="https://www.fonasa.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">health_and_safety</span>
+        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">FONASA</span>
       </a>
-      <a href="https://www.fonasa.cl" target="_blank" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex items-center gap-3 min-h-[72px] shadow-sm hover:shadow-md transition-shadow group">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl flex-shrink-0">health_and_safety</span>
-        <span class="text-xs font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">FONASA</span>
+      <a href="https://www.supersalud.gob.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">gavel</span>
+        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Superintendencia de Salud</span>
+      </a>
+      <a href="https://www.ssreloncavi.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">account_balance</span>
+        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Servicio de Salud Reloncaví</span>
+      </a>
+      <a href="https://www.portaltransparencia.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">visibility</span>
+        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Portal Transparencia</span>
+      </a>
+      <a href="https://www.empleospublicos.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
+        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">work</span>
+        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Empleos Públicos</span>
       </a>
     </div>
   </div>
