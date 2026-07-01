@@ -1,0 +1,13 @@
+{
+  "name": "hospital-frutillar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio web Hospital de Frutillar",
+  "scripts": {
+    "build": "eleventy",
+    "dev": "eleventy --serve"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}

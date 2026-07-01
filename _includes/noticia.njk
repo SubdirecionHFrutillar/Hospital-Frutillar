@@ -1,0 +1,52 @@
+---
+layout: base.njk
+---
+<main class="container mx-auto px-4 py-10 max-w-3xl">
+  <nav class="text-xs text-gray-500 mb-6 flex items-center gap-1.5" aria-label="Ruta de navegación">
+    <a href="/" class="hover:text-primary-DEFAULT transition-colors">Inicio</a>
+    <span aria-hidden="true" class="material-symbols-outlined text-xs">chevron_right</span>
+    <a href="/noticias.html" class="hover:text-primary-DEFAULT transition-colors">Noticias</a>
+    <span aria-hidden="true" class="material-symbols-outlined text-xs">chevron_right</span>
+    <span class="text-gray-700 font-medium truncate max-w-[200px]">{{ title }}</span>
+  </nav>
+
+  <article class="bg-white rounded-custom shadow-md overflow-hidden">
+    <!-- Cabecera de la noticia -->
+    <div class="relative h-48 overflow-hidden" style="background: linear-gradient(135deg, #0A2A5E 0%, #0F69C4 60%, #3A8FD4 100%);">
+      {% if imagen %}
+        <img src="{{ imagen }}" alt="{{ title }}" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+      {% else %}
+        <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+          <span class="material-symbols-outlined text-white/10" style="font-size:120px; line-height:1;">article</span>
+        </div>
+      {% endif %}
+      <div class="absolute top-4 left-4">
+        <span class="inline-block px-2.5 py-1 bg-primary-DEFAULT text-white text-[10px] font-bold uppercase tracking-wider rounded shadow-md">{{ categoria }}</span>
+      </div>
+      <div class="absolute bottom-4 left-4 flex items-center gap-1.5 text-white/80 text-xs">
+        <span aria-hidden="true" class="material-symbols-outlined text-sm">calendar_today</span>
+        {{ date | fechaES }}
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="p-6 md:p-8">
+      <h1 class="font-sans text-2xl md:text-3xl font-bold text-gray-900 leading-snug mb-4">{{ title }}</h1>
+      <p class="text-base text-gray-500 leading-relaxed border-l-4 border-primary-pale pl-4 mb-6">{{ resumen }}</p>
+      <div class="prose prose-sm max-w-none text-gray-700 leading-relaxed space-y-4
+                  prose-headings:font-bold prose-headings:text-gray-900
+                  prose-a:text-primary-DEFAULT prose-a:no-underline hover:prose-a:underline
+                  prose-strong:text-gray-800 prose-ul:list-disc prose-ul:pl-5">
+        {{ content | safe }}
+      </div>
+    </div>
+  </article>
+
+  <div class="mt-8 flex items-center justify-between">
+    <a href="/noticias.html" class="inline-flex items-center gap-2 text-primary-DEFAULT font-semibold text-sm hover:underline">
+      <span aria-hidden="true" class="material-symbols-outlined text-base">arrow_back</span>
+      Volver a Noticias
+    </a>
+  </div>
+</main>

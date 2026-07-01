@@ -1,0 +1,5 @@
+{
+  "layout": "noticia.njk",
+  "tags": "noticias",
+  "permalink": "noticias/{{ page.fileSlug }}/index.html"
+}

@@ -1,0 +1,64 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "img/uploads"
+public_folder: "/img/uploads"
+
+locale: es
+
+collections:
+  - name: "noticias"
+    label: "Noticias"
+    label_singular: "Noticia"
+    folder: "content/noticias"
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} — {{date}}"
+    sortable_fields: ["date", "title", "categoria"]
+    view_filters:
+      - label: "Destacadas"
+        field: destacada
+        pattern: true
+    fields:
+      - label: "Título"
+        name: title
+        widget: string
+      - label: "Fecha de publicación"
+        name: date
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD/MM/YYYY"
+        time_format: false
+        default: ""
+      - label: "Categoría"
+        name: categoria
+        widget: select
+        options:
+          - { label: "Institucional",  value: "Institucional" }
+          - { label: "Comunidad",      value: "Comunidad" }
+          - { label: "Farmacia",       value: "Farmacia" }
+          - { label: "Gestión",        value: "Gestión" }
+          - { label: "Acreditación",   value: "Acreditación" }
+          - { label: "Salud",          value: "Salud" }
+          - { label: "RRHH",           value: "RRHH" }
+        default: "Institucional"
+      - label: "Resumen"
+        name: resumen
+        widget: text
+        hint: "Descripción corta que aparece en el listado de noticias (máx. 200 caracteres)"
+      - label: "Imagen destacada"
+        name: imagen
+        widget: image
+        required: false
+        hint: "Imagen principal de la noticia (opcional)"
+      - label: "Artículo destacado"
+        name: destacada
+        widget: boolean
+        default: false
+        hint: "Las noticias destacadas aparecen en primer lugar en el inicio"
+      - label: "Contenido"
+        name: body
+        widget: markdown
+        hint: "Contenido completo de la noticia"
