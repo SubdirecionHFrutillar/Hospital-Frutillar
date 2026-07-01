@@ -1,0 +1,76 @@
+{
+  "servicios": [
+    {
+      "nombre": "Urgencia",
+      "id": "urgencia",
+      "icon": "emergency",
+      "descripcion": "El Servicio de Urgencia del Hospital de Frutillar atiende las 24 horas del día, los 7 días de la semana, toda urgencia o emergencia de salud que requiera atención inmediata. Aplica sistema de categorización TRIAGE para priorizar la atención según la gravedad del caso.",
+      "horario": "24 horas, todos los días del año",
+      "horario_icon": "schedule",
+      "ubicacion": ""
+    },
+    {
+      "nombre": "Hospitalización",
+      "id": "hospitalizacion",
+      "icon": "bed",
+      "descripcion": "El Servicio de Hospitalización cuenta con camas para la atención de pacientes adultos que requieren internación médica o quirúrgica. El equipo de salud está integrado por médicos, enfermeras y técnicos paramédicos que brindan atención continua.",
+      "horario": "Visitas: Lunes a Viernes 10:00–19:00 hrs · Fines de semana y festivos 12:00–18:00 hrs",
+      "horario_icon": "person_add",
+      "ubicacion": ""
+    },
+    {
+      "nombre": "Hospitalización Domiciliaria (HODOM)",
+      "id": "hospitalizacion-domiciliaria",
+      "icon": "home_health",
+      "descripcion": "El programa de Hospitalización Domiciliaria (HODOM) permite a pacientes estables recibir atención clínica equivalente a la hospitalización en la comodidad de su hogar. El equipo de salud realiza visitas domiciliarias programadas para el seguimiento y tratamiento.",
+      "horario": "",
+      "horario_icon": "location_on",
+      "ubicacion": "Disponible para Frutillar y sectores rurales de la cuenca del Lago Llanquihue"
+    },
+    {
+      "nombre": "Pabellón Quirúrgico Dr. Augusto Courbis",
+      "id": "pabellon",
+      "icon": "surgical",
+      "descripcion": "El Pabellón Quirúrgico del hospital lleva el nombre del Dr. Augusto Courbis, cirujano pionero que inició las actividades quirúrgicas en el establecimiento. Realiza cirugías electivas y de urgencia bajo estrictos protocolos de seguridad del paciente.",
+      "horario": "",
+      "horario_icon": "",
+      "ubicacion": ""
+    },
+    {
+      "nombre": "Maternidad",
+      "id": "maternidad",
+      "icon": "child_care",
+      "descripcion": "El Servicio de Maternidad atiende el proceso de parto y el período postnatal inmediato tanto para la madre como para el recién nacido. Cuenta con matronas y médicos especializados en la atención del embarazo y parto de bajo riesgo.",
+      "horario": "",
+      "horario_icon": "info",
+      "ubicacion": "Para embarazos de alto riesgo se coordina derivación oportuna al centro de referencia."
+    },
+    {
+      "nombre": "Laboratorio Comunal",
+      "id": "laboratorio",
+      "icon": "biotech",
+      "descripcion": "El Laboratorio Comunal realiza exámenes de hematología, bioquímica, microbiología y otros análisis clínicos. Presta servicio a pacientes ambulatorios con orden médica y a los hospitalizados.",
+      "horario": "Lunes a Jueves: 08:00–13:00 y 13:30–17:00 hrs · Viernes: 08:00–13:00 y 13:30–16:00 hrs",
+      "horario_icon": "schedule",
+      "ubicacion": ""
+    },
+    {
+      "nombre": "Servicio Comunal de Imagenología",
+      "id": "imagenologia",
+      "icon": "radiology",
+      "descripcion": "El Servicio de Imagenología (Rayos X) realiza estudios radiológicos para el diagnóstico de diversas patologías. La atención es programada de lunes a viernes para pacientes ambulatorios con indicación médica.",
+      "horario": "Lunes a Viernes: atención programada",
+      "horario_icon": "schedule",
+      "ubicacion": ""
+    },
+    {
+      "nombre": "Farmacia",
+      "id": "farmacia",
+      "icon": "medication",
+      "descripcion": "La Farmacia del hospital dispensa medicamentos a los pacientes hospitalizados y a quienes cuentan con receta médica del establecimiento. El equipo de químicos farmacéuticos y técnicos asegura la correcta dispensación y seguimiento farmacoterapéutico.",
+      "horario": "Lunes a Jueves: 08:30–16:30 hrs · Viernes: 08:30–15:30 hrs",
+      "horario_icon": "schedule",
+      "ubicacion": ""
+    }
+  ]
+}

@@ -1,16 +1,16 @@
+const markdownIt = require("markdown-it");
+const md = new markdownIt({ html: true, breaks: true });
+
 module.exports = function (eleventyConfig) {
   // Static assets
   eleventyConfig.addPassthroughCopy("img");
   eleventyConfig.addPassthroughCopy("admin");
 
-  // Passthrough all HTML files that are NOT replaced by .njk templates
-  const staticPages = [
-    "servicios.html", "horarios.html", "contacto.html", "quienes-somos.html",
-    "aranceles.html", "carta-derechos.html", "copago-cero.html", "faq.html",
-    "ley-ricarte-soto.html", "transparencia.html", "trabaja-con-nosotros.html",
-    "404.html"
-  ];
-  staticPages.forEach(f => eleventyConfig.addPassthroughCopy(f));
+  // Passthrough 404 only — all other HTML pages are now .njk templates
+  eleventyConfig.addPassthroughCopy("404.html");
+
+  // Markdown filter for rendering data fields
+  eleventyConfig.addFilter("markdown", content => content ? md.render(content) : "");
 
   // Date filter in Spanish
   const MESES = [

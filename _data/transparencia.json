@@ -1,0 +1,37 @@
+{
+  "intro": "Información pública del Hospital de Frutillar según normativa vigente — Ley N° 20.285 de Acceso a la Información.",
+  "secciones": [
+    {
+      "id": "activa",
+      "titulo": "Transparencia Activa",
+      "icon": "visibility",
+      "descripcion": "En cumplimiento de la Ley N° 20.285 de Transparencia, el Hospital de Frutillar publica en el Portal de Transparencia del Consejo para la Transparencia la información que los organismos públicos están obligados a mantener a disposición permanente del público.\n\nLa información de Transparencia Activa se encuentra actualizada en el Portal de Transparencia del Gobierno de Chile.",
+      "enlace": "https://www.portaltransparencia.cl",
+      "enlace_texto": "Ir al Portal de Transparencia"
+    },
+    {
+      "id": "solicitud",
+      "titulo": "Solicitud de Información",
+      "icon": "request_page",
+      "descripcion": "Cualquier persona tiene derecho a solicitar y recibir información de los actos, resoluciones, procedimientos y documentos del Hospital de Frutillar, conforme a la Ley N° 20.285. Las solicitudes se tramitan a través del Portal de Transparencia.\n\n**Plazo de respuesta:** Hasta 20 días hábiles desde la recepción de la solicitud.\n\n**Costo:** Sin costo para el solicitante, salvo reproducción material.",
+      "enlace": "https://www.portaltransparencia.cl",
+      "enlace_texto": "Ingresar solicitud en Portal de Transparencia"
+    },
+    {
+      "id": "ley-lobby",
+      "titulo": "Ley del Lobby",
+      "icon": "gavel",
+      "descripcion": "La Ley N° 20.730 regula el lobby y las gestiones que representen intereses particulares ante autoridades y funcionarios. El Hospital de Frutillar publica las audiencias, viajes y donativos de las autoridades afectas a esta normativa.",
+      "enlace": "https://www.leylobby.gob.cl",
+      "enlace_texto": "Plataforma Ley del Lobby"
+    },
+    {
+      "id": "cuentas-publicas",
+      "titulo": "Cuentas Públicas",
+      "icon": "bar_chart",
+      "descripcion": "El Hospital de Frutillar realiza anualmente una Cuenta Pública Participativa en la que informa a la comunidad sobre su gestión, logros, desafíos y resultados en salud del período, en cumplimiento de las instrucciones del Ministerio de Salud.\n\nLos documentos de cuentas públicas anteriores se encuentran en proceso de carga. Próximamente disponibles para descarga.",
+      "enlace": "",
+      "enlace_texto": ""
+    }
+  ]
+}

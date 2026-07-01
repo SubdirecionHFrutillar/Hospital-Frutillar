@@ -1,0 +1,69 @@
+{
+  "titulo": "Carta de Derechos y Deberes de los Pacientes",
+  "intro": "La Ley N° 20.584 regula los derechos y deberes que tienen las personas en relación a las acciones vinculadas a su atención de salud.",
+  "derechos": [
+    {
+      "titulo": "Dignidad e igualdad de trato",
+      "descripcion": "Ser atendido con respeto a su dignidad, sin discriminación por edad, sexo, raza, condición socioeconómica, creencia o cualquier otra condición."
+    },
+    {
+      "titulo": "Información oportuna y comprensible",
+      "descripcion": "Recibir información clara sobre su diagnóstico, pronóstico, opciones de tratamiento y riesgos, en términos que pueda entender."
+    },
+    {
+      "titulo": "Consentimiento informado",
+      "descripcion": "Aceptar o rechazar cualquier procedimiento diagnóstico o tratamiento propuesto, una vez informado de sus beneficios y riesgos."
+    },
+    {
+      "titulo": "Reserva de la información",
+      "descripcion": "La información contenida en su ficha clínica es reservada. Solo puede ser accedida por usted, su representante legal o el equipo de salud tratante."
+    },
+    {
+      "titulo": "Acompañamiento",
+      "descripcion": "Ser acompañado por una persona de su confianza durante la atención, en la medida que las condiciones clínicas lo permitan."
+    },
+    {
+      "titulo": "Atención espiritual y religiosa",
+      "descripcion": "Recibir asistencia espiritual o religiosa de acuerdo con su credo, durante su permanencia en el establecimiento."
+    },
+    {
+      "titulo": "Seguridad en la atención",
+      "descripcion": "Ser atendido en condiciones que garanticen su seguridad, incluyendo la correcta identificación y la prevención de infecciones asociadas a la atención de salud."
+    },
+    {
+      "titulo": "No ser objeto de investigación sin consentimiento",
+      "descripcion": "No participar en investigación científica o ser sometido a procedimientos experimentales sin su consentimiento expreso y escrito."
+    },
+    {
+      "titulo": "Atención de urgencia",
+      "descripcion": "Recibir atención de urgencia en cualquier establecimiento habilitado, independientemente de su capacidad de pago o previsión."
+    },
+    {
+      "titulo": "Reclamación",
+      "descripcion": "Formular reclamos y sugerencias sobre la atención recibida, y recibir respuesta oportuna. Puede acudir a la Oficina de Informaciones, Reclamos y Sugerencias (OIRS) del hospital."
+    }
+  ],
+  "deberes": [
+    {
+      "titulo": "Información veraz",
+      "descripcion": "Proporcionar información fidedigna sobre su estado de salud, antecedentes médicos y tratamientos previos."
+    },
+    {
+      "titulo": "Trato respetuoso",
+      "descripcion": "Tratar con respeto y deferencia al personal de salud y a los demás pacientes y acompañantes."
+    },
+    {
+      "titulo": "Cumplimiento de normas",
+      "descripcion": "Cumplir las normas del establecimiento y las indicaciones del equipo de salud tratante."
+    },
+    {
+      "titulo": "Cuidado de instalaciones",
+      "descripcion": "Cuidar las dependencias y bienes del establecimiento, y no causarles daño."
+    },
+    {
+      "titulo": "Información sobre costos",
+      "descripcion": "Informarse sobre los costos de la atención y cumplir con las obligaciones de pago que correspondan según su previsión."
+    }
+  ],
+  "oirs_descripcion": "Para formular reclamos, sugerencias o felicitaciones sobre la atención recibida, diríjase a la OIRS del Hospital de Frutillar, ubicada en el acceso principal del establecimiento."
+}

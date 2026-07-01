@@ -1,0 +1,251 @@
+---
+layout: base.njk
+title: "Contacto y Cómo Llegar - Hospital de Frutillar"
+description: "Información de contacto, dirección, mapa y formulario del Hospital de Frutillar."
+permalink: contacto.html
+---
+<style>
+  .banner-top { position: relative; }
+  .banner-top::before { content:''; position:absolute; top:0; left:0; width:55%; height:3px; background:#0F69C4; }
+  .banner-top::after  { content:''; position:absolute; top:0; left:55%; width:45%; height:3px; background:#DA291C; }
+  .info-card { border-left: 4px solid #CCE3F7; }
+</style>
+
+<!-- PAGE BANNER -->
+<section class="text-white py-8" style="background: linear-gradient(100deg, #0B4F96 0%, #0F69C4 100%);">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center gap-2 text-primary-light/80 text-xs mb-3 flex-wrap">
+      <a href="/" class="hover:text-white transition-colors">Inicio</a>
+      <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
+      <span>Contacto</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
+        <span aria-hidden="true" class="material-symbols-outlined text-2xl">place</span>
+      </div>
+      <div>
+        <h2 class="font-sans text-2xl md:text-3xl font-bold">Contacto y Cómo Llegar</h2>
+        <p class="text-white/65 text-sm mt-0.5">Información de contacto, dirección y formulario de consultas</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main id="main-content" class="container mx-auto px-4 py-8">
+
+  <div class="flex items-center gap-2 text-xs text-gray-400 mb-6">
+    <a href="/" class="hover:text-primary transition-colors">Inicio</a>
+    <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
+    <span class="text-primary font-semibold">Contacto</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-7 items-start">
+
+    <div style="min-width:0;" class="flex flex-col gap-6">
+
+      <!-- Tarjetas de contacto -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="info-card bg-white border border-gray-200 rounded-custom shadow-sm p-5 flex items-start gap-4">
+          <div class="w-11 h-11 bg-primary-bg rounded-full flex items-center justify-center flex-shrink-0">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">location_on</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-800 text-sm mb-1">Dirección</h3>
+            <p class="text-sm text-gray-600">{{ site.direccion }}<br>{{ site.region }}, Chile</p>
+          </div>
+        </div>
+
+        <div class="info-card bg-white border border-gray-200 rounded-custom shadow-sm p-5 flex items-start gap-4">
+          <div class="w-11 h-11 bg-primary-bg rounded-full flex items-center justify-center flex-shrink-0">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">call</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-800 text-sm mb-1">Teléfonos</h3>
+            <p class="text-sm text-gray-600">
+              <a href="tel:6003607777" class="text-primary font-bold hover:underline">{{ site.telefono }}</a><br>
+              <span class="text-xs text-gray-400">{{ site.telefonoLabel }} (24 hrs)</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="info-card bg-white border border-gray-200 rounded-custom shadow-sm p-5 flex items-start gap-4">
+          <div class="w-11 h-11 bg-primary-bg rounded-full flex items-center justify-center flex-shrink-0">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">schedule</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-800 text-sm mb-1">Urgencias</h3>
+            <p class="text-sm text-gray-600">Abierto <strong>24 horas</strong><br>todos los días del año</p>
+          </div>
+        </div>
+
+        <div class="info-card bg-white border border-gray-200 rounded-custom shadow-sm p-5 flex items-start gap-4">
+          <div class="w-11 h-11 bg-primary-bg rounded-full flex items-center justify-center flex-shrink-0">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">directions_bus</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-800 text-sm mb-1">Cómo llegar</h3>
+            <p class="text-sm text-gray-600">Buses desde Puerto Montt, Puerto Varas y Osorno. Parada frente al hospital en Av. Philippi.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- OIRS info -->
+      <div class="bg-primary-bg border border-primary-pale rounded-custom p-5 flex items-start gap-3">
+        <span aria-hidden="true" class="material-symbols-outlined text-primary mt-0.5 flex-shrink-0">support_agent</span>
+        <div>
+          <p class="text-sm font-bold text-primary mb-1">OIRS — Oficina de Informaciones, Reclamos y Sugerencias</p>
+          <p class="text-sm text-gray-700">{{ contacto.oirs_descripcion }}</p>
+        </div>
+      </div>
+
+      <!-- Mapa -->
+      <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5 flex items-center gap-2">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base">map</span>
+          Ubicación en el mapa
+        </div>
+        <div class="w-full" style="height:320px;">
+          <iframe
+            title="Mapa Hospital de Frutillar"
+            src="https://maps.google.com/maps?q=Hospital+de+Frutillar,+Philippi+1000,+Frutillar&output=embed&z=16"
+            width="100%"
+            height="320"
+            style="border:0; display:block;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        <div class="px-4 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-between flex-wrap gap-2">
+          <span class="text-xs text-gray-500">{{ site.direccion }} &mdash; {{ site.region }}</span>
+          <a href="https://maps.google.com/?q=Hospital+de+Frutillar,+Philippi+1000,+Frutillar" target="_blank" class="text-xs font-bold text-primary hover:underline flex items-center gap-1">
+            <span aria-hidden="true" class="material-symbols-outlined text-sm">open_in_new</span>
+            Abrir en Google Maps
+          </a>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5 flex items-center gap-2">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base">mail</span>
+          Formulario de consultas
+        </div>
+        <form id="contact-form" class="px-6 py-5 flex flex-col gap-4" novalidate>
+          <p class="text-xs text-gray-500">{{ contacto.intro }}</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="nombre" class="block text-xs font-bold text-gray-600 mb-1">Nombre completo <span class="text-red-500">*</span></label>
+              <input type="text" id="nombre" name="nombre" required placeholder="Ej: María González"
+                class="w-full border border-gray-300 rounded-custom px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary-pale transition-colors">
+            </div>
+            <div>
+              <label for="email" class="block text-xs font-bold text-gray-600 mb-1">Correo electrónico <span class="text-red-500">*</span></label>
+              <input type="email" id="email" name="email" required placeholder="correo@ejemplo.com"
+                class="w-full border border-gray-300 rounded-custom px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary-pale transition-colors">
+            </div>
+          </div>
+          <div>
+            <label for="asunto" class="block text-xs font-bold text-gray-600 mb-1">Asunto <span class="text-red-500">*</span></label>
+            <select id="asunto" name="asunto" required
+              class="w-full border border-gray-300 rounded-custom px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary-pale transition-colors bg-white">
+              <option value="">Seleccione una categoría</option>
+              <option value="consulta">Consulta general</option>
+              <option value="hora">Solicitud de hora</option>
+              <option value="reclamo">Reclamo o sugerencia</option>
+              <option value="informacion">Solicitud de información</option>
+              <option value="felicitacion">Felicitación</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div>
+            <label for="mensaje" class="block text-xs font-bold text-gray-600 mb-1">Mensaje <span class="text-red-500">*</span></label>
+            <textarea id="mensaje" name="mensaje" required rows="5" placeholder="Escriba aquí su consulta o comentario..."
+              class="w-full border border-gray-300 rounded-custom px-3 py-2 text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary-pale transition-colors resize-none"></textarea>
+          </div>
+          <div class="flex items-start gap-2">
+            <input type="checkbox" id="privacidad" name="privacidad" required class="mt-0.5 flex-shrink-0">
+            <label for="privacidad" class="text-xs text-gray-500">Acepto el tratamiento de mis datos personales de acuerdo con la política de privacidad del Hospital de Frutillar.</label>
+          </div>
+          <div>
+            <button type="submit" class="bg-primary hover:bg-primary-dark text-white font-bold text-sm px-6 py-2.5 rounded-custom transition-colors shadow">
+              Enviar consulta
+            </button>
+          </div>
+          <div id="form-success" class="hidden flex items-start gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-custom px-4 py-3">
+            <span aria-hidden="true" class="material-symbols-outlined text-green-600 mt-0.5 text-base">check_circle</span>
+            <span>Su consulta fue enviada correctamente. Nos comunicaremos con usted a la brevedad.</span>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+    <aside class="flex flex-col gap-5">
+      <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Directorio</div>
+        <div class="flex flex-col">
+          <div class="acceso-item flex items-start gap-3 px-4 py-3 border-b border-gray-100">
+            <span aria-hidden="true" class="material-symbols-outlined text-red-500 text-lg mt-0.5">emergency</span>
+            <div>
+              <strong class="text-sm text-primary block">Urgencias</strong>
+              <span class="text-xs text-gray-500">24 horas · acceso directo</span>
+            </div>
+          </div>
+          <div class="acceso-item flex items-start gap-3 px-4 py-3 border-b border-gray-100">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-lg mt-0.5">call</span>
+            <div>
+              <strong class="text-sm text-primary block">Salud Responde</strong>
+              <a href="tel:6003607777" class="text-xs text-primary font-bold hover:underline">{{ site.telefono }}</a>
+            </div>
+          </div>
+          <div class="acceso-item flex items-start gap-3 px-4 py-3 border-b border-gray-100">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-lg mt-0.5">campaign</span>
+            <div>
+              <strong class="text-sm text-primary block">OIRS</strong>
+              <span class="text-xs text-gray-500">Oficina de Información, Reclamos y Sugerencias</span>
+            </div>
+          </div>
+          <div class="acceso-item flex items-start gap-3 px-4 py-3">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-lg mt-0.5">account_balance</span>
+            <div>
+              <strong class="text-sm text-primary block">Admisión y SOME</strong>
+              <span class="text-xs text-gray-500">Solicitud de horas y trámites</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2.5">
+        <a href="/horarios.html" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[56px] text-center">
+          <span class="text-primary text-sm font-extrabold uppercase tracking-tight">Horarios de Atención</span>
+        </a>
+        <a href="/faq.html" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[56px] text-center">
+          <span class="text-primary text-sm font-extrabold uppercase tracking-tight">Preguntas Frecuentes</span>
+        </a>
+        <a href="/transparencia.html#solicitud" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[56px] text-center">
+          <span class="text-primary text-sm font-extrabold uppercase tracking-tight leading-tight">Solicitud de Información (SIAC)</span>
+        </a>
+      </div>
+    </aside>
+  </div>
+</main>
+
+{% block scripts %}
+<script>
+document.getElementById('contact-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  var ok = true;
+  ['nombre','email','asunto','mensaje','privacidad'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el.checkValidity()){ el.classList.add('border-red-400'); ok=false; }
+    else { el.classList.remove('border-red-400'); }
+  });
+  if(ok){
+    this.querySelector('button[type="submit"]').disabled = true;
+    document.getElementById('form-success').classList.remove('hidden');
+    this.reset();
+  }
+});
+</script>
+{% endblock %}

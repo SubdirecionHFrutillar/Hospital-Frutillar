@@ -1,0 +1,139 @@
+---
+layout: base.njk
+title: "Transparencia - Hospital de Frutillar"
+description: "Transparencia activa y pasiva del Hospital de Frutillar. Acceso a información pública, presupuestos, auditorías y más."
+permalink: transparencia.html
+---
+<style>
+  .banner-top { position: relative; }
+  .banner-top::before { content:''; position:absolute; top:0; left:0; width:55%; height:3px; background:#0F69C4; }
+  .banner-top::after  { content:''; position:absolute; top:0; left:55%; width:45%; height:3px; background:#DA291C; }
+</style>
+
+<section class="text-white py-8" style="background: linear-gradient(100deg, #0B4F96 0%, #0F69C4 100%);">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center gap-2 text-primary-light/80 text-xs mb-3 flex-wrap">
+      <a href="/" class="hover:text-white transition-colors">Inicio</a>
+      <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
+      <span>Transparencia</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
+        <span aria-hidden="true" class="material-symbols-outlined text-2xl">account_balance</span>
+      </div>
+      <div>
+        <h2 class="font-sans text-2xl md:text-3xl font-bold">Transparencia</h2>
+        <p class="text-white/65 text-sm mt-0.5">Acceso a la información pública del Hospital de Frutillar según Ley 20.285</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main id="main-content" class="container mx-auto px-4 py-8">
+  <div class="flex items-center gap-2 text-xs text-gray-400 mb-6">
+    <a href="/" class="hover:text-primary transition-colors">Inicio</a>
+    <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
+    <span class="text-primary font-semibold">Transparencia</span>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-7 items-start">
+
+    <div style="min-width:0;" class="flex flex-col gap-6">
+
+      <div class="flex items-start gap-3 bg-primary-bg border border-primary-pale rounded-custom px-5 py-4 text-sm text-primary-dark">
+        <span aria-hidden="true" class="material-symbols-outlined text-primary-light mt-0.5 flex-shrink-0">info</span>
+        <p>{{ transparencia.intro }}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for s in transparencia.secciones %}
+        <div id="{{ s.id }}" class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow flex flex-col">
+          <div class="bg-primary px-4 py-3 flex items-center gap-2">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">{{ s.icon }}</span>
+            <h2 class="text-white font-bold text-sm tracking-wide">{{ s.titulo }}</h2>
+          </div>
+          <div class="px-4 py-4 flex-1 flex flex-col gap-3">
+            <p class="text-sm text-gray-700 leading-relaxed flex-1">{{ s.descripcion }}</p>
+            {% if s.enlace %}
+            <a href="{{ s.enlace }}" target="{{ '_blank' if 'http' in s.enlace else '_self' }}"
+               class="mt-auto inline-flex items-center gap-2 bg-primary-bg text-primary border border-primary-pale text-xs font-bold px-3 py-2 rounded-custom hover:bg-primary-pale transition-colors w-fit">
+              <span aria-hidden="true" class="material-symbols-outlined text-base">{{ 'open_in_new' if 'http' in s.enlace else 'arrow_forward' }}</span>
+              {{ s.enlace_texto if s.enlace_texto else 'Ver más' }}
+            </a>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden" id="solicitud">
+        <div class="bg-primary-dark px-5 py-3 flex items-center gap-2">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">send</span>
+          <h2 class="text-white font-bold text-base tracking-wide uppercase">Solicitud de Información (SIAC)</h2>
+        </div>
+        <div class="px-6 py-6 flex flex-col gap-4">
+          <p class="text-sm text-gray-700">Cualquier persona puede solicitar información al Hospital de Frutillar mediante el Sistema de Información y Atención Ciudadana (SIAC) del Ministerio de Salud.</p>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="https://www.minsal.cl/siac/" target="_blank"
+               class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-bold text-sm px-5 py-2.5 rounded-custom transition-colors shadow">
+              <span aria-hidden="true" class="material-symbols-outlined text-base">open_in_new</span>
+              Ingresar solicitud en SIAC
+            </a>
+            <a href="https://www.consejotransparencia.cl" target="_blank"
+               class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-sm px-5 py-2.5 rounded-custom transition-colors border border-gray-200">
+              <span aria-hidden="true" class="material-symbols-outlined text-base">open_in_new</span>
+              Consejo para la Transparencia
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <aside class="flex flex-col gap-5">
+      <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Secciones</div>
+        <div class="flex flex-col">
+          {% for s in transparencia.secciones %}
+          <a href="#{{ s.id }}" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">{{ s.icon }}</span>
+            <strong class="text-sm text-primary">{{ s.titulo }}</strong>
+          </a>
+          {% endfor %}
+          <a href="#solicitud" class="acceso-item flex items-center gap-3 px-4 py-3">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">send</span>
+            <strong class="text-sm text-primary">Solicitud de Información</strong>
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Recursos Externos</div>
+        <div class="px-4 py-4 flex flex-col gap-3">
+          <a href="https://www.consejotransparencia.cl" target="_blank" class="flex items-center gap-2 text-primary text-sm font-semibold hover:underline">
+            <span aria-hidden="true" class="material-symbols-outlined text-base">open_in_new</span>
+            Consejo para la Transparencia
+          </a>
+          <a href="{{ site.ssreloncavi }}" target="_blank" class="flex items-center gap-2 text-primary text-sm font-semibold hover:underline">
+            <span aria-hidden="true" class="material-symbols-outlined text-base">open_in_new</span>
+            Servicio de Salud Reloncaví
+          </a>
+          <a href="https://www.minsal.cl" target="_blank" class="flex items-center gap-2 text-primary text-sm font-semibold hover:underline">
+            <span aria-hidden="true" class="material-symbols-outlined text-base">open_in_new</span>
+            Ministerio de Salud
+          </a>
+        </div>
+      </div>
+
+      <a href="tel:600-360-7777" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
+        <div class="bg-primary text-white p-2 rounded-full flex-shrink-0">
+          <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
+        </div>
+        <div>
+          <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Salud Responde</span>
+          <span class="text-primary text-xl font-black leading-none">{{ site.telefono }}</span>
+        </div>
+      </a>
+    </aside>
+  </div>
+</main>

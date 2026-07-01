@@ -3,9 +3,9 @@ layout: base.njk
 ---
 <main class="container mx-auto px-4 py-10 max-w-3xl">
   <nav class="text-xs text-gray-500 mb-6 flex items-center gap-1.5" aria-label="Ruta de navegación">
-    <a href="/" class="hover:text-primary-DEFAULT transition-colors">Inicio</a>
+    <a href="/" class="hover:text-primary transition-colors">Inicio</a>
     <span aria-hidden="true" class="material-symbols-outlined text-xs">chevron_right</span>
-    <a href="/noticias.html" class="hover:text-primary-DEFAULT transition-colors">Noticias</a>
+    <a href="/noticias.html" class="hover:text-primary transition-colors">Noticias</a>
     <span aria-hidden="true" class="material-symbols-outlined text-xs">chevron_right</span>
     <span class="text-gray-700 font-medium truncate max-w-[200px]">{{ title }}</span>
   </nav>
@@ -22,7 +22,7 @@ layout: base.njk
         </div>
       {% endif %}
       <div class="absolute top-4 left-4">
-        <span class="inline-block px-2.5 py-1 bg-primary-DEFAULT text-white text-[10px] font-bold uppercase tracking-wider rounded shadow-md">{{ categoria }}</span>
+        <span class="inline-block px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded shadow-md">{{ categoria }}</span>
       </div>
       <div class="absolute bottom-4 left-4 flex items-center gap-1.5 text-white/80 text-xs">
         <span aria-hidden="true" class="material-symbols-outlined text-sm">calendar_today</span>
@@ -36,7 +36,7 @@ layout: base.njk
       <p class="text-base text-gray-500 leading-relaxed border-l-4 border-primary-pale pl-4 mb-6">{{ resumen }}</p>
       <div class="prose prose-sm max-w-none text-gray-700 leading-relaxed space-y-4
                   prose-headings:font-bold prose-headings:text-gray-900
-                  prose-a:text-primary-DEFAULT prose-a:no-underline hover:prose-a:underline
+                  prose-a:text-primary prose-a:no-underline hover:prose-a:underline
                   prose-strong:text-gray-800 prose-ul:list-disc prose-ul:pl-5">
         {{ content | safe }}
       </div>
@@ -44,7 +44,7 @@ layout: base.njk
   </article>
 
   <div class="mt-8 flex items-center justify-between">
-    <a href="/noticias.html" class="inline-flex items-center gap-2 text-primary-DEFAULT font-semibold text-sm hover:underline">
+    <a href="/noticias.html" class="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:underline">
       <span aria-hidden="true" class="material-symbols-outlined text-base">arrow_back</span>
       Volver a Noticias
     </a>

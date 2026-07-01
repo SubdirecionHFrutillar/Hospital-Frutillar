@@ -8,6 +8,157 @@ public_folder: "/img/uploads"
 locale: es
 
 collections:
+  - name: "paginas"
+    label: "Páginas del sitio"
+    files:
+
+      - label: "Quiénes Somos"
+        name: "quienes_somos"
+        file: "_data/quienes_somos.json"
+        fields:
+          - { label: "Misión", name: mision, widget: text }
+          - { label: "Visión", name: vision, widget: text }
+          - { label: "Historia del hospital", name: historia, widget: markdown }
+          - label: "Autoridades"
+            name: autoridades
+            widget: list
+            fields:
+              - { label: "Cargo", name: cargo, widget: string }
+              - { label: "Nombre", name: nombre, widget: string }
+              - { label: "Unidad", name: unidad, widget: string }
+              - { label: "Foto (URL o ruta)", name: foto, widget: string, required: false }
+          - { label: "Plan Estratégico", name: plan_estrategico, widget: markdown }
+
+      - label: "Horarios de Atención"
+        name: "horarios"
+        file: "_data/horarios.json"
+        fields:
+          - { label: "Nota introductoria", name: intro, widget: text }
+          - label: "Servicios"
+            name: servicios
+            widget: list
+            fields:
+              - { label: "Nombre del servicio", name: nombre, widget: string }
+              - { label: "Descripción corta", name: descripcion, widget: string, required: false }
+              - { label: "Icono (Material Symbol)", name: icon, widget: string }
+              - label: "Horarios"
+                name: horarios
+                widget: list
+                fields:
+                  - { label: "Días", name: dias, widget: string }
+                  - { label: "Horario", name: horario, widget: string }
+              - { label: "Notas adicionales", name: notas, widget: string, required: false }
+              - { label: "¿Ocupa 2 columnas?", name: span2, widget: boolean, default: false }
+
+      - label: "Preguntas Frecuentes"
+        name: "faq"
+        file: "_data/faq.json"
+        fields:
+          - label: "Categorías"
+            name: categorias
+            widget: list
+            fields:
+              - { label: "Título de categoría", name: titulo, widget: string }
+              - label: "Preguntas"
+                name: preguntas
+                widget: list
+                fields:
+                  - { label: "Pregunta", name: pregunta, widget: string }
+                  - { label: "Respuesta", name: respuesta, widget: markdown }
+
+      - label: "Servicios Clínicos"
+        name: "servicios"
+        file: "_data/servicios.json"
+        fields:
+          - label: "Servicios"
+            name: servicios
+            widget: list
+            fields:
+              - { label: "Nombre del servicio", name: nombre, widget: string }
+              - { label: "ID (ancla HTML, sin #)", name: id, widget: string }
+              - { label: "Icono (Material Symbol)", name: icon, widget: string }
+              - { label: "Descripción", name: descripcion, widget: text }
+              - { label: "Horario", name: horario, widget: string, required: false }
+              - { label: "Icono horario", name: horario_icon, widget: string, required: false }
+              - { label: "Ubicación", name: ubicacion, widget: string, required: false }
+
+      - label: "Contacto"
+        name: "contacto"
+        file: "_data/contacto.json"
+        fields:
+          - { label: "Texto introductorio del formulario", name: intro, widget: text }
+          - { label: "Horario OIRS", name: oirs_horario, widget: string, required: false }
+          - { label: "Descripción OIRS", name: oirs_descripcion, widget: text }
+
+      - label: "Carta de Derechos y Deberes"
+        name: "carta_derechos"
+        file: "_data/carta_derechos.json"
+        fields:
+          - { label: "Título", name: titulo, widget: string }
+          - { label: "Introducción", name: intro, widget: text }
+          - label: "Derechos del paciente"
+            name: derechos
+            widget: list
+            fields:
+              - { label: "Título", name: titulo, widget: string }
+              - { label: "Descripción", name: descripcion, widget: text }
+          - label: "Deberes del paciente"
+            name: deberes
+            widget: list
+            fields:
+              - { label: "Título", name: titulo, widget: string }
+              - { label: "Descripción", name: descripcion, widget: text }
+          - { label: "Descripción OIRS", name: oirs_descripcion, widget: text }
+
+      - label: "Aranceles"
+        name: "aranceles"
+        file: "_data/aranceles.json"
+        fields:
+          - { label: "Título", name: titulo, widget: string }
+          - { label: "Introducción", name: intro, widget: text }
+          - { label: "Contenido", name: body, widget: markdown }
+
+      - label: "Copago Cero"
+        name: "copago_cero"
+        file: "_data/copago_cero.json"
+        fields:
+          - { label: "Título", name: titulo, widget: string }
+          - { label: "Introducción", name: intro, widget: text }
+          - { label: "Contenido", name: body, widget: markdown }
+
+      - label: "Ley Ricarte Soto"
+        name: "ley_ricarte_soto"
+        file: "_data/ley_ricarte_soto.json"
+        fields:
+          - { label: "Título", name: titulo, widget: string }
+          - { label: "Introducción", name: intro, widget: text }
+          - { label: "Contenido", name: body, widget: markdown }
+
+      - label: "Trabaja con Nosotros"
+        name: "trabaja"
+        file: "_data/trabaja.json"
+        fields:
+          - { label: "Introducción", name: intro, widget: text }
+          - { label: "Información general", name: body, widget: markdown }
+          - { label: "Cómo postular", name: como_postular, widget: markdown }
+          - { label: "Contacto Recursos Humanos", name: contacto_rrhh, widget: text }
+
+      - label: "Transparencia"
+        name: "transparencia"
+        file: "_data/transparencia.json"
+        fields:
+          - { label: "Introducción", name: intro, widget: text }
+          - label: "Secciones"
+            name: secciones
+            widget: list
+            fields:
+              - { label: "ID (ancla HTML, sin #)", name: id, widget: string }
+              - { label: "Título", name: titulo, widget: string }
+              - { label: "Icono (Material Symbol)", name: icon, widget: string }
+              - { label: "Descripción", name: descripcion, widget: markdown }
+              - { label: "Enlace (URL o ruta)", name: enlace, widget: string, required: false }
+              - { label: "Texto del enlace", name: enlace_texto, widget: string, required: false }
+
   - name: "noticias"
     label: "Noticias"
     label_singular: "Noticia"

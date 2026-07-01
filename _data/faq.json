@@ -1,0 +1,55 @@
+{
+  "categorias": [
+    {
+      "titulo": "Antes de venir al hospital",
+      "preguntas": [
+        {
+          "pregunta": "¿Qué documentos necesito para atenderme?",
+          "respuesta": "Para su atención necesita:\n\n- Cédula de identidad vigente\n- Credencial FONASA (o número de RUT para verificar en el sistema)\n- Orden de derivación o interconsulta, si fue enviado desde otro establecimiento\n- Exámenes o imágenes previas relacionadas con su consulta\n- Lista de medicamentos que toma regularmente\n\nEn caso de urgencia, no es necesario portar documentación: se atiende primero y se verifica la documentación después."
+        },
+        {
+          "pregunta": "¿Cómo solicito hora de atención?",
+          "respuesta": "Las horas en el Hospital de Frutillar se solicitan a través de:\n\n- Derivación desde su CESFAM o consultorio de cabecera (vía SOME)\n- Llamada directa a la Oficina de Informaciones del hospital\n- Sistema AUGE/GES para patologías garantizadas\n\nPara urgencias, acuda directamente al Servicio de Urgencias las 24 horas. No requiere hora previa."
+        },
+        {
+          "pregunta": "¿Puedo atenderme si no tengo FONASA?",
+          "respuesta": "Las urgencias se atienden siempre, independientemente de si tiene o no FONASA. Para consultas programadas, puede afiliarse a FONASA en cualquier momento. Los trámites de afiliación son gratuitos en el propio hospital o en la oficina FONASA de su localidad.\n\nPacientes sin previsión deben cancelar los aranceles correspondientes. Consulte los valores en nuestra sección Aranceles."
+        }
+      ]
+    },
+    {
+      "titulo": "En el hospital",
+      "preguntas": [
+        {
+          "pregunta": "¿Cuáles son los horarios de visita para hospitalizados?",
+          "respuesta": "Los horarios de visita son:\n\n- **Lunes a Viernes:** 10:00 a 19:00 hrs\n- **Fines de semana y festivos:** 12:00 a 18:00 hrs\n\nSe recomienda un máximo de dos visitas simultáneas por paciente. En casos especiales (menores de edad hospitalizados, cuidados paliativos), consulte con el equipo de enfermería."
+        },
+        {
+          "pregunta": "¿Dónde puedo retirar resultados de exámenes de laboratorio?",
+          "respuesta": "Los resultados de laboratorio se retiran directamente en la ventanilla del Laboratorio Comunal, presentando su cédula de identidad. Los plazos habituales son:\n\n- Exámenes básicos (hemograma, glicemia, orina): mismo día o al día siguiente\n- Cultivos y exámenes especiales: 3 a 7 días hábiles\n\nHorario del Laboratorio: Lun–Jue 08:00–17:00 hrs, Vie 08:00–16:00 hrs."
+        },
+        {
+          "pregunta": "¿Cómo puedo solicitar un informe médico o licencia?",
+          "respuesta": "Los informes médicos y licencias médicas se solicitan directamente con el médico tratante durante la consulta. Para tramitar una licencia posterior a la consulta:\n\n- Diríjase a la Oficina de Admisión y SOME\n- Presente su cédula y el número de atención\n- El médico debe haber registrado la licencia en el sistema"
+        }
+      ]
+    },
+    {
+      "titulo": "Pagos y FONASA",
+      "preguntas": [
+        {
+          "pregunta": "¿Qué cubre FONASA en el hospital?",
+          "respuesta": "FONASA cubre la atención en establecimientos públicos (como el Hospital de Frutillar) según el tramo de afiliación:\n\n- **Tramo A:** Sin copago (indigentes, embarazadas, menores de 6 años)\n- **Tramo B:** Sin copago en establecimientos públicos\n- **Tramo C:** Copago del 10% del arancel\n- **Tramo D:** Copago del 20% del arancel\n\nAdemás, la Ley de Copago Cero elimina el copago para los tramos C y D en determinadas atenciones. Consulte los detalles en nuestra sección correspondiente."
+        },
+        {
+          "pregunta": "¿Cómo saber a qué tramo FONASA pertenezco?",
+          "respuesta": "Puede consultar su tramo en:\n\n- La página web de FONASA: www.fonasa.cl\n- La app FONASA para móviles\n- Llamando al 600 360 3000 (FONASA)\n- En la Oficina de Admisión del hospital"
+        },
+        {
+          "pregunta": "¿Qué es la Ley Ricarte Soto?",
+          "respuesta": "La Ley N° 20.850, conocida como Ley Ricarte Soto, financia medicamentos y tratamientos de alto costo para enfermedades graves y poco frecuentes. El Estado cubre el 100% del costo para los beneficiarios del sistema público de salud.\n\nPara más información, visite nuestra sección Ley Ricarte Soto."
+        }
+      ]
+    }
+  ]
+}

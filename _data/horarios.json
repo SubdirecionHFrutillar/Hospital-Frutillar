@@ -1,0 +1,80 @@
+{
+  "intro": "Los horarios pueden estar sujetos a cambios en períodos de alta demanda o festivos. Para consultas llame al 600 360 7777 (Salud Responde).",
+  "servicios": [
+    {
+      "nombre": "SOME",
+      "descripcion": "Servicio de Orientación Médica y Estadística",
+      "icon": "medical_information",
+      "horarios": [
+        {"dias": "Lunes a Jueves", "horario": "08:00 – 17:00 hrs"},
+        {"dias": "Viernes", "horario": "08:00 – 16:00 hrs"}
+      ],
+      "notas": "Atención horario continuado",
+      "span2": false
+    },
+    {
+      "nombre": "OIRS",
+      "descripcion": "Oficina de Informaciones, Reclamos y Sugerencias",
+      "icon": "chat",
+      "horarios": [
+        {"dias": "Lunes a Jueves", "horario": "08:00 – 13:00 y 14:00 – 17:00 hrs"},
+        {"dias": "Viernes", "horario": "08:00 – 13:00 y 14:00 – 16:00 hrs"}
+      ],
+      "notas": "",
+      "span2": false
+    },
+    {
+      "nombre": "Farmacia",
+      "descripcion": "",
+      "icon": "medication",
+      "horarios": [
+        {"dias": "Lunes a Jueves", "horario": "08:30 – 16:30 hrs"},
+        {"dias": "Viernes", "horario": "08:30 – 15:30 hrs"}
+      ],
+      "notas": "Atención horario continuado",
+      "span2": false
+    },
+    {
+      "nombre": "Visita Hospitalizados",
+      "descripcion": "",
+      "icon": "bed",
+      "horarios": [
+        {"dias": "Lunes a Viernes", "horario": "10:00 – 19:00 hrs"},
+        {"dias": "Sábados, Domingos y Festivos", "horario": "12:00 – 18:00 hrs"}
+      ],
+      "notas": "Horario continuado en fines de semana",
+      "span2": false
+    },
+    {
+      "nombre": "Servicio Comunal de Rayos X",
+      "descripcion": "",
+      "icon": "radiology",
+      "horarios": [
+        {"dias": "Lunes a Viernes", "horario": "atención programada"}
+      ],
+      "notas": "",
+      "span2": false
+    },
+    {
+      "nombre": "Laboratorio Comunal",
+      "descripcion": "",
+      "icon": "biotech",
+      "horarios": [
+        {"dias": "Lunes a Jueves", "horario": "08:00 – 13:00 y 13:30 – 17:00 hrs"},
+        {"dias": "Viernes", "horario": "08:00 – 13:00 y 13:30 – 16:00 hrs"}
+      ],
+      "notas": "",
+      "span2": false
+    },
+    {
+      "nombre": "Servicio Dental",
+      "descripcion": "",
+      "icon": "dentistry",
+      "horarios": [
+        {"dias": "Atención con números de urgencias", "horario": "todos los días en la mañana"}
+      ],
+      "notas": "Los otros horarios y otros días se atiende a usuarios bajo control con hora programada.",
+      "span2": true
+    }
+  ]
+}
