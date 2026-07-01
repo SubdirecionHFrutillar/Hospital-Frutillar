@@ -70,7 +70,7 @@
       "span2": false
     },
     {
-      "nombre": "Servicio Comunal de Rayos X",
+      "nombre": "Unidad de Imagenes",
       "descripcion": "",
       "icon": "radiology",
       "horarios": [
@@ -83,17 +83,13 @@
       "span2": false
     },
     {
-      "nombre": "Laboratorio Comunal",
+      "nombre": "Laboratorio",
       "descripcion": "",
       "icon": "biotech",
       "horarios": [
         {
-          "dias": "Lunes a Jueves",
-          "horario": "08:00 – 13:00 y 13:30 – 17:00 hrs"
-        },
-        {
-          "dias": "Viernes",
-          "horario": "08:00 – 13:00 y 13:30 – 16:00 hrs"
+          "dias": "Lunes a Viernes",
+          "horario": "atención programada"
         }
       ],
       "notas": "",
