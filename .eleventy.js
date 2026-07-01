@@ -6,8 +6,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("img");
   eleventyConfig.addPassthroughCopy("admin");
 
-  // Passthrough 404 only — all other HTML pages are now .njk templates
   eleventyConfig.addPassthroughCopy("404.html");
+  eleventyConfig.addPassthroughCopy("robots.txt");
 
   // Markdown filter for rendering data fields
   eleventyConfig.addFilter("markdown", content => content ? md.render(content) : "");
