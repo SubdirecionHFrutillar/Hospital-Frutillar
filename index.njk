@@ -423,16 +423,43 @@ permalink: index.html
           </a>
         </div>
       </div>
-      <!-- Salud Responde -->
-      <a href="tel:6003607777" class="banner-side bg-primary text-white rounded-custom px-4 py-3 shadow-md hover:bg-primary-dark transition-colors flex items-center gap-3 min-h-[56px]">
-        <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-          <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
-        </div>
-        <div>
-          <span class="text-[10px] font-bold text-white/60 uppercase tracking-widest block">Salud Responde</span>
-          <span class="text-xl font-black leading-none">{{ site.telefono }}</span>
-        </div>
-      </a>
+      <!-- Banners institucionales -->
+      <div class="flex flex-col gap-2">
+        <a href="#" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl flex-shrink-0">favorite</span>
+          <span class="text-primary-dark text-sm font-bold">Hospital Amigo</span>
+        </a>
+        <a href="/servicios.html#urgencia" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-red-500 text-xl flex-shrink-0">emergency</span>
+          <span class="text-primary-dark text-sm font-bold">Categorización Urgencias</span>
+        </a>
+        <a href="/contacto.html" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-amber-600 text-xl flex-shrink-0">campaign</span>
+          <span class="text-primary-dark text-sm font-bold">Oficina de Información y Reclamos</span>
+        </a>
+        <a href="/quienes-somos.html#plan-estrategico" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-indigo-600 text-xl flex-shrink-0">flag</span>
+          <span class="text-primary-dark text-sm font-bold">Plan Estratégico</span>
+        </a>
+        <a href="/horarios.html" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-teal-600 text-xl flex-shrink-0">hotel</span>
+          <span class="text-primary-dark text-sm font-bold">Visita de Hospitalizados</span>
+        </a>
+        <a href="{{ site.ssreloncavi }}" target="_blank" class="banner-side bg-white border border-gray-200 rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl flex-shrink-0">account_balance</span>
+          <span class="text-primary-dark text-sm font-bold leading-tight">Servicio de Salud del Reloncaví</span>
+        </a>
+        <!-- Salud Responde -->
+        <a href="tel:6003607777" class="banner-side bg-primary text-white rounded-custom px-4 py-3 shadow-md hover:bg-primary-dark transition-colors flex items-center gap-3 min-h-[56px]">
+          <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+            <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-white/60 uppercase tracking-widest block">Salud Responde</span>
+            <span class="text-xl font-black leading-none">{{ site.telefono }}</span>
+          </div>
+        </a>
+      </div>
     </aside>
   </div>
 </main>
