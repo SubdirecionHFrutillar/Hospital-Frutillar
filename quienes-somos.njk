@@ -73,7 +73,14 @@ permalink: quienes-somos.html
           <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">history_edu</span>
           <h2 class="text-white font-bold text-base tracking-wide uppercase">Historia del Hospital</h2>
         </div>
-        <div class="px-6 py-6">
+        <div class="px-6 py-6 flex flex-col gap-6">
+          <!-- Fotografía placeholder -->
+          <div class="w-full rounded-custom overflow-hidden border border-gray-200 bg-gradient-to-br from-primary-dark to-primary flex items-center justify-center flex-col gap-2" style="height:280px;">
+            <span aria-hidden="true" class="material-symbols-outlined text-white/30" style="font-size:64px;">photo_camera</span>
+            <p class="text-white/40 text-xs font-semibold uppercase tracking-widest">Fotografía histórica del hospital</p>
+            <p class="text-white/25 text-xs">Reemplazar con imagen real</p>
+          </div>
+          <!-- Texto histórico -->
           <div class="prose max-w-none text-sm text-gray-700 leading-relaxed">
             {{ quienes_somos.historia | markdown | safe }}
           </div>
@@ -186,15 +193,23 @@ permalink: quienes-somos.html
         </div>
       </div>
 
-      <a href="tel:600-360-7777" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
-        <div class="bg-primary text-white p-2 rounded-full flex-shrink-0">
-          <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
-        </div>
-        <div>
-          <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Salud Responde</span>
-          <span class="text-primary text-xl font-black leading-none">{{ site.telefono }}</span>
-        </div>
-      </a>
+      <div class="flex flex-col gap-2.5">
+        <a href="#plan-estrategico" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
+          <span class="text-primary text-sm font-extrabold uppercase tracking-tight">Plan Estratégico</span>
+        </a>
+        <a href="#" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[64px] text-center">
+          <span class="text-primary text-sm font-extrabold uppercase tracking-tight">Hospital Amigo</span>
+        </a>
+        <a href="tel:600-360-7777" class="banner-top bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
+          <div class="bg-primary text-white p-2 rounded-full flex-shrink-0">
+            <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Salud Responde</span>
+            <span class="text-primary text-xl font-black leading-none">{{ site.telefono }}</span>
+          </div>
+        </a>
+      </div>
     </aside>
   </div>
 </main>
