@@ -8,5 +8,65 @@
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    function fechaES(dateStr) {
+      if (!dateStr) return "";
+      var d = new Date(dateStr);
+      if (isNaN(d.getTime())) return dateStr;
+      return d.getUTCDate() + " de " + MESES[d.getUTCMonth()] + " de " + d.getUTCFullYear();
+    }
+
+    CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap");
+    CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0");
+    CMS.registerPreviewStyle(
+      "body{font-family:'Public Sans',sans-serif;background:#f4f4f5;margin:0;padding:24px;}" +
+      ".material-symbols-outlined{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;vertical-align:middle;}" +
+      ".hf-card{max-width:420px;background:#fff;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.1);overflow:hidden;font-family:'Public Sans',sans-serif;}" +
+      ".hf-img{height:180px;background:linear-gradient(135deg,#0A2A5E 0%,#0F69C4 60%,#3A8FD4 100%);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}" +
+      ".hf-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}" +
+      ".hf-badge{position:absolute;top:10px;left:10px;background:#0F69C4;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:4px;}" +
+      ".hf-body{padding:18px;}" +
+      ".hf-date{font-size:12px;color:#9ca3af;margin:0 0 4px;}" +
+      ".hf-title{font-size:18px;font-weight:700;color:#111827;margin:0 0 8px;line-height:1.3;}" +
+      ".hf-resumen{font-size:13px;color:#6b7280;line-height:1.5;margin:0 0 12px;}" +
+      ".hf-cta{display:inline-flex;align-items:center;gap:4px;color:#0F69C4;font-size:12px;font-weight:700;}" +
+      ".hf-label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#0F69C4;margin:24px 0 6px;}" +
+      ".hf-label:first-child{margin-top:0;}" +
+      ".hf-body-full{font-size:14px;color:#374151;line-height:1.7;background:#fff;padding:18px;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-top:16px;max-width:600px;}"
+    );
+
+    var NoticiaPreview = createClass({
+      render: function() {
+        var entry = this.props.entry;
+        var title = entry.getIn(['data', 'title']) || 'Título de la noticia';
+        var date = entry.getIn(['data', 'date']);
+        var categoria = entry.getIn(['data', 'categoria']) || 'Institucional';
+        var resumen = entry.getIn(['data', 'resumen']) || 'El resumen aparecerá aquí tal como se ve en el listado de Noticias del sitio.';
+        var imagen = this.props.getAsset ? this.props.getAsset(entry.getIn(['data', 'imagen'])) : null;
+        var body = this.props.widgetFor('body');
+
+        return h('div', {},
+          h('span', { className: 'hf-label' }, 'Así se ve la tarjeta en el listado de Noticias'),
+          h('div', { className: 'hf-card' },
+            h('div', { className: 'hf-img' },
+              imagen ? h('img', { src: imagen.toString() }) : h('span', { className: 'material-symbols-outlined', style: { color: 'rgba(255,255,255,.15)', fontSize: '64px' } }, 'article'),
+              h('span', { className: 'hf-badge' }, categoria)
+            ),
+            h('div', { className: 'hf-body' },
+              h('p', { className: 'hf-date' }, fechaES(date)),
+              h('h3', { className: 'hf-title' }, title),
+              h('p', { className: 'hf-resumen' }, resumen),
+              h('span', { className: 'hf-cta' }, 'Leer más →')
+            )
+          ),
+          h('span', { className: 'hf-label' }, 'Así se ve el contenido completo de la noticia'),
+          h('div', { className: 'hf-body-full' }, body)
+        );
+      }
+    });
+
+    CMS.registerPreviewTemplate('noticias', NoticiaPreview);
+  </script>
 </body>
 </html>
