@@ -28,13 +28,13 @@
       "ubicacion": "Disponible para Frutillar y sectores rurales de la cuenca del Lago Llanquihue"
     },
     {
-      "nombre": "Pabellón Quirúrgico Dr. Augusto Courbis",
+      "nombre": "Pabellón Quirúrgico",
       "id": "pabellon",
       "icon": "surgical",
-      "descripcion": "El Pabellón Quirúrgico del hospital lleva el nombre del Dr. Augusto Courbis, cirujano pionero que inició las actividades quirúrgicas en el establecimiento. Realiza cirugías electivas y de urgencia bajo estrictos protocolos de seguridad del paciente.",
-      "horario": "TBD",
-      "horario_icon": "TBD",
-      "ubicacion": "TBD"
+      "descripcion": "El Pabellón Quirúrgico del hospital se encuentra cerrado por un proceso prolongado de remodelación, aún sin nombre asignado. Su reinauguración está prevista para fines de 2026. Una vez reabierto, realizará únicamente cirugía mayor ambulatoria.",
+      "horario": "Cerrado por remodelación — reapertura estimada fines de 2026",
+      "horario_icon": "construction",
+      "ubicacion": ""
     },
     {
       "nombre": "Unidad de Salud de la Mujer",
@@ -44,6 +44,15 @@
       "horario": "...........",
       "horario_icon": "info",
       "ubicacion": "..........."
+    },
+    {
+      "nombre": "COSAM Frutillar",
+      "id": "cosam",
+      "icon": "psychology",
+      "descripcion": "El COSAM (Centro de Salud Mental) Frutillar es una unidad funcionante del hospital que entrega atención de salud mental a través de un equipo especializado, tanto para población adulta como infantojuvenil. Además cuenta con el programa PAI.",
+      "horario": "",
+      "horario_icon": "",
+      "ubicacion": ""
     },
     {
       "nombre": "Laboratorio",
