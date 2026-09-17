@@ -1,0 +1,158 @@
+{# Determine active nav item #}
+{% set currentUrl = page.url %}
+{% set isHome          = currentUrl == '/' %}
+{% set isNoticias      = '/noticias' in currentUrl %}
+{% set isQuienesSomos  = '/quienes-somos' in currentUrl %}
+{% set isServicios     = '/servicios' in currentUrl %}
+{% set isInfo          = '/horarios' in currentUrl or '/carta-derechos' in currentUrl or '/aranceles' in currentUrl or '/copago-cero' in currentUrl or '/ley-ricarte-soto' in currentUrl or '/faq' in currentUrl %}
+{% set isTransparencia = '/transparencia' in currentUrl %}
+{% set isTrabaja       = '/trabaja-con-nosotros' in currentUrl %}
+{% set isContacto      = '/contacto' in currentUrl %}
+
+{% macro navClass(active) %}{% if active %}text-white font-bold border-b-2 border-primary-light bg-white/15{% else %}hover:bg-white/10 hover:text-white transition-colors{% endif %}{% endmacro %}
+
+<!-- NAV -->
+<nav class="bg-[#27272a] shadow-lg {{ navStickyClass | default('') }}" role="navigation" aria-label="Menú principal">
+  <div class="container mx-auto px-4">
+    <ul class="hidden md:flex flex-wrap items-center text-sm font-semibold text-white/80">
+      <li class="border-r border-white/10">
+        <a href="/" class="block py-4 px-5 {{ navClass(isHome) }}">Inicio</a>
+      </li>
+      <li class="border-r border-white/10">
+        <a href="/noticias.html" class="block py-4 px-5 {{ navClass(isNoticias) }}">Noticias</a>
+      </li>
+      <li class="border-r border-white/10 relative group" role="none">
+        <a href="/quienes-somos.html" role="menuitem" class="flex items-center py-4 px-5 {{ navClass(isQuienesSomos) }}">
+          Quiénes Somos <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
+        </a>
+        <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[200px] text-gray-700">
+          <a href="/quienes-somos.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Misión y Visión</a>
+          <a href="/quienes-somos.html#historia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Historia del Hospital</a>
+          <a href="/quienes-somos.html#autoridades" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Autoridades</a>
+          <a href="/quienes-somos.html#plan-estrategico" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary">Plan Estratégico</a>
+        </div>
+      </li>
+      <li class="border-r border-white/10 relative group" role="none">
+        <a href="/servicios.html" role="menuitem" class="flex items-center py-4 px-5 {{ navClass(isServicios) }}">
+          Servicios <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
+        </a>
+        <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px] text-gray-700">
+          <a href="/servicios.html#urgencia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Urgencia</a>
+          <a href="/servicios.html#hospitalizacion" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Hospitalización</a>
+          <a href="/servicios.html#hospitalizacion-domiciliaria" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Hospitalización Domiciliaria</a>
+          <a href="/servicios.html#pabellon" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Pabellón Quirúrgico</a>
+          <a href="/servicios.html#maternidad" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Maternidad</a>
+          <a href="/servicios.html#laboratorio" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Laboratorio</a>
+          <a href="/servicios.html#imagenologia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Imagenología</a>
+          <a href="/servicios.html#farmacia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary">Farmacia</a>
+        </div>
+      </li>
+      <li class="border-r border-white/10 relative group" role="none">
+        <a href="/horarios.html" role="menuitem" class="flex items-center py-4 px-5 {{ navClass(isInfo) }}">
+          Información al Usuario <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
+        </a>
+        <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px] text-gray-700">
+          <a href="/horarios.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Horarios de Atención</a>
+          <a href="/carta-derechos.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Carta de Derechos y Deberes</a>
+          <a href="/aranceles.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Aranceles</a>
+          <a href="/copago-cero.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Copago Cero</a>
+          <a href="/ley-ricarte-soto.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Ley Ricarte Soto</a>
+          <a href="/faq.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary">Preguntas Frecuentes</a>
+        </div>
+      </li>
+      <li class="border-r border-white/10 relative group" role="none">
+        <a href="/transparencia.html" role="menuitem" class="flex items-center py-4 px-5 {{ navClass(isTransparencia) }}">
+          Transparencia <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span>
+        </a>
+        <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[210px] text-gray-700">
+          <a href="/transparencia.html#activa" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Transparencia Activa</a>
+          <a href="/transparencia.html#solicitud" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Solicitud de Información</a>
+          <a href="/transparencia.html#ley-lobby" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Ley del Lobby</a>
+          <a href="/transparencia.html#cuentas-publicas" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary">Cuentas Públicas</a>
+        </div>
+      </li>
+      <li class="border-r border-white/10">
+        <a href="/trabaja-con-nosotros.html" class="block py-4 px-5 {{ navClass(isTrabaja) }}">Trabaja con Nosotros</a>
+      </li>
+      <li class="border-r border-white/10">
+        <a href="/contacto.html" class="block py-4 px-5 {{ navClass(isContacto) }}">Contacto</a>
+      </li>
+    </ul>
+    <div class="flex md:hidden items-center justify-between py-3">
+      <span class="text-sm font-bold text-white">{{ site.name }}</span>
+      <button id="menu-toggle" class="flex items-center gap-1 text-white" aria-label="Abrir menú">
+        <span id="menu-icon" aria-hidden="true" class="material-symbols-outlined text-2xl">menu</span>
+        <span class="text-sm font-semibold">Menú</span>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile dropdown -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-[#1e1e22] shadow-lg max-h-[80vh] overflow-y-auto">
+    <ul class="divide-y divide-white/10 text-sm font-semibold text-white/85">
+      <li><a href="/" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Inicio</a></li>
+      <li><a href="/noticias.html" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Noticias</a></li>
+      <li>
+        <button class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-quienes">
+          <span>Quiénes Somos</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-white/40">expand_more</span>
+        </button>
+        <div id="msub-quienes" class="hidden bg-white/5 border-t border-white/10">
+          <a href="/quienes-somos.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Misión y Visión</a>
+          <a href="/quienes-somos.html#historia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Historia del Hospital</a>
+          <a href="/quienes-somos.html#autoridades" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Autoridades</a>
+          <a href="/quienes-somos.html#plan-estrategico" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Plan Estratégico</a>
+        </div>
+      </li>
+      <li>
+        <button class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-servicios">
+          <span>Servicios</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-white/40">expand_more</span>
+        </button>
+        <div id="msub-servicios" class="hidden bg-white/5 border-t border-white/10">
+          <a href="/servicios.html#urgencia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Urgencia</a>
+          <a href="/servicios.html#hospitalizacion" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Hospitalización</a>
+          <a href="/servicios.html#hospitalizacion-domiciliaria" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Hospitalización Domiciliaria</a>
+          <a href="/servicios.html#pabellon" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Pabellón Quirúrgico</a>
+          <a href="/servicios.html#maternidad" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Maternidad</a>
+          <a href="/servicios.html#laboratorio" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Laboratorio</a>
+          <a href="/servicios.html#imagenologia" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Imagenología</a>
+          <a href="/servicios.html#farmacia" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Farmacia</a>
+        </div>
+      </li>
+      <li>
+        <button class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-info">
+          <span>Información al Usuario</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-white/40">expand_more</span>
+        </button>
+        <div id="msub-info" class="hidden bg-white/5 border-t border-white/10">
+          <a href="/horarios.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Horarios de Atención</a>
+          <a href="/carta-derechos.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Carta de Derechos y Deberes</a>
+          <a href="/aranceles.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Aranceles</a>
+          <a href="/copago-cero.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Copago Cero</a>
+          <a href="/ley-ricarte-soto.html" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Ley Ricarte Soto</a>
+          <a href="/faq.html" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Preguntas Frecuentes</a>
+        </div>
+      </li>
+      <li>
+        <button class="mobile-submenu-btn w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/10 transition-colors" data-target="msub-transp">
+          <span>Transparencia</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-lg expand-icon text-white/40">expand_more</span>
+        </button>
+        <div id="msub-transp" class="hidden bg-white/5 border-t border-white/10">
+          <a href="/transparencia.html#activa" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Transparencia Activa</a>
+          <a href="/transparencia.html#solicitud" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Solicitud de Información</a>
+          <a href="/transparencia.html#ley-lobby" class="block pl-8 pr-4 py-2.5 text-sm border-b border-white/10 hover:text-primary-light font-normal">Ley del Lobby</a>
+          <a href="/transparencia.html#cuentas-publicas" class="block pl-8 pr-4 py-2.5 text-sm hover:text-primary-light font-normal">Cuentas Públicas</a>
+        </div>
+      </li>
+      <li><a href="/trabaja-con-nosotros.html" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Trabaja con Nosotros</a></li>
+      <li><a href="/contacto.html" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Contacto</a></li>
+      <li>
+        <a href="{{ site.portalFuncionarios }}" target="_blank" class="flex items-center gap-2 px-4 py-3.5 text-primary-light hover:bg-white/10 font-bold">
+          <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span> Portal Funcionarios
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
