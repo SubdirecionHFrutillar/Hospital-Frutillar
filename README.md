@@ -45,9 +45,21 @@ Las contraseñas se guardan cifradas con *scrypt*; la sesión es una cookie firm
 3. Abrir `/funcionarios/configuracion-inicial.html`, ingresar la clave de configuración y los datos del administrador.
 4. Borrar la variable `FUNCIONARIOS_SETUP_KEY` (la página deja de funcionar apenas existe un administrador, pero así queda cerrada del todo).
 
+### Clave inicial común (opcional)
+
+Si se define la variable `FUNCIONARIOS_CLAVE_INICIAL` (secreta, alcance *Functions*), todas las cuentas
+nuevas parten con esa clave en vez de una individual. Hay que volver a publicar después de crearla o cambiarla.
+
+- El funcionario debe cambiarla en su primer ingreso y no puede volver a usarla como clave personal.
+- **Vence a las 72 horas** de creada la cuenta. Si no ingresó a tiempo, el administrador usa *Restablecer clave*,
+  que genera una clave individual (también con 72 horas de vigencia).
+- Conviene comunicarla por un canal interno y cambiarla de vez en cuando.
+
+Sin esta variable, cada cuenta nueva recibe una clave temporal individual que se muestra una sola vez.
+
 ### Uso diario
 
-- **Crear cuentas:** Portal → *Administrar cuentas*. Se genera una contraseña temporal que se muestra una sola vez; el funcionario debe cambiarla en su primer ingreso.
+- **Crear cuentas:** Portal → *Administrar cuentas*. La cuenta parte con la clave inicial común o con una clave temporal individual (ver arriba); en ambos casos el funcionario debe cambiarla en su primer ingreso.
 - **Olvidó su contraseña:** el administrador usa *Restablecer clave* y entrega la nueva temporal.
 - **Dejar sin acceso:** *Desactivar* (cierra sus sesiones abiertas).
 - **Agregar accesos al portal:** editar `_data/portal.json`.

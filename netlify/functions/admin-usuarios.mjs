@@ -1,10 +1,13 @@
 // Gestión de cuentas (solo rol "admin").
 //   GET   /api/admin/usuarios                         → lista
-//   POST  /api/admin/usuarios  { rut, nombre, cargo, rol }   → crea; devuelve clave temporal
+//   POST  /api/admin/usuarios  { rut, nombre, cargo, rol }   → crea la cuenta
+//         Si FUNCIONARIOS_CLAVE_INICIAL está definida, la cuenta parte con esa clave común;
+//         si no, se genera una clave temporal individual (que se devuelve una sola vez).
+//         En ambos casos vence a las 72 h si no se cambia.
 //   PATCH /api/admin/usuarios  { rut, accion: "restablecer" | "activar" | "desactivar" | "editar", nombre?, cargo?, rol? }
 import { normalizarRut } from "../lib/rut.mjs";
 import * as U from "../lib/usuarios.mjs";
-import { manejador, sesionActual, leerJSON, json, error } from "../lib/http.mjs";
+import { manejador, sesionActual, leerJSON, json, error, env } from "../lib/http.mjs";
 
 const texto = (v, max = 120) => (typeof v === "string" ? v.trim().replace(/\s+/g, " ").slice(0, max) : "");
 
@@ -15,7 +18,11 @@ export default manejador(["GET", "POST", "PATCH"], async (req) => {
   if (yo.debeCambiarClave) return error("Debe cambiar su contraseña temporal antes de continuar.", 403);
 
   if (req.method === "GET") {
-    return json({ usuarios: (await U.listar()).map(U.publico) });
+    return json({
+      usuarios: (await U.listar()).map(U.publico),
+      claveComunConfigurada: !!env("FUNCIONARIOS_CLAVE_INICIAL"),
+      vigenciaHoras: U.VIGENCIA_TEMPORAL_HORAS,
+    });
   }
 
   const datos = await leerJSON(req);
@@ -28,14 +35,16 @@ export default manejador(["GET", "POST", "PATCH"], async (req) => {
     const rol = U.ROLES.includes(datos.rol) ? datos.rol : "funcionario";
     if (await U.obtener(rut)) return error("Ya existe una cuenta con ese RUT.", 409);
 
-    const temporal = U.claveTemporal();
+    const comun = env("FUNCIONARIOS_CLAVE_INICIAL");
+    const temporal = comun || U.claveTemporal();
     const ahora = new Date().toISOString();
     const nuevo = await U.guardar({
       rut, nombre, cargo: texto(datos.cargo), rol, activo: true,
-      hash: await U.hashClave(temporal), sv: 1, debeCambiarClave: true,
+      hash: await U.hashClave(temporal), sv: 1, debeCambiarClave: true, claveTemporalVence: U.venceTemporal(),
       creado: ahora, creadoPor: yo.rut, ultimoAcceso: null,
     });
-    return json({ usuario: U.publico(nuevo), claveTemporal: temporal }, 201);
+    // La clave común nunca se devuelve: el administrador ya la conoce.
+    return json({ usuario: U.publico(nuevo), ...(comun ? { claveComun: true } : { claveTemporal: temporal }) }, 201);
   }
 
   // PATCH
@@ -49,6 +58,7 @@ export default manejador(["GET", "POST", "PATCH"], async (req) => {
       claveTemporal = U.claveTemporal();
       u.hash = await U.hashClave(claveTemporal);
       u.debeCambiarClave = true;
+      u.claveTemporalVence = U.venceTemporal();
       u.sv += 1;
       await U.limpiarFallos(rut);
       break;

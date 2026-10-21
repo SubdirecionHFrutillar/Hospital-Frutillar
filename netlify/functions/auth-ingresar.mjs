@@ -27,6 +27,13 @@ export default manejador(["POST"], async (req) => {
     return error(INVALIDO, 401);
   }
 
+  if (U.temporalVencida(u)) {
+    return error(
+      `Su clave inicial venció (dura ${U.VIGENCIA_TEMPORAL_HORAS} horas). Pida al administrador del portal que la restablezca.`,
+      403
+    );
+  }
+
   await U.limpiarFallos(rut);
   u.ultimoAcceso = new Date().toISOString();
   await U.guardar(u);

@@ -11,12 +11,15 @@ export default manejador(["POST"], async (req) => {
   const { actual, nueva } = await leerJSON(req);
   if (!(await U.verificarClave(actual ?? "", u.hash))) return error("La contraseña actual no es correcta.", 400);
   if (actual === nueva) return error("La nueva contraseña debe ser distinta de la actual.", 400);
+  const comun = env("FUNCIONARIOS_CLAVE_INICIAL");
+  if (comun && nueva === comun) return error("No puede usar la clave inicial común como contraseña personal.", 400);
   const problema = U.problemaClave(nueva, u.rut);
   if (problema) return error(problema, 400);
 
   u.hash = await U.hashClave(nueva);
   u.sv += 1;
   u.debeCambiarClave = false;
+  delete u.claveTemporalVence;
   await U.guardar(u);
 
   const token = await firmar({ rut: u.rut, nombre: u.nombre, rol: u.rol, sv: u.sv }, env("SESSION_SECRET"));

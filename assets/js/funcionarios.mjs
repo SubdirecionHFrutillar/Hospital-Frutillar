@@ -210,7 +210,19 @@ const paginas = {
       for (const u of lista) {
         const tr = document.createElement("tr");
         if (!u.activo) tr.className = "bg-gray-50 text-gray-400";
-        const estado = celda(u.activo ? (u.debeCambiarClave ? "Clave temporal" : "Activa") : "Desactivada");
+        let estadoTxt = u.activo ? "Activa" : "Desactivada";
+        let estadoClase = "";
+        if (u.activo && u.debeCambiarClave) {
+          const vence = u.claveTemporalVence ? Date.parse(u.claveTemporalVence) : null;
+          if (vence && vence < Date.now()) {
+            estadoTxt = "Clave inicial vencida";
+            estadoClase = "text-red-600 font-semibold";
+          } else {
+            estadoTxt = vence ? `Clave inicial (vence ${fecha(u.claveTemporalVence)})` : "Clave inicial";
+            estadoClase = "text-amber-700";
+          }
+        }
+        const estado = celda(estadoTxt, estadoClase);
         const acciones = document.createElement("td");
         acciones.className = "px-5 py-3 text-right whitespace-nowrap space-x-3";
         acciones.append(boton("Restablecer clave", "restablecer", u.rut));
@@ -234,7 +246,11 @@ const paginas = {
     };
 
     const cargar = async () => {
-      usuarios = (await api("/api/admin/usuarios")).usuarios;
+      const r = await api("/api/admin/usuarios");
+      usuarios = r.usuarios;
+      $("#modo-clave").textContent = r.claveComunConfigurada
+        ? `Las cuentas nuevas parten con la clave inicial común. Vence a las ${r.vigenciaHoras} horas si el funcionario no ingresa y la cambia.`
+        : `Las cuentas nuevas reciben una clave temporal individual que se muestra una sola vez. Vence a las ${r.vigenciaHoras} horas si no se cambia.`;
       pintar();
     };
 
@@ -278,8 +294,13 @@ const paginas = {
           datos: { rut, nombre: form.nombre.value, cargo: form.cargo.value, rol: form.rol.value },
         });
         form.reset();
-        msg.classList.add("hidden");
-        mostrarClave(r.usuario, r.claveTemporal);
+        if (r.claveComun) {
+          caja.classList.add("hidden");
+          mensaje(msg, `Cuenta creada para ${r.usuario.nombre}. Debe ingresar con la clave inicial común antes del ${fecha(r.usuario.claveTemporalVence)} y cambiarla.`, "ok");
+        } else {
+          msg.classList.add("hidden");
+          mostrarClave(r.usuario, r.claveTemporal);
+        }
         await cargar();
       } catch (err) {
         mensaje(msg, err.message);

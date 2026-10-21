@@ -11,6 +11,18 @@ const N = 16384, R = 8, P = 1, LARGO = 64;
 export const ROLES = ["funcionario", "admin"];
 export const MAX_FALLOS = 5;
 export const BLOQUEO_MIN = 15;
+/** Horas que dura una clave inicial o temporal antes de vencer si no se ha cambiado. */
+export const VIGENCIA_TEMPORAL_HORAS = 72;
+
+/** Fecha ISO en que vence una clave temporal creada ahora. */
+export function venceTemporal(ahora = Date.now()) {
+  return new Date(ahora + VIGENCIA_TEMPORAL_HORAS * 3600_000).toISOString();
+}
+
+/** ¿La clave temporal de este usuario ya venció? (cuentas antiguas sin fecha no vencen) */
+export function temporalVencida(u, ahora = Date.now()) {
+  return !!(u.debeCambiarClave && u.claveTemporalVence && Date.parse(u.claveTemporalVence) < ahora);
+}
 
 // ── Almacén ────────────────────────────────────────────────────────────────
 let almacenPrueba = null;
