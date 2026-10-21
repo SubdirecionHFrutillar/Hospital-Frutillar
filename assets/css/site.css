@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .material-symbols-outlined { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+  [x-cloak] { display: none !important; }
+}
+
+@layer components {
+  /* Franja bicolor azul/rojo (identidad Gobierno de Chile) en el borde superior de tarjetas */
+  .gob-stripe { position: relative; overflow: hidden; }
+  .gob-stripe::before,
+  .gob-stripe::after { content: ""; position: absolute; top: 0; height: 3px; }
+  .gob-stripe::before { left: 0; width: 55%; background: theme("colors.primary.DEFAULT"); }
+  .gob-stripe::after  { left: 55%; width: 45%; background: theme("colors.gob.rojo"); }
+
+  /* Ítems de menú lateral */
+  .acceso-item { border-left: 4px solid theme("colors.primary.light"); transition: border-color .15s, background .15s; }
+  .acceso-item:hover,
+  .acceso-item[aria-current="page"] { border-left-color: theme("colors.primary.DEFAULT"); background: theme("colors.primary.bg"); }
+
+  /* Tarjetas de noticias */
+  .news-card { border-left: 4px solid theme("colors.primary.pale"); transition: box-shadow .15s, border-color .15s; }
+  .news-card:hover { border-left-color: theme("colors.primary.DEFAULT"); box-shadow: 0 6px 20px rgba(0,0,0,.08); }
+
+  .info-card { border-left: 4px solid theme("colors.primary.pale"); }
+
+  /* Fondos degradados institucionales */
+  .bg-hospital      { background: linear-gradient(135deg, #0B4F96 0%, #0F69C4 55%, #3A8FD4 100%); }
+  .bg-hospital-deep { background: linear-gradient(135deg, #0A2A5E 0%, #0F69C4 100%); }
+  .bg-banner        { background: linear-gradient(100deg, #0B4F96 0%, #0F69C4 100%); }
+  .bg-noticia       { background: linear-gradient(135deg, #0A2A5E 0%, #0F69C4 60%, #3A8FD4 100%); }
+  .bg-footer        { background: linear-gradient(135deg, #27272a 0%, #3f3f46 100%); }
+
+  /* Portada: círculos decorativos del hero */
+  .hero-blob { position: absolute; border-radius: 50%; background: rgba(255,255,255,.04); pointer-events: none; }
+
+  /* Portada: encabezado que se compacta al hacer scroll */
+  #site-header .hdr-logo  { transition: width .35s ease, height .35s ease; }
+  #site-header .hdr-title { transition: font-size .35s ease; }
+  #site-header .hdr-wrap  { transition: padding .35s ease; }
+  #site-header .hdr-shrink { transition: opacity .25s ease, max-height .35s ease, margin .35s ease; max-height: 120px; overflow: hidden; }
+  #site-header.compact .hdr-logo  { width: 2.25rem; height: 2.25rem; }
+  #site-header.compact .hdr-title { font-size: 1.15rem; }
+  #site-header.compact .hdr-wrap  { padding-top: .45rem; padding-bottom: .45rem; }
+  #site-header.compact .hdr-shrink { opacity: 0; max-height: 0; margin: 0; pointer-events: none; }
+
+  /* Texto enriquecido (Markdown desde el CMS): un solo estilo para todo el sitio */
+  .prose > :first-child { margin-top: 0; }
+  .prose h2 { font-size: 1rem; font-weight: 700; color: theme("colors.primary.DEFAULT"); margin-top: 1.5rem; margin-bottom: .5rem; }
+  .prose h3 { font-size: .9rem; font-weight: 600; color: theme("colors.primary.dark"); margin-top: 1rem; margin-bottom: .25rem; }
+  .prose p { margin-bottom: .75rem; }
+  .prose ul, .prose ol { padding-left: 1.25rem; margin-bottom: .75rem; }
+  .prose ul { list-style: disc; }
+  .prose ol { list-style: decimal; }
+  .prose li { margin-bottom: .25rem; }
+  .prose a { color: theme("colors.primary.DEFAULT"); text-decoration: underline; }
+  .prose strong { color: theme("colors.primary.dark"); }
+  .prose table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: .85rem; }
+  .prose th { background: theme("colors.primary.DEFAULT"); color: #fff; text-align: left; padding: .4rem .75rem; }
+  .prose td { border: 1px solid theme("colors.gray.200"); padding: .4rem .75rem; }
+  .prose tr:nth-child(even) td { background: theme("colors.primary.bg"); }
+  .prose img { max-width: 100%; height: auto; border-radius: 4px; }
+
+  /* Acordeón de preguntas frecuentes */
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] { background: theme("colors.primary.bg"); }
+  details[open] > summary .expand-icon { transform: rotate(180deg); }
+  .expand-icon { transition: transform .2s; }
+}

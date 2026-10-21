@@ -1,0 +1,48 @@
+[
+  { "label": "Inicio", "url": "/" },
+  { "label": "Noticias", "url": "/noticias.html", "match": ["/noticias"] },
+  {
+    "label": "Quiénes Somos", "url": "/quienes-somos.html", "id": "quienes",
+    "items": [
+      { "label": "Misión y Visión", "url": "/quienes-somos.html#mision" },
+      { "label": "Historia del Hospital", "url": "/quienes-somos.html#historia" },
+      { "label": "Autoridades", "url": "/quienes-somos.html#autoridades" },
+      { "label": "Plan Estratégico", "url": "/quienes-somos.html#plan-estrategico" }
+    ]
+  },
+  {
+    "label": "Servicios", "url": "/servicios.html", "id": "servicios",
+    "items": [
+      { "label": "Urgencia", "url": "/servicios.html#urgencia" },
+      { "label": "Hospitalización", "url": "/servicios.html#hospitalizacion" },
+      { "label": "Hospitalización Domiciliaria", "url": "/servicios.html#hospitalizacion-domiciliaria" },
+      { "label": "Pabellón Quirúrgico", "url": "/servicios.html#pabellon" },
+      { "label": "Maternidad", "url": "/servicios.html#maternidad" },
+      { "label": "Laboratorio", "url": "/servicios.html#laboratorio" },
+      { "label": "Imagenología", "url": "/servicios.html#imagenologia" },
+      { "label": "Farmacia", "url": "/servicios.html#farmacia" }
+    ]
+  },
+  {
+    "label": "Información al Usuario", "url": "/horarios.html", "id": "info",
+    "items": [
+      { "label": "Horarios de Atención", "url": "/horarios.html", "icon": "schedule" },
+      { "label": "Carta de Derechos y Deberes", "url": "/carta-derechos.html", "icon": "verified_user" },
+      { "label": "Aranceles", "url": "/aranceles.html", "icon": "receipt_long" },
+      { "label": "Copago Cero", "url": "/copago-cero.html", "icon": "money_off" },
+      { "label": "Ley Ricarte Soto", "url": "/ley-ricarte-soto.html", "icon": "medication" },
+      { "label": "Preguntas Frecuentes", "url": "/faq.html", "icon": "help" }
+    ]
+  },
+  {
+    "label": "Transparencia", "url": "/transparencia.html", "id": "transparencia",
+    "items": [
+      { "label": "Transparencia Activa", "url": "/transparencia.html#activa" },
+      { "label": "Solicitud de Información", "url": "/transparencia.html#solicitud" },
+      { "label": "Ley del Lobby", "url": "/transparencia.html#ley-lobby" },
+      { "label": "Cuentas Públicas", "url": "/transparencia.html#cuentas-publicas" }
+    ]
+  },
+  { "label": "Trabaja con Nosotros", "url": "/trabaja-con-nosotros.html" },
+  { "label": "Contacto", "url": "/contacto.html" }
+]

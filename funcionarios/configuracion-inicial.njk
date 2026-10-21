@@ -1,0 +1,42 @@
+---
+title: Configuración inicial del portal
+permalink: funcionarios/configuracion-inicial.html
+---
+{% import "componentes.njk" as ui with context %}
+{{ ui.banner("Configuración inicial", "Creación de la primera cuenta de administrador del Portal Funcionarios", "admin_panel_settings", [{ label: "Portal Funcionarios", url: "/funcionarios/" }, { label: "Configuración inicial" }]) }}
+
+<div class="container mx-auto px-4 py-12" data-pagina="configuracion-inicial">
+  <div class="max-w-lg mx-auto bg-white border border-gray-200 rounded-custom shadow-md overflow-hidden gob-stripe">
+    <p id="no-disponible" class="hidden px-8 py-8 text-sm text-gray-600">
+      La configuración inicial ya fue realizada o no está habilitada. <a href="/funcionarios/ingresar.html" class="text-primary font-bold hover:underline">Ir al ingreso</a>.
+    </p>
+    <form id="form-config" class="hidden px-8 py-8 flex flex-col gap-4" novalidate>
+      <p class="text-sm text-gray-600">Esta página solo funciona una vez: crea la primera cuenta de administrador. Luego las demás cuentas se crean desde <em>Administrar cuentas</em>.</p>
+      <div>
+        <label for="claveConfiguracion" class="block text-xs font-bold text-gray-600 mb-1">Clave de configuración <span class="font-normal text-gray-400">(variable FUNCIONARIOS_SETUP_KEY en Netlify)</span></label>
+        <input id="claveConfiguracion" type="password" autocomplete="off" required class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="rut" class="block text-xs font-bold text-gray-600 mb-1">RUT</label>
+          <input id="rut" type="text" required data-rut maxlength="12" placeholder="12.345.678-9" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
+        </div>
+        <div>
+          <label for="cargo" class="block text-xs font-bold text-gray-600 mb-1">Cargo</label>
+          <input id="cargo" type="text" placeholder="Subdirector Médico" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
+        </div>
+      </div>
+      <div>
+        <label for="nombre" class="block text-xs font-bold text-gray-600 mb-1">Nombre completo</label>
+        <input id="nombre" type="text" required autocomplete="name" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
+      </div>
+      <div>
+        <label for="clave" class="block text-xs font-bold text-gray-600 mb-1">Contraseña</label>
+        <input id="clave" type="password" required autocomplete="new-password" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
+        <p class="text-xs text-gray-500 mt-1">Mínimo 8 caracteres, con letras y números. No puede contener su RUT.</p>
+      </div>
+      <p id="mensaje" role="alert" class="hidden text-sm rounded-custom px-4 py-3"></p>
+      <button type="submit" class="bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-6 py-3 rounded-custom transition-colors shadow">Crear administrador</button>
+    </form>
+  </div>
+</div>

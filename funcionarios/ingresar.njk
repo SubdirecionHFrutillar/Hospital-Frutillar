@@ -1,0 +1,37 @@
+---
+title: Ingreso Funcionarios
+permalink: funcionarios/ingresar.html
+---
+{% import "componentes.njk" as ui with context %}
+{{ ui.banner("Portal Funcionarios", "Acceso exclusivo para funcionarios del Hospital de Frutillar", "lock", [{ label: "Portal Funcionarios" }]) }}
+
+<div class="container mx-auto px-4 py-12" data-pagina="ingresar">
+  <div class="max-w-md mx-auto bg-white border border-gray-200 rounded-custom shadow-md overflow-hidden gob-stripe">
+    <form id="form-ingreso" class="px-8 py-8 flex flex-col gap-5" novalidate>
+      <div>
+        <h2 class="text-xl font-bold text-primary">Iniciar sesión</h2>
+        <p class="text-sm text-gray-500 mt-1">Ingrese con su RUT y contraseña.</p>
+      </div>
+      <div>
+        <label for="rut" class="block text-xs font-bold text-gray-600 mb-1">RUT</label>
+        <input id="rut" name="rut" type="text" inputmode="text" autocomplete="username" required placeholder="12.345.678-9" maxlength="12" data-rut class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm focus:border-primary focus:ring-primary-pale">
+      </div>
+      <div>
+        <label for="clave" class="block text-xs font-bold text-gray-600 mb-1">Contraseña</label>
+        <div class="relative">
+          <input id="clave" name="clave" type="password" autocomplete="current-password" required class="w-full border-gray-300 rounded-custom px-3 py-2.5 pr-11 text-sm focus:border-primary focus:ring-primary-pale">
+          <button type="button" data-ver-clave="clave" class="absolute inset-y-0 right-0 px-3 text-gray-400 hover:text-primary" aria-label="Mostrar contraseña">
+            <span aria-hidden="true" class="material-symbols-outlined text-xl">visibility</span>
+          </button>
+        </div>
+      </div>
+      <p id="mensaje" role="alert" class="hidden text-sm rounded-custom px-4 py-3 bg-red-50 text-red-700 border border-red-200"></p>
+      <button type="submit" class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-6 py-3 rounded-custom transition-colors shadow">
+        <span aria-hidden="true" class="material-symbols-outlined text-base">login</span>Ingresar
+      </button>
+      <p class="text-xs text-gray-500 leading-relaxed border-t border-gray-100 pt-4">
+        ¿Olvidó su contraseña o no tiene cuenta? Solicítela a la Subdirección Médica o al administrador del portal, quien le entregará una contraseña temporal.
+      </p>
+    </form>
+  </div>
+</div>
