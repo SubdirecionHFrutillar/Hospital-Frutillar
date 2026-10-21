@@ -64,6 +64,16 @@ Sin esta variable, cada cuenta nueva recibe una clave temporal individual que se
 - **Dejar sin acceso:** *Desactivar* (cierra sus sesiones abiertas).
 - **Agregar accesos al portal:** editar `_data/portal.json`.
 
+### Intranet
+
+La portada del portal (`/funcionarios/`) es el muro de publicaciones de la intranet:
+
+- **Leer:** cualquier cuenta activa. Se filtra por categoría y cada publicación muestra sus adjuntos.
+- **Publicar:** cuentas con rol **Editor** o **Administrador** (botón *Publicar*). Se pueden adjuntar PDF, imágenes y archivos de Office de hasta 5 MB cada uno.
+- **Editar o eliminar:** el autor de la publicación o un administrador.
+- Los textos y archivos se guardan en Netlify Blobs (almacén `intranet`), no en GitHub, y solo se entregan a quien tiene sesión.
+- Las categorías están en `netlify/lib/intranet.mjs` y los accesos de la barra lateral en `_data/portal.json`.
+
 ### Más adelante
 
 Si el hospital adopta una base de datos o un directorio institucional, solo hay que reemplazar
