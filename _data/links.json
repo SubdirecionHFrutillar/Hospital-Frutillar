@@ -1,0 +1,8 @@
+[
+  { "label": "Ministerio de Salud", "url": "https://www.minsal.cl", "icon": "local_hospital" },
+  { "label": "FONASA", "url": "https://www.fonasa.cl", "icon": "health_and_safety" },
+  { "label": "Superintendencia de Salud", "url": "https://www.supersalud.gob.cl", "icon": "gavel" },
+  { "label": "Servicio de Salud Reloncaví", "url": "https://www.ssreloncavi.cl", "icon": "account_balance" },
+  { "label": "Portal Transparencia", "url": "https://www.portaltransparencia.cl", "icon": "visibility" },
+  { "label": "Empleos Públicos", "url": "https://www.empleospublicos.cl", "icon": "work" }
+]

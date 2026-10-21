@@ -1,0 +1,26 @@
+{#
+  Plantilla común de las páginas de "Información al Usuario" con contenido Markdown
+  (Aranceles, Copago Cero, Ley Ricarte Soto).
+  Antes de incluirla, la página define:
+    d               → datos de la página (titulo, intro, body)
+    icono, subtitulo, tituloSeccion, enlacesExternos (opcional)
+#}
+{% import "componentes.njk" as ui with context %}
+{% set infoNav = nav | buscar("id", "info") %}
+
+{{ ui.banner(d.titulo, subtitulo, icono, [{ label: "Información al Usuario", url: "/horarios.html" }, { label: d.titulo }]) }}
+
+{% call ui.dosColumnas() %}
+  <div class="min-w-0 flex flex-col gap-6">
+    {{ ui.aviso(d.intro) }}
+    {% call ui.seccion(tituloSeccion, icono) %}
+      <div class="prose max-w-none text-sm text-gray-700 leading-relaxed">{{ d.body | markdown | safe }}</div>
+    {% endcall %}
+  </div>
+
+  <aside class="flex flex-col gap-5">
+    {{ ui.menuLateral("Información al Usuario", infoNav.items) }}
+    {% if enlacesExternos %}{{ ui.enlacesExternos("Más Información", enlacesExternos) }}{% endif %}
+    {{ ui.saludResponde() }}
+  </aside>
+{% endcall %}

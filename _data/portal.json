@@ -1,0 +1,9 @@
+{
+  "accesos": [
+    { "titulo": "Intranet anterior", "descripcion": "Documentos y recursos del portal de funcionarios anterior.", "url": "https://hospitaldefrutilla.wixsite.com/salud", "icono": "folder_open" },
+    { "titulo": "Imágenes de exámenes", "descripcion": "Visor de imágenes del Servicio de Salud.", "url": "https://examenes.ssdr.gob.cl/login", "icono": "radiology" },
+    { "titulo": "Servicio de Salud Reloncaví", "descripcion": "Sitio institucional del Servicio de Salud.", "url": "https://www.ssreloncavi.cl", "icono": "account_balance" },
+    { "titulo": "Cambiar contraseña", "descripcion": "Actualice la contraseña de su cuenta del portal.", "url": "/funcionarios/cambiar-clave.html", "icono": "key" },
+    { "titulo": "Administrar cuentas", "descripcion": "Crear cuentas de funcionarios, restablecer contraseñas y desactivar accesos.", "url": "/funcionarios/administrar.html", "icono": "manage_accounts", "soloAdmin": true }
+  ]
+}

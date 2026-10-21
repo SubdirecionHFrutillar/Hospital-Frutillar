@@ -1,0 +1,32 @@
+---
+title: Cambiar contraseña
+permalink: funcionarios/cambiar-clave.html
+---
+{% import "componentes.njk" as ui with context %}
+{{ ui.banner("Cambiar contraseña", "Defina una contraseña personal para su cuenta", "key", [{ label: "Portal Funcionarios", url: "/funcionarios/" }, { label: "Cambiar contraseña" }]) }}
+
+<div class="container mx-auto px-4 py-12" data-pagina="cambiar-clave">
+  <div class="max-w-md mx-auto bg-white border border-gray-200 rounded-custom shadow-md overflow-hidden gob-stripe">
+    <form id="form-clave" class="px-8 py-8 flex flex-col gap-5" novalidate>
+      <p id="aviso-temporal" class="hidden text-sm rounded-custom px-4 py-3 bg-amber-50 text-amber-800 border border-amber-200">
+        Está usando una contraseña temporal. Debe cambiarla para continuar.
+      </p>
+      <div>
+        <label for="actual" class="block text-xs font-bold text-gray-600 mb-1">Contraseña actual</label>
+        <input id="actual" type="password" autocomplete="current-password" required class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm focus:border-primary focus:ring-primary-pale">
+      </div>
+      <div>
+        <label for="nueva" class="block text-xs font-bold text-gray-600 mb-1">Nueva contraseña</label>
+        <input id="nueva" type="password" autocomplete="new-password" required minlength="8" aria-describedby="reglas" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm focus:border-primary focus:ring-primary-pale">
+        <p id="reglas" class="text-xs text-gray-500 mt-1">Mínimo 8 caracteres, con letras y números. No puede contener su RUT.</p>
+      </div>
+      <div>
+        <label for="repetir" class="block text-xs font-bold text-gray-600 mb-1">Repita la nueva contraseña</label>
+        <input id="repetir" type="password" autocomplete="new-password" required class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm focus:border-primary focus:ring-primary-pale">
+      </div>
+      <p id="mensaje" role="alert" class="hidden text-sm rounded-custom px-4 py-3"></p>
+      <button type="submit" class="bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-6 py-3 rounded-custom transition-colors shadow">Guardar contraseña</button>
+      <a href="/funcionarios/" id="volver-portal" class="text-center text-sm text-primary font-semibold hover:underline">Volver al portal</a>
+    </form>
+  </div>
+</div>

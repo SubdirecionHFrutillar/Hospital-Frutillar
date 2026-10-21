@@ -4,10 +4,25 @@
   "private": true,
   "description": "Sitio web Hospital de Frutillar",
   "scripts": {
-    "build": "eleventy",
-    "dev": "eleventy --serve"
+    "build": "npm run build:html && npm run build:css",
+    "build:html": "eleventy",
+    "build:css": "tailwindcss -i assets/css/site.css -o _site/assets/css/site.css --minify",
+    "dev": "run-p dev:*",
+    "dev:html": "eleventy --serve",
+    "dev:css": "tailwindcss -i assets/css/site.css -o _site/assets/css/site.css --watch",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
-    "@11ty/eleventy": "^2.0.1"
+    "@11ty/eleventy": "^2.0.1",
+    "@netlify/blobs": "^11.1.5",
+    "markdown-it": "^15.0.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.11",
+    "npm-run-all2": "^8.0.4",
+    "tailwindcss": "^3.4.19"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

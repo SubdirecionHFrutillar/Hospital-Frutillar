@@ -5,9 +5,16 @@
   "servicio": "Servicio de Salud del Reloncaví",
   "region": "Región de Los Lagos",
   "direccion": "Av. Las Piedras S/N, Frutillar",
+  "mapsUrl": "https://maps.google.com/?q=Hospital+de+Frutillar",
+  "mapsEmbed": "https://maps.google.com/maps?q=Hospital+de+Frutillar&output=embed&z=16",
   "telefono": "600 360 7777",
+  "telefonoHref": "tel:6003607777",
   "telefonoLabel": "Salud Responde",
   "telefonoCentral": "(65) 2 421 000",
-  "portalFuncionarios": "https://hospitaldefrutilla.wixsite.com/salud",
+  "telefonoCentralHref": "tel:+56652421000",
+  "instagram": "https://www.instagram.com/hospitaldefrutillar/",
+  "facebook": "",
+  "portalFuncionarios": "/funcionarios/",
+  "intranetAnterior": "https://hospitaldefrutilla.wixsite.com/salud",
   "ssreloncavi": "https://www.ssreloncavi.cl"
 }

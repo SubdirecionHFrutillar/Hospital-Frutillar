@@ -1,0 +1,70 @@
+---
+title: Administrar cuentas
+permalink: funcionarios/administrar.html
+---
+{% import "componentes.njk" as ui with context %}
+{{ ui.banner("Administrar cuentas", "Crear cuentas, restablecer contraseñas y desactivar accesos", "manage_accounts", [{ label: "Portal Funcionarios", url: "/funcionarios/" }, { label: "Administrar cuentas" }]) }}
+
+<div class="container mx-auto px-4 py-8 flex flex-col gap-6" data-pagina="administrar">
+
+  {% call ui.seccion("Nueva cuenta", "person_add") %}
+    <form id="form-nuevo" class="grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_150px_auto] gap-3 items-end" novalidate>
+      <div>
+        <label for="n-rut" class="block text-xs font-bold text-gray-600 mb-1">RUT</label>
+        <input id="n-rut" name="rut" type="text" required data-rut maxlength="12" placeholder="12.345.678-9" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
+      </div>
+      <div>
+        <label for="n-nombre" class="block text-xs font-bold text-gray-600 mb-1">Nombre completo</label>
+        <input id="n-nombre" name="nombre" type="text" required class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
+      </div>
+      <div>
+        <label for="n-cargo" class="block text-xs font-bold text-gray-600 mb-1">Cargo / unidad</label>
+        <input id="n-cargo" name="cargo" type="text" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
+      </div>
+      <div>
+        <label for="n-rol" class="block text-xs font-bold text-gray-600 mb-1">Rol</label>
+        <select id="n-rol" name="rol" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
+          <option value="funcionario">Funcionario</option>
+          <option value="admin">Administrador</option>
+        </select>
+      </div>
+      <button type="submit" class="bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-5 py-2 rounded-custom shadow h-[38px]">Crear</button>
+    </form>
+  {% endcall %}
+
+  <div id="clave-entregada" role="status" class="hidden bg-amber-50 border border-amber-200 rounded-custom px-5 py-4 text-sm text-amber-900">
+    <p class="font-bold mb-1">Contraseña temporal para <span data-campo="para"></span></p>
+    <p class="mb-2">Entréguela personalmente. Se muestra <strong>solo esta vez</strong>; el funcionario deberá cambiarla al ingresar.</p>
+    <div class="flex items-center gap-3 flex-wrap">
+      <code data-campo="clave" class="text-lg font-mono font-bold bg-white border border-amber-200 rounded px-3 py-1 select-all"></code>
+      <button type="button" data-copiar class="text-xs font-bold text-amber-900 underline">Copiar</button>
+      <button type="button" data-cerrar class="text-xs font-bold text-amber-900 underline">Ocultar</button>
+    </div>
+  </div>
+  <p id="mensaje" role="alert" class="hidden text-sm rounded-custom px-4 py-3"></p>
+
+  {% call ui.seccion("Cuentas", "group", padding="") %}
+    <div class="px-5 py-3 border-b border-gray-100">
+      <label for="filtro" class="sr-only">Buscar</label>
+      <input id="filtro" type="search" placeholder="Buscar por nombre, RUT o cargo…" class="w-full md:w-80 border-gray-300 rounded-custom px-3 py-2 text-sm">
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
+          <tr>
+            <th class="px-5 py-3 font-bold">Nombre</th>
+            <th class="px-5 py-3 font-bold">RUT</th>
+            <th class="px-5 py-3 font-bold">Cargo</th>
+            <th class="px-5 py-3 font-bold">Rol</th>
+            <th class="px-5 py-3 font-bold">Estado</th>
+            <th class="px-5 py-3 font-bold">Último acceso</th>
+            <th class="px-5 py-3 font-bold text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-usuarios" class="divide-y divide-gray-100">
+          <tr><td colspan="7" class="px-5 py-6 text-center text-gray-400">Cargando…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  {% endcall %}
+</div>

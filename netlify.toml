@@ -1,8 +1,31 @@
 [build]
-  command   = "npm install && npm run build"
-  publish   = "_site"
+  command = "npm run build"
+  publish = "_site"
 
+# Panel del CMS (Decap)
 [[redirects]]
   from   = "/admin"
   to     = "/admin/index.html"
   status = 200
+
+# Cabeceras de seguridad para todo el sitio
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# CSS/JS: un día de caché (el HTML las pide con ?v=<build> tras cada publicación)
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Portal de funcionarios: nunca en caché compartida ni en buscadores
+[[headers]]
+  for = "/funcionarios/*"
+  [headers.values]
+    Cache-Control = "private, no-store"
+    X-Robots-Tag = "noindex, nofollow"

@@ -1,634 +1,156 @@
 ---
+layout: base.njk
 permalink: index.html
+title: Inicio
+portada: true
+accesosUsuarios:
+  - { titulo: "Ver Imágenes de Exámenes", texto: "Accede a tus imágenes de radiología, ecografía y otros exámenes en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", cta: "Acceder", fondo: "bg-primary-bg border-primary-pale hover:border-primary-light", circulo: "bg-primary", color: "text-primary" }
+  - { titulo: "Solicitar Ficha Clínica", texto: "Solicita copia de tu ficha clínica según Ley N° 20.584 sobre derechos del paciente", url: "/carta-derechos.html", icono: "folder_shared", cta: "Más información", fondo: "bg-amber-50 border-amber-100", circulo: "bg-amber-500", color: "text-amber-600" }
+  - { titulo: "OIRS", texto: "Oficina de Información, Reclamos y Sugerencias. Haz llegar tu opinión o reclamo.", url: "/contacto.html", icono: "campaign", cta: "Contactar", fondo: "bg-teal-50 border-teal-100", circulo: "bg-teal-600", color: "text-teal-600" }
+  - { titulo: "Preguntas Frecuentes", texto: "Respuestas sobre atención, horarios, pagos FONASA y trámites en el hospital", url: "/faq.html", icono: "help", cta: "Ver respuestas", fondo: "bg-purple-50 border-purple-100", circulo: "bg-purple-600", color: "text-purple-600" }
+accesosRapidos:
+  - { titulo: "Urgencias", texto: "Horarios y categorización", url: "/servicios.html#urgencia", icono: "emergency", tono: "bg-red-50 text-red-500" }
+  - { titulo: "Horarios de Atención", texto: "Consultas y especialidades", url: "/horarios.html", icono: "schedule", tono: "bg-primary-bg text-primary" }
+  - { titulo: "Imagenología", texto: "Ver exámenes en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", tono: "bg-indigo-50 text-indigo-600" }
+  - { titulo: "Teléfonos del Hospital", texto: "Contacto y cómo llegar", url: "/contacto.html", icono: "call", tono: "bg-green-50 text-green-600" }
+campanas:
+  - { etiqueta: "Plan de Invierno", titulo: "Vacúnate contra la Influenza", url: "https://www.minsal.cl/influenza/", icono: "masks", degradado: "#1565C0,#1976D2", tono: "text-blue-200" }
+  - { etiqueta: "Primera Infancia", titulo: "Chile Crece Contigo", url: "https://www.crececontigo.gob.cl", icono: "child_care", degradado: "#C2185B,#E91E8C", tono: "text-pink-200" }
+  - { etiqueta: "Bienestar Mental", titulo: "Salud Mental Importa", url: "https://www.minsal.cl/salud-mental/", icono: "psychology", degradado: "#00695C,#00897B", tono: "text-teal-200" }
+  - { etiqueta: "Prevención", titulo: "No+VIH", url: "https://www.minsal.cl/vih-sida/", icono: "ribbon", degradado: "#B71C1C,#D32F2F", tono: "text-red-200" }
+  - { etiqueta: "Detección Temprana", titulo: "Prevención del Cáncer", url: "https://www.minsal.cl/cancer/", icono: "oncology", degradado: "#4527A0,#5E35B1", tono: "text-purple-200" }
+  - { etiqueta: "Hábitos Saludables", titulo: "Come Sano, Vive Mejor", url: "https://www.minsal.cl/alimentacion-saludable/", icono: "nutrition", degradado: "#2E7D32,#388E3C", tono: "text-green-200" }
 ---
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Inicio - {{ site.name }}</title>
-<meta name="description" content="{{ site.description }}">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="es_CL">
-<meta property="og:site_name" content="{{ site.name }}">
-<meta property="og:title" content="Inicio - {{ site.name }}">
-<meta property="og:description" content="{{ site.description }}">
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          sans: ['Public Sans', 'sans-serif'],
-          serif: ['Public Sans', 'sans-serif'],
-        },
-        colors: {
-          primary: {
-            DEFAULT: '#0F69C4',
-            light:   '#6AADEB',
-            pale:    '#CCE3F7',
-            bg:      '#EEF4FB',
-            dark:    '#0B4F96',
-          },
-        },
-        borderRadius: { custom: '4px' }
-      }
-    }
-  }
-</script>
-<style>
-  .link-card { position: relative; overflow: hidden; }
-  .link-card::before { content:''; position:absolute; top:0; left:0; width:55%; height:3px; background:#0F69C4; }
-  .link-card::after  { content:''; position:absolute; top:0; left:55%; width:45%; height:3px; background:#DA291C; }
-  .acceso-item { border-left: 4px solid #6AADEB; transition: border-color .15s, background .15s; }
-  .acceso-item:hover { border-left-color: #0F69C4; background: #EEF4FB; }
-  .banner-side { position: relative; }
-  .banner-side::before { content:''; position:absolute; top:0; left:0; width:50%; height:3px; background:#0F69C4; }
-  .banner-side::after  { content:''; position:absolute; top:0; left:50%; width:50%; height:3px; background:#DA291C; }
-  .hero-blob-1 { position:absolute; right:-100px; top:-100px; width:480px; height:480px; background:rgba(255,255,255,0.04); border-radius:50%; pointer-events:none; }
-  .hero-blob-2 { position:absolute; right:140px; bottom:-160px; width:320px; height:320px; background:rgba(255,255,255,0.04); border-radius:50%; pointer-events:none; }
-  .service-card { transition: transform .15s, box-shadow .15s; }
-  .service-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(15,105,196,0.18); }
-  .news-card { transition: box-shadow .15s, border-color .15s; border-left: 4px solid #CCE3F7; }
-  .news-card:hover { border-left-color: #0F69C4; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
-  .stat-num { font-variant-numeric: tabular-nums; }
-  /* Collapsing header */
-  #site-header .hdr-logo { transition: width .35s ease, height .35s ease; }
-  #site-header.compact .hdr-logo { width: 2.25rem !important; height: 2.25rem !important; }
-  #site-header .hdr-shrink { transition: opacity .25s ease, max-height .35s ease, margin .35s ease; max-height: 120px; overflow: hidden; }
-  #site-header.compact .hdr-shrink { opacity: 0; max-height: 0; margin: 0 !important; pointer-events: none; }
-  #site-header .hdr-title { transition: font-size .35s ease; }
-  #site-header.compact .hdr-title { font-size: 1.15rem !important; }
-  #site-header .hdr-wrap { transition: padding .35s ease; }
-  #site-header.compact .hdr-wrap { padding-top: .45rem !important; padding-bottom: .45rem !important; }
-</style>
-</head>
-<body class="font-sans antialiased bg-zinc-100 text-gray-800">
-<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-primary focus:px-4 focus:py-2 focus:rounded-custom focus:shadow-lg focus:outline-none">Saltar al contenido principal</a>
-
-<!-- BARRA DE IDENTIDAD GOBIERNO DE CHILE · GobDigital CL v3 -->
-<div class="bg-white border-b border-gray-200">
-  <div class="container mx-auto px-4 flex items-center justify-between py-1.5">
-    <div class="flex items-center gap-2.5">
-      <div class="flex items-center gap-px" aria-hidden="true">
-        <span class="block w-1 h-4 rounded-sm" style="background:#DA291C;"></span>
-        <span class="block w-1 h-4 rounded-sm" style="background:#0F69C4;"></span>
-      </div>
-      <a href="https://www.gob.cl" target="_blank" rel="noopener" class="text-[11px] font-semibold text-gray-500 hover:text-[#0F69C4] transition-colors tracking-wide">Gobierno de Chile</a>
-    </div>
-    <a href="https://www.gob.cl" target="_blank" rel="noopener" class="text-[11px] text-gray-400 hover:text-[#0F69C4] transition-colors hidden sm:block">gob.cl</a>
-  </div>
-</div>
-
-<!-- TOPBAR -->
-<div class="bg-[#27272a] text-white text-xs py-1.5 border-b border-white/10">
-  <div class="container mx-auto px-4 flex justify-between items-center flex-wrap gap-2">
-    <div class="flex items-center gap-1.5 text-white/65">
-      <span aria-hidden="true" class="material-symbols-outlined text-xs">location_on</span>
-      {{ site.direccion }} &nbsp;·&nbsp; {{ site.region }}
-    </div>
-    <div class="flex gap-5 text-white/65">
-      <a href="#" class="hover:text-white transition-colors">Facebook</a>
-      <a href="https://www.instagram.com/hospitaldefrutillar/" target="_blank" rel="noopener" class="hover:text-white transition-colors">Instagram</a>
-      <a href="{{ site.ssreloncavi }}" target="_blank" class="hover:text-white transition-colors">Servicio de Salud Reloncaví</a>
-    </div>
-  </div>
-</div>
-
-<!-- HERO -->
-<section id="hero-section" class="relative overflow-hidden text-white" style="background: linear-gradient(to left, rgba(10,42,94,0.92) 0%, rgba(10,42,94,0.75) 45%, rgba(10,42,94,0.10) 100%), url('img/hero-hospital.jpg') center 50%/cover no-repeat;" aria-label="Bienvenida al {{ site.name }}">
-  <div class="hero-blob-1" aria-hidden="true"></div>
-  <div class="hero-blob-2" aria-hidden="true"></div>
-  <div class="container mx-auto px-4 py-14 md:py-20 relative z-10">
-    <div class="flex justify-end">
-      <div class="max-w-xl">
-        <p class="text-primary-light text-xs font-bold uppercase tracking-[0.2em] mb-3">{{ site.servicio }} · {{ site.region }}</p>
-        <h2 class="font-sans text-4xl md:text-5xl font-bold mb-5 leading-tight">
-          Cuidando tu salud<br><span class="text-primary-light">con dedicación</span>
-        </h2>
-        <p class="text-white/75 text-base md:text-lg mb-8 leading-relaxed">
-          Atención médica pública de excelencia para Frutillar, Llanquihue y las comunidades del Lago Llanquihue.
-        </p>
-        <div class="flex flex-wrap gap-3">
-          <a href="servicios.html#urgencia" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-custom transition-colors shadow-lg">
-            <span aria-hidden="true" class="material-symbols-outlined text-xl">emergency</span>
-            Urgencias 24/7
-          </a>
-          <a href="horarios.html" class="flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-custom transition-colors border border-white/30 hover:bg-white/15">
-            <span aria-hidden="true" class="material-symbols-outlined text-xl">schedule</span>
-            Horarios
-          </a>
-          <a href="servicios.html" class="flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-custom transition-colors border border-white/30 hover:bg-white/15">
-            <span aria-hidden="true" class="material-symbols-outlined text-xl">medical_services</span>
-            Servicios
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-10 border-t border-white/15">
-      <div class="text-center"><div class="stat-num font-black text-4xl text-primary-light leading-none">+8</div><div class="text-sm text-white/60 mt-1.5 font-medium">Servicios</div></div>
-      <div class="text-center"><div class="stat-num font-black text-4xl text-primary-light leading-none">+15</div><div class="text-sm text-white/60 mt-1.5 font-medium">Especialidades</div></div>
-      <div class="text-center"><div class="stat-num font-black text-4xl text-primary-light leading-none">+150</div><div class="text-sm text-white/60 mt-1.5 font-medium">Funcionarios</div></div>
-      <div class="text-center"><div class="stat-num font-black text-4xl text-primary-light leading-none">+24.000</div><div class="text-sm text-white/60 mt-1.5 font-medium">Población</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- STICKY HEADER + NAV -->
-<div class="sticky top-0 z-50">
-<header id="site-header" class="text-white w-full" style="background: linear-gradient(135deg,#0A2A5E 0%,#0F69C4 55%,#3A8FD4 100%);">
-  <div class="hdr-wrap container mx-auto px-4 py-5">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-5">
-      <div class="flex items-center gap-5">
-        <div class="hdr-logo w-20 h-20 rounded-custom flex-shrink-0 overflow-hidden shadow-xl border-2 border-white/30">
-          <img src="img/logo-hospital.png" alt="Logo {{ site.name }}" class="w-full h-full object-cover">
-        </div>
-        <div>
-          <p class="hdr-shrink text-[10px] font-bold tracking-[0.2em] uppercase text-white/55 mb-1">Trabajando para usted</p>
-          <h1 class="hdr-title font-sans text-3xl md:text-4xl font-bold tracking-tight leading-tight">Hospital de <span class="text-primary-light">Frutillar</span></h1>
-          <div class="hdr-shrink w-48 border-t border-dashed border-white/25 my-2"></div>
-          <p class="hdr-shrink text-[11px] tracking-[0.18em] uppercase text-white/55">{{ site.servicio }}</p>
-        </div>
-      </div>
-      <div class="hdr-shrink flex flex-col items-center md:items-end gap-3">
-        <span class="text-[10px] tracking-widest uppercase text-white/40">Gobierno de Chile</span>
-        <a href="tel:6003607777" class="flex items-center gap-2 text-white/80 hover:text-white text-sm transition-colors group">
-          <span aria-hidden="true" class="material-symbols-outlined text-lg text-primary-light group-hover:text-white transition-colors">call</span>
-          <span>{{ site.telefonoLabel }} <strong class="text-white">{{ site.telefono }}</strong></span>
-        </a>
-        <a href="{{ site.portalFuncionarios }}" target="_blank" class="flex items-center gap-2 bg-white/15 hover:bg-white text-white hover:text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom transition-all shadow border border-white/30">
-          <span aria-hidden="true" class="material-symbols-outlined text-base">lock</span>
-          Portal Funcionarios
-        </a>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- NAV -->
-<nav class="bg-[#27272a] shadow-lg" role="navigation" aria-label="Menú principal">
-  <div class="container mx-auto px-4">
-    <ul class="hidden md:flex flex-wrap items-center text-sm font-semibold text-white/80">
-      <li class="border-r border-white/10"><a href="index.html" class="block py-4 px-5 text-white border-b-2 border-primary-light bg-white/15">Inicio</a></li>
-      <li class="border-r border-white/10"><a href="noticias.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Noticias</a></li>
-      <li class="border-r border-white/10 relative group" role="none">
-        <a href="quienes-somos.html" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Quiénes Somos <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span></a>
-        <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[200px] text-gray-700">
-          <a href="quienes-somos.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Misión y Visión</a>
-          <a href="quienes-somos.html#historia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Historia del Hospital</a>
-          <a href="quienes-somos.html#autoridades" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Autoridades</a>
-          <a href="quienes-somos.html#plan-estrategico" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary">Plan Estratégico</a>
-        </div>
-      </li>
-      <li class="border-r border-white/10 relative group" role="none">
-        <a href="servicios.html" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Servicios <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span></a>
-        <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px] text-gray-700">
-          <a href="servicios.html#urgencia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Urgencia</a>
-          <a href="servicios.html#hospitalizacion" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Hospitalización</a>
-          <a href="servicios.html#hospitalizacion-domiciliaria" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Hospitalización Domiciliaria</a>
-          <a href="servicios.html#pabellon" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Pabellón Quirúrgico</a>
-          <a href="servicios.html#maternidad" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Maternidad</a>
-          <a href="servicios.html#laboratorio" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Laboratorio</a>
-          <a href="servicios.html#imagenologia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Imagenología</a>
-          <a href="servicios.html#farmacia" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary">Farmacia</a>
-        </div>
-      </li>
-      <li class="border-r border-white/10 relative group" role="none">
-        <a href="horarios.html" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Información al Usuario <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span></a>
-        <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[220px] text-gray-700">
-          <a href="horarios.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Horarios de Atención</a>
-          <a href="carta-derechos.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Carta de Derechos y Deberes</a>
-          <a href="aranceles.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Aranceles</a>
-          <a href="copago-cero.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Copago Cero</a>
-          <a href="ley-ricarte-soto.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Ley Ricarte Soto</a>
-          <a href="faq.html" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary">Preguntas Frecuentes</a>
-        </div>
-      </li>
-      <li class="border-r border-white/10 relative group" role="none">
-        <a href="transparencia.html" class="flex items-center py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Transparencia <span aria-hidden="true" class="material-symbols-outlined text-sm ml-1">expand_more</span></a>
-        <div class="hidden group-hover:block absolute top-full left-0 bg-white border border-gray-200 shadow-lg z-50 min-w-[210px] text-gray-700">
-          <a href="transparencia.html#activa" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Transparencia Activa</a>
-          <a href="transparencia.html#solicitud" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Solicitud de Información</a>
-          <a href="transparencia.html#ley-lobby" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary border-b border-gray-100">Ley del Lobby</a>
-          <a href="transparencia.html#cuentas-publicas" class="block px-5 py-3 text-sm hover:bg-primary-bg hover:text-primary">Cuentas Públicas</a>
-        </div>
-      </li>
-      <li class="border-r border-white/10"><a href="trabaja-con-nosotros.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Trabaja con Nosotros</a></li>
-      <li class="border-r border-white/10"><a href="contacto.html" class="block py-4 px-5 hover:bg-white/10 hover:text-white transition-colors">Contacto</a></li>
-    </ul>
-    <div class="flex md:hidden items-center justify-between py-3">
-      <span class="text-sm font-bold text-white">{{ site.name }}</span>
-      <button id="menu-toggle" class="flex items-center gap-1 text-white" aria-label="Abrir menú">
-        <span id="menu-icon" aria-hidden="true" class="material-symbols-outlined text-2xl">menu</span>
-        <span class="text-sm font-semibold">Menú</span>
-      </button>
-    </div>
-  </div>
-  <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-[#1e1e22] shadow-lg max-h-[80vh] overflow-y-auto">
-    <ul class="divide-y divide-white/10 text-sm font-semibold text-white/85">
-      <li><a href="index.html" class="flex items-center px-4 py-3.5 text-primary bg-primary-bg hover:bg-white/10">Inicio</a></li>
-      <li><a href="noticias.html" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Noticias</a></li>
-      <li><a href="quienes-somos.html" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Quiénes Somos</a></li>
-      <li><a href="servicios.html" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Servicios</a></li>
-      <li><a href="horarios.html" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Información al Usuario</a></li>
-      <li><a href="transparencia.html" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Transparencia</a></li>
-      <li><a href="trabaja-con-nosotros.html" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Trabaja con Nosotros</a></li>
-      <li><a href="contacto.html" class="flex items-center px-4 py-3.5 hover:bg-white/10 transition-colors">Contacto</a></li>
-    </ul>
-  </div>
-</nav>
-</div>
+{% import "componentes.njk" as ui with context %}
 
 <!-- ATENCIÓN DE USUARIOS -->
-<section class="bg-white border-b border-gray-200 py-10" aria-label="Atención de usuarios">
+<section class="bg-white border-b border-gray-200 py-10" aria-labelledby="titulo-atencion">
   <div class="container mx-auto px-4">
     <div class="flex items-center gap-3 mb-7">
       <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-2xl">support_agent</span>
-      <h2 class="font-sans text-2xl font-bold text-primary">Atención de Usuarios</h2>
+      <h2 id="titulo-atencion" class="text-2xl font-bold text-primary">Atención de Usuarios</h2>
       <div class="h-px bg-gray-200 flex-1"></div>
-      <a href="faq.html" class="text-xs font-bold text-primary hover:underline whitespace-nowrap">Preguntas frecuentes →</a>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
-      <!-- Ver imágenes de exámenes -->
-      <a href="https://examenes.ssdr.gob.cl/login" target="_blank" rel="noopener" class="group bg-primary-bg border border-primary-pale rounded-custom p-5 flex flex-col gap-3 hover:shadow-md hover:border-primary-light transition-all">
-        <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-          <span aria-hidden="true" class="material-symbols-outlined text-white text-2xl">radiology</span>
+      {% for a in accesosUsuarios %}
+      <a href="{{ a.url }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %} class="group {{ a.fondo }} border rounded-custom p-5 flex flex-col gap-3 hover:shadow-md transition-all">
+        <div class="w-12 h-12 {{ a.circulo }} rounded-full flex items-center justify-center flex-shrink-0">
+          <span aria-hidden="true" class="material-symbols-outlined text-white text-2xl">{{ a.icono }}</span>
         </div>
         <div class="flex-1">
-          <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">Ver Imágenes de Exámenes</h3>
-          <p class="text-xs text-gray-500 leading-relaxed">Accede a tus imágenes de radiología, ecografía y otros exámenes en línea</p>
+          <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">{{ a.titulo }}</h3>
+          <p class="text-xs text-gray-500 leading-relaxed">{{ a.texto }}</p>
         </div>
-        <span class="text-xs font-bold text-primary group-hover:underline">Acceder →</span>
+        <span class="text-xs font-bold {{ a.color }} group-hover:underline">{{ a.cta }} →</span>
       </a>
-
-      <!-- Solicitar Ficha Clínica -->
-      <a href="carta-derechos.html" class="group bg-amber-50 border border-amber-100 rounded-custom p-5 flex flex-col gap-3 hover:shadow-md transition-all">
-        <div class="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
-          <span aria-hidden="true" class="material-symbols-outlined text-white text-2xl">folder_shared</span>
-        </div>
-        <div class="flex-1">
-          <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">Solicitar Ficha Clínica</h3>
-          <p class="text-xs text-gray-500 leading-relaxed">Solicita copia de tu ficha clínica según Ley N° 20.584 sobre derechos del paciente</p>
-        </div>
-        <span class="text-xs font-bold text-amber-600 group-hover:underline">Más información →</span>
-      </a>
-
-      <!-- OIRS -->
-      <a href="contacto.html" class="group bg-teal-50 border border-teal-100 rounded-custom p-5 flex flex-col gap-3 hover:shadow-md transition-all">
-        <div class="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center flex-shrink-0">
-          <span aria-hidden="true" class="material-symbols-outlined text-white text-2xl">campaign</span>
-        </div>
-        <div class="flex-1">
-          <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">OIRS</h3>
-          <p class="text-xs text-gray-500 leading-relaxed">Oficina de Información, Reclamos y Sugerencias. Haz llegar tu opinión o reclamo.</p>
-        </div>
-        <span class="text-xs font-bold text-teal-600 group-hover:underline">Contactar →</span>
-      </a>
-
-      <!-- Preguntas Frecuentes -->
-      <a href="faq.html" class="group bg-purple-50 border border-purple-100 rounded-custom p-5 flex flex-col gap-3 hover:shadow-md transition-all">
-        <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-          <span aria-hidden="true" class="material-symbols-outlined text-white text-2xl">help</span>
-        </div>
-        <div class="flex-1">
-          <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">Preguntas Frecuentes</h3>
-          <p class="text-xs text-gray-500 leading-relaxed">Respuestas sobre atención, horarios, pagos FONASA y trámites en el hospital</p>
-        </div>
-        <span class="text-xs font-bold text-purple-600 group-hover:underline">Ver respuestas →</span>
-      </a>
+      {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- CONTENIDO PRINCIPAL -->
-<main id="main-content" class="container mx-auto px-4 py-8">
-  <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-7 items-start">
+{% call ui.dosColumnas() %}
+  <div class="min-w-0 flex flex-col gap-5">
 
-    <!-- COLUMNA PRINCIPAL -->
-    <div style="min-width:0;" class="flex flex-col gap-5">
+    <!-- Banner HODOM -->
+    <div class="bg-banner rounded-custom shadow-md flex items-center gap-4 px-6 py-4 text-white flex-wrap">
+      <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
+        <span aria-hidden="true" class="material-symbols-outlined text-2xl">home_health</span>
+      </div>
+      <div class="flex-1">
+        <h2 class="font-bold text-lg leading-tight">Hospitalización Domiciliaria <span class="font-normal text-white/75 text-base">(HODOM)</span></h2>
+        <p class="text-sm text-white/70 mt-0.5">Atención clínica en tu hogar · Frutillar y sectores rurales del Lago Llanquihue</p>
+      </div>
+      <a href="/servicios.html#hospitalizacion-domiciliaria" class="bg-white text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom hover:bg-primary-pale transition-colors whitespace-nowrap flex-shrink-0">Más información</a>
+    </div>
 
-      <!-- Banner HODOM -->
-      <div class="rounded-custom overflow-hidden shadow-md">
-        <div class="flex items-center gap-4 px-6 py-4 text-white flex-wrap" style="background: linear-gradient(100deg, #0B4F96, #0F69C4);">
-          <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
-            <span aria-hidden="true" class="material-symbols-outlined text-2xl text-white">home_health</span>
-          </div>
-          <div class="flex-1">
-            <h3 class="font-sans font-bold text-lg leading-tight">Hospitalización Domiciliaria <span class="font-normal text-white/75 text-base">(HODOM)</span></h3>
-            <p class="text-sm text-white/70 mt-0.5">Atención clínica en tu hogar · Frutillar y sectores rurales del Lago Llanquihue</p>
-          </div>
-          <a href="servicios.html#hospitalizacion-domiciliaria" class="bg-white text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom hover:bg-primary-pale transition-colors whitespace-nowrap flex-shrink-0">Más información</a>
-        </div>
+    <!-- NOTICIAS -->
+    <section aria-labelledby="titulo-noticias">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 id="titulo-noticias" class="text-2xl font-bold text-primary border-l-4 border-primary-light pl-3">Últimas Noticias</h2>
+        <div class="h-px bg-gray-200 flex-1"></div>
       </div>
 
-      <!-- ── NOTICIAS DINÁMICAS ── -->
-      <div>
-        <div class="flex items-center gap-3 mb-4">
-          <h2 class="font-sans text-2xl font-bold text-primary border-l-4 border-primary-light pl-3">Últimas Noticias</h2>
-          <div class="h-px bg-gray-200 flex-1"></div>
-        </div>
-
-        <div class="flex flex-col gap-3">
-          {% set latestNoticias = collections.noticias %}
-          {% for noticia in latestNoticias %}
-            {% if loop.first %}
-              <div class="news-card bg-white rounded-custom shadow-md overflow-hidden">
-                <div class="relative h-52 md:h-60 overflow-hidden" style="background: linear-gradient(135deg, #0A2A5E 0%, #0F69C4 60%, #3A8FD4 100%);">
-                  {% if noticia.data.imagen %}
-                    <img src="{{ noticia.data.imagen }}" alt="{{ noticia.data.title }}" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                  {% else %}
-                    <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
-                      <span class="material-symbols-outlined text-white/10" style="font-size:160px; line-height:1;">article</span>
-                    </div>
-                    <div class="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-black/50 to-transparent"></div>
-                  {% endif %}
-                  <div class="absolute top-3 left-3">
-                    <span class="inline-block px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded shadow-md">{{ noticia.data.categoria }}</span>
-                  </div>
-                  <div class="absolute bottom-3 left-4 flex items-center gap-1.5 text-white/80 text-xs">
-                    <span aria-hidden="true" class="material-symbols-outlined text-sm">calendar_today</span>
-                    {{ noticia.date | fechaES }}
-                  </div>
+      <div class="flex flex-col gap-3">
+        {% for n in collections.noticiasPortada %}
+          {% if loop.first %}
+          <article class="news-card bg-white rounded-custom shadow-md overflow-hidden">
+            <div class="bg-noticia relative h-52 md:h-60 overflow-hidden">
+              {% if n.data.imagen %}
+                <img src="{{ n.data.imagen }}" alt="" class="w-full h-full object-cover">
+              {% else %}
+                <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                  <span class="material-symbols-outlined text-white/10 text-[160px] leading-none">article</span>
                 </div>
-                <div class="p-5">
-                  <h3 class="font-sans text-xl md:text-2xl font-bold text-gray-900 leading-snug mb-2">{{ noticia.data.title }}</h3>
-                  <p class="text-sm text-gray-500 leading-relaxed mb-4">{{ noticia.data.resumen }}</p>
-                  <a href="{{ noticia.url }}" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-bold px-4 py-2 rounded-custom transition-colors">
-                    Leer noticia <span aria-hidden="true" class="material-symbols-outlined text-base">arrow_forward</span>
-                  </a>
-                </div>
+              {% endif %}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              <span class="absolute top-3 left-3 px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded shadow-md">{{ n.data.categoria }}</span>
+              <div class="absolute bottom-3 left-4 flex items-center gap-1.5 text-white/80 text-xs">
+                <span aria-hidden="true" class="material-symbols-outlined text-sm">calendar_today</span>
+                <time datetime="{{ n.date | fechaISO }}">{{ n.date | fechaES }}</time>
               </div>
-            {% else %}
-              <div class="news-card bg-white rounded-custom shadow-sm overflow-hidden">
-                <div class="p-4 flex gap-4">
-                  <div class="w-11 h-11 rounded-custom bg-primary-bg flex items-center justify-center flex-shrink-0">
-                    <span aria-hidden="true" class="material-symbols-outlined text-primary text-2xl">article</span>
-                  </div>
-                  <div class="flex flex-col justify-center gap-1">
-                    <span class="inline-block px-2 py-0.5 bg-primary-bg text-primary text-[10px] font-bold uppercase tracking-wide rounded w-fit">{{ noticia.data.categoria }}</span>
-                    <h4 class="font-sans font-bold text-gray-800 text-sm leading-snug">{{ noticia.data.title }}</h4>
-                    <div class="flex items-center gap-3">
-                      <span class="text-xs text-gray-400">{{ noticia.date | fechaES }}</span>
-                      <a href="{{ noticia.url }}" class="text-xs font-bold text-primary hover:underline">Leer más →</a>
-                    </div>
-                  </div>
-                </div>
+            </div>
+            <div class="p-5">
+              <h3 class="text-xl md:text-2xl font-bold text-gray-900 leading-snug mb-2">{{ n.data.title }}</h3>
+              <p class="text-sm text-gray-500 leading-relaxed mb-4">{{ n.data.resumen }}</p>
+              <a href="{{ n.url }}" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-bold px-4 py-2 rounded-custom transition-colors">
+                Leer noticia <span aria-hidden="true" class="material-symbols-outlined text-base">arrow_forward</span>
+              </a>
+            </div>
+          </article>
+          {% else %}
+          <article class="news-card bg-white rounded-custom shadow-sm p-4 flex gap-4">
+            <div class="w-11 h-11 rounded-custom bg-primary-bg flex items-center justify-center flex-shrink-0">
+              <span aria-hidden="true" class="material-symbols-outlined text-primary text-2xl">article</span>
+            </div>
+            <div class="flex flex-col justify-center gap-1">
+              <span class="px-2 py-0.5 bg-primary-bg text-primary text-[10px] font-bold uppercase tracking-wide rounded w-fit">{{ n.data.categoria }}</span>
+              <h3 class="font-bold text-gray-800 text-sm leading-snug">{{ n.data.title }}</h3>
+              <div class="flex items-center gap-3">
+                <time datetime="{{ n.date | fechaISO }}" class="text-xs text-gray-400">{{ n.date | fechaES }}</time>
+                <a href="{{ n.url }}" class="text-xs font-bold text-primary hover:underline">Leer más<span class="sr-only">: {{ n.data.title }}</span> →</a>
               </div>
-            {% endif %}
-          {% endfor %}
-        </div>
+            </div>
+          </article>
+          {% endif %}
+        {% else %}
+          <p class="text-gray-500 text-center py-10">No hay noticias publicadas aún.</p>
+        {% endfor %}
+      </div>
 
-        <a href="noticias.html" class="mt-4 flex items-center justify-center gap-2 w-full py-2.5 bg-white border border-gray-200 rounded-custom text-primary text-sm font-bold hover:bg-primary-bg transition-colors shadow-sm">
-          <span aria-hidden="true" class="material-symbols-outlined text-base">add</span>
-          Ver todas las noticias
-        </a>
-      </div>
-    </div>
-
-    <!-- SIDEBAR -->
-    <aside class="flex flex-col gap-5">
-      <div>
-        <h3 class="font-bold text-gray-600 mb-2 text-xs uppercase tracking-widest border-b border-gray-200 pb-2">Buscar en el sitio</h3>
-        <div class="flex shadow-sm">
-          <input type="text" placeholder="Buscar..." class="flex-1 border border-gray-300 rounded-l-custom px-3 py-2 text-sm outline-none focus:border-primary">
-          <button class="bg-primary text-white px-3 py-2 rounded-r-custom hover:bg-primary-dark transition-colors" aria-label="Buscar">
-            <span aria-hidden="true" class="material-symbols-outlined text-lg">search</span>
-          </button>
-        </div>
-      </div>
-      <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
-        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5 flex items-center gap-2">
-          <span aria-hidden="true" class="material-symbols-outlined text-base text-primary-light">bolt</span>
-          Accesos Rápidos
-        </div>
-        <div class="flex flex-col">
-          <a href="servicios.html#urgencia" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <div class="w-9 h-9 bg-red-50 rounded-full flex items-center justify-center flex-shrink-0"><span aria-hidden="true" class="material-symbols-outlined text-red-500 text-lg">emergency</span></div>
-            <div><strong class="text-sm text-primary block">Urgencias</strong><span class="text-xs text-gray-500">Horarios y categorización</span></div>
-          </a>
-          <a href="horarios.html" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <div class="w-9 h-9 bg-primary-bg rounded-full flex items-center justify-center flex-shrink-0"><span aria-hidden="true" class="material-symbols-outlined text-primary text-lg">schedule</span></div>
-            <div><strong class="text-sm text-primary block">Horarios de Atención</strong><span class="text-xs text-gray-500">Consultas y especialidades</span></div>
-          </a>
-          <a href="https://examenes.ssdr.gob.cl/login" target="_blank" rel="noopener" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <div class="w-9 h-9 bg-indigo-50 rounded-full flex items-center justify-center flex-shrink-0"><span aria-hidden="true" class="material-symbols-outlined text-indigo-600 text-lg">radiology</span></div>
-            <div><strong class="text-sm text-primary block">Imagenología</strong><span class="text-xs text-gray-500">Ver exámenes en línea</span></div>
-          </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <div class="w-9 h-9 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0"><span aria-hidden="true" class="material-symbols-outlined text-green-600 text-lg">call</span></div>
-            <div><strong class="text-sm text-primary block">Teléfonos del Hospital</strong><span class="text-xs text-gray-500">Directorio institucional</span></div>
-          </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3 border-b border-gray-100">
-            <div class="w-9 h-9 bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0"><span aria-hidden="true" class="material-symbols-outlined text-blue-500 text-lg">vaccines</span></div>
-            <div><strong class="text-sm text-primary block">Vacunatorio</strong><span class="text-xs text-gray-500">Calendario y puntos</span></div>
-          </a>
-          <a href="#" class="acceso-item flex items-center gap-3 px-4 py-3">
-            <div class="w-9 h-9 bg-purple-50 rounded-full flex items-center justify-center flex-shrink-0"><span aria-hidden="true" class="material-symbols-outlined text-purple-600 text-lg">description</span></div>
-            <div><strong class="text-sm text-primary block">Informes Médicos</strong><span class="text-xs text-gray-500">Horarios de entrega</span></div>
-          </a>
-        </div>
-      </div>
-      <!-- Campañas MINSAL -->
-      <div class="flex flex-col gap-2">
-        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Campañas de Salud</p>
-        <a href="https://www.minsal.cl/influenza/" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#1565C0,#1976D2);">
-          <span aria-hidden="true" class="material-symbols-outlined text-blue-200 text-xl flex-shrink-0">masks</span>
-          <div>
-            <span class="text-[9px] font-bold text-blue-200 uppercase tracking-widest block">Plan de Invierno</span>
-            <span class="text-sm font-bold leading-tight">Vacúnate contra la Influenza</span>
-          </div>
-        </a>
-        <a href="https://www.crececontigo.gob.cl" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#C2185B,#E91E8C);">
-          <span aria-hidden="true" class="material-symbols-outlined text-pink-200 text-xl flex-shrink-0">child_care</span>
-          <div>
-            <span class="text-[9px] font-bold text-pink-200 uppercase tracking-widest block">Primera Infancia</span>
-            <span class="text-sm font-bold leading-tight">Chile Crece Contigo</span>
-          </div>
-        </a>
-        <a href="https://www.minsal.cl/salud-mental/" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#00695C,#00897B);">
-          <span aria-hidden="true" class="material-symbols-outlined text-teal-200 text-xl flex-shrink-0">psychology</span>
-          <div>
-            <span class="text-[9px] font-bold text-teal-200 uppercase tracking-widest block">Bienestar Mental</span>
-            <span class="text-sm font-bold leading-tight">Salud Mental Importa</span>
-          </div>
-        </a>
-        <a href="https://www.minsal.cl/vih-sida/" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#B71C1C,#D32F2F);">
-          <span aria-hidden="true" class="material-symbols-outlined text-red-200 text-xl flex-shrink-0">ribbon</span>
-          <div>
-            <span class="text-[9px] font-bold text-red-200 uppercase tracking-widest block">Prevención</span>
-            <span class="text-sm font-bold leading-tight">No+VIH</span>
-          </div>
-        </a>
-        <a href="https://www.minsal.cl/cancer/" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#4527A0,#5E35B1);">
-          <span aria-hidden="true" class="material-symbols-outlined text-purple-200 text-xl flex-shrink-0">oncology</span>
-          <div>
-            <span class="text-[9px] font-bold text-purple-200 uppercase tracking-widest block">Detección Temprana</span>
-            <span class="text-sm font-bold leading-tight">Prevención del Cáncer</span>
-          </div>
-        </a>
-        <a href="https://www.minsal.cl/alimentacion-saludable/" target="_blank" rel="noopener" class="group rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,#2E7D32,#388E3C);">
-          <span aria-hidden="true" class="material-symbols-outlined text-green-200 text-xl flex-shrink-0">nutrition</span>
-          <div>
-            <span class="text-[9px] font-bold text-green-200 uppercase tracking-widest block">Hábitos Saludables</span>
-            <span class="text-sm font-bold leading-tight">Come Sano, Vive Mejor</span>
-          </div>
-        </a>
-        <!-- Salud Responde -->
-        <a href="tel:6003607777" class="banner-side bg-primary text-white rounded-custom px-4 py-3 shadow-md hover:bg-primary-dark transition-colors flex items-center gap-3 min-h-[56px]">
-          <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-            <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
-          </div>
-          <div>
-            <span class="text-[10px] font-bold text-white/60 uppercase tracking-widest block">Salud Responde</span>
-            <span class="text-xl font-black leading-none">{{ site.telefono }}</span>
-          </div>
-        </a>
-      </div>
-    </aside>
+      <a href="/noticias.html" class="mt-4 flex items-center justify-center gap-2 w-full py-2.5 bg-white border border-gray-200 rounded-custom text-primary text-sm font-bold hover:bg-primary-bg transition-colors shadow-sm">
+        <span aria-hidden="true" class="material-symbols-outlined text-base">add</span>Ver todas las noticias
+      </a>
+    </section>
   </div>
-</main>
 
-<!-- LINKS DE INTERÉS -->
-<section class="bg-white border-t border-gray-200 py-12 mt-4">
-  <div class="container mx-auto px-4">
-    <div class="flex items-center gap-4 mb-7">
-      <div class="h-px bg-gray-200 flex-1"></div>
-      <h2 class="font-bold text-gray-500 text-xs uppercase tracking-[0.2em] whitespace-nowrap">Links de Interés</h2>
-      <div class="h-px bg-gray-200 flex-1"></div>
+  <!-- BARRA LATERAL -->
+  <aside class="flex flex-col gap-5">
+    <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+      <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5 flex items-center gap-2">
+        <span aria-hidden="true" class="material-symbols-outlined text-base text-primary-light">bolt</span>Accesos Rápidos
+      </div>
+      <div class="flex flex-col divide-y divide-gray-100">
+        {% for a in accesosRapidos %}
+        <a href="{{ a.url }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %} class="acceso-item flex items-center gap-3 px-4 py-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 {{ a.tono }}"><span aria-hidden="true" class="material-symbols-outlined text-lg">{{ a.icono }}</span></div>
+          <div><strong class="text-sm text-primary block">{{ a.titulo }}</strong><span class="text-xs text-gray-500">{{ a.texto }}</span></div>
+        </a>
+        {% endfor %}
+      </div>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-5xl mx-auto">
-      <a href="https://www.minsal.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">local_hospital</span>
-        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Ministerio de Salud</span>
-      </a>
-      <a href="https://www.fonasa.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">health_and_safety</span>
-        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">FONASA</span>
-      </a>
-      <a href="https://www.supersalud.gob.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">gavel</span>
-        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Superintendencia de Salud</span>
-      </a>
-      <a href="https://www.ssreloncavi.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">account_balance</span>
-        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Servicio de Salud Reloncaví</span>
-      </a>
-      <a href="https://www.portaltransparencia.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">visibility</span>
-        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Portal Transparencia</span>
-      </a>
-      <a href="https://www.empleospublicos.cl" target="_blank" rel="noopener" class="link-card bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all group">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">work</span>
-        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">Empleos Públicos</span>
-      </a>
-    </div>
-  </div>
-</section>
 
-<!-- CONTACTO -->
-<section class="text-white py-10" style="background: linear-gradient(135deg, #0A2A5E 0%, #0F69C4 100%);" aria-label="Información de contacto">
-  <div class="container mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
     <div class="flex flex-col gap-2">
-      <div class="flex items-center gap-2 mb-1"><span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">location_on</span><h3 class="font-bold text-sm uppercase tracking-widest text-white/70">Dirección</h3></div>
-      <p class="text-white font-semibold leading-snug">{{ site.direccion }}<br>{{ site.region }}, Chile</p>
-      <a href="https://maps.google.com/?q=Hospital+de+Frutillar" target="_blank" class="inline-flex items-center gap-1.5 text-primary-light hover:text-white text-sm font-semibold transition-colors mt-1"><span aria-hidden="true" class="material-symbols-outlined text-base">open_in_new</span>Ver en Google Maps</a>
+      <h2 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Campañas de Salud</h2>
+      {% for c in campanas %}
+      <a href="{{ c.url }}" target="_blank" rel="noopener" class="rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,{{ c.degradado }});">
+        <span aria-hidden="true" class="material-symbols-outlined {{ c.tono }} text-xl flex-shrink-0">{{ c.icono }}</span>
+        <span>
+          <span class="text-[9px] font-bold {{ c.tono }} uppercase tracking-widest block">{{ c.etiqueta }}</span>
+          <span class="text-sm font-bold leading-tight">{{ c.titulo }}</span>
+        </span>
+      </a>
+      {% endfor %}
+      {{ ui.saludResponde() }}
     </div>
-    <div class="flex flex-col gap-2">
-      <div class="flex items-center gap-2 mb-1"><span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">call</span><h3 class="font-bold text-sm uppercase tracking-widest text-white/70">Teléfonos</h3></div>
-      <div><p class="text-[10px] text-white/55 uppercase tracking-widest">{{ site.telefonoLabel }}</p><a href="tel:6003607777" class="text-white font-black text-2xl leading-tight hover:text-primary-light transition-colors">{{ site.telefono }}</a></div>
-      <div class="mt-1"><p class="text-[10px] text-white/55 uppercase tracking-widest">Central Hospital</p><a href="tel:+5665242100" class="text-white font-semibold hover:text-primary-light transition-colors">{{ site.telefonoCentral }}</a></div>
-    </div>
-    <div class="flex flex-col gap-2">
-      <div class="flex items-center gap-2 mb-1"><span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">schedule</span><h3 class="font-bold text-sm uppercase tracking-widest text-white/70">Horarios</h3></div>
-      <div class="flex flex-col gap-1.5 text-sm">
-        <div class="flex items-center gap-2"><span class="w-2 h-2 bg-red-400 rounded-full flex-shrink-0"></span><span><strong class="text-white">Urgencias</strong> <span class="text-white/70">— 24/7</span></span></div>
-        <div class="flex items-center gap-2"><span class="w-2 h-2 bg-green-400 rounded-full flex-shrink-0"></span><span><strong class="text-white">Consultas</strong> <span class="text-white/70">— Lun–Vie 8:00–17:00</span></span></div>
-        <div class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-light rounded-full flex-shrink-0"></span><span><strong class="text-white">Laboratorio</strong> <span class="text-white/70">— Lun–Sáb 7:30–12:00</span></span></div>
-      </div>
-      <a href="horarios.html" class="text-primary-light hover:text-white text-xs font-semibold transition-colors mt-1">Ver todos los horarios →</a>
-    </div>
-    <div class="flex flex-col gap-2">
-      <div class="flex items-center gap-2 mb-1"><span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">mail</span><h3 class="font-bold text-sm uppercase tracking-widest text-white/70">Contacto</h3></div>
-      <p class="text-sm text-white/75 leading-snug">¿Tienes dudas, sugerencias o reclamos? Escríbenos o visita nuestra Oficina de Información.</p>
-      <a href="contacto.html" class="mt-2 inline-flex items-center justify-center gap-2 bg-white text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom hover:bg-primary-pale transition-colors shadow"><span aria-hidden="true" class="material-symbols-outlined text-base">send</span>Ir a Contacto</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="text-gray-300 py-10" style="background: linear-gradient(135deg, #27272a 0%, #3f3f46 100%);">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-      <div class="md:col-span-2">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-10 h-10 rounded-custom flex-shrink-0 overflow-hidden border border-white/20"><img src="img/logo-hospital.png" alt="" aria-hidden="true" class="w-full h-full object-cover"></div>
-          <h4 class="text-white font-bold text-base leading-tight">{{ site.name }}<br><span class="text-primary-light font-normal text-sm">{{ site.servicio }}</span></h4>
-        </div>
-        <p class="text-sm leading-relaxed mb-4 text-gray-400">Cuidado de excelencia en el corazón de la cuenca del Lago Llanquihue. Comprometidos con la salud y bienestar de nuestra comunidad.</p>
-        <div class="flex items-start gap-2 text-sm text-gray-400"><span aria-hidden="true" class="material-symbols-outlined text-gray-500 text-base mt-0.5">location_on</span><span>{{ site.direccion }}, {{ site.region }}</span></div>
-        <div class="flex items-center gap-2 text-sm text-gray-400 mt-1.5"><span aria-hidden="true" class="material-symbols-outlined text-gray-500 text-base">call</span><a href="tel:6003607777" class="hover:text-white transition-colors">{{ site.telefono }} — {{ site.telefonoLabel }}</a></div>
-      </div>
-      <div>
-        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wide">Información</h4>
-        <ul class="space-y-2 text-sm">
-          <li><a href="carta-derechos.html" class="hover:text-white transition-colors">Carta de Derechos y Deberes</a></li>
-          <li><a href="transparencia.html#activa" class="hover:text-white transition-colors">Transparencia Activa</a></li>
-          <li><a href="transparencia.html#ley-lobby" class="hover:text-white transition-colors">Ley del Lobby</a></li>
-          <li><a href="transparencia.html#solicitud" class="hover:text-white transition-colors">Solicitud de Información</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wide">Institucional</h4>
-        <ul class="space-y-2 text-sm">
-          <li><a href="{{ site.ssreloncavi }}" target="_blank" class="hover:text-white transition-colors">Servicio de Salud Reloncaví</a></li>
-          <li><a href="https://www.minsal.cl" target="_blank" class="hover:text-white transition-colors">Ministerio de Salud</a></li>
-          <li><a href="https://www.fonasa.cl" target="_blank" class="hover:text-white transition-colors">FONASA</a></li>
-          <li><a href="{{ site.portalFuncionarios }}" target="_blank" class="hover:text-white transition-colors">Portal Funcionarios</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-gray-500">
-      <span>© 2026 {{ site.name }} &nbsp;·&nbsp; {{ site.servicio }} &nbsp;·&nbsp; Gobierno de Chile</span>
-      <div class="flex gap-4">
-        <a href="#" class="hover:text-gray-300 transition-colors">Política de Privacidad</a>
-        <a href="#" class="hover:text-gray-300 transition-colors">Accesibilidad</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script>
-(function(){
-  var t=document.getElementById('menu-toggle'),m=document.getElementById('mobile-menu'),i=document.getElementById('menu-icon');
-  if(t){t.addEventListener('click',function(){m.classList.toggle('hidden');i.textContent=m.classList.contains('hidden')?'menu':'close';});}
-})();
-// Collapsing header
-(function(){
-  var hero=document.getElementById('hero-section');
-  var header=document.getElementById('site-header');
-  if(!hero||!header)return;
-  function tick(){header.classList.toggle('compact',hero.getBoundingClientRect().bottom<=0);}
-  window.addEventListener('scroll',tick,{passive:true});
-  tick();
-})();
-</script>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", function(user) {
-      if (!user) {
-        window.netlifyIdentity.on("login", function() {
-          document.location.href = "/admin/";
-        });
-      }
-    });
-  }
-</script>
-</body>
-</html>
+  </aside>
+{% endcall %}

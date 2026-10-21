@@ -1,0 +1,130 @@
+{#
+  Componentes reutilizables. Uso en una página:
+    {% import "componentes.njk" as ui with context %}
+#}
+
+{# Banner azul de cabecera de página, con ruta de navegación.
+   migas: lista de { label, url } (la última es la página actual y no lleva enlace). #}
+{% macro banner(titulo, subtitulo, icono, migas=[]) %}
+<section class="bg-banner text-white py-8">
+  <div class="container mx-auto px-4">
+    <nav class="flex items-center gap-2 text-primary-light/80 text-xs mb-3 flex-wrap" aria-label="Ruta de navegación">
+      <a href="/" class="hover:text-white transition-colors">Inicio</a>
+      {% for m in migas %}
+      <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
+      {% if m.url and not loop.last %}<a href="{{ m.url }}" class="hover:text-white transition-colors">{{ m.label }}</a>{% else %}<span{% if loop.last %} aria-current="page"{% endif %}>{{ m.label }}</span>{% endif %}
+      {% endfor %}
+    </nav>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
+        <span aria-hidden="true" class="material-symbols-outlined text-2xl">{{ icono }}</span>
+      </div>
+      <div>
+        <h2 class="text-2xl md:text-3xl font-bold">{{ titulo }}</h2>
+        {% if subtitulo %}<p class="text-white/65 text-sm mt-0.5">{{ subtitulo }}</p>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+{# Tarjeta de sección con barra de título azul. El contenido va en el bloque {% call %}. #}
+{% macro seccion(titulo, icono, id="", oscuro=false, padding="px-6 py-6") %}
+<div{% if id %} id="{{ id }}"{% endif %} class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden scroll-mt-24">
+  <div class="{{ 'bg-primary-dark' if oscuro else 'bg-primary' }} px-5 py-3 flex items-center gap-2">
+    <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">{{ icono }}</span>
+    <h2 class="text-white font-bold text-base tracking-wide uppercase">{{ titulo }}</h2>
+  </div>
+  <div class="{{ padding }}">{{ caller() }}</div>
+</div>
+{% endmacro %}
+
+{# Caja informativa celeste con ícono "info". #}
+{% macro aviso(texto) %}
+<div class="flex items-start gap-3 bg-primary-bg border border-primary-pale rounded-custom px-5 py-4 text-sm text-primary-dark">
+  <span aria-hidden="true" class="material-symbols-outlined text-primary-light mt-0.5 flex-shrink-0">info</span>
+  <p>{{ texto | safe }}</p>
+</div>
+{% endmacro %}
+
+{# Menú lateral. items: lista de { label, url, icon }. Marca el ítem de la página actual. #}
+{% macro menuLateral(titulo, items, iconoPorDefecto="chevron_right") %}
+<div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+  <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">{{ titulo }}</div>
+  <div class="flex flex-col divide-y divide-gray-100">
+    {% for it in items %}
+    <a href="{{ it.url }}" class="acceso-item flex items-center gap-3 px-4 py-3"{% if it.url == page.url %} aria-current="page"{% endif %}>
+      <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">{{ it.icon or iconoPorDefecto }}</span>
+      <strong class="text-sm text-primary">{{ it.label }}</strong>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endmacro %}
+
+{# Lista de enlaces externos en la barra lateral. items: { label, url } #}
+{% macro enlacesExternos(titulo, items) %}
+<div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+  <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">{{ titulo }}</div>
+  <div class="px-4 py-4 flex flex-col gap-3">
+    {% for it in items %}
+    <a href="{{ it.url }}" target="_blank" rel="noopener" class="flex items-center gap-2 text-primary text-sm font-semibold hover:underline">
+      <span aria-hidden="true" class="material-symbols-outlined text-base">open_in_new</span>{{ it.label }}
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endmacro %}
+
+{# Botón-tarjeta con franja institucional. #}
+{% macro botonTarjeta(url, texto) %}
+<a href="{{ url }}" class="gob-stripe bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center justify-center min-h-[56px] text-center">
+  <span class="text-primary text-sm font-extrabold uppercase tracking-tight leading-tight">{{ texto }}</span>
+</a>
+{% endmacro %}
+
+{# Tarjeta Salud Responde. #}
+{% macro saludResponde() %}
+<a href="{{ site.telefonoHref }}" class="gob-stripe bg-gray-50 border border-gray-200 rounded-custom px-5 py-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 min-h-[64px]">
+  <div class="bg-primary text-white p-2 rounded-full flex-shrink-0">
+    <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
+  </div>
+  <div>
+    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">{{ site.telefonoLabel }}</span>
+    <span class="text-primary text-xl font-black leading-none">{{ site.telefono }}</span>
+  </div>
+</a>
+{% endmacro %}
+
+{# Diseño de dos columnas (contenido + barra lateral 300px). #}
+{% macro dosColumnas() %}
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-7 items-start">{{ caller() }}</div>
+</div>
+{% endmacro %}
+
+{# Tarjeta de noticia para listados (imagen arriba). #}
+{% macro tarjetaNoticia(n) %}
+<article class="news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col">
+  <div class="bg-noticia relative h-36 overflow-hidden">
+    {% if n.data.imagen %}
+      <img src="{{ n.data.imagen }}" alt="" loading="lazy" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+    {% else %}
+      <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <span class="material-symbols-outlined text-white/10 text-[80px] leading-none">article</span>
+      </div>
+    {% endif %}
+    <span class="absolute top-2 left-2 px-2 py-0.5 bg-primary text-white text-[9px] font-bold uppercase tracking-wider rounded">{{ n.data.categoria }}</span>
+  </div>
+  <div class="p-4 flex flex-col flex-1">
+    <p class="text-xs text-gray-400 mb-1"><time datetime="{{ n.date | fechaISO }}">{{ n.date | fechaES }}</time></p>
+    <h3 class="font-bold text-gray-800 text-sm leading-snug mb-2 flex-1">{{ n.data.title }}</h3>
+    <p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-3">{{ n.data.resumen }}</p>
+    <a href="{{ n.url }}" class="inline-flex items-center gap-1.5 text-primary text-xs font-bold hover:underline mt-auto">
+      Leer más<span class="sr-only">: {{ n.data.title }}</span>
+      <span aria-hidden="true" class="material-symbols-outlined text-sm">arrow_forward</span>
+    </a>
+  </div>
+</article>
+{% endmacro %}
