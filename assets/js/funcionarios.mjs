@@ -41,6 +41,51 @@ async function usuarioActual() {
 const fecha = (iso) =>
   iso ? new Date(iso).toLocaleString("es-CL", { dateStyle: "short", timeStyle: "short", timeZone: "America/Santiago" }) : "—";
 
+const TZ = { timeZone: "America/Santiago" };
+const fechaCorta = (iso) => new Date(iso).toLocaleDateString("es-CL", { day: "numeric", month: "short", year: "numeric", ...TZ });
+const fechaLarga = (iso) => new Date(iso).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric", ...TZ });
+const tamano = (b) => (b >= 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
+
+/** Crea un elemento con clases y texto (siempre como texto, nunca HTML). */
+function el(tag, clase = "", texto) {
+  const e = document.createElement(tag);
+  if (clase) e.className = clase;
+  if (texto !== undefined) e.textContent = texto;
+  return e;
+}
+const icono = (nombre, clase = "") => {
+  const s = el("span", `material-symbols-outlined ${clase}`, nombre);
+  s.setAttribute("aria-hidden", "true");
+  return s;
+};
+
+/**
+ * Texto de una publicación → nodos seguros: párrafos, saltos de línea, **negrita** y enlaces https.
+ * No interpreta HTML: todo se inserta como texto.
+ */
+function textoEnriquecido(texto) {
+  const frag = document.createDocumentFragment();
+  for (const parrafo of texto.split(/\n\s*\n/)) {
+    const p = el("p");
+    parrafo.split("\n").forEach((linea, i) => {
+      if (i) p.append(document.createElement("br"));
+      for (const trozo of linea.split(/(\*\*[^*]+\*\*|https?:\/\/[^\s<>"]+)/g)) {
+        if (!trozo) continue;
+        if (/^\*\*[^*]+\*\*$/.test(trozo)) p.append(el("strong", "", trozo.slice(2, -2)));
+        else if (/^https?:\/\//.test(trozo)) {
+          const a = el("a", "", trozo);
+          a.href = trozo;
+          a.target = "_blank";
+          a.rel = "noopener";
+          p.append(a);
+        } else p.append(document.createTextNode(trozo));
+      }
+    });
+    frag.append(p);
+  }
+  return frag;
+}
+
 // ── Comunes ────────────────────────────────────────────────────────────────
 // Formatea el RUT al salir del campo (12345678k → 12.345.678-K)
 $$("[data-rut]").forEach((input) => {
@@ -100,6 +145,261 @@ const paginas = {
     const cargo = $('[data-campo="cargo"]');
     if (u.cargo) cargo.textContent = u.cargo; else cargo.remove();
     if (u.rol === "admin") $$("[data-solo-admin]").forEach((el) => el.classList.remove("hidden"));
+    if (u.rol === "admin" || u.rol === "editor") $$("[data-solo-editor]").forEach((el) => el.classList.remove("hidden"));
+
+    // Muro de publicaciones
+    const muro = $("#muro");
+    const filtros = $("#filtros");
+    const verMas = $("#ver-mas");
+    let categoria = new URLSearchParams(location.search).get("categoria") || "";
+    let desde = 0;
+
+    const tarjeta = (p) => {
+      const a = el("a", "news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow");
+      a.href = `/funcionarios/publicacion.html?id=${p.id}`;
+      if (p.imagen) {
+        const img = el("img", "w-full h-48 object-cover object-top bg-gray-100");
+        img.src = `/api/intranet/archivos/${p.imagen}`;
+        img.alt = "";
+        img.loading = "lazy";
+        a.append(img);
+      }
+      const cuerpo = el("div", "p-4 flex flex-col gap-1.5 flex-1");
+      const meta = el("div", "flex flex-wrap items-center gap-2 text-[11px]");
+      meta.append(el("span", "px-2 py-0.5 bg-primary-bg text-primary font-bold uppercase tracking-wide rounded", p.categoria));
+      meta.append(el("span", "text-gray-400", fechaCorta(p.fecha)));
+      cuerpo.append(meta, el("h3", "font-bold text-gray-800 text-sm leading-snug", p.titulo));
+      if (p.extracto) cuerpo.append(el("p", "text-xs text-gray-500 leading-relaxed line-clamp-3", p.extracto));
+      const pie = el("div", "mt-auto pt-2 flex items-center justify-between text-xs text-gray-400");
+      pie.append(el("span", "", [p.area, p.autor].filter(Boolean).join(" · ")));
+      if (p.adjuntos) {
+        const adj = el("span", "inline-flex items-center gap-1");
+        adj.append(icono("attach_file", "text-sm"), document.createTextNode(String(p.adjuntos)));
+        adj.setAttribute("aria-label", `${p.adjuntos} adjunto(s)`);
+        pie.append(adj);
+      }
+      cuerpo.append(pie);
+      a.append(cuerpo);
+      return a;
+    };
+
+    const pintarFiltros = (categorias) => {
+      filtros.replaceChildren();
+      for (const c of ["", ...categorias]) {
+        const b = el("button", `px-3 py-1.5 rounded-full text-xs font-bold border transition-colors ${c === categoria ? "bg-primary text-white border-primary" : "bg-white text-primary border-primary-pale hover:bg-primary-bg"}`, c || "Todas");
+        b.type = "button";
+        b.setAttribute("aria-pressed", String(c === categoria));
+        b.addEventListener("click", () => {
+          categoria = c;
+          history.replaceState(null, "", c ? `?categoria=${encodeURIComponent(c)}` : location.pathname);
+          cargar(true);
+        });
+        filtros.append(b);
+      }
+    };
+
+    const cargar = async (reiniciar) => {
+      if (reiniciar) { desde = 0; muro.replaceChildren(); }
+      verMas.disabled = true;
+      try {
+        const q = new URLSearchParams({ desde: String(desde) });
+        if (categoria) q.set("categoria", categoria);
+        const r = await api(`/api/intranet/publicaciones?${q}`);
+        if (reiniciar) pintarFiltros(r.categorias);
+        r.publicaciones.forEach((p) => muro.append(tarjeta(p)));
+        desde += r.publicaciones.length;
+        if (!r.total) muro.replaceChildren(el("p", "text-gray-400 text-sm col-span-full py-8 text-center", categoria ? "No hay publicaciones en esta categoría." : "Aún no hay publicaciones."));
+        verMas.classList.toggle("hidden", desde >= r.total);
+      } catch (e) {
+        muro.replaceChildren(el("p", "text-red-600 text-sm col-span-full", e.message));
+      } finally {
+        verMas.disabled = false;
+      }
+    };
+    verMas.addEventListener("click", () => cargar(false));
+    await cargar(true);
+  },
+
+  async publicacion() {
+    const u = await usuarioActual();
+    if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
+    const id = new URLSearchParams(location.search).get("id");
+    const art = $("#articulo");
+    let r;
+    try {
+      r = await api(`/api/intranet/publicaciones/${encodeURIComponent(id || "")}`);
+    } catch (e) {
+      art.replaceChildren(el("div", "p-8 text-sm text-gray-600", e.status === 404 ? "La publicación no existe o fue eliminada." : e.message));
+      return;
+    }
+    const p = r.publicacion;
+    document.title = `${p.titulo} - Intranet Hospital de Frutillar`;
+    $('[data-campo="miga"]').textContent = p.titulo;
+
+    const caja = el("div", "p-6 md:p-8 flex flex-col gap-4");
+    const meta = el("div", "flex flex-wrap items-center gap-2 text-xs text-gray-500");
+    meta.append(el("span", "px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded", p.categoria));
+    meta.append(el("span", "", fechaLarga(p.fecha)));
+    meta.append(el("span", "", "· " + [p.area, p.autor?.nombre].filter(Boolean).join(" · ")));
+    caja.append(meta, el("h2", "text-2xl md:text-3xl font-bold text-gray-900 leading-snug", p.titulo));
+    if (p.cuerpo) {
+      const texto = el("div", "prose max-w-none text-gray-700 leading-relaxed");
+      texto.append(textoEnriquecido(p.cuerpo));
+      caja.append(texto);
+    }
+
+    const imagenes = p.adjuntos.filter((a) => a.tipo.startsWith("image/"));
+    const otros = p.adjuntos.filter((a) => !a.tipo.startsWith("image/"));
+    for (const a of imagenes) {
+      const link = el("a", "block");
+      link.href = `/api/intranet/archivos/${a.id}`;
+      link.target = "_blank";
+      const img = el("img", "w-full rounded-custom border border-gray-200");
+      img.src = `/api/intranet/archivos/${a.id}`;
+      img.alt = a.nombre;
+      img.loading = "lazy";
+      link.append(img);
+      caja.append(link);
+    }
+    if (otros.length) {
+      const lista = el("ul", "flex flex-col gap-2 border-t border-gray-100 pt-4");
+      for (const a of otros) {
+        const li = el("li");
+        const link = el("a", "flex items-center gap-3 border border-gray-200 rounded-custom px-4 py-3 hover:bg-primary-bg hover:border-primary-pale");
+        link.href = `/api/intranet/archivos/${a.id}`;
+        link.target = "_blank";
+        link.append(icono(a.tipo === "application/pdf" ? "picture_as_pdf" : "description", "text-red-600 text-2xl"));
+        const t = el("span", "flex-1 min-w-0");
+        t.append(el("span", "block text-sm font-semibold text-gray-800 truncate", a.nombre), el("span", "block text-xs text-gray-400", tamano(a.tamano)));
+        link.append(t, icono("open_in_new", "text-primary text-lg"));
+        li.append(link);
+        lista.append(li);
+      }
+      caja.append(lista);
+    }
+    art.replaceChildren(caja);
+
+    if (r.puedeEditar) {
+      $("#editar").href = `/funcionarios/publicar.html?id=${p.id}`;
+      $("#acciones-autor").classList.remove("hidden");
+    }
+  },
+
+  async publicar() {
+    const u = await usuarioActual();
+    if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
+    const form = $("#form-publicar");
+    const msg = $("#mensaje");
+    if (u.rol !== "admin" && u.rol !== "editor") {
+      form.replaceChildren(el("p", "text-sm text-gray-600", "Su cuenta no tiene permiso para publicar. Pida a un administrador el rol de Editor."));
+      return;
+    }
+    if (u.rol === "admin") $("#campo-autor").classList.remove("hidden");
+
+    const { categorias } = await api("/api/intranet/publicaciones?desde=0");
+    const sel = $("#p-categoria");
+    categorias.forEach((c) => sel.append(new Option(c, c)));
+    $("#p-fecha").value = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
+    $("#p-fecha").max = $("#p-fecha").value;
+
+    const adjuntos = []; // { id, nombre, tipo, tamano }
+    const listaAdj = $("#lista-adjuntos");
+    const pintarAdjuntos = () => {
+      listaAdj.replaceChildren();
+      adjuntos.forEach((a, i) => {
+        const li = el("li", "flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-custom px-3 py-2 text-sm");
+        li.append(icono(a.tipo?.startsWith("image/") ? "image" : "description", "text-primary"));
+        li.append(el("span", "flex-1 truncate", a.nombre), el("span", "text-xs text-gray-400", a.subiendo ? "Subiendo…" : tamano(a.tamano)));
+        if (!a.subiendo) {
+          const b = el("button", "text-xs font-bold text-red-600 hover:underline", "Quitar");
+          b.type = "button";
+          b.addEventListener("click", () => { adjuntos.splice(i, 1); pintarAdjuntos(); });
+          li.append(b);
+        }
+        listaAdj.append(li);
+      });
+    };
+
+    const id = new URLSearchParams(location.search).get("id");
+    if (id) {
+      const { publicacion: p, puedeEditar } = await api(`/api/intranet/publicaciones/${encodeURIComponent(id)}`);
+      if (!puedeEditar) {
+        form.replaceChildren(el("p", "text-sm text-gray-600", "Solo el autor o un administrador puede editar esta publicación."));
+        return;
+      }
+      $('[data-campo="titulo-form"]').textContent = "Editar publicación";
+      $("button[type=submit]", form).textContent = "Guardar cambios";
+      form.titulo.value = p.titulo;
+      sel.value = p.categoria;
+      form.area.value = p.area || "";
+      form.cuerpo.value = p.cuerpo || "";
+      $("#p-fecha").value = new Date(p.fecha).toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
+      form.autorNombre.value = p.autor?.nombre || "";
+      adjuntos.push(...p.adjuntos);
+      pintarAdjuntos();
+      const borrar = $("#eliminar");
+      borrar.classList.remove("hidden");
+      borrar.addEventListener("click", async () => {
+        if (!confirm("¿Eliminar esta publicación y sus adjuntos? No se puede deshacer.")) return;
+        try {
+          await api(`/api/intranet/publicaciones/${p.id}`, { metodo: "DELETE" });
+          location.href = "/funcionarios/";
+        } catch (e) { mensaje(msg, e.message); }
+      });
+    }
+
+    $("#p-archivos").addEventListener("change", async (e) => {
+      const archivos = [...e.target.files];
+      e.target.value = "";
+      for (const f of archivos) {
+        if (f.size > 5 * 1024 * 1024) { mensaje(msg, `"${f.name}" supera los 5 MB.`); continue; }
+        const temp = { nombre: f.name, subiendo: true };
+        adjuntos.push(temp);
+        pintarAdjuntos();
+        try {
+          const r = await fetch("/api/intranet/archivos", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "content-type": f.type || "application/octet-stream", "x-nombre": encodeURIComponent(f.name) },
+            body: f,
+          });
+          const cuerpo = await r.json().catch(() => ({}));
+          if (!r.ok) throw new Error(cuerpo.error || "No se pudo subir el archivo.");
+          Object.assign(temp, cuerpo.archivo, { subiendo: false });
+        } catch (err) {
+          adjuntos.splice(adjuntos.indexOf(temp), 1);
+          mensaje(msg, `${f.name}: ${err.message}`);
+        }
+        pintarAdjuntos();
+      }
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (adjuntos.some((a) => a.subiendo)) return mensaje(msg, "Espere a que terminen de subir los archivos.");
+      if (form.titulo.value.trim().length < 3) return mensaje(msg, "Ingrese un título."), form.titulo.focus();
+      const btn = $("button[type=submit]", form);
+      btn.disabled = true;
+      const fecha = $("#p-fecha").value;
+      const hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
+      const datos = {
+        titulo: form.titulo.value,
+        categoria: sel.value,
+        area: form.area.value,
+        cuerpo: form.cuerpo.value,
+        // Si es hoy, se usa la hora actual; si es otra fecha, el mediodía de ese día
+        fecha: !fecha || fecha === hoy ? undefined : `${fecha}T12:00:00-03:00`,
+        adjuntos: adjuntos.map((a) => a.id),
+        autorNombre: form.autorNombre.value || undefined,
+      };
+      try {
+        const r = await api(id ? `/api/intranet/publicaciones/${id}` : "/api/intranet/publicaciones", { metodo: id ? "PATCH" : "POST", datos });
+        location.href = `/funcionarios/publicacion.html?id=${r.publicacion.id}`;
+      } catch (err) {
+        mensaje(msg, err.message);
+        btn.disabled = false;
+      }
+    });
   },
 
   async "cambiar-clave"() {
@@ -195,6 +495,32 @@ const paginas = {
       return b;
     };
 
+    const NOMBRES_ROL = { funcionario: "Funcionario", editor: "Editor (publica)", admin: "Administrador" };
+    const celdaRol = (u) => {
+      if (u.rut === yo.rut) return celda(NOMBRES_ROL[u.rol]);
+      const td = document.createElement("td");
+      td.className = "px-5 py-3";
+      const s = document.createElement("select");
+      s.className = "border-gray-300 rounded-custom py-1 pl-2 pr-8 text-sm";
+      s.setAttribute("aria-label", `Rol de ${u.nombre}`);
+      for (const [v, t] of Object.entries(NOMBRES_ROL)) s.append(new Option(t, v, false, v === u.rol));
+      s.addEventListener("change", async () => {
+        if (!confirm(`¿Cambiar el rol de ${u.nombre} a "${NOMBRES_ROL[s.value]}"?`)) return (s.value = u.rol);
+        s.disabled = true;
+        try {
+          await api("/api/admin/usuarios", { metodo: "PATCH", datos: { rut: u.rut, accion: "editar", rol: s.value } });
+          msg.classList.add("hidden");
+          await cargar();
+        } catch (err) {
+          mensaje(msg, err.message);
+          s.value = u.rol;
+          s.disabled = false;
+        }
+      });
+      td.append(s);
+      return td;
+    };
+
     const pintar = () => {
       const q = $("#filtro").value.trim().toLowerCase();
       const lista = usuarios.filter((u) =>
@@ -210,21 +536,30 @@ const paginas = {
       for (const u of lista) {
         const tr = document.createElement("tr");
         if (!u.activo) tr.className = "bg-gray-50 text-gray-400";
-        const estado = celda(u.activo ? (u.debeCambiarClave ? "Clave temporal" : "Activa") : "Desactivada");
+        let estadoTxt = u.activo ? "Activa" : "Desactivada";
+        let estadoClase = "";
+        if (u.activo && u.debeCambiarClave) {
+          const vence = u.claveTemporalVence ? Date.parse(u.claveTemporalVence) : null;
+          if (vence && vence < Date.now()) {
+            estadoTxt = "Clave inicial vencida";
+            estadoClase = "text-red-600 font-semibold";
+          } else {
+            estadoTxt = vence ? `Clave inicial (vence ${fecha(u.claveTemporalVence)})` : "Clave inicial";
+            estadoClase = "text-amber-700";
+          }
+        }
+        const estado = celda(estadoTxt, estadoClase);
         const acciones = document.createElement("td");
         acciones.className = "px-5 py-3 text-right whitespace-nowrap space-x-3";
         acciones.append(boton("Restablecer clave", "restablecer", u.rut));
         if (u.rut !== yo.rut) {
-          acciones.append(
-            boton(u.rol === "admin" ? "Quitar admin" : "Hacer admin", "rol", u.rut),
-            u.activo ? boton("Desactivar", "desactivar", u.rut, true) : boton("Activar", "activar", u.rut)
-          );
+          acciones.append(u.activo ? boton("Desactivar", "desactivar", u.rut, true) : boton("Activar", "activar", u.rut));
         }
         tr.append(
           celda(u.nombre, "font-semibold text-gray-800"),
           celda(formatearRut(u.rut), "whitespace-nowrap"),
           celda(u.cargo || "—"),
-          celda(u.rol === "admin" ? "Administrador" : "Funcionario"),
+          celdaRol(u),
           estado,
           celda(fecha(u.ultimoAcceso), "whitespace-nowrap"),
           acciones
@@ -234,7 +569,11 @@ const paginas = {
     };
 
     const cargar = async () => {
-      usuarios = (await api("/api/admin/usuarios")).usuarios;
+      const r = await api("/api/admin/usuarios");
+      usuarios = r.usuarios;
+      $("#modo-clave").textContent = r.claveComunConfigurada
+        ? `Las cuentas nuevas parten con la clave inicial común. Vence a las ${r.vigenciaHoras} horas si el funcionario no ingresa y la cambia.`
+        : `Las cuentas nuevas reciben una clave temporal individual que se muestra una sola vez. Vence a las ${r.vigenciaHoras} horas si no se cambia.`;
       pintar();
     };
 
@@ -247,12 +586,9 @@ const paginas = {
       const preguntas = {
         restablecer: `¿Generar una nueva contraseña temporal para ${u.nombre}? Su sesión actual se cerrará.`,
         desactivar: `¿Desactivar la cuenta de ${u.nombre}? No podrá ingresar hasta que se reactive.`,
-        rol: u.rol === "admin" ? `¿Quitar el rol de administrador a ${u.nombre}?` : `¿Dar rol de administrador a ${u.nombre}?`,
       };
       if (preguntas[b.dataset.accion] && !confirm(preguntas[b.dataset.accion])) return;
-      const datos = b.dataset.accion === "rol"
-        ? { rut: u.rut, accion: "editar", rol: u.rol === "admin" ? "funcionario" : "admin" }
-        : { rut: u.rut, accion: b.dataset.accion };
+      const datos = { rut: u.rut, accion: b.dataset.accion };
       b.disabled = true;
       try {
         const r = await api("/api/admin/usuarios", { metodo: "PATCH", datos });
@@ -278,8 +614,13 @@ const paginas = {
           datos: { rut, nombre: form.nombre.value, cargo: form.cargo.value, rol: form.rol.value },
         });
         form.reset();
-        msg.classList.add("hidden");
-        mostrarClave(r.usuario, r.claveTemporal);
+        if (r.claveComun) {
+          caja.classList.add("hidden");
+          mensaje(msg, `Cuenta creada para ${r.usuario.nombre}. Debe ingresar con la clave inicial común antes del ${fecha(r.usuario.claveTemporalVence)} y cambiarla.`, "ok");
+        } else {
+          msg.classList.add("hidden");
+          mostrarClave(r.usuario, r.claveTemporal);
+        }
         await cargar();
       } catch (err) {
         mensaje(msg, err.message);

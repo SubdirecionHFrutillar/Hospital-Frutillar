@@ -10,7 +10,7 @@ export default async (request, context) => {
 
   if (!sesion) {
     const destino = new URL("/funcionarios/ingresar.html", url);
-    destino.searchParams.set("volver", url.pathname);
+    destino.searchParams.set("volver", url.pathname + url.search);
     return Response.redirect(destino, 302);
   }
   if (SOLO_ADMIN.includes(url.pathname) && sesion.rol !== "admin") {

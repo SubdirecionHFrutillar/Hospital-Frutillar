@@ -4,34 +4,32 @@
 //   intentos/<rut>   → { fallos, bloqueadoHasta }
 import { scrypt as scryptCb, randomBytes, timingSafeEqual, randomInt } from "node:crypto";
 import { promisify } from "node:util";
+import { abrirAlmacen, _reiniciarAlmacenesPrueba } from "./almacen.mjs";
 
 const scrypt = promisify(scryptCb);
 const N = 16384, R = 8, P = 1, LARGO = 64;
 
-export const ROLES = ["funcionario", "admin"];
+export const ROLES = ["funcionario", "editor", "admin"];
+/** Roles que pueden publicar en la intranet. */
+export const PUEDEN_PUBLICAR = ["editor", "admin"];
 export const MAX_FALLOS = 5;
 export const BLOQUEO_MIN = 15;
+/** Horas que dura una clave inicial o temporal antes de vencer si no se ha cambiado. */
+export const VIGENCIA_TEMPORAL_HORAS = 72;
+
+/** Fecha ISO en que vence una clave temporal creada ahora. */
+export function venceTemporal(ahora = Date.now()) {
+  return new Date(ahora + VIGENCIA_TEMPORAL_HORAS * 3600_000).toISOString();
+}
+
+/** ¿La clave temporal de este usuario ya venció? (cuentas antiguas sin fecha no vencen) */
+export function temporalVencida(u, ahora = Date.now()) {
+  return !!(u.debeCambiarClave && u.claveTemporalVence && Date.parse(u.claveTemporalVence) < ahora);
+}
 
 // ── Almacén ────────────────────────────────────────────────────────────────
-let almacenPrueba = null;
-
-/** Almacén en memoria para pruebas locales (FUNCIONARIOS_STORE=memoria). */
-function almacenMemoria() {
-  const m = new Map();
-  return {
-    async get(k, o) { const v = m.get(k); return v === undefined ? null : o?.type === "json" ? JSON.parse(v) : v; },
-    async setJSON(k, v) { m.set(k, JSON.stringify(v)); },
-    async delete(k) { m.delete(k); },
-    async list({ prefix }) { return { blobs: [...m.keys()].filter((k) => k.startsWith(prefix)).map((key) => ({ key })) }; },
-  };
-}
-
-export async function almacen() {
-  if (process.env.FUNCIONARIOS_STORE === "memoria") return (almacenPrueba ??= almacenMemoria());
-  const { getStore } = await import("@netlify/blobs");
-  return getStore({ name: "funcionarios", consistency: "strong" });
-}
-export function _reiniciarAlmacenPrueba() { almacenPrueba = null; }
+export const almacen = () => abrirAlmacen("funcionarios");
+export const _reiniciarAlmacenPrueba = _reiniciarAlmacenesPrueba;
 
 // ── Contraseñas ────────────────────────────────────────────────────────────
 export async function hashClave(clave) {

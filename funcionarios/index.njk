@@ -3,7 +3,7 @@ title: Portal Funcionarios
 permalink: funcionarios/index.html
 ---
 {% import "componentes.njk" as ui with context %}
-{{ ui.banner("Portal Funcionarios", "Herramientas y accesos para el equipo del Hospital de Frutillar", "badge", [{ label: "Portal Funcionarios" }]) }}
+{{ ui.banner("Intranet Funcionarios", "Medio oficial de información interna del Hospital de Frutillar", "badge", [{ label: "Portal Funcionarios" }]) }}
 
 <div class="container mx-auto px-4 py-8" data-pagina="portal">
   <div class="flex flex-wrap items-center justify-between gap-4 bg-white border border-gray-200 rounded-custom shadow-sm px-6 py-5 mb-6">
@@ -17,22 +17,47 @@ permalink: funcionarios/index.html
         <p class="text-xs text-gray-500"><span data-campo="rut"></span><span data-campo="cargo" class="before:content-['_·_']"></span></p>
       </div>
     </div>
-    <button type="button" data-salir class="inline-flex items-center gap-2 text-sm font-bold text-primary border border-primary-pale bg-primary-bg hover:bg-primary-pale px-4 py-2 rounded-custom">
-      <span aria-hidden="true" class="material-symbols-outlined text-base">logout</span>Cerrar sesión
-    </button>
+    <div class="flex flex-wrap gap-2">
+      <a href="/funcionarios/publicar.html" data-solo-editor class="hidden inline-flex items-center gap-2 text-sm font-bold text-white bg-primary hover:bg-primary-dark px-4 py-2 rounded-custom shadow">
+        <span aria-hidden="true" class="material-symbols-outlined text-base">edit_square</span>Publicar
+      </a>
+      <button type="button" data-salir class="inline-flex items-center gap-2 text-sm font-bold text-primary border border-primary-pale bg-primary-bg hover:bg-primary-pale px-4 py-2 rounded-custom">
+        <span aria-hidden="true" class="material-symbols-outlined text-base">logout</span>Cerrar sesión
+      </button>
+    </div>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {% for t in portal.accesos %}
-    <a href="{{ t.url }}"{% if t.url.startsWith("http") %} target="_blank" rel="noopener"{% endif %}{% if t.soloAdmin %} data-solo-admin{% endif %} class="{{ "hidden " if t.soloAdmin }}gob-stripe group bg-white border border-gray-200 rounded-custom shadow-sm hover:shadow-md p-5 flex items-start gap-4 transition-all">
-      <div class="w-11 h-11 bg-primary-bg rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-primary transition-colors">
-        <span aria-hidden="true" class="material-symbols-outlined text-primary group-hover:text-white transition-colors">{{ t.icono }}</span>
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-7 items-start">
+    <!-- MURO DE PUBLICACIONES -->
+    <section aria-labelledby="titulo-muro" class="min-w-0">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 id="titulo-muro" class="text-2xl font-bold text-primary border-l-4 border-primary-light pl-3">Publicaciones</h2>
+        <div class="h-px bg-gray-200 flex-1"></div>
       </div>
-      <div>
-        <h2 class="font-bold text-gray-900 text-sm mb-1">{{ t.titulo }}{% if t.url.startsWith("http") %} <span aria-hidden="true" class="material-symbols-outlined text-sm text-gray-400 align-middle">open_in_new</span>{% endif %}</h2>
-        <p class="text-xs text-gray-500 leading-relaxed">{{ t.descripcion }}</p>
+      <div id="filtros" class="flex flex-wrap gap-2 mb-5" role="group" aria-label="Filtrar por categoría"></div>
+      <div id="muro" class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start" aria-live="polite">
+        <p class="text-gray-400 text-sm col-span-full">Cargando publicaciones…</p>
       </div>
-    </a>
-    {% endfor %}
+      <button type="button" id="ver-mas" class="hidden mt-5 w-full py-2.5 bg-white border border-gray-200 rounded-custom text-primary text-sm font-bold hover:bg-primary-bg shadow-sm">Ver más publicaciones</button>
+    </section>
+
+    <!-- ACCESOS -->
+    <aside class="flex flex-col gap-5">
+      <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+        <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Accesos</div>
+        <div class="flex flex-col divide-y divide-gray-100">
+          {% for t in portal.accesos %}
+          {% set externo = t.url.startsWith("http") %}
+          <a href="{{ t.url }}"{% if externo %} target="_blank" rel="noopener"{% endif %}{% if t.soloAdmin %} data-solo-admin{% endif %} class="{{ 'hidden ' if t.soloAdmin }}acceso-item flex items-start gap-3 px-4 py-3">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl mt-0.5">{{ t.icono }}</span>
+            <span>
+              <strong class="text-sm text-primary block">{{ t.titulo }}{% if externo %} <span aria-hidden="true" class="material-symbols-outlined text-xs text-gray-400 align-middle">open_in_new</span>{% endif %}</strong>
+              <span class="text-xs text-gray-500">{{ t.descripcion }}</span>
+            </span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </aside>
   </div>
 </div>

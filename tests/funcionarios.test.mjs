@@ -164,3 +164,55 @@ test("Administración: crear cuenta, clave temporal, cambio obligatorio y permis
   assert.equal(lista.length, 2);
   assert.ok(lista.every((u) => !("hash" in u)));
 });
+
+test("Clave inicial común: se usa al crear, no se devuelve, vence a las 72 h y no sirve como clave personal", async () => {
+  process.env.FUNCIONARIOS_CLAVE_INICIAL = "Hospital2026inicio";
+  try {
+    await crearAdmin();
+    const cAdmin = cookieDe(await login(ADMIN.rut, ADMIN.clave));
+
+    let r = await admin(req("/api/admin/usuarios", { cookie: cAdmin }));
+    assert.equal((await r.json()).claveComunConfigurada, true);
+
+    r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "12345678-5", nombre: "Ana Pérez" } }));
+    const creada = await r.json();
+    assert.equal(r.status, 201);
+    assert.equal(creada.claveComun, true);
+    assert.equal(creada.claveTemporal, undefined, "la clave común no viaja en la respuesta");
+    assert.ok(creada.usuario.claveTemporalVence);
+
+    // Ingresa con la clave común → debe cambiarla
+    r = await login("12345678-5", "Hospital2026inicio");
+    assert.equal(r.status, 200);
+    assert.equal((await r.json()).debeCambiarClave, true);
+    const cAna = cookieDe(r);
+
+    // No puede elegir la clave común como personal
+    r = await cambiar(req("/api/auth/cambiar-clave", { metodo: "POST", cookie: cAna, datos: { actual: "Hospital2026inicio", nueva: "Hospital2026inicio" } }));
+    assert.equal(r.status, 400);
+
+    // Segunda cuenta: se simula que pasaron más de 72 h
+    await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "10000013-K", nombre: "Luis Soto" } }));
+    const u = await U.obtener("10000013-K");
+    u.claveTemporalVence = new Date(Date.now() - 1000).toISOString();
+    await U.guardar(u);
+    r = await login("10000013-K", "Hospital2026inicio");
+    assert.equal(r.status, 403);
+    assert.match((await r.json()).error, /venció/);
+
+    // El administrador restablece → clave individual nueva, vigente
+    r = await admin(req("/api/admin/usuarios", { metodo: "PATCH", cookie: cAdmin, datos: { rut: "10000013-K", accion: "restablecer" } }));
+    const nueva = (await r.json()).claveTemporal;
+    assert.notEqual(nueva, "Hospital2026inicio");
+    assert.equal((await login("10000013-K", nueva)).status, 200);
+
+    // Tras cambiar la clave, el vencimiento desaparece
+    r = await cambiar(req("/api/auth/cambiar-clave", { metodo: "POST", cookie: cAna, datos: { actual: "Hospital2026inicio", nueva: "Lago2026sur" } }));
+    assert.equal(r.status, 200);
+    const ana = await U.obtener("12345678-5");
+    assert.equal(ana.debeCambiarClave, false);
+    assert.equal(ana.claveTemporalVence, undefined);
+  } finally {
+    delete process.env.FUNCIONARIOS_CLAVE_INICIAL;
+  }
+});

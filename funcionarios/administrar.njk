@@ -8,6 +8,7 @@ permalink: funcionarios/administrar.html
 <div class="container mx-auto px-4 py-8 flex flex-col gap-6" data-pagina="administrar">
 
   {% call ui.seccion("Nueva cuenta", "person_add") %}
+    <p id="modo-clave" class="text-xs text-gray-500 mb-4"></p>
     <form id="form-nuevo" class="grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_150px_auto] gap-3 items-end" novalidate>
       <div>
         <label for="n-rut" class="block text-xs font-bold text-gray-600 mb-1">RUT</label>
@@ -25,6 +26,7 @@ permalink: funcionarios/administrar.html
         <label for="n-rol" class="block text-xs font-bold text-gray-600 mb-1">Rol</label>
         <select id="n-rol" name="rol" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
           <option value="funcionario">Funcionario</option>
+          <option value="editor">Editor (publica)</option>
           <option value="admin">Administrador</option>
         </select>
       </div>
@@ -33,8 +35,8 @@ permalink: funcionarios/administrar.html
   {% endcall %}
 
   <div id="clave-entregada" role="status" class="hidden bg-amber-50 border border-amber-200 rounded-custom px-5 py-4 text-sm text-amber-900">
-    <p class="font-bold mb-1">Contraseña temporal para <span data-campo="para"></span></p>
-    <p class="mb-2">Entréguela personalmente. Se muestra <strong>solo esta vez</strong>; el funcionario deberá cambiarla al ingresar.</p>
+    <p class="font-bold mb-1">Clave temporal para <span data-campo="para"></span></p>
+    <p class="mb-2">Entréguela personalmente. Se muestra <strong>solo esta vez</strong> y vence en 72 horas; el funcionario deberá cambiarla al ingresar.</p>
     <div class="flex items-center gap-3 flex-wrap">
       <code data-campo="clave" class="text-lg font-mono font-bold bg-white border border-amber-200 rounded px-3 py-1 select-all"></code>
       <button type="button" data-copiar class="text-xs font-bold text-amber-900 underline">Copiar</button>

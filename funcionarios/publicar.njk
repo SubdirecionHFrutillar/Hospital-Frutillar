@@ -1,0 +1,65 @@
+---
+title: Publicar en la intranet
+permalink: funcionarios/publicar.html
+---
+{% import "componentes.njk" as ui with context %}
+{{ ui.banner("Publicar en la intranet", "Comparta avisos, actas, boletines y documentos con los funcionarios", "edit_square", [{ label: "Portal Funcionarios", url: "/funcionarios/" }, { label: "Publicar" }]) }}
+
+<div class="container mx-auto px-4 py-8 max-w-3xl" data-pagina="publicar">
+  <form id="form-publicar" class="bg-white border border-gray-200 rounded-custom shadow-md px-6 md:px-8 py-7 flex flex-col gap-5 gob-stripe" novalidate>
+    <h2 class="text-xl font-bold text-primary" data-campo="titulo-form">Nueva publicación</h2>
+
+    <div>
+      <label for="p-titulo" class="block text-xs font-bold text-gray-600 mb-1">Título <span class="text-red-500" aria-hidden="true">*</span></label>
+      <input id="p-titulo" name="titulo" type="text" required maxlength="200" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div>
+        <label for="p-categoria" class="block text-xs font-bold text-gray-600 mb-1">Categoría</label>
+        <select id="p-categoria" name="categoria" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm"></select>
+      </div>
+      <div>
+        <label for="p-area" class="block text-xs font-bold text-gray-600 mb-1">Unidad / área <span class="font-normal text-gray-400">(opcional)</span></label>
+        <input id="p-area" name="area" type="text" maxlength="80" list="areas" placeholder="Ej.: Bienestar" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
+        <datalist id="areas">
+          <option value="Dirección"><option value="Subdirección Médica"><option value="Subdirección Administrativa"><option value="Bienestar"><option value="Capacitación"><option value="Recursos Humanos"><option value="Calidad"><option value="Prevención de riesgos"><option value="Casino"><option value="Bodega">
+        </datalist>
+      </div>
+      <div>
+        <label for="p-fecha" class="block text-xs font-bold text-gray-600 mb-1">Fecha</label>
+        <input id="p-fecha" name="fecha" type="date" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
+      </div>
+    </div>
+
+    <div id="campo-autor" class="hidden">
+      <label for="p-autor" class="block text-xs font-bold text-gray-600 mb-1">Publicado por <span class="font-normal text-gray-400">(solo administradores; por defecto, su nombre)</span></label>
+      <input id="p-autor" name="autorNombre" type="text" maxlength="80" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
+    </div>
+
+    <div>
+      <label for="p-cuerpo" class="block text-xs font-bold text-gray-600 mb-1">Texto</label>
+      <textarea id="p-cuerpo" name="cuerpo" rows="8" maxlength="20000" aria-describedby="ayuda-cuerpo" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm"></textarea>
+      <p id="ayuda-cuerpo" class="text-xs text-gray-500 mt-1">Deje una línea en blanco entre párrafos. Use **texto** para negrita. Los enlaces (https://…) se activan solos.</p>
+    </div>
+
+    <div>
+      <span class="block text-xs font-bold text-gray-600 mb-1">Adjuntos <span class="font-normal text-gray-400">(PDF, imágenes u Office · máx. 5 MB c/u)</span></span>
+      <label for="p-archivos" class="flex items-center justify-center gap-2 border-2 border-dashed border-gray-300 hover:border-primary rounded-custom px-4 py-5 text-sm text-gray-500 cursor-pointer">
+        <span aria-hidden="true" class="material-symbols-outlined">upload_file</span>Seleccionar archivos
+      </label>
+      <input id="p-archivos" type="file" multiple accept=".pdf,image/jpeg,image/png,image/webp,image/gif,.doc,.docx,.xls,.xlsx,.ppt,.pptx" class="sr-only">
+      <ul id="lista-adjuntos" class="mt-3 flex flex-col gap-2"></ul>
+    </div>
+
+    <p id="mensaje" role="alert" class="hidden text-sm rounded-custom px-4 py-3"></p>
+
+    <div class="flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-5">
+      <button type="button" id="eliminar" class="hidden text-sm font-bold text-red-600 hover:underline">Eliminar publicación</button>
+      <div class="flex gap-3 ml-auto">
+        <a href="/funcionarios/" class="px-5 py-2.5 text-sm font-bold text-gray-600 hover:text-primary">Cancelar</a>
+        <button type="submit" class="bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-6 py-2.5 rounded-custom shadow">Publicar</button>
+      </div>
+    </div>
+  </form>
+</div>
