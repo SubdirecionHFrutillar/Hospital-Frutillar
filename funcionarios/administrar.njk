@@ -9,7 +9,7 @@ permalink: funcionarios/administrar.html
 
   {% call ui.seccion("Nueva cuenta", "person_add") %}
     <p id="modo-clave" class="text-xs text-gray-500 mb-4"></p>
-    <form id="form-nuevo" class="grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_150px_auto] gap-3 items-end" novalidate>
+    <form id="form-nuevo" class="grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_230px_auto] gap-3 items-end" novalidate>
       <div>
         <label for="n-rut" class="block text-xs font-bold text-gray-600 mb-1">RUT</label>
         <input id="n-rut" name="rut" type="text" required data-rut maxlength="12" placeholder="12.345.678-9" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
@@ -26,7 +26,8 @@ permalink: funcionarios/administrar.html
         <label for="n-rol" class="block text-xs font-bold text-gray-600 mb-1">Rol</label>
         <select id="n-rol" name="rol" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
           <option value="funcionario">Funcionario</option>
-          <option value="editor">Editor (publica)</option>
+          <option value="editor">Editor (intranet)</option>
+          <option value="comunicaciones">Comunicaciones (intranet y sitio)</option>
           <option value="admin">Administrador</option>
         </select>
       </div>

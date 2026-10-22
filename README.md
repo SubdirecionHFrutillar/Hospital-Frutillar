@@ -74,6 +74,24 @@ La portada del portal (`/funcionarios/`) es el muro de publicaciones de la intra
 - Los textos y archivos se guardan en Netlify Blobs (almacén `intranet`), no en GitHub, y solo se entregan a quien tiene sesión.
 - Las categorías están en `netlify/lib/intranet.mjs` y los accesos de la barra lateral en `_data/portal.json`.
 
+### Noticias del sitio público
+
+Las noticias del sitio se publican desde el portal (ya no desde el CMS `/admin`):
+
+- **Quién:** cuentas con rol **Comunicaciones** o **Administrador**. En *Publicar* eligen "Sitio web público"; en *Noticias del sitio* las editan o eliminan.
+- **Cómo aparecen:** se guardan en Netlify Blobs (almacén `noticias`) y las páginas se generan al publicar el sitio. La primera imagen adjunta es la foto principal.
+- **Publicación automática:** cree un *build hook* en Netlify (*Site configuration → Build & deploy → Build hooks*) y guarde su URL en la variable `NETLIFY_BUILD_HOOK`. Así el sitio se regenera solo después de cada cambio (1–2 minutos). Sin la variable, las noticias aparecen en la siguiente publicación del sitio.
+- Las noticias antiguas en `content/noticias/*.md` siguen funcionando; si existe una noticia del portal con la misma dirección, se muestra la del portal.
+
+### Roles
+
+| Rol | Intranet | Sitio público | Cuentas |
+|---|---|---|---|
+| Funcionario | Lee | — | — |
+| Editor | Lee y publica | — | — |
+| Comunicaciones | Lee y publica | Publica noticias | — |
+| Administrador | Todo | Todo | Administra |
+
 ### Más adelante
 
 Si el hospital adopta una base de datos o un directorio institucional, solo hay que reemplazar

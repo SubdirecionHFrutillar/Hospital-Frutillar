@@ -2,8 +2,10 @@
 //   publicaciones/<id>  → { id, titulo, categoria, area, cuerpo, fecha, autor, adjuntos[], creado, editado }
 //   archivos/<id>       → binario; metadata { nombre, tipo, tamano, subidoPor, subido }
 //   indice              → [ resumen de cada publicación ] (para listar rápido sin leer una por una)
-import { randomUUID } from "node:crypto";
 import { abrirAlmacen } from "./almacen.mjs";
+import { repoArchivos, esId, texto, nuevoId, MAX_ARCHIVO_MB, TIPOS_PERMITIDOS } from "./archivos.mjs";
+
+export { esId, MAX_ARCHIVO_MB, TIPOS_PERMITIDOS };
 
 export const CATEGORIAS = [
   "General",
@@ -17,49 +19,11 @@ export const CATEGORIAS = [
   "Dirección",
 ];
 
-export const MAX_ARCHIVO_MB = 5;
-export const TIPOS_PERMITIDOS = {
-  "application/pdf": "pdf",
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-  "image/gif": "gif",
-  "application/msword": "doc",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
-  "application/vnd.ms-excel": "xls",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
-  "application/vnd.ms-powerpoint": "ppt",
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation": "pptx",
-};
-
 const almacen = () => abrirAlmacen("intranet");
-const nuevoId = () => randomUUID().replace(/-/g, "").slice(0, 16);
-export const esId = (id) => typeof id === "string" && /^[a-f0-9]{16}$/.test(id);
-
-const texto = (v, max) => (typeof v === "string" ? v.trim().slice(0, max) : "");
-
-// ── Archivos ───────────────────────────────────────────────────────────────
-export async function guardarArchivo({ datos, nombre, tipo, subidoPor }) {
-  const id = nuevoId();
-  const metadata = {
-    nombre: texto(nombre, 200).replace(/[\\/\r\n"]/g, "_") || "archivo",
-    tipo,
-    tamano: datos.byteLength,
-    subidoPor,
-    subido: new Date().toISOString(),
-  };
-  await (await almacen()).set(`archivos/${id}`, datos, { metadata });
-  return { id, ...metadata };
-}
-
-export async function leerArchivo(id) {
-  if (!esId(id)) return null;
-  return (await almacen()).getWithMetadata(`archivos/${id}`, { type: "arrayBuffer" });
-}
-
-export async function borrarArchivo(id) {
-  if (esId(id)) await (await almacen()).delete(`archivos/${id}`);
-}
+const archivos = repoArchivos("intranet");
+export const guardarArchivo = archivos.guardar;
+export const leerArchivo = archivos.leer;
+export const borrarArchivo = archivos.borrar;
 
 // ── Publicaciones ──────────────────────────────────────────────────────────
 function resumen(p) {
@@ -116,15 +80,7 @@ export function validar(entrada, { esAdmin }) {
   return { datos: { titulo, categoria, cuerpo, area, fecha, adjuntos, ...(esAdmin && entrada.autorNombre ? { autorNombre: texto(entrada.autorNombre, 80) } : {}) } };
 }
 
-async function describirAdjuntos(ids) {
-  const st = await almacen();
-  const out = [];
-  for (const id of ids) {
-    const r = await st.getMetadata(`archivos/${id}`);
-    if (r) out.push({ id, nombre: r.metadata.nombre, tipo: r.metadata.tipo, tamano: r.metadata.tamano });
-  }
-  return out;
-}
+const describirAdjuntos = archivos.describir;
 
 export async function crear(datos, autor) {
   const st = await almacen();

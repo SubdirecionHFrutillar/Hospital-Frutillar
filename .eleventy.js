@@ -30,6 +30,7 @@ module.exports = function (eleventyConfig) {
 
   // ¿Corresponde este ítem del menú a la página actual?
   eleventyConfig.addFilter("navActivo", (item, url) => {
+    if (typeof url !== "string") return false;
     if (item.url === "/") return url === "/";
     if (url === item.url) return true;
     if ((item.match || []).some((m) => url.startsWith(m))) return true;
@@ -39,15 +40,23 @@ module.exports = function (eleventyConfig) {
   // Primer elemento de una lista cuyo campo `clave` vale `valor`
   eleventyConfig.addFilter("buscar", (lista, clave, valor) => (lista || []).find((x) => x[clave] === valor));
 
-  // Noticias: más recientes primero
-  eleventyConfig.addCollection("noticias", (api) =>
-    api.getFilteredByTag("noticias").sort((a, b) => b.date - a.date)
-  );
+  // Noticias: archivos Markdown antiguos (content/noticias) + noticias del Portal Funcionarios.
+  // Si una noticia del portal usa la misma dirección que un Markdown, gana la del portal.
+  const todasLasNoticias = (api) => {
+    const portal = (api.getAll()[0]?.data?.noticiasPortal || []).map((n) => ({
+      url: n.url,
+      date: new Date(n.fecha),
+      data: { title: n.titulo, categoria: n.categoria, resumen: n.resumen, imagen: n.imagenUrl, destacada: n.destacada },
+    }));
+    const usadas = new Set(portal.map((n) => n.url));
+    const markdown = api.getFilteredByTag("noticias").filter((n) => n.url && !usadas.has(n.url));
+    return [...portal, ...markdown].sort((a, b) => b.date - a.date);
+  };
+  eleventyConfig.addCollection("noticias", todasLasNoticias);
 
   // Portada: destacadas primero, luego por fecha; máximo 5
   eleventyConfig.addCollection("noticiasPortada", (api) =>
-    api
-      .getFilteredByTag("noticias")
+    todasLasNoticias(api)
       .sort((a, b) => (b.data.destacada === true) - (a.data.destacada === true) || b.date - a.date)
       .slice(0, 5)
   );

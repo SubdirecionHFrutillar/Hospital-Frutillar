@@ -4,6 +4,7 @@
 import * as I from "../lib/intranet.mjs";
 import { PUEDEN_PUBLICAR } from "../lib/usuarios.mjs";
 import { manejador, sesionActual, json, error } from "../lib/http.mjs";
+import { respuestaArchivo } from "../lib/archivos.mjs";
 
 export default manejador(["GET", "POST"], async (req, ctx) => {
   const u = await sesionActual(req);
@@ -13,16 +14,7 @@ export default manejador(["GET", "POST"], async (req, ctx) => {
   if (req.method === "GET") {
     const r = await I.leerArchivo(ctx?.params?.id);
     if (!r) return error("Archivo no encontrado.", 404);
-    const { nombre, tipo } = r.metadata;
-    const enLinea = tipo === "application/pdf" || tipo.startsWith("image/");
-    return new Response(r.data, {
-      headers: {
-        "content-type": tipo,
-        "content-disposition": `${enLinea ? "inline" : "attachment"}; filename*=UTF-8''${encodeURIComponent(nombre)}`,
-        "cache-control": "private, max-age=3600",
-        "x-content-type-options": "nosniff",
-      },
-    });
+    return respuestaArchivo(r, { "cache-control": "private, max-age=3600" });
   }
 
   if (!PUEDEN_PUBLICAR.includes(u.rol)) return error("No tiene permisos para subir archivos.", 403);

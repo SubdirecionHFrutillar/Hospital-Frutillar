@@ -1,0 +1,18 @@
+---js
+{
+  pagination: { data: "noticiasPortal", size: 1, alias: "n", addAllPagesToCollections: false },
+  permalink: (data) => `noticias/${data.n.slug}/index.html`,
+  layout: "noticia.njk",
+  eleventyExcludeFromCollections: true,
+  eleventyComputed: {
+    title: (data) => data.n.titulo,
+    description: (data) => data.n.resumen,
+    categoria: (data) => data.n.categoria,
+    resumen: (data) => data.n.resumen,
+    imagen: (data) => data.n.imagenUrl,
+    fechaNoticia: (data) => data.n.fecha,
+    adjuntosNoticia: (data) => data.n.adjuntos.filter((a) => a.id !== data.n.imagen),
+  },
+}
+---
+{{ n.cuerpo | markdown | safe }}

@@ -117,3 +117,62 @@ test("Intranet: validaciones", async () => {
   r = await pubs(req("/api/intranet/publicaciones/../../x", { cookie: cEditor }), { params: { id: "../../x" } });
   assert.equal(r.status, 404);
 });
+
+test("Noticias del sitio: solo Comunicaciones/Admin publican; API pública y archivos públicos", async () => {
+  const { cAdmin, cEditor, cFunc } = await preparar();
+  const noticias = (await import("../netlify/functions/noticias.mjs")).default;
+  const narch = (await import("../netlify/functions/noticias-archivos.mjs")).default;
+
+  // Cuenta de Comunicaciones
+  const r0 = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "15555555-6", nombre: "Comunicaciones", rol: "comunicaciones" } }));
+  assert.equal(r0.status, 201, await r0.clone().text());
+  const temp = (await r0.json()).claveTemporal;
+  let c = cookieDe(await login("15555555-6", temp));
+  c = cookieDe(await cambiar(req("/api/auth/cambiar-clave", { metodo: "POST", cookie: c, datos: { actual: temp, nueva: "Prensa2026sur" } })));
+
+  // Editor y funcionario no pueden
+  for (const ck of [cEditor, cFunc]) {
+    assert.equal((await noticias(req("/api/noticias", { metodo: "POST", cookie: ck, datos: { titulo: "x", resumen: "y" } }), { params: {} })).status, 403);
+  }
+  // Comunicaciones sube imagen y publica
+  let r = await narch(req("/api/noticias-archivos", { metodo: "POST", cookie: c, headers: { "content-type": "image/png", "x-nombre": "foto.png" }, cuerpo: new Uint8Array([137, 80, 78, 71]) }), { params: {} });
+  assert.equal(r.status, 201);
+  const foto = (await r.json()).archivo;
+  r = await noticias(req("/api/noticias", { metodo: "POST", cookie: c, datos: { titulo: "Llega nueva ambulancia a la base SAMU", resumen: "La base SAMU Frutillar recibe una ambulancia de alta tecnología.", categoria: "Institucional", cuerpo: "Texto", destacada: true, adjuntos: [foto.id] } }), { params: {} });
+  assert.equal(r.status, 201);
+  const n = (await r.json()).noticia;
+  assert.equal(n.slug, "llega-nueva-ambulancia-a-la-base-samu");
+  assert.equal(n.imagen, foto.id);
+
+  // Mismo título → dirección única
+  r = await noticias(req("/api/noticias", { metodo: "POST", cookie: c, datos: { titulo: "Llega nueva ambulancia a la base SAMU", resumen: "Duplicada para probar la dirección única." } }), { params: {} });
+  assert.equal((await r.json()).noticia.slug, "llega-nueva-ambulancia-a-la-base-samu-2");
+
+  // Falta resumen
+  r = await noticias(req("/api/noticias", { metodo: "POST", cookie: c, datos: { titulo: "Sin resumen" } }), { params: {} });
+  assert.equal(r.status, 400);
+
+  // Admin puede fijar la dirección (migración); comunicaciones no
+  r = await noticias(req("/api/noticias", { metodo: "POST", cookie: cAdmin, datos: { titulo: "Operativo rural", resumen: "Operativo de salud comunitaria en sector rural.", slug: "operativo-rural", fecha: "2026-05-19T12:00:00Z" } }), { params: {} });
+  assert.equal((await r.json()).noticia.slug, "operativo-rural");
+
+  // API pública sin sesión
+  r = await noticias(req("/api/noticias/publicas"), { params: { id: "publicas" } });
+  const pub = (await r.json()).noticias;
+  assert.equal(pub.length, 3);
+  // Archivo público sin sesión, con caché larga
+  r = await narch(req(`/api/noticias-archivos/${foto.id}`), { params: { id: foto.id } });
+  assert.equal(r.status, 200);
+  assert.match(r.headers.get("cache-control"), /immutable/);
+
+  // Gestión requiere sesión
+  assert.equal((await noticias(req("/api/noticias"), { params: {} })).status, 401);
+
+  // Editar y eliminar
+  r = await noticias(req(`/api/noticias/${n.id}`, { metodo: "PATCH", cookie: c, datos: { titulo: "Llega nueva ambulancia", resumen: "Resumen corregido de la noticia.", adjuntos: [] } }), { params: { id: n.id } });
+  const ed = (await r.json()).noticia;
+  assert.equal(ed.slug, "llega-nueva-ambulancia-a-la-base-samu", "la dirección no cambia al editar el título");
+  assert.equal(ed.imagen, null);
+  assert.equal((await narch(req(`/api/noticias-archivos/${foto.id}`), { params: { id: foto.id } })).status, 404, "la foto quitada se borra");
+  assert.equal((await noticias(req(`/api/noticias/${n.id}`, { metodo: "DELETE", cookie: c }), { params: { id: n.id } })).status, 200);
+});

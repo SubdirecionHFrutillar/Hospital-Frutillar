@@ -42,6 +42,12 @@ const fecha = (iso) =>
   iso ? new Date(iso).toLocaleString("es-CL", { dateStyle: "short", timeStyle: "short", timeZone: "America/Santiago" }) : "—";
 
 const TZ = { timeZone: "America/Santiago" };
+const PUBLICA_INTRANET = ["editor", "comunicaciones", "admin"];
+const PUBLICA_SITIO = ["comunicaciones", "admin"];
+const DESTINOS = {
+  intranet: { api: "/api/intranet/publicaciones", archivos: "/api/intranet/archivos" },
+  sitio: { api: "/api/noticias", archivos: "/api/noticias-archivos" },
+};
 const fechaCorta = (iso) => new Date(iso).toLocaleDateString("es-CL", { day: "numeric", month: "short", year: "numeric", ...TZ });
 const fechaLarga = (iso) => new Date(iso).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric", ...TZ });
 const tamano = (b) => (b >= 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
@@ -145,7 +151,8 @@ const paginas = {
     const cargo = $('[data-campo="cargo"]');
     if (u.cargo) cargo.textContent = u.cargo; else cargo.remove();
     if (u.rol === "admin") $$("[data-solo-admin]").forEach((el) => el.classList.remove("hidden"));
-    if (u.rol === "admin" || u.rol === "editor") $$("[data-solo-editor]").forEach((el) => el.classList.remove("hidden"));
+    if (PUBLICA_INTRANET.includes(u.rol)) $$("[data-solo-editor]").forEach((el) => el.classList.remove("hidden"));
+    if (PUBLICA_SITIO.includes(u.rol)) $$("[data-solo-comunicaciones]").forEach((el) => el.classList.remove("hidden"));
 
     // Muro de publicaciones
     const muro = $("#muro");
@@ -290,17 +297,22 @@ const paginas = {
     if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
     const form = $("#form-publicar");
     const msg = $("#mensaje");
-    if (u.rol !== "admin" && u.rol !== "editor") {
+    const puedeSitio = PUBLICA_SITIO.includes(u.rol);
+    if (!PUBLICA_INTRANET.includes(u.rol)) {
       form.replaceChildren(el("p", "text-sm text-gray-600", "Su cuenta no tiene permiso para publicar. Pida a un administrador el rol de Editor."));
       return;
     }
     if (u.rol === "admin") $("#campo-autor").classList.remove("hidden");
 
-    const { categorias } = await api("/api/intranet/publicaciones?desde=0");
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
+    let destino = params.get("destino") === "sitio" && puedeSitio ? "sitio" : "intranet";
+    const D = DESTINOS;
     const sel = $("#p-categoria");
-    categorias.forEach((c) => sel.append(new Option(c, c)));
-    $("#p-fecha").value = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
-    $("#p-fecha").max = $("#p-fecha").value;
+    const categoriasDe = {};
+    const hoy = new Date().toLocaleDateString("en-CA", TZ);
+    $("#p-fecha").value = hoy;
+    $("#p-fecha").max = hoy;
 
     const adjuntos = []; // { id, nombre, tipo, tamano }
     const listaAdj = $("#lista-adjuntos");
@@ -309,7 +321,8 @@ const paginas = {
       adjuntos.forEach((a, i) => {
         const li = el("li", "flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-custom px-3 py-2 text-sm");
         li.append(icono(a.tipo?.startsWith("image/") ? "image" : "description", "text-primary"));
-        li.append(el("span", "flex-1 truncate", a.nombre), el("span", "text-xs text-gray-400", a.subiendo ? "Subiendo…" : tamano(a.tamano)));
+        const etiqueta = destino === "sitio" && a.id && a.id === adjuntos.find((x) => x.tipo?.startsWith("image/"))?.id ? " · foto principal" : "";
+        li.append(el("span", "flex-1 truncate", a.nombre + etiqueta), el("span", "text-xs text-gray-400", a.subiendo ? "Subiendo…" : tamano(a.tamano)));
         if (!a.subiendo) {
           const b = el("button", "text-xs font-bold text-red-600 hover:underline", "Quitar");
           b.type = "button";
@@ -320,30 +333,72 @@ const paginas = {
       });
     };
 
-    const id = new URLSearchParams(location.search).get("id");
+    const aplicarDestino = async () => {
+      const esSitio = destino === "sitio";
+      $("#campos-sitio").classList.toggle("hidden", !esSitio);
+      $("#campo-area").classList.toggle("hidden", esSitio);
+      $("button[type=submit]", form).textContent = id ? "Guardar cambios" : esSitio ? "Publicar en el sitio" : "Publicar en la intranet";
+      if (!categoriasDe[destino]) {
+        const r = await api(esSitio ? "/api/noticias" : "/api/intranet/publicaciones?desde=0");
+        categoriasDe[destino] = r.categorias;
+      }
+      const actual = sel.value;
+      sel.replaceChildren(...categoriasDe[destino].map((c) => new Option(c, c)));
+      if (categoriasDe[destino].includes(actual)) sel.value = actual;
+      pintarAdjuntos();
+    };
+
+    if (puedeSitio && !id) {
+      $("#destino").classList.remove("hidden");
+      $$('input[name="destino"]').forEach((r) => {
+        r.checked = r.value === destino;
+        r.addEventListener("change", async () => {
+          if (adjuntos.length && !confirm("Al cambiar el destino se quitarán los adjuntos ya subidos. ¿Continuar?")) {
+            $$('input[name="destino"]').forEach((x) => (x.checked = x.value === destino));
+            return;
+          }
+          adjuntos.length = 0;
+          destino = r.value;
+          history.replaceState(null, "", destino === "sitio" ? "?destino=sitio" : location.pathname);
+          await aplicarDestino();
+        });
+      });
+    }
+    await aplicarDestino();
+
     if (id) {
-      const { publicacion: p, puedeEditar } = await api(`/api/intranet/publicaciones/${encodeURIComponent(id)}`);
-      if (!puedeEditar) {
-        form.replaceChildren(el("p", "text-sm text-gray-600", "Solo el autor o un administrador puede editar esta publicación."));
+      let p;
+      try {
+        if (destino === "sitio") p = (await api(`/api/noticias/${encodeURIComponent(id)}`)).noticia;
+        else {
+          const r = await api(`/api/intranet/publicaciones/${encodeURIComponent(id)}`);
+          if (!r.puedeEditar) throw new Error("Solo el autor o un administrador puede editar esta publicación.");
+          p = r.publicacion;
+        }
+      } catch (e) {
+        form.replaceChildren(el("p", "text-sm text-gray-600", e.message));
         return;
       }
-      $('[data-campo="titulo-form"]').textContent = "Editar publicación";
-      $("button[type=submit]", form).textContent = "Guardar cambios";
+      $('[data-campo="titulo-form"]').textContent = destino === "sitio" ? "Editar noticia del sitio" : "Editar publicación";
       form.titulo.value = p.titulo;
       sel.value = p.categoria;
       form.area.value = p.area || "";
       form.cuerpo.value = p.cuerpo || "";
-      $("#p-fecha").value = new Date(p.fecha).toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
+      if (destino === "sitio") {
+        form.resumen.value = p.resumen || "";
+        form.destacada.checked = !!p.destacada;
+      }
+      $("#p-fecha").value = new Date(p.fecha).toLocaleDateString("en-CA", TZ);
       form.autorNombre.value = p.autor?.nombre || "";
       adjuntos.push(...p.adjuntos);
       pintarAdjuntos();
       const borrar = $("#eliminar");
       borrar.classList.remove("hidden");
       borrar.addEventListener("click", async () => {
-        if (!confirm("¿Eliminar esta publicación y sus adjuntos? No se puede deshacer.")) return;
+        if (!confirm(destino === "sitio" ? "¿Eliminar esta noticia del sitio web? No se puede deshacer." : "¿Eliminar esta publicación y sus adjuntos? No se puede deshacer.")) return;
         try {
-          await api(`/api/intranet/publicaciones/${p.id}`, { metodo: "DELETE" });
-          location.href = "/funcionarios/";
+          await api(`${D[destino].api}/${p.id}`, { metodo: "DELETE" });
+          location.href = destino === "sitio" ? "/funcionarios/noticias-sitio.html" : "/funcionarios/";
         } catch (e) { mensaje(msg, e.message); }
       });
     }
@@ -357,7 +412,7 @@ const paginas = {
         adjuntos.push(temp);
         pintarAdjuntos();
         try {
-          const r = await fetch("/api/intranet/archivos", {
+          const r = await fetch(D[destino].archivos, {
             method: "POST",
             credentials: "same-origin",
             headers: { "content-type": f.type || "application/octet-stream", "x-nombre": encodeURIComponent(f.name) },
@@ -378,28 +433,81 @@ const paginas = {
       e.preventDefault();
       if (adjuntos.some((a) => a.subiendo)) return mensaje(msg, "Espere a que terminen de subir los archivos.");
       if (form.titulo.value.trim().length < 3) return mensaje(msg, "Ingrese un título."), form.titulo.focus();
+      if (destino === "sitio" && form.resumen.value.trim().length < 10) return mensaje(msg, "Escriba un resumen de la noticia."), form.resumen.focus();
       const btn = $("button[type=submit]", form);
       btn.disabled = true;
       const fecha = $("#p-fecha").value;
-      const hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
       const datos = {
         titulo: form.titulo.value,
         categoria: sel.value,
-        area: form.area.value,
         cuerpo: form.cuerpo.value,
         // Si es hoy, se usa la hora actual; si es otra fecha, el mediodía de ese día
-        fecha: !fecha || fecha === hoy ? undefined : `${fecha}T12:00:00-03:00`,
+        fecha: !fecha || (fecha === hoy && !id) ? undefined : `${fecha}T12:00:00-03:00`,
         adjuntos: adjuntos.map((a) => a.id),
         autorNombre: form.autorNombre.value || undefined,
+        ...(destino === "sitio" ? { resumen: form.resumen.value, destacada: form.destacada.checked } : { area: form.area.value }),
       };
       try {
-        const r = await api(id ? `/api/intranet/publicaciones/${id}` : "/api/intranet/publicaciones", { metodo: id ? "PATCH" : "POST", datos });
-        location.href = `/funcionarios/publicacion.html?id=${r.publicacion.id}`;
+        const r = await api(id ? `${D[destino].api}/${id}` : D[destino].api, { metodo: id ? "PATCH" : "POST", datos });
+        if (destino === "sitio") location.href = `/funcionarios/noticias-sitio.html?guardada=${encodeURIComponent(r.noticia.slug)}&regenerando=${r.regenerando ? 1 : 0}`;
+        else location.href = `/funcionarios/publicacion.html?id=${r.publicacion.id}`;
       } catch (err) {
         mensaje(msg, err.message);
         btn.disabled = false;
       }
     });
+  },
+
+  async "noticias-sitio"() {
+    const u = await usuarioActual();
+    if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
+    const lista = $("#lista-noticias");
+    if (!PUBLICA_SITIO.includes(u.rol)) {
+      lista.replaceChildren(el("p", "p-6 text-sm text-gray-600", "Solo Comunicaciones o un administrador puede gestionar las noticias del sitio."));
+      return;
+    }
+    const q = new URLSearchParams(location.search);
+    if (q.get("guardada")) {
+      const aviso = $("#aviso-guardada");
+      const url = `/noticias/${q.get("guardada")}/`;
+      aviso.replaceChildren(
+        el("span", "", q.get("regenerando") === "1"
+          ? "Noticia guardada. El sitio se está actualizando: estará visible en uno o dos minutos en "
+          : "Noticia guardada. Aparecerá en el sitio en la próxima publicación del sitio: "),
+      );
+      const a = el("a", "font-bold underline", url);
+      a.href = url;
+      a.target = "_blank";
+      aviso.append(a);
+      aviso.classList.remove("hidden");
+    }
+    const { noticias } = await api("/api/noticias");
+    lista.replaceChildren();
+    if (!noticias.length) return lista.append(el("p", "p-6 text-sm text-gray-500", "Aún no hay noticias publicadas desde el portal."));
+    for (const n of noticias) {
+      const fila = el("div", "flex flex-wrap items-center gap-4 px-5 py-4");
+      if (n.imagen) {
+        const img = el("img", "w-20 h-14 object-cover rounded-custom bg-gray-100 flex-shrink-0");
+        img.src = `/api/noticias-archivos/${n.imagen}`;
+        img.alt = "";
+        img.loading = "lazy";
+        fila.append(img);
+      } else fila.append(el("div", "w-20 h-14 rounded-custom bg-noticia flex-shrink-0"));
+      const info = el("div", "flex-1 min-w-[200px]");
+      const meta = el("div", "flex flex-wrap items-center gap-2 text-[11px] mb-1");
+      meta.append(el("span", "px-2 py-0.5 bg-primary-bg text-primary font-bold uppercase tracking-wide rounded", n.categoria), el("span", "text-gray-400", fechaCorta(n.fecha)));
+      if (n.destacada) meta.append(el("span", "px-2 py-0.5 bg-amber-100 text-amber-800 font-bold rounded", "Destacada"));
+      info.append(meta, el("p", "font-bold text-gray-800 text-sm", n.titulo), el("p", "text-xs text-gray-500 line-clamp-1", n.resumen));
+      const acciones = el("div", "flex gap-3 text-xs font-bold");
+      const ver = el("a", "text-primary hover:underline", "Ver en el sitio");
+      ver.href = `/noticias/${n.slug}/`;
+      ver.target = "_blank";
+      const editar = el("a", "text-primary hover:underline", "Editar");
+      editar.href = `/funcionarios/publicar.html?destino=sitio&id=${n.id}`;
+      acciones.append(ver, editar);
+      fila.append(info, acciones);
+      lista.append(fila);
+    }
   },
 
   async "cambiar-clave"() {
@@ -495,7 +603,7 @@ const paginas = {
       return b;
     };
 
-    const NOMBRES_ROL = { funcionario: "Funcionario", editor: "Editor (publica)", admin: "Administrador" };
+    const NOMBRES_ROL = { funcionario: "Funcionario", editor: "Editor (intranet)", comunicaciones: "Comunicaciones (intranet y sitio)", admin: "Administrador" };
     const celdaRol = (u) => {
       if (u.rut === yo.rut) return celda(NOMBRES_ROL[u.rol]);
       const td = document.createElement("td");

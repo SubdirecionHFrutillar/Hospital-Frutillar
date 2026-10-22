@@ -23,7 +23,7 @@ layout: base.njk
       <span class="absolute top-4 left-4 px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded shadow-md">{{ categoria }}</span>
       <div class="absolute bottom-4 left-4 flex items-center gap-1.5 text-white/80 text-xs">
         <span aria-hidden="true" class="material-symbols-outlined text-sm">calendar_today</span>
-        <time datetime="{{ page.date | fechaISO }}">{{ page.date | fechaES }}</time>
+        {% set fechaN = fechaNoticia or page.date %}<time datetime="{{ fechaN | fechaISO }}">{{ fechaN | fechaES }}</time>
       </div>
     </div>
 
@@ -31,6 +31,23 @@ layout: base.njk
       <h2 class="text-2xl md:text-3xl font-bold text-gray-900 leading-snug mb-4">{{ title }}</h2>
       <p class="text-base text-gray-500 leading-relaxed border-l-4 border-primary-pale pl-4 mb-6">{{ resumen }}</p>
       <div class="prose max-w-none text-gray-700 leading-relaxed">{{ content | safe }}</div>
+      {% if adjuntosNoticia and adjuntosNoticia.length %}
+      <ul class="mt-6 flex flex-col gap-2 border-t border-gray-100 pt-5">
+        {% for a in adjuntosNoticia %}
+        <li>
+          {% if a.tipo.startsWith("image/") %}
+          <img src="/api/noticias-archivos/{{ a.id }}" alt="" loading="lazy" class="w-full rounded-custom border border-gray-200">
+          {% else %}
+          <a href="/api/noticias-archivos/{{ a.id }}" target="_blank" rel="noopener" class="flex items-center gap-3 border border-gray-200 rounded-custom px-4 py-3 hover:bg-primary-bg hover:border-primary-pale">
+            <span aria-hidden="true" class="material-symbols-outlined text-red-600 text-2xl">{{ "picture_as_pdf" if a.tipo == "application/pdf" else "description" }}</span>
+            <span class="flex-1 min-w-0 text-sm font-semibold text-gray-800 truncate">{{ a.nombre }}</span>
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-lg">open_in_new</span>
+          </a>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
     </div>
   </article>
 

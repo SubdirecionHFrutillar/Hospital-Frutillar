@@ -9,9 +9,11 @@ import { abrirAlmacen, _reiniciarAlmacenesPrueba } from "./almacen.mjs";
 const scrypt = promisify(scryptCb);
 const N = 16384, R = 8, P = 1, LARGO = 64;
 
-export const ROLES = ["funcionario", "editor", "admin"];
+export const ROLES = ["funcionario", "editor", "comunicaciones", "admin"];
 /** Roles que pueden publicar en la intranet. */
-export const PUEDEN_PUBLICAR = ["editor", "admin"];
+export const PUEDEN_PUBLICAR = ["editor", "comunicaciones", "admin"];
+/** Roles que pueden publicar noticias en el sitio web público. */
+export const PUEDEN_PUBLICAR_SITIO = ["comunicaciones", "admin"];
 export const MAX_FALLOS = 5;
 export const BLOQUEO_MIN = 15;
 /** Horas que dura una clave inicial o temporal antes de vencer si no se ha cambiado. */
