@@ -176,3 +176,29 @@ test("Noticias del sitio: solo Comunicaciones/Admin publican; API pública y arc
   assert.equal((await narch(req(`/api/noticias-archivos/${foto.id}`), { params: { id: foto.id } })).status, 404, "la foto quitada se borra");
   assert.equal((await noticias(req(`/api/noticias/${n.id}`, { metodo: "DELETE", cookie: c }), { params: { id: n.id } })).status, 200);
 });
+
+test("Archivos grandes: subida por partes y descarga completa", async () => {
+  const { cEditor, cFunc } = await preparar();
+  const total = 3, tam = 4 * 1024 * 1024;
+  const subida = "0123456789abcdef";
+  let r;
+  for (let i = 0; i < total; i++) {
+    const parte = new Uint8Array(i === total - 1 ? 1000 : tam).fill(65 + i);
+    r = await archivos(req("/api/intranet/archivos", { metodo: "POST", cookie: cEditor, headers: { "content-type": "application/pdf", "x-nombre": "Boletin.pdf", "x-subida": subida, "x-parte": String(i), "x-partes": String(total) }, cuerpo: parte }), { params: {} });
+    assert.equal(r.status, i < total - 1 ? 202 : 201);
+  }
+  const a = (await r.json()).archivo;
+  assert.equal(a.tamano, 2 * tam + 1000);
+  r = await archivos(req(`/api/intranet/archivos/${a.id}`, { cookie: cFunc }), { params: { id: a.id } });
+  const bytes = new Uint8Array(await r.arrayBuffer());
+  assert.equal(bytes.length, 2 * tam + 1000);
+  assert.equal(bytes[0], 65);
+  assert.equal(bytes[tam], 66);
+  assert.equal(bytes.at(-1), 67);
+  // Parte inválida
+  r = await archivos(req("/api/intranet/archivos", { metodo: "POST", cookie: cEditor, headers: { "content-type": "application/pdf", "x-subida": subida, "x-parte": "5", "x-partes": "3" }, cuerpo: new Uint8Array(10) }), { params: {} });
+  assert.equal(r.status, 400);
+  // Un envío simple > 5 MB se rechaza
+  r = await archivos(req("/api/intranet/archivos", { metodo: "POST", cookie: cEditor, headers: { "content-type": "application/pdf" }, cuerpo: new Uint8Array(6 * 1024 * 1024) }), { params: {} });
+  assert.equal(r.status, 413);
+});

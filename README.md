@@ -69,7 +69,7 @@ Sin esta variable, cada cuenta nueva recibe una clave temporal individual que se
 La portada del portal (`/funcionarios/`) es el muro de publicaciones de la intranet:
 
 - **Leer:** cualquier cuenta activa. Se filtra por categoría y cada publicación muestra sus adjuntos.
-- **Publicar:** cuentas con rol **Editor** o **Administrador** (botón *Publicar*). Se pueden adjuntar PDF, imágenes y archivos de Office de hasta 5 MB cada uno.
+- **Publicar:** cuentas con rol **Editor** o **Administrador** (botón *Publicar*). Se pueden adjuntar PDF, imágenes y archivos de Office de hasta 30 MB cada uno.
 - **Editar o eliminar:** el autor de la publicación o un administrador.
 - Los textos y archivos se guardan en Netlify Blobs (almacén `intranet`), no en GitHub, y solo se entregan a quien tiene sesión.
 - Las categorías están en `netlify/lib/intranet.mjs` y los accesos de la barra lateral en `_data/portal.json`.

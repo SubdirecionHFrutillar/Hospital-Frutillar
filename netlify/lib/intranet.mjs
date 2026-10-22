@@ -21,6 +21,7 @@ export const CATEGORIAS = [
 
 const almacen = () => abrirAlmacen("intranet");
 const archivos = repoArchivos("intranet");
+export const archivosRepo = archivos;
 export const guardarArchivo = archivos.guardar;
 export const leerArchivo = archivos.leer;
 export const borrarArchivo = archivos.borrar;

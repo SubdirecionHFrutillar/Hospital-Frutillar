@@ -92,6 +92,29 @@ function textoEnriquecido(texto) {
   return frag;
 }
 
+/**
+ * Sube un archivo. Los de más de 4 MB se envían en partes de 4 MB (las funciones de Netlify
+ * aceptan ~6 MB por petición). Devuelve { id, nombre, tipo, tamano }.
+ */
+async function subirArchivo(url, f) {
+  const PARTE = 4 * 1024 * 1024;
+  const base = { "content-type": f.type || "application/octet-stream", "x-nombre": encodeURIComponent(f.name) };
+  const enviar = async (cuerpo, extra = {}) => {
+    const r = await fetch(url, { method: "POST", credentials: "same-origin", headers: { ...base, ...extra }, body: cuerpo });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || "No se pudo subir el archivo.");
+    return j;
+  };
+  if (f.size <= PARTE) return (await enviar(f)).archivo;
+  const subida = [...crypto.getRandomValues(new Uint8Array(8))].map((b) => b.toString(16).padStart(2, "0")).join("");
+  const partes = Math.ceil(f.size / PARTE);
+  let ultimo;
+  for (let i = 0; i < partes; i++) {
+    ultimo = await enviar(f.slice(i * PARTE, (i + 1) * PARTE), { "x-subida": subida, "x-parte": String(i), "x-partes": String(partes) });
+  }
+  return ultimo.archivo;
+}
+
 // ── Comunes ────────────────────────────────────────────────────────────────
 // Formatea el RUT al salir del campo (12345678k → 12.345.678-K)
 $$("[data-rut]").forEach((input) => {
@@ -407,20 +430,13 @@ const paginas = {
       const archivos = [...e.target.files];
       e.target.value = "";
       for (const f of archivos) {
-        if (f.size > 5 * 1024 * 1024) { mensaje(msg, `"${f.name}" supera los 5 MB.`); continue; }
+        if (f.size > 30 * 1024 * 1024) { mensaje(msg, `"${f.name}" supera los 30 MB.`); continue; }
         const temp = { nombre: f.name, subiendo: true };
         adjuntos.push(temp);
         pintarAdjuntos();
         try {
-          const r = await fetch(D[destino].archivos, {
-            method: "POST",
-            credentials: "same-origin",
-            headers: { "content-type": f.type || "application/octet-stream", "x-nombre": encodeURIComponent(f.name) },
-            body: f,
-          });
-          const cuerpo = await r.json().catch(() => ({}));
-          if (!r.ok) throw new Error(cuerpo.error || "No se pudo subir el archivo.");
-          Object.assign(temp, cuerpo.archivo, { subiendo: false });
+          const archivo = await subirArchivo(D[destino].archivos, f);
+          Object.assign(temp, archivo, { subiendo: false });
         } catch (err) {
           adjuntos.splice(adjuntos.indexOf(temp), 1);
           mensaje(msg, `${f.name}: ${err.message}`);
