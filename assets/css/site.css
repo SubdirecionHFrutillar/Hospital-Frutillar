@@ -63,6 +63,28 @@
   .prose tr:nth-child(even) td { background: theme("colors.primary.bg"); }
   .prose img { max-width: 100%; height: auto; border-radius: 4px; }
 
+  /* Campañas de salud: cada una es un pequeño afiche con su color e ilustración */
+  .campana {
+    position: relative; display: flex; overflow: hidden; min-height: 92px;
+    background: var(--campana); border-radius: 4px; text-decoration: none;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,.18);
+  }
+  .campana::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background .15s; }
+  .campana:hover::after { background: rgba(0,0,0,.12); }
+  .campana:focus-visible { outline: 3px solid theme("colors.gob.rojo"); outline-offset: 2px; }
+  .campana__texto { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 12px 92px 12px 14px; color: #fff; }
+  .campana__titular { font-family: theme("fontFamily.cartel"); font-weight: 700; font-size: 1.3rem; line-height: 1; letter-spacing: .005em; }
+  .campana__bajada { font-size: 11.5px; line-height: 1.3; color: rgba(255,255,255,.88); }
+  .campana__dato { font-family: theme("fontFamily.cartel"); font-weight: 800; font-size: 2.6rem; line-height: .85; color: #fff; }
+  .campana__arte { position: absolute; right: -14px; bottom: -10px; width: 104px; height: 104px; opacity: .95; }
+  .campana--destacada { min-height: 168px; }
+  .campana--destacada .campana__texto { justify-content: flex-end; padding: 16px 16px 16px 16px; padding-top: 72px; }
+  .campana--destacada .campana__titular { font-size: 1.75rem; max-width: 12ch; }
+  .campana--destacada .campana__bajada { font-size: 12.5px; max-width: 30ch; }
+  .campana--destacada .campana__arte { right: -10px; top: -14px; bottom: auto; width: 128px; height: 128px; }
+  .campana-alerta { background: #F2B705; }
+  @media (prefers-reduced-motion: reduce) { .campana::after { transition: none; } }
+
   /* Acordeón de preguntas frecuentes */
   details > summary { list-style: none; cursor: pointer; }
   details > summary::-webkit-details-marker { display: none; }
