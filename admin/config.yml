@@ -160,4 +160,30 @@ collections:
               - { label: "Enlace (URL o ruta)", name: enlace, widget: string, required: false }
               - { label: "Texto del enlace", name: enlace_texto, widget: string, required: false }
 
+      - label: "Campañas de salud (portada)"
+        name: "campanas"
+        file: "_data/campanas.json"
+        fields:
+          - label: "Alerta de temporada (banner amarillo)"
+            name: alerta
+            widget: object
+            fields:
+              - { label: "Mostrar", name: mostrar, widget: boolean, default: true }
+              - { label: "Etiqueta", name: etiqueta, widget: string }
+              - { label: "Título", name: titulo, widget: string }
+              - { label: "Texto", name: texto, widget: text }
+              - { label: "Enlace", name: url, widget: string }
+              - { label: "Texto del botón", name: boton, widget: string }
+              - { label: "Icono (Material Symbol)", name: icono, widget: string }
+          - label: "Campañas"
+            name: campanas
+            widget: list
+            fields:
+              - { label: "Etiqueta", name: etiqueta, widget: string }
+              - { label: "Título", name: titulo, widget: string }
+              - { label: "Texto breve", name: texto, widget: string }
+              - { label: "Enlace", name: url, widget: string }
+              - { label: "Icono (Material Symbol)", name: icono, widget: string }
+              - { label: "Color (hex, ej. #0F69C4)", name: color, widget: color }
+
 # Las noticias del sitio se publican desde el Portal Funcionarios (rol Comunicaciones o Administrador).

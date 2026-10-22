@@ -13,13 +13,6 @@ accesosRapidos:
   - { titulo: "Horarios de Atención", texto: "Consultas y especialidades", url: "/horarios.html", icono: "schedule", tono: "bg-primary-bg text-primary" }
   - { titulo: "Imagenología", texto: "Ver exámenes en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", tono: "bg-indigo-50 text-indigo-600" }
   - { titulo: "Teléfonos del Hospital", texto: "Contacto y cómo llegar", url: "/contacto.html", icono: "call", tono: "bg-green-50 text-green-600" }
-campanas:
-  - { etiqueta: "Plan de Invierno", titulo: "Vacúnate contra la Influenza", url: "https://www.minsal.cl/influenza/", icono: "masks", degradado: "#1565C0,#1976D2", tono: "text-blue-200" }
-  - { etiqueta: "Primera Infancia", titulo: "Chile Crece Contigo", url: "https://www.crececontigo.gob.cl", icono: "child_care", degradado: "#C2185B,#E91E8C", tono: "text-pink-200" }
-  - { etiqueta: "Bienestar Mental", titulo: "Salud Mental Importa", url: "https://www.minsal.cl/salud-mental/", icono: "psychology", degradado: "#00695C,#00897B", tono: "text-teal-200" }
-  - { etiqueta: "Prevención", titulo: "No+VIH", url: "https://www.minsal.cl/vih-sida/", icono: "ribbon", degradado: "#B71C1C,#D32F2F", tono: "text-red-200" }
-  - { etiqueta: "Detección Temprana", titulo: "Prevención del Cáncer", url: "https://www.minsal.cl/cancer/", icono: "oncology", degradado: "#4527A0,#5E35B1", tono: "text-purple-200" }
-  - { etiqueta: "Hábitos Saludables", titulo: "Come Sano, Vive Mejor", url: "https://www.minsal.cl/alimentacion-saludable/", icono: "nutrition", degradado: "#2E7D32,#388E3C", tono: "text-green-200" }
 ---
 {% import "componentes.njk" as ui with context %}
 
@@ -50,6 +43,21 @@ campanas:
 
 {% call ui.dosColumnas() %}
   <div class="min-w-0 flex flex-col gap-5">
+
+    {% if campanas.alerta.mostrar %}
+    <!-- Alerta sanitaria de temporada (editable en el CMS: Campañas de salud) -->
+    <a href="{{ campanas.alerta.url }}" target="_blank" rel="noopener" class="group flex flex-col sm:flex-row gap-4 bg-white border border-amber-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      <div class="sm:w-28 flex-shrink-0 bg-amber-400 flex items-center justify-center py-4">
+        <span aria-hidden="true" class="material-symbols-outlined text-5xl text-amber-950">{{ campanas.alerta.icono }}</span>
+      </div>
+      <div class="flex-1 px-5 py-4 sm:pl-0">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-amber-700">{{ campanas.alerta.etiqueta }} · Ministerio de Salud</p>
+        <h2 class="text-lg font-bold text-gray-900 leading-snug mt-0.5">{{ campanas.alerta.titulo }}</h2>
+        <p class="text-sm text-gray-600 leading-relaxed mt-1">{{ campanas.alerta.texto }}</p>
+        <span class="inline-flex items-center gap-1 mt-2 text-sm font-bold text-amber-800 group-hover:underline">{{ campanas.alerta.boton }} <span aria-hidden="true" class="material-symbols-outlined text-base">open_in_new</span></span>
+      </div>
+    </a>
+    {% endif %}
 
     <!-- Banner HODOM -->
     <div class="bg-banner rounded-custom shadow-md flex items-center gap-4 px-6 py-4 text-white flex-wrap">
@@ -140,13 +148,22 @@ campanas:
     </div>
 
     <div class="flex flex-col gap-2">
-      <h2 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Campañas de Salud</h2>
-      {% for c in campanas %}
-      <a href="{{ c.url }}" target="_blank" rel="noopener" class="rounded-custom px-4 py-3 shadow-sm hover:shadow-md transition-all flex items-center gap-3 min-h-[56px] text-white" style="background:linear-gradient(100deg,{{ c.degradado }});">
-        <span aria-hidden="true" class="material-symbols-outlined {{ c.tono }} text-xl flex-shrink-0">{{ c.icono }}</span>
-        <span>
-          <span class="text-[9px] font-bold {{ c.tono }} uppercase tracking-widest block">{{ c.etiqueta }}</span>
-          <span class="text-sm font-bold leading-tight">{{ c.titulo }}</span>
+      <div class="flex items-center justify-between">
+        <h2 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Campañas de Salud</h2>
+        <span class="text-[10px] font-bold text-gray-400">MINSAL</span>
+      </div>
+      {% for c in campanas.campanas %}
+      <a href="{{ c.url }}" target="_blank" rel="noopener" class="group flex items-stretch bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md hover:border-gray-300 transition-all">
+        <span class="w-1.5 flex-shrink-0" style="background:{{ c.color }}"></span>
+        <span class="flex items-center gap-3 px-3 py-2.5 min-w-0">
+          <span class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background:{{ c.color }}1a">
+            <span aria-hidden="true" class="material-symbols-outlined text-xl" style="color:{{ c.color }}">{{ c.icono }}</span>
+          </span>
+          <span class="min-w-0">
+            <span class="block text-[9px] font-bold uppercase tracking-widest" style="color:{{ c.color }}">{{ c.etiqueta }}</span>
+            <span class="block text-sm font-bold text-gray-800 leading-tight group-hover:underline">{{ c.titulo }}</span>
+            <span class="block text-[11px] text-gray-500 leading-snug mt-0.5">{{ c.texto }}</span>
+          </span>
         </span>
       </a>
       {% endfor %}

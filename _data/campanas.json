@@ -1,0 +1,20 @@
+{
+  "alerta": {
+    "mostrar": true,
+    "etiqueta": "Temporada primavera–verano",
+    "titulo": "Prevengamos el virus Hanta",
+    "texto": "En zonas rurales y de camping del Lago Llanquihue: ventile antes de entrar a lugares cerrados, mantenga alimentos en envases herméticos y evite matorrales y pastizales. Ante fiebre y dolores musculares después de estar en zonas de riesgo, consulte de inmediato.",
+    "url": "https://www.minsal.cl/chilesecuidadelvirushanta/",
+    "boton": "Recomendaciones MINSAL",
+    "icono": "pest_control_rodent"
+  },
+  "campanas": [
+    { "etiqueta": "Vacunación 2026", "titulo": "Vacúnate: influenza, VRS, Covid-19 y más", "texto": "Gratis para grupos de riesgo, embarazadas y niños.", "url": "https://www.minsal.cl/campana-vacunacion-2026/", "icono": "vaccines", "color": "#0F69C4" },
+    { "etiqueta": "Alerta sanitaria", "titulo": "Sarampión: revisa tus dos dosis", "texto": "Vacuna SRP a los 12 y 36 meses; viajeros, 15 días antes de viajar.", "url": "https://www.minsal.cl/sarampion", "icono": "coronavirus", "color": "#DA291C" },
+    { "etiqueta": "Detección temprana", "titulo": "Plan Alerta Oncológica", "texto": "Diagnóstico y tratamiento del cáncer más oportunos.", "url": "https://www.minsal.cl/plan-alerta-oncologica/", "icono": "oncology", "color": "#6A1B9A" },
+    { "etiqueta": "Salud mental", "titulo": "Abramos la conversación", "texto": "Si necesitas ayuda, llama al *4141: gratuito y confidencial.", "url": "https://abramoslaconversacion.minsal.cl/", "icono": "psychology", "color": "#00796B" },
+    { "etiqueta": "Prevención VIH e ITS", "titulo": "Hazte el test, es gratis", "texto": "Campaña nacional de prevención del VIH e ITS.", "url": "https://www.minsal.cl/campana-nacional-de-prevencion-del-vih-e-its-2025-2026/", "icono": "ribbon", "color": "#C62828" },
+    { "etiqueta": "Donación", "titulo": "Chile País Donante", "texto": "Conversa en familia sobre la donación de órganos.", "url": "https://chilepaisdonante.minsal.cl/", "icono": "volunteer_activism", "color": "#2E7D32" },
+    { "etiqueta": "Tabaco", "titulo": "Elige no fumar", "texto": "Apoyo para dejar el cigarrillo.", "url": "https://eligenofumar.cl/", "icono": "smoke_free", "color": "#455A64" }
+  ]
+}
