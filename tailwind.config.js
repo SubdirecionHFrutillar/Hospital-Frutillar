@@ -8,6 +8,8 @@ module.exports = {
     "./funcionarios/**/*.njk",
     "./assets/js/**/*.{js,mjs}",
   ],
+  // Variantes armadas desde _data/links.json (link-min--abajo, --arriba, --ambas, --linea)
+  safelist: [{ pattern: /^link-min/ }],
   theme: {
     extend: {
       fontFamily: {
