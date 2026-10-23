@@ -1,8 +1,42 @@
 [
-  { "label": "Ministerio de Salud", "url": "https://www.minsal.cl", "icon": "local_hospital" },
-  { "label": "FONASA", "url": "https://www.fonasa.cl", "icon": "health_and_safety" },
-  { "label": "Superintendencia de Salud", "url": "https://www.supersalud.gob.cl", "icon": "gavel" },
-  { "label": "Servicio de Salud Reloncaví", "url": "https://www.ssreloncavi.cl", "icon": "account_balance" },
-  { "label": "Portal Transparencia", "url": "https://www.portaltransparencia.cl", "icon": "visibility" },
-  { "label": "Empleos Públicos", "url": "https://www.empleospublicos.cl", "icon": "work" }
+  {
+    "label": "Ministerio de Salud",
+    "url": "https://www.minsal.cl",
+    "icon": "local_hospital"
+  },
+  {
+    "label": "FONASA",
+    "url": "https://www.fonasa.cl",
+    "icon": "health_and_safety"
+  },
+  {
+    "label": "Salud Responde 600 360 7777",
+    "url": "https://saludresponde.minsal.cl/",
+    "icon": "support_agent"
+  },
+  {
+    "label": "Copago Cero",
+    "url": "https://www.gob.cl/copagocero/",
+    "icon": "money_off"
+  },
+  {
+    "label": "Superintendencia de Salud",
+    "url": "https://www.supersalud.gob.cl",
+    "icon": "gavel"
+  },
+  {
+    "label": "Servicio de Salud Reloncaví",
+    "url": "https://www.ssreloncavi.cl",
+    "icon": "account_balance"
+  },
+  {
+    "label": "Portal Transparencia",
+    "url": "https://www.portaltransparencia.cl",
+    "icon": "visibility"
+  },
+  {
+    "label": "Empleos Públicos",
+    "url": "https://www.empleospublicos.cl",
+    "icon": "work"
+  }
 ]

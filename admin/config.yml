@@ -160,57 +160,38 @@ collections:
               - { label: "Enlace (URL o ruta)", name: enlace, widget: string, required: false }
               - { label: "Texto del enlace", name: enlace_texto, widget: string, required: false }
 
-  - name: "noticias"
-    label: "Noticias"
-    label_singular: "Noticia"
-    folder: "content/noticias"
-    create: true
-    delete: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    summary: "{{title}} — {{date}}"
-    sortable_fields: ["date", "title", "categoria"]
-    view_filters:
-      - label: "Destacadas"
-        field: destacada
-        pattern: true
-    fields:
-      - label: "Título"
-        name: title
-        widget: string
-      - label: "Fecha de publicación"
-        name: date
-        widget: datetime
-        format: "YYYY-MM-DD"
-        date_format: "DD/MM/YYYY"
-        time_format: false
-        default: ""
-      - label: "Categoría"
-        name: categoria
-        widget: select
-        options:
-          - { label: "Institucional",  value: "Institucional" }
-          - { label: "Comunidad",      value: "Comunidad" }
-          - { label: "Farmacia",       value: "Farmacia" }
-          - { label: "Gestión",        value: "Gestión" }
-          - { label: "Acreditación",   value: "Acreditación" }
-          - { label: "Salud",          value: "Salud" }
-          - { label: "RRHH",           value: "RRHH" }
-        default: "Institucional"
-      - label: "Resumen"
-        name: resumen
-        widget: text
-        hint: "Descripción corta que aparece en el listado de noticias (máx. 200 caracteres)"
-      - label: "Imagen destacada"
-        name: imagen
-        widget: image
-        required: false
-        hint: "Imagen principal de la noticia (opcional)"
-      - label: "Artículo destacado"
-        name: destacada
-        widget: boolean
-        default: false
-        hint: "Las noticias destacadas aparecen en primer lugar en el inicio"
-      - label: "Contenido"
-        name: body
-        widget: markdown
-        hint: "Contenido completo de la noticia"
+      - label: "Campañas de salud (portada)"
+        name: "campanas"
+        file: "_data/campanas.json"
+        fields:
+          - label: "Alerta de temporada (banner amarillo)"
+            name: alerta
+            widget: object
+            fields:
+              - { label: "Mostrar", name: mostrar, widget: boolean, default: true }
+              - { label: "Temporada", name: temporada, widget: string }
+              - { label: "Título", name: titulo, widget: string }
+              - { label: "Texto", name: texto, widget: text }
+              - label: "Consejos (3)"
+                name: consejos
+                widget: list
+                fields:
+                  - { label: "Dibujo", name: arte, widget: select, options: ["ventilar", "frasco", "carpa"] }
+                  - { label: "Texto", name: texto, widget: string }
+              - { label: "Enlace", name: url, widget: string }
+              - { label: "Texto del botón", name: boton, widget: string }
+              - { label: "Dibujo principal", name: arte, widget: select, options: ["hanta"] }
+          - label: "Campañas"
+            name: campanas
+            widget: list
+            fields:
+              - { label: "Titular", name: titular, widget: string }
+              - { label: "Dato destacado (opcional, ej. *4141)", name: dato, widget: string, required: false }
+              - { label: "Texto breve", name: texto, widget: string }
+              - { label: "Enlace", name: url, widget: string }
+              - { label: "Color (hex)", name: color, widget: color }
+              - { label: "Dibujo", name: arte, widget: select, options: ["vacuna", "sarampion", "oncologia", "conversacion", "lazo", "donacion", "tabaco", "hanta"] }
+              - { label: "Banner oficial (opcional; reemplaza el dibujo)", name: imagen, widget: image, required: false }
+              - { label: "Más grande (destacada)", name: destacada, widget: boolean, default: false }
+
+# Las noticias del sitio se publican desde el Portal Funcionarios (rol Comunicaciones o Administrador).

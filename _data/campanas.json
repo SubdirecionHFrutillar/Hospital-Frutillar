@@ -1,0 +1,25 @@
+{
+  "alerta": {
+    "mostrar": true,
+    "temporada": "Primavera y verano",
+    "titulo": "Prevengamos el virus Hanta",
+    "texto": "El ratón de cola larga vive en zonas rurales y de camping del Lago Llanquihue. Ante fiebre y dolores musculares después de estar en esos lugares, consulte de inmediato.",
+    "consejos": [
+      { "arte": "ventilar", "texto": "Ventile 30 minutos antes de entrar a bodegas o casas cerradas." },
+      { "arte": "frasco", "texto": "Guarde alimentos y agua en envases herméticos." },
+      { "arte": "carpa", "texto": "Acampe en carpa con piso, lejos de matorrales y pastizales." }
+    ],
+    "url": "https://www.minsal.cl/chilesecuidadelvirushanta/",
+    "boton": "Ver todas las recomendaciones",
+    "arte": "hanta"
+  },
+  "campanas": [
+    { "titular": "Campaña de Vacunación 2026", "texto": "Influenza, VRS, Covid-19, coqueluche y neumococo. Gratis para grupos de riesgo, embarazadas y niños.", "url": "https://www.minsal.cl/campana-vacunacion-2026/", "color": "#1D5DB4", "arte": "vacuna", "destacada": true },
+    { "titular": "Sarampión: dos dosis protegen", "texto": "Vacuna a los 12 y 36 meses.", "url": "https://www.minsal.cl/sarampion", "color": "#C8102E", "arte": "sarampion" },
+    { "titular": "Alerta Oncológica", "texto": "Diagnóstico y tratamiento del cáncer más oportunos.", "url": "https://www.minsal.cl/plan-alerta-oncologica/", "color": "#5B2C83", "arte": "oncologia" },
+    { "titular": "Abramos la conversación", "dato": "*4141", "texto": "Línea de prevención del suicidio, gratuita y confidencial.", "url": "https://abramoslaconversacion.minsal.cl/", "color": "#00695C", "arte": "conversacion" },
+    { "titular": "Hazte el test de VIH", "texto": "Es gratis y confidencial.", "url": "https://www.minsal.cl/campana-nacional-de-prevencion-del-vih-e-its-2025-2026/", "color": "#A31621", "arte": "lazo" },
+    { "titular": "Chile País Donante", "texto": "Conversa en familia sobre donar órganos.", "url": "https://chilepaisdonante.minsal.cl/", "color": "#2E7D32", "arte": "donacion" },
+    { "titular": "Elige no fumar", "texto": "Apoyo gratuito para dejar el cigarrillo.", "url": "https://eligenofumar.cl/", "color": "#37474F", "arte": "tabaco" }
+  ]
+}

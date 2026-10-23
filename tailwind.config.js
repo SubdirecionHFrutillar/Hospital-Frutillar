@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Public Sans", "sans-serif"],
+        cartel: ["Barlow Condensed", "Public Sans", "sans-serif"],
       },
       colors: {
         primary: {

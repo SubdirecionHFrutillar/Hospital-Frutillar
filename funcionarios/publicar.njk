@@ -3,11 +3,25 @@ title: Publicar en la intranet
 permalink: funcionarios/publicar.html
 ---
 {% import "componentes.njk" as ui with context %}
-{{ ui.banner("Publicar en la intranet", "Comparta avisos, actas, boletines y documentos con los funcionarios", "edit_square", [{ label: "Portal Funcionarios", url: "/funcionarios/" }, { label: "Publicar" }]) }}
+{{ ui.banner("Publicar", "Avisos para funcionarios en la intranet o noticias para el sitio web del hospital", "edit_square", [{ label: "Portal Funcionarios", url: "/funcionarios/" }, { label: "Publicar" }]) }}
 
 <div class="container mx-auto px-4 py-8 max-w-3xl" data-pagina="publicar">
   <form id="form-publicar" class="bg-white border border-gray-200 rounded-custom shadow-md px-6 md:px-8 py-7 flex flex-col gap-5 gob-stripe" novalidate>
     <h2 class="text-xl font-bold text-primary" data-campo="titulo-form">Nueva publicación</h2>
+
+    <fieldset id="destino" class="hidden">
+      <legend class="block text-xs font-bold text-gray-600 mb-2">¿Dónde se publica?</legend>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <label class="flex items-start gap-3 border border-gray-200 rounded-custom px-4 py-3 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary-bg">
+          <input type="radio" name="destino" value="intranet" class="mt-1 text-primary" checked>
+          <span><strong class="block text-sm text-gray-800">Intranet</strong><span class="text-xs text-gray-500">Solo funcionarios con sesión iniciada.</span></span>
+        </label>
+        <label class="flex items-start gap-3 border border-gray-200 rounded-custom px-4 py-3 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary-bg">
+          <input type="radio" name="destino" value="sitio" class="mt-1 text-primary">
+          <span><strong class="block text-sm text-gray-800">Sitio web público</strong><span class="text-xs text-gray-500">Noticias del hospital, visibles para todos.</span></span>
+        </label>
+      </div>
+    </fieldset>
 
     <div>
       <label for="p-titulo" class="block text-xs font-bold text-gray-600 mb-1">Título <span class="text-red-500" aria-hidden="true">*</span></label>
@@ -19,7 +33,7 @@ permalink: funcionarios/publicar.html
         <label for="p-categoria" class="block text-xs font-bold text-gray-600 mb-1">Categoría</label>
         <select id="p-categoria" name="categoria" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm"></select>
       </div>
-      <div>
+      <div id="campo-area">
         <label for="p-area" class="block text-xs font-bold text-gray-600 mb-1">Unidad / área <span class="font-normal text-gray-400">(opcional)</span></label>
         <input id="p-area" name="area" type="text" maxlength="80" list="areas" placeholder="Ej.: Bienestar" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
         <datalist id="areas">
@@ -37,6 +51,17 @@ permalink: funcionarios/publicar.html
       <input id="p-autor" name="autorNombre" type="text" maxlength="80" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm">
     </div>
 
+    <div id="campos-sitio" class="hidden flex flex-col gap-4">
+      <div>
+        <label for="p-resumen" class="block text-xs font-bold text-gray-600 mb-1">Resumen <span class="text-red-500" aria-hidden="true">*</span> <span class="font-normal text-gray-400">(aparece en el listado y en la portada; máx. 300 caracteres)</span></label>
+        <textarea id="p-resumen" name="resumen" rows="2" maxlength="300" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm"></textarea>
+      </div>
+      <label class="flex items-center gap-2 text-sm text-gray-700">
+        <input type="checkbox" id="p-destacada" name="destacada" class="rounded text-primary"> Destacar en la portada del sitio
+      </label>
+      <p class="text-xs text-gray-500 bg-primary-bg border border-primary-pale rounded-custom px-3 py-2">La primera imagen adjunta se usa como foto principal de la noticia. La noticia aparece en el sitio uno o dos minutos después de publicarla.</p>
+    </div>
+
     <div>
       <label for="p-cuerpo" class="block text-xs font-bold text-gray-600 mb-1">Texto</label>
       <textarea id="p-cuerpo" name="cuerpo" rows="8" maxlength="20000" aria-describedby="ayuda-cuerpo" class="w-full border-gray-300 rounded-custom px-3 py-2.5 text-sm"></textarea>
@@ -44,7 +69,7 @@ permalink: funcionarios/publicar.html
     </div>
 
     <div>
-      <span class="block text-xs font-bold text-gray-600 mb-1">Adjuntos <span class="font-normal text-gray-400">(PDF, imágenes u Office · máx. 5 MB c/u)</span></span>
+      <span class="block text-xs font-bold text-gray-600 mb-1">Adjuntos <span class="font-normal text-gray-400">(PDF, imágenes u Office · máx. 30 MB c/u)</span></span>
       <label for="p-archivos" class="flex items-center justify-center gap-2 border-2 border-dashed border-gray-300 hover:border-primary rounded-custom px-4 py-5 text-sm text-gray-500 cursor-pointer">
         <span aria-hidden="true" class="material-symbols-outlined">upload_file</span>Seleccionar archivos
       </label>

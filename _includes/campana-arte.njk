@@ -1,0 +1,78 @@
+{#
+  Ilustraciones de las campañas de salud (SVG en línea, sin dependencias).
+  Cada campaña tiene su propio dibujo; se elige con el campo "arte" en _data/campanas.json.
+  Se dibujan en blanco sobre el color de la campaña y quedan recortadas por el borde derecho.
+#}
+{% macro arte(clave) %}
+<svg viewBox="0 0 120 120" class="w-full h-full" aria-hidden="true" focusable="false" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+{% if clave == "vacuna" %}
+  {# Jeringa en diagonal sobre un escudo #}
+  <path d="M60 14 98 28v30c0 26-17 41-38 50-21-9-38-24-38-50V28z" fill="#fff" fill-opacity=".14" stroke-opacity=".5" stroke-width="3"/>
+  <g transform="rotate(-45 60 62)" stroke-width="4">
+    <rect x="50" y="34" width="20" height="44" rx="3" fill="#fff" fill-opacity=".9" stroke="none"/>
+    <path d="M50 46h9M50 56h9M50 66h9" stroke="currentColor" stroke-width="2.5"/>
+    <path d="M60 78v18M54 30h12M60 30V20M52 20h16"/>
+  </g>
+{% elif clave == "sarampion" %}
+  {# Niño con dos marcas de vacuna: 12 y 36 meses #}
+  <circle cx="54" cy="44" r="22" fill="#fff" fill-opacity=".9" stroke="none"/>
+  <path d="M20 112c0-24 15-38 34-38s34 14 34 38" fill="#fff" fill-opacity=".9" stroke="none"/>
+  <circle cx="46" cy="42" r="2.6" fill="currentColor" stroke="none"/><circle cx="62" cy="42" r="2.6" fill="currentColor" stroke="none"/>
+  <path d="M47 53c4 3 10 3 14 0" stroke="currentColor" stroke-width="2.5"/>
+  <circle cx="88" cy="28" r="13" fill="#fff" stroke="none"/><text x="88" y="33" text-anchor="middle" font-size="14" font-weight="800" fill="currentColor" stroke="none" font-family="Barlow Condensed, Public Sans, sans-serif">1ª</text>
+  <circle cx="90" cy="60" r="13" fill="#fff" stroke="none"/><text x="90" y="65" text-anchor="middle" font-size="14" font-weight="800" fill="currentColor" stroke="none" font-family="Barlow Condensed, Public Sans, sans-serif">2ª</text>
+{% elif clave == "oncologia" %}
+  {# Lupa sobre células: detección temprana #}
+  <g fill="#fff" fill-opacity=".22" stroke-opacity=".55" stroke-width="2.5">
+    <circle cx="28" cy="84" r="11"/><circle cx="52" cy="96" r="9"/><circle cx="20" cy="56" r="8"/><circle cx="92" cy="98" r="8"/>
+  </g>
+  <circle cx="64" cy="50" r="28" fill="#fff" fill-opacity=".9" stroke="none"/>
+  <circle cx="64" cy="50" r="28" stroke-width="6"/>
+  <circle cx="58" cy="46" r="8" fill="currentColor" fill-opacity=".85" stroke="none"/><circle cx="73" cy="58" r="5" fill="currentColor" fill-opacity=".5" stroke="none"/>
+  <path d="M85 72 106 94" stroke-width="10"/>
+{% elif clave == "conversacion" %}
+  {# Dos globos de diálogo #}
+  <path d="M14 22h58a8 8 0 0 1 8 8v30a8 8 0 0 1-8 8H38l-14 13V68h-10a8 8 0 0 1-8-8V30a8 8 0 0 1 8-8z" fill="#fff" fill-opacity=".92" stroke="none"/>
+  <path d="M26 40h40M26 52h28" stroke="currentColor" stroke-width="4"/>
+  <path d="M60 60h44a8 8 0 0 1 8 8v24a8 8 0 0 1-8 8h-4v12l-13-12H60a8 8 0 0 1-8-8V68a8 8 0 0 1 8-8z" fill="#fff" fill-opacity=".28" stroke-width="3"/>
+  <circle cx="72" cy="80" r="3" fill="#fff" stroke="none"/><circle cx="84" cy="80" r="3" fill="#fff" stroke="none"/><circle cx="96" cy="80" r="3" fill="#fff" stroke="none"/>
+{% elif clave == "lazo" %}
+  {# Lazo de la prevención del VIH #}
+  <path d="M60 18c-14 0-22 10-22 22 0 9 4 16 9 24L22 104l14 8 24-38 24 38 14-8-25-40c5-8 9-15 9-24 0-12-8-22-22-22zm0 14c6 0 9 4 9 9 0 5-3 11-9 19-6-8-9-14-9-19 0-5 3-9 9-9z" fill="#fff" fill-opacity=".92" stroke="none"/>
+{% elif clave == "donacion" %}
+  {# Mano abierta que ofrece un corazón #}
+  <path d="M58 58 40 40a12 12 0 0 1 18-16 12 12 0 0 1 18 16z" fill="#fff" stroke="none"/>
+  <path d="M10 76h22l10 6h22c6 0 6 9 0 9H46" stroke-width="6"/>
+  <path d="M10 104h38l40-14c8-3 5-13-3-11L64 86" stroke-width="6"/>
+  <path d="M10 70v40" stroke-width="8" stroke-opacity=".6"/>
+{% elif clave == "tabaco" %}
+  {# Señal de prohibido fumar #}
+  <rect x="22" y="54" width="54" height="13" rx="2" fill="#fff" fill-opacity=".92" stroke="none"/>
+  <rect x="78" y="54" width="14" height="13" rx="2" fill="#fff" fill-opacity=".5" stroke="none"/>
+  <path d="M84 48c5-5 0-10 5-15" stroke-width="3" stroke-opacity=".5"/>
+  <circle cx="60" cy="60" r="44" stroke-width="8"/>
+  <path d="M29 29 91 91" stroke-width="8"/>
+{% elif clave == "hanta" %}
+  {# Carpa, pino y ratón: zona rural y camping #}
+  <path d="M18 104 38 46l20 58z" fill="#fff" fill-opacity=".9" stroke="none"/>
+  <path d="M38 46v58" stroke="currentColor" stroke-width="3"/>
+  <path d="M84 104V86M84 20l-16 26h8l-12 18h9l-11 20h44l-11-20h9L92 46h8z" fill="#fff" fill-opacity=".55" stroke="none"/>
+  <path d="M60 106h56" stroke-width="3" stroke-opacity=".7"/>
+{% elif clave == "ventilar" %}
+  {# Ventana abierta con aire #}
+  <rect x="20" y="22" width="56" height="76" rx="3" stroke-width="7"/>
+  <path d="M20 22 46 34v76L20 98" fill="#fff" fill-opacity=".35" stroke-width="5"/>
+  <path d="M74 44c12 0 12-10 24-10M74 60c14 0 14-10 30-10M74 76c12 0 12-10 24-10" stroke-width="6"/>
+{% elif clave == "frasco" %}
+  {# Envase hermético #}
+  <rect x="30" y="18" width="60" height="16" rx="3" fill="#fff" stroke="none"/>
+  <path d="M34 34h52v62a10 10 0 0 1-10 10H44a10 10 0 0 1-10-10z" stroke-width="7"/>
+  <path d="M46 62h28M46 78h20" stroke-width="6"/>
+{% elif clave == "carpa" %}
+  {# Carpa con piso #}
+  <path d="M12 96 60 22l48 74z" stroke-width="7"/>
+  <path d="M60 22v74M46 96l14-30 14 30" stroke-width="6"/>
+  <path d="M6 104h108" stroke-width="7"/>
+{% endif %}
+</svg>
+{% endmacro %}
