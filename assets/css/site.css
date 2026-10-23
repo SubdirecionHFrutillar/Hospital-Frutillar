@@ -60,6 +60,16 @@
   .bg-noticia       { background: linear-gradient(135deg, #0A2A5E 0%, #0F69C4 60%, #3A8FD4 100%); }
   .bg-footer        { background: linear-gradient(135deg, #27272a 0%, #3f3f46 100%); }
 
+  /* Portada: foto del hero (WebP liviano; JPG para navegadores antiguos; versión chica en celulares) */
+  .hero-fondo {
+    --velo: linear-gradient(to left, rgba(10,42,94,.92) 0%, rgba(10,42,94,.75) 45%, rgba(10,42,94,.10) 100%);
+    background: var(--velo), url("/img/hero-hospital.jpg") center 50% / cover no-repeat;
+    background: var(--velo), image-set(url("/img/hero-hospital.webp") type("image/webp"), url("/img/hero-hospital.jpg") type("image/jpeg")) center 50% / cover no-repeat;
+  }
+  @media (max-width: 1024px) {
+    .hero-fondo { background: var(--velo), image-set(url("/img/hero-hospital-1024.webp") type("image/webp"), url("/img/hero-hospital.jpg") type("image/jpeg")) center 50% / cover no-repeat; }
+  }
+
   /* Portada: círculos decorativos del hero */
   .hero-blob { position: absolute; border-radius: 50%; background: rgba(255,255,255,.04); pointer-events: none; }
 

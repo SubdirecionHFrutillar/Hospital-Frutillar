@@ -12,8 +12,32 @@
 <meta property="og:site_name" content="{{ site.name }}">
 <meta property="og:title" content="{{ tituloPagina }}">
 <meta property="og:description" content="{{ description or site.description }}">
-{% if imagen %}<meta property="og:image" content="{{ imagen }}">{% endif %}
-<link rel="icon" href="/img/logo-hospital.png">
+{%- set urlCanonica = site.url + page.url %}
+{%- set imagenSocial = imagen or "/img/hero-hospital.jpg" %}
+{%- if not (imagenSocial.startsWith("http")) %}{% set imagenSocial = site.url + imagenSocial %}{% endif %}
+{% if not noindex %}<link rel="canonical" href="{{ urlCanonica }}">{% endif %}
+<meta property="og:url" content="{{ urlCanonica }}">
+<meta property="og:image" content="{{ imagenSocial }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0A2A5E">
+<link rel="icon" href="/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+{% if portada %}<link rel="preload" as="image" href="/img/hero-hospital.webp" media="(min-width: 1025px)" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="/img/hero-hospital-1024.webp" media="(max-width: 1024px)" type="image/webp" fetchpriority="high">
+{%- set telefonoE164 = site.telefonoCentralHref | replace("tel:", "") %}
+<script type="application/ld+json">{{ {
+  "@context": "https://schema.org",
+  "@type": "Hospital",
+  "name": site.name,
+  "url": site.url,
+  "logo": site.url + "/img/logo-hospital.png",
+  "image": site.url + "/img/hero-hospital.jpg",
+  "telephone": telefonoE164,
+  "address": { "@type": "PostalAddress", "streetAddress": site.direccion, "addressLocality": "Frutillar", "addressRegion": site.region, "addressCountry": "CL" },
+  "parentOrganization": { "@type": "GovernmentOrganization", "name": site.servicio, "url": site.ssreloncavi },
+  "sameAs": [site.instagram],
+  "openingHours": "Mo-Su 00:00-23:59"
+} | dump | safe }}</script>{% endif %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&display=swap">
