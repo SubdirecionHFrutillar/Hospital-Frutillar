@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  .material-symbols-outlined { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+  .material-symbols-outlined { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; display: inline-block; width: 1em; overflow: hidden; white-space: nowrap; }
   [x-cloak] { display: none !important; }
 }
 
@@ -14,6 +14,33 @@
   .gob-stripe::after { content: ""; position: absolute; top: 0; height: 3px; }
   .gob-stripe::before { left: 0; width: 55%; background: theme("colors.primary.DEFAULT"); }
   .gob-stripe::after  { left: 55%; width: 45%; background: theme("colors.gob.rojo"); }
+
+  /* Links de interés: botoneras institucionales (gris claro, marca en azul/rojo, franja bicolor) */
+  .link-min {
+    position: relative; display: flex; align-items: center; gap: .6rem; height: 76px; padding: 0 12px;
+    background: linear-gradient(180deg, #FAFAFA 0%, #ECEDEF 100%);
+    border: 1px solid #DCDDE0; box-shadow: inset 0 1px 0 #fff;
+    text-decoration: none; overflow: hidden; transition: box-shadow .15s, filter .15s;
+  }
+  .link-min:hover { box-shadow: 0 4px 14px rgba(10,42,94,.14); filter: brightness(1.02); }
+  .link-min:focus-visible { outline: 3px solid theme("colors.primary.light"); outline-offset: 2px; }
+  .link-min::before, .link-min::after {
+    content: ""; position: absolute; width: 62px; height: 6px; display: none;
+    background: linear-gradient(90deg, #1D5DB4 0 50%, #DA291C 50% 100%);
+  }
+  .link-min--abajo::after, .link-min--ambas::after { display: block; bottom: 0; left: 22px; }
+  .link-min--arriba::before, .link-min--ambas::before { display: block; top: 0; right: 32px; }
+  .link-min--linea { border-bottom: 0; }
+  .link-min--linea::after { display: block; left: 0; right: 0; bottom: 0; width: auto; height: 3px; background: linear-gradient(90deg, #1D5DB4 0 45%, #DA291C 45% 100%); }
+  .link-min__icono { font-size: 26px; width: 26px; color: #9AA0A8; font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 40; flex-shrink: 0; }
+  .link-min__linea { font-size: 1.12rem; line-height: 1.05; letter-spacing: -.01em; }
+  .link-min__azul { color: #1D5DB4; }
+  .link-min__rojo { color: #DA291C; }
+  .link-min__pila { display: flex; flex-direction: column; line-height: 1.12; min-width: 0; }
+  .link-min__sup { font-size: .72rem; color: #6B7280; }
+  .link-min__inf { font-size: .92rem; font-weight: 700; color: #1D5DB4; }
+  .link-min__pila--grande .link-min__sup { font-size: 1.15rem; color: #8A8F96; }
+  .link-min__pila--grande .link-min__inf { font-size: 1.2rem; }
 
   /* Ítems de menú lateral */
   .acceso-item { border-left: 4px solid theme("colors.primary.light"); transition: border-color .15s, background .15s; }

@@ -144,22 +144,28 @@
   {{ content | safe }}
 </main>
 
-<!-- LINKS DE INTERÉS -->
+<!-- LINKS DE INTERÉS (botoneras institucionales al estilo de los sitios de la red pública) -->
 <section class="bg-white border-t border-gray-200 py-12 mt-4" aria-labelledby="titulo-links">
-  <div class="container mx-auto px-4">
-    <div class="flex items-center gap-4 mb-7">
-      <div class="h-px bg-gray-200 flex-1"></div>
-      <h2 id="titulo-links" class="font-bold text-gray-500 text-xs uppercase tracking-[0.2em] whitespace-nowrap">Links de Interés</h2>
-      <div class="h-px bg-gray-200 flex-1"></div>
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="flex items-center justify-center gap-6 mb-8">
+      <div class="h-px bg-primary-light w-16 sm:w-28"></div>
+      <h2 id="titulo-links" class="font-cartel font-semibold text-primary text-3xl uppercase tracking-wide whitespace-nowrap">Links de interés</h2>
+      <div class="h-px bg-primary-light w-16 sm:w-28"></div>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto">
+    <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-x-4 gap-y-5" role="list">
       {% for l in links %}
-      <a href="{{ l.url }}" target="_blank" rel="noopener" class="gob-stripe group bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">{{ l.icon }}</span>
-        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">{{ l.label }}</span>
-      </a>
+      <li>
+        <a href="{{ l.url }}" target="_blank" rel="noopener" class="link-min link-min--{{ l.barra or 'abajo' }}" aria-label="{{ l.nombre }} (abre en una pestaña nueva)">
+          {% if l.icono %}<span class="material-symbols-outlined link-min__icono" aria-hidden="true">{{ l.icono }}</span>{% endif %}
+          {% if l.tipo == "linea" %}
+          <span class="link-min__linea" aria-hidden="true"><span class="link-min__azul">{{ l.a }}</span>{% if not l.junto %} {% endif %}<span class="link-min__rojo">{{ l.b }}</span></span>
+          {% else %}
+          <span class="link-min__pila{% if l.grande %} link-min__pila--grande{% endif %}" aria-hidden="true"><span class="link-min__sup">{{ l.a }}</span><span class="link-min__inf">{{ l.b }}</span></span>
+          {% endif %}
+        </a>
+      </li>
       {% endfor %}
-    </div>
+    </ul>
   </div>
 </section>
 

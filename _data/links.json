@@ -1,42 +1,103 @@
 [
   {
-    "label": "Ministerio de Salud",
+    "a": "Ministerio",
+    "b": "de Salud",
+    "tipo": "linea",
+    "barra": "abajo",
     "url": "https://www.minsal.cl",
-    "icon": "local_hospital"
+    "nombre": "Ministerio de Salud"
   },
   {
-    "label": "FONASA",
-    "url": "https://www.fonasa.cl",
-    "icon": "health_and_safety"
-  },
-  {
-    "label": "Salud Responde 600 360 7777",
-    "url": "https://saludresponde.minsal.cl/",
-    "icon": "support_agent"
-  },
-  {
-    "label": "Copago Cero",
-    "url": "https://www.gob.cl/copagocero/",
-    "icon": "money_off"
-  },
-  {
-    "label": "Superintendencia de Salud",
+    "a": "Super",
+    "b": "Salud",
+    "tipo": "linea",
+    "junto": true,
+    "barra": "abajo",
     "url": "https://www.supersalud.gob.cl",
-    "icon": "gavel"
+    "nombre": "Superintendencia de Salud"
   },
   {
-    "label": "Servicio de Salud Reloncaví",
+    "a": "Fondo Nacional de Salud",
+    "b": "FONASA",
+    "tipo": "pila",
+    "barra": "arriba",
+    "url": "https://www.fonasa.cl",
+    "nombre": "FONASA"
+  },
+  {
+    "a": "Salud Responde",
+    "b": "600 360 7777",
+    "tipo": "pila",
+    "barra": "ambas",
+    "icono": "support_agent",
+    "url": "https://saludresponde.minsal.cl/",
+    "nombre": "Salud Responde, 600 360 7777"
+  },
+  {
+    "a": "Atención sin costo",
+    "b": "Copago Cero",
+    "tipo": "pila",
+    "barra": "arriba",
+    "url": "https://www.gob.cl/copagocero/",
+    "nombre": "Copago Cero"
+  },
+  {
+    "a": "Servicio de Salud",
+    "b": "Reloncaví",
+    "tipo": "pila",
+    "barra": "ambas",
     "url": "https://www.ssreloncavi.cl",
-    "icon": "account_balance"
+    "nombre": "Servicio de Salud Reloncaví"
   },
   {
-    "label": "Portal Transparencia",
+    "a": "Gobierno",
+    "b": "Transparente",
+    "tipo": "pila",
+    "grande": true,
+    "barra": "ambas",
     "url": "https://www.portaltransparencia.cl",
-    "icon": "visibility"
+    "nombre": "Gobierno Transparente"
   },
   {
-    "label": "Empleos Públicos",
+    "a": "Solicitud de información",
+    "b": "Transparencia",
+    "tipo": "pila",
+    "icono": "description",
+    "barra": "linea",
+    "url": "https://www.portaltransparencia.cl",
+    "nombre": "Solicitud de información, Ley de Transparencia"
+  },
+  {
+    "a": "Plataforma de",
+    "b": "Ley del Lobby",
+    "tipo": "pila",
+    "icono": "contract",
+    "barra": "linea",
+    "url": "https://www.leylobby.gob.cl",
+    "nombre": "Plataforma Ley del Lobby"
+  },
+  {
+    "a": "Elige",
+    "b": "Vivir Sano",
+    "tipo": "linea",
+    "barra": "arriba",
+    "url": "https://eligevivirsano.gob.cl",
+    "nombre": "Elige Vivir Sano"
+  },
+  {
+    "a": "Trabaja en el Estado",
+    "b": "Empleos Públicos",
+    "tipo": "pila",
+    "barra": "abajo",
     "url": "https://www.empleospublicos.cl",
-    "icon": "work"
+    "nombre": "Empleos Públicos"
+  },
+  {
+    "a": "Compras del Estado",
+    "b": "Mercado Público",
+    "tipo": "pila",
+    "barra": "arriba",
+    "url": "https://www.mercadopublico.cl",
+    "nombre": "Mercado Público"
   }
 ]
