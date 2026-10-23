@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  .material-symbols-outlined { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+  .material-symbols-outlined { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; display: inline-block; width: 1em; overflow: hidden; white-space: nowrap; }
   [x-cloak] { display: none !important; }
 }
 
@@ -14,6 +14,24 @@
   .gob-stripe::after { content: ""; position: absolute; top: 0; height: 3px; }
   .gob-stripe::before { left: 0; width: 55%; background: theme("colors.primary.DEFAULT"); }
   .gob-stripe::after  { left: 55%; width: 45%; background: theme("colors.gob.rojo"); }
+
+  /* Barra bicolor bajo los títulos (como en gob.cl) */
+  .gob-barra { width: 64px; height: 4px; background: linear-gradient(90deg, theme("colors.primary.DEFAULT") 0 50%, theme("colors.gob.rojo") 50% 100%); }
+
+  /* Enlaces a instituciones del Estado */
+  .enlace-gob {
+    display: flex; align-items: flex-start; gap: .85rem; height: 100%;
+    padding: 1rem 1rem 1rem .9rem; background: #fff; text-decoration: none;
+    border: 1px solid theme("colors.gray.200"); border-left: 4px solid theme("colors.primary.DEFAULT");
+    border-radius: 4px; transition: box-shadow .15s, border-color .15s;
+  }
+  .enlace-gob:hover { border-left-color: theme("colors.gob.rojo"); box-shadow: 0 6px 18px rgba(10,42,94,.10); }
+  .enlace-gob:focus-visible { outline: 3px solid theme("colors.primary.light"); outline-offset: 2px; }
+  .enlace-gob__icono {
+    flex-shrink: 0; width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
+    background: theme("colors.primary.deep"); color: #fff; border-radius: 4px;
+  }
+  .enlace-gob:hover .enlace-gob__icono { background: theme("colors.primary.DEFAULT"); }
 
   /* Ítems de menú lateral */
   .acceso-item { border-left: 4px solid theme("colors.primary.light"); transition: border-color .15s, background .15s; }

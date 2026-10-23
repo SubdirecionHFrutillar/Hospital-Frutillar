@@ -177,12 +177,14 @@ const paginas = {
     if (PUBLICA_INTRANET.includes(u.rol)) $$("[data-solo-editor]").forEach((el) => el.classList.remove("hidden"));
     if (PUBLICA_SITIO.includes(u.rol)) $$("[data-solo-comunicaciones]").forEach((el) => el.classList.remove("hidden"));
 
-    // Muro de publicaciones
+    // Muro de publicaciones (paginado: POR_PAGINA por página, con la página en la URL)
+    const POR_PAGINA = 12;
     const muro = $("#muro");
     const filtros = $("#filtros");
-    const verMas = $("#ver-mas");
-    let categoria = new URLSearchParams(location.search).get("categoria") || "";
-    let desde = 0;
+    const paginas = $("#paginas");
+    const params = new URLSearchParams(location.search);
+    let categoria = params.get("categoria") || "";
+    let pagina = Math.max(1, Number(params.get("pagina")) || 1);
 
     const tarjeta = (p) => {
       const a = el("a", "news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow");
@@ -213,41 +215,83 @@ const paginas = {
       return a;
     };
 
+    const actualizarUrl = () => {
+      const q = new URLSearchParams();
+      if (categoria) q.set("categoria", categoria);
+      if (pagina > 1) q.set("pagina", String(pagina));
+      history.replaceState(null, "", q.size ? `?${q}` : location.pathname);
+    };
+
     const pintarFiltros = (categorias) => {
       filtros.replaceChildren();
       for (const c of ["", ...categorias]) {
         const b = el("button", `px-3 py-1.5 rounded-full text-xs font-bold border transition-colors ${c === categoria ? "bg-primary text-white border-primary" : "bg-white text-primary border-primary-pale hover:bg-primary-bg"}`, c || "Todas");
         b.type = "button";
         b.setAttribute("aria-pressed", String(c === categoria));
-        b.addEventListener("click", () => {
-          categoria = c;
-          history.replaceState(null, "", c ? `?categoria=${encodeURIComponent(c)}` : location.pathname);
-          cargar(true);
-        });
+        b.addEventListener("click", () => { categoria = c; pagina = 1; cargar(); });
         filtros.append(b);
       }
     };
 
-    const cargar = async (reiniciar) => {
-      if (reiniciar) { desde = 0; muro.replaceChildren(); }
-      verMas.disabled = true;
+    // Números de página con elipsis: 1 … 4 5 [6] 7 8 … 20
+    const numerosPagina = (actual, total) => {
+      const set = new Set([1, total, actual - 1, actual, actual + 1].filter((n) => n >= 1 && n <= total));
+      const orden = [...set].sort((x, y) => x - y);
+      const out = [];
+      orden.forEach((n, i) => { if (i && n - orden[i - 1] > 1) out.push("…"); out.push(n); });
+      return out;
+    };
+
+    const pintarPaginas = (total) => {
+      const totalPaginas = Math.ceil(total / POR_PAGINA);
+      paginas.replaceChildren();
+      paginas.classList.toggle("hidden", totalPaginas <= 1);
+      if (totalPaginas <= 1) return;
+      const boton = (contenido, destino, { actual = false, etiqueta } = {}) => {
+        const b = el("button", `min-w-[2.25rem] h-9 px-2 inline-flex items-center justify-center rounded-custom text-sm font-bold border transition-colors ${actual ? "bg-primary text-white border-primary" : "bg-white text-primary border-gray-200 hover:bg-primary-bg"} disabled:opacity-40 disabled:pointer-events-none`);
+        b.type = "button";
+        if (typeof contenido === "string") b.textContent = contenido; else b.append(contenido);
+        if (etiqueta) b.setAttribute("aria-label", etiqueta);
+        if (actual) b.setAttribute("aria-current", "page");
+        b.disabled = destino < 1 || destino > totalPaginas;
+        b.addEventListener("click", () => {
+          if (actual) return;
+          pagina = destino;
+          cargar().then(() => $("#titulo-muro").scrollIntoView({ behavior: "smooth", block: "start" }));
+        });
+        return b;
+      };
+      paginas.append(boton(icono("chevron_left", "text-lg"), pagina - 1, { etiqueta: "Página anterior" }));
+      for (const n of numerosPagina(pagina, totalPaginas)) {
+        paginas.append(n === "…" ? el("span", "px-1 text-gray-400", "…") : boton(String(n), n, { actual: n === pagina, etiqueta: `Página ${n}` }));
+      }
+      paginas.append(boton(icono("chevron_right", "text-lg"), pagina + 1, { etiqueta: "Página siguiente" }));
+      paginas.append(el("span", "w-full text-center text-xs text-gray-400 mt-1", `Página ${pagina} de ${totalPaginas} · ${total} publicaciones`));
+    };
+
+    const cargar = async () => {
+      muro.setAttribute("aria-busy", "true");
       try {
-        const q = new URLSearchParams({ desde: String(desde) });
+        const q = new URLSearchParams({ desde: String((pagina - 1) * POR_PAGINA), limite: String(POR_PAGINA) });
         if (categoria) q.set("categoria", categoria);
-        const r = await api(`/api/intranet/publicaciones?${q}`);
-        if (reiniciar) pintarFiltros(r.categorias);
-        r.publicaciones.forEach((p) => muro.append(tarjeta(p)));
-        desde += r.publicaciones.length;
+        let r = await api(`/api/intranet/publicaciones?${q}`);
+        // Página fuera de rango (p. ej. enlace antiguo): volver a la última que exista
+        if (!r.publicaciones.length && r.total && pagina > 1) {
+          pagina = Math.ceil(r.total / POR_PAGINA);
+          return cargar();
+        }
+        pintarFiltros(r.categorias);
+        muro.replaceChildren(...r.publicaciones.map(tarjeta));
         if (!r.total) muro.replaceChildren(el("p", "text-gray-400 text-sm col-span-full py-8 text-center", categoria ? "No hay publicaciones en esta categoría." : "Aún no hay publicaciones."));
-        verMas.classList.toggle("hidden", desde >= r.total);
+        pintarPaginas(r.total);
+        actualizarUrl();
       } catch (e) {
         muro.replaceChildren(el("p", "text-red-600 text-sm col-span-full", e.message));
       } finally {
-        verMas.disabled = false;
+        muro.removeAttribute("aria-busy");
       }
     };
-    verMas.addEventListener("click", () => cargar(false));
-    await cargar(true);
+    await cargar();
   },
 
   async publicacion() {

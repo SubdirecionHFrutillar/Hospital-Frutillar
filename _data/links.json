@@ -2,41 +2,57 @@
   {
     "label": "Ministerio de Salud",
     "url": "https://www.minsal.cl",
-    "icon": "local_hospital"
+    "icon": "local_hospital",
+    "desc": "Políticas, campañas y alertas sanitarias",
+    "dominio": "minsal.cl"
   },
   {
     "label": "FONASA",
     "url": "https://www.fonasa.cl",
-    "icon": "health_and_safety"
+    "icon": "health_and_safety",
+    "desc": "Tramos, beneficios y atención en línea",
+    "dominio": "fonasa.cl"
   },
   {
-    "label": "Salud Responde 600 360 7777",
+    "label": "Salud Responde",
     "url": "https://saludresponde.minsal.cl/",
-    "icon": "support_agent"
+    "icon": "support_agent",
+    "desc": "Orientación telefónica 24/7 · 600 360 7777",
+    "dominio": "saludresponde.minsal.cl"
   },
   {
     "label": "Copago Cero",
     "url": "https://www.gob.cl/copagocero/",
-    "icon": "money_off"
+    "icon": "money_off",
+    "desc": "Atención sin copago en la red pública",
+    "dominio": "gob.cl"
   },
   {
     "label": "Superintendencia de Salud",
     "url": "https://www.supersalud.gob.cl",
-    "icon": "gavel"
+    "icon": "gavel",
+    "desc": "Reclamos, GES y derechos del paciente",
+    "dominio": "supersalud.gob.cl"
   },
   {
     "label": "Servicio de Salud Reloncaví",
     "url": "https://www.ssreloncavi.cl",
-    "icon": "account_balance"
+    "icon": "account_balance",
+    "desc": "Nuestra red asistencial",
+    "dominio": "ssreloncavi.cl"
   },
   {
     "label": "Portal Transparencia",
     "url": "https://www.portaltransparencia.cl",
-    "icon": "visibility"
+    "icon": "visibility",
+    "desc": "Solicitudes de acceso a la información",
+    "dominio": "portaltransparencia.cl"
   },
   {
     "label": "Empleos Públicos",
     "url": "https://www.empleospublicos.cl",
-    "icon": "work"
+    "icon": "work",
+    "desc": "Concursos y ofertas laborales del Estado",
+    "dominio": "empleospublicos.cl"
   }
 ]

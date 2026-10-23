@@ -145,21 +145,29 @@
 </main>
 
 <!-- LINKS DE INTERÉS -->
-<section class="bg-white border-t border-gray-200 py-12 mt-4" aria-labelledby="titulo-links">
-  <div class="container mx-auto px-4">
-    <div class="flex items-center gap-4 mb-7">
-      <div class="h-px bg-gray-200 flex-1"></div>
-      <h2 id="titulo-links" class="font-bold text-gray-500 text-xs uppercase tracking-[0.2em] whitespace-nowrap">Links de Interés</h2>
-      <div class="h-px bg-gray-200 flex-1"></div>
+<section class="bg-primary-bg border-t border-gray-200 py-12 mt-4" aria-labelledby="titulo-links">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="mb-7">
+      <h2 id="titulo-links" class="font-cartel font-bold text-primary-deep text-3xl leading-none">Links de interés</h2>
+      <div class="gob-barra mt-3" aria-hidden="true"></div>
+      <p class="text-sm text-gray-600 mt-3">Instituciones y servicios del Estado relacionados con tu salud.</p>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto">
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" role="list">
       {% for l in links %}
-      <a href="{{ l.url }}" target="_blank" rel="noopener" class="gob-stripe group bg-gray-50 border border-gray-200 rounded-custom p-4 flex flex-col items-center text-center gap-2 min-h-[80px] shadow-sm hover:shadow-md hover:bg-primary-bg hover:border-primary-pale transition-all">
-        <span aria-hidden="true" class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-2xl">{{ l.icon }}</span>
-        <span class="text-[11px] font-bold text-gray-600 group-hover:text-primary transition-colors leading-tight">{{ l.label }}</span>
-      </a>
+      <li>
+        <a href="{{ l.url }}" target="_blank" rel="noopener" class="enlace-gob group">
+          <span class="enlace-gob__icono" aria-hidden="true"><span class="material-symbols-outlined text-[22px]">{{ l.icon }}</span></span>
+          <span class="flex flex-col min-w-0 flex-1">
+            <span class="font-bold text-primary-deep text-sm leading-tight group-hover:text-primary group-hover:underline underline-offset-2">{{ l.label }}</span>
+            {% if l.desc %}<span class="text-xs text-gray-600 leading-snug mt-0.5">{{ l.desc }}</span>{% endif %}
+            <span class="text-[11px] text-primary font-semibold mt-1.5">{{ l.dominio }}</span>
+          </span>
+          <span class="material-symbols-outlined text-lg text-gray-400 group-hover:text-primary transition-colors self-start" aria-hidden="true">north_east</span>
+          <span class="sr-only">(abre en una pestaña nueva)</span>
+        </a>
+      </li>
       {% endfor %}
-    </div>
+    </ul>
   </div>
 </section>
 

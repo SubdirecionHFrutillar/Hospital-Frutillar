@@ -1,5 +1,5 @@
 // Publicaciones de la intranet (requiere sesión).
-//   GET    /api/intranet/publicaciones?categoria=&desde=   → listado (todas las cuentas)
+//   GET    /api/intranet/publicaciones?categoria=&desde=&limite= → listado (todas las cuentas)
 //   GET    /api/intranet/publicaciones/:id                 → detalle
 //   POST   /api/intranet/publicaciones                     → crear   (editor o admin)
 //   PATCH  /api/intranet/publicaciones/:id                 → editar  (autor o admin)
@@ -19,7 +19,7 @@ export default manejador(["GET", "POST", "PATCH", "DELETE"], async (req, ctx) =>
   if (req.method === "GET") {
     if (!id) {
       const q = new URL(req.url).searchParams;
-      const r = await I.listar({ categoria: q.get("categoria") || undefined, desde: Math.max(0, Number(q.get("desde")) || 0) });
+      const r = await I.listar({ categoria: q.get("categoria") || undefined, desde: Math.max(0, Number(q.get("desde")) || 0), limite: Math.min(50, Math.max(1, Number(q.get("limite")) || 30)) });
       return json({ ...r, categorias: I.CATEGORIAS, puedePublicar: PUEDEN_PUBLICAR.includes(u.rol) });
     }
     const p = await I.obtener(id);
