@@ -25,6 +25,8 @@ export const archivosRepo = archivos;
 export const guardarArchivo = archivos.guardar;
 export const leerArchivo = archivos.leer;
 export const borrarArchivo = archivos.borrar;
+export const leerMiniatura = archivos.leerMiniatura;
+export const guardarMiniatura = archivos.guardarMiniatura;
 
 // ── Publicaciones ──────────────────────────────────────────────────────────
 function resumen(p) {
