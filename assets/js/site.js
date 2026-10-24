@@ -21,17 +21,6 @@
     });
   });
 
-  // Portada: el encabezado se compacta al pasar el hero
-  var hero = document.getElementById("hero-section");
-  var header = document.getElementById("site-header");
-  if (hero && header) {
-    var tick = function () {
-      header.classList.toggle("compact", hero.getBoundingClientRect().bottom <= 0);
-    };
-    window.addEventListener("scroll", tick, { passive: true });
-    tick();
-  }
-
   // Enlaces de invitación/recuperación de Netlify Identity (usuarios del CMS):
   // el widget solo se carga cuando la URL trae uno de esos tokens.
   if (/(invite|recovery|confirmation|email_change)_token=/.test(location.hash)) {
