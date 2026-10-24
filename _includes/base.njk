@@ -37,6 +37,7 @@
   </div>
 </div>
 
+{% if not esPortal %}
 <!-- BARRA SUPERIOR -->
 <div class="bg-gob-gris text-white text-xs py-1.5 border-b border-white/10">
   <div class="container mx-auto px-4 flex justify-between items-center flex-wrap gap-2">
@@ -51,9 +52,13 @@
     </div>
   </div>
 </div>
+{% endif %}
 
 {% if portada %}{% include "hero-portada.njk" %}{% endif %}
 
+{% if esPortal %}
+{% include "portal-encabezado.njk" %}
+{% else %}
 <!-- ENCABEZADO + MENÚ -->
 {% if portada %}<div class="sticky top-0 z-50">{% endif %}
 <header id="site-header" class="bg-hospital text-white w-full{% if not portada %} shadow-md{% endif %}">
@@ -138,12 +143,14 @@
   </div>
 </nav>
 {% if portada %}</div>{% endif %}
+{% endif %}
 
 <!-- CONTENIDO -->
 <main id="main-content" tabindex="-1">
   {{ content | safe }}
 </main>
 
+{% if not esPortal %}
 <!-- LINKS DE INTERÉS (botoneras institucionales al estilo de los sitios de la red pública) -->
 <section class="bg-white border-t border-gray-200 py-12 mt-4" aria-labelledby="titulo-links">
   <div class="container mx-auto px-4 max-w-6xl">
@@ -220,6 +227,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 <!-- PIE DE PÁGINA -->
 <footer class="bg-footer text-gray-300 py-10">

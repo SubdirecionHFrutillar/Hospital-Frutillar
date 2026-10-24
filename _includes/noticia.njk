@@ -13,7 +13,7 @@ layout: base.njk
   <article class="bg-white rounded-custom shadow-md overflow-hidden">
     <div class="bg-noticia relative {{ 'h-64 md:h-80' if imagen else 'h-48' }} overflow-hidden">
       {% if imagen %}
-        <img src="{{ imagen }}" alt="" class="w-full h-full object-cover">
+        <img src="{{ imagen | imagenCdn(1400) }}" onerror="this.onerror=null;this.src='{{ imagen }}'" alt="" fetchpriority="high" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
       {% else %}
         <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">

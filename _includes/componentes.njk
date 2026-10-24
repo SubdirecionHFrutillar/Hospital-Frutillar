@@ -28,6 +28,19 @@
 </section>
 {% endmacro %}
 
+{# Título de página dentro del Portal Funcionarios (sobrio: el encabezado ya identifica la intranet). #}
+{% macro tituloPortal(titulo, subtitulo, icono) %}
+<div class="bg-white border-b border-gray-200">
+  <div class="container mx-auto px-4 py-5 flex items-center gap-3">
+    <span class="w-10 h-10 rounded-full bg-primary-bg text-primary flex items-center justify-center flex-shrink-0" aria-hidden="true"><span class="material-symbols-outlined">{{ icono }}</span></span>
+    <div>
+      <h1 class="text-xl md:text-2xl font-bold text-primary-deep leading-tight">{{ titulo }}</h1>
+      {% if subtitulo %}<p class="text-sm text-gray-500">{{ subtitulo }}</p>{% endif %}
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
 {# Tarjeta de sección con barra de título azul. El contenido va en el bloque {% call %}. #}
 {% macro seccion(titulo, icono, id="", oscuro=false, padding="px-6 py-6") %}
 <div{% if id %} id="{{ id }}"{% endif %} class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden scroll-mt-24">
@@ -108,7 +121,7 @@
 <article class="news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col">
   <div class="bg-noticia relative h-36 overflow-hidden">
     {% if n.data.imagen %}
-      <img src="{{ n.data.imagen }}" alt="" loading="lazy" class="w-full h-full object-cover">
+      <img src="{{ n.data.imagen | imagenCdn(640) }}" onerror="this.onerror=null;this.src='{{ n.data.imagen }}'" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
     {% else %}
       <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">

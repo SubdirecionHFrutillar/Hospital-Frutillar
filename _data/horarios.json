@@ -58,15 +58,11 @@
       "icon": "bed",
       "horarios": [
         {
-          "dias": "Lunes a Viernes",
+          "dias": "Todos los días",
           "horario": "10:00 – 19:00 hrs"
-        },
-        {
-          "dias": "Sábados, Domingos y Festivos",
-          "horario": "12:00 – 18:00 hrs"
         }
       ],
-      "notas": "Horario continuado en fines de semana",
+      "notas": "Horario continuado, incluidos fines de semana y festivos",
       "span2": false
     },
     {

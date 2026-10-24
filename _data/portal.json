@@ -1,11 +1,48 @@
 {
   "accesos": [
-    { "titulo": "Actas de comités", "descripcion": "Equipo Gestor, Bienestar, Calidad, Capacitación y otros comités (Google Drive).", "url": "https://drive.google.com/drive/folders/1-JKSrOl1e1kOxN_zaQLcQtTd9LKbVnZh", "icono": "description" },
-    { "titulo": "Bodega", "descripcion": "Documentos y formularios de Bodega (Google Drive).", "url": "https://drive.google.com/drive/folders/1JRmNjkILv2tPJO5ZU6aP6arDxkxYkCq-", "icono": "inventory_2" },
-    { "titulo": "Prevención de riesgos", "descripcion": "Plan de emergencia y evacuación, capacitaciones y noticias.", "url": "https://sites.google.com/view/hospitalfrutillar/p%C3%A1gina-principal", "icono": "health_and_safety" },
-    { "titulo": "Imágenes de exámenes", "descripcion": "Visor de imágenes del Servicio de Salud.", "url": "https://examenes.ssdr.gob.cl/login", "icono": "radiology" },
-    { "titulo": "Intranet anterior (archivo)", "descripcion": "Publicaciones antiguas de la intranet en Wix.", "url": "https://hospitaldefrutilla.wixsite.com/intranet", "icono": "history" },
-    { "titulo": "Cambiar contraseña", "descripcion": "Actualice la contraseña de su cuenta.", "url": "/funcionarios/cambiar-clave.html", "icono": "key" },
-    { "titulo": "Administrar cuentas", "descripcion": "Crear cuentas, roles y restablecer contraseñas.", "url": "/funcionarios/administrar.html", "icono": "manage_accounts", "soloAdmin": true }
-  ]
+    {
+      "titulo": "Actas de comités",
+      "descripcion": "Equipo Gestor, Bienestar, Calidad, Capacitación y otros comités (Google Drive).",
+      "url": "https://drive.google.com/drive/folders/1-JKSrOl1e1kOxN_zaQLcQtTd9LKbVnZh",
+      "icono": "description"
+    },
+    {
+      "titulo": "Bodega",
+      "descripcion": "Documentos y formularios de Bodega (Google Drive).",
+      "url": "https://drive.google.com/drive/folders/1JRmNjkILv2tPJO5ZU6aP6arDxkxYkCq-",
+      "icono": "inventory_2"
+    },
+    {
+      "titulo": "Prevención de riesgos",
+      "descripcion": "Plan de emergencia y evacuación, capacitaciones y noticias.",
+      "url": "https://sites.google.com/view/hospitalfrutillar/p%C3%A1gina-principal",
+      "icono": "health_and_safety"
+    },
+    {
+      "titulo": "Imágenes de exámenes",
+      "descripcion": "Visor de imágenes del Servicio de Salud.",
+      "url": "https://examenes.ssdr.gob.cl/login",
+      "icono": "radiology"
+    },
+    {
+      "titulo": "Intranet anterior (archivo)",
+      "descripcion": "Publicaciones antiguas de la intranet en Wix.",
+      "url": "https://hospitaldefrutilla.wixsite.com/intranet",
+      "icono": "history"
+    },
+    {
+      "titulo": "Cambiar contraseña",
+      "descripcion": "Actualice la contraseña de su cuenta.",
+      "url": "/funcionarios/cambiar-clave.html",
+      "icono": "key"
+    },
+    {
+      "titulo": "Administrar cuentas",
+      "descripcion": "Crear cuentas, roles y restablecer contraseñas.",
+      "url": "/funcionarios/administrar.html",
+      "icono": "manage_accounts",
+      "soloAdmin": true
+    }
+  ],
+  "calidadUrl": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link"
 }

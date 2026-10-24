@@ -1,0 +1,44 @@
+{#- Encabezado compacto del Portal Funcionarios: reemplaza el encabezado y el menú del sitio público. -#}
+{%- set enlacesPortal = [
+  { url: "/funcionarios/", label: "Publicaciones", icono: "dashboard" },
+  { url: "/funcionarios/publicar.html", label: "Publicar", icono: "edit_square", attr: "data-solo-editor" },
+  { url: "/funcionarios/noticias-sitio.html", label: "Noticias del sitio", icono: "newspaper", attr: "data-solo-comunicaciones" },
+  { url: "/funcionarios/administrar.html", label: "Cuentas", icono: "manage_accounts", attr: "data-solo-admin" }
+] %}
+<header class="bg-hospital-deep text-white shadow-md lg:sticky lg:top-0 z-40">
+  <div class="container mx-auto px-4 py-2.5 flex flex-wrap items-center gap-x-5 gap-y-2">
+    <a href="/funcionarios/" class="flex items-center gap-3 mr-auto">
+      <img src="/img/logo-hospital.png" alt="" width="40" height="40" class="w-10 h-10 rounded-custom border border-white/30">
+      <span class="leading-none">
+        <span class="block text-[10px] font-bold uppercase tracking-widest text-white/60">{{ site.name }}</span>
+        <span class="block font-cartel font-bold text-2xl tracking-wide">Intranet Funcionarios</span>
+      </span>
+    </a>
+    <nav data-sesion aria-label="Menú del portal" class="hidden order-last lg:order-none w-full lg:w-auto -mx-1 overflow-x-auto">
+      <ul class="flex items-center gap-1 text-sm font-semibold whitespace-nowrap">
+        {%- for e in enlacesPortal %}
+        {%- set activo = page.url == e.url or (e.url == "/funcionarios/" and page.url == "/funcionarios/publicacion.html") %}
+        <li{% if e.attr %} {{ e.attr }} class="hidden"{% endif %}>
+          <a href="{{ e.url }}" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-custom {{ 'bg-white/15 text-white' if activo else 'text-white/75 hover:text-white hover:bg-white/10' }}"{% if activo %} aria-current="page"{% endif %}>
+            <span aria-hidden="true" class="material-symbols-outlined text-base">{{ e.icono }}</span>{{ e.label }}
+          </a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </nav>
+    <div class="flex items-center gap-3">
+      <div data-sesion class="hidden items-center gap-3 lg:flex-row">
+        <a href="/funcionarios/cambiar-clave.html" class="text-right leading-tight hover:underline" title="Cambiar contraseña">
+          <span class="block text-sm font-bold" data-cab="nombre"></span>
+          <span class="block text-[11px] text-white/60" data-cab="cargo"></span>
+        </a>
+        <button type="button" data-salir class="inline-flex items-center gap-1.5 text-sm font-semibold bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-2 rounded-custom">
+          <span aria-hidden="true" class="material-symbols-outlined text-base">logout</span><span class="hidden sm:inline">Salir</span>
+        </button>
+      </div>
+      <a href="/" class="inline-flex items-center gap-1.5 text-sm font-semibold text-white/75 hover:text-white px-2 py-2" title="Ir al sitio web del hospital">
+        <span aria-hidden="true" class="material-symbols-outlined text-base">public</span><span class="hidden sm:inline">Sitio web</span>
+      </a>
+    </div>
+  </div>
+</header>
