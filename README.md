@@ -48,11 +48,11 @@ Las contraseñas se guardan cifradas con *scrypt*; la sesión es una cookie firm
 ### Clave inicial común (opcional)
 
 Si se define la variable `FUNCIONARIOS_CLAVE_INICIAL` (secreta, alcance *Functions*), todas las cuentas
-nuevas parten con esa clave en vez de una individual. Hay que volver a publicar después de crearla o cambiarla.
+nuevas (y las restablecidas) parten con esa clave en vez de una individual. Hay que volver a publicar después de crearla o cambiarla.
 
 - El funcionario debe cambiarla en su primer ingreso y no puede volver a usarla como clave personal.
-- **Vence a las 72 horas** de creada la cuenta. Si no ingresó a tiempo, el administrador usa *Restablecer clave*,
-  que genera una clave individual (también con 72 horas de vigencia).
+- **Vence a las 72 horas** de creada o restablecida la cuenta. Si no ingresó a tiempo, el administrador usa
+  *Restablecer clave*, que vuelve a la clave común con 72 horas nuevas.
 - Conviene comunicarla por un canal interno y cambiarla de vez en cuando.
 
 Sin esta variable, cada cuenta nueva recibe una clave temporal individual que se muestra una sola vez.
