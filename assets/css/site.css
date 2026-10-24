@@ -42,6 +42,9 @@
   .link-min__pila--grande .link-min__sup { font-size: 1.15rem; color: #8A8F96; }
   .link-min__pila--grande .link-min__inf { font-size: 1.2rem; }
 
+  /* Barra bicolor corta bajo títulos (identidad gob.cl) */
+  .gob-barra { width: 56px; height: 4px; background: linear-gradient(90deg, theme("colors.primary.DEFAULT") 0 50%, theme("colors.gob.rojo") 50% 100%); }
+
   /* Ítems de menú lateral */
   .acceso-item { border-left: 4px solid theme("colors.primary.light"); transition: border-color .15s, background .15s; }
   .acceso-item:hover,
@@ -72,16 +75,6 @@
 
   /* Portada: círculos decorativos del hero */
   .hero-blob { position: absolute; border-radius: 50%; background: rgba(255,255,255,.04); pointer-events: none; }
-
-  /* Portada: encabezado que se compacta al hacer scroll */
-  #site-header .hdr-logo  { transition: width .35s ease, height .35s ease; }
-  #site-header .hdr-title { transition: font-size .35s ease; }
-  #site-header .hdr-wrap  { transition: padding .35s ease; }
-  #site-header .hdr-shrink { transition: opacity .25s ease, max-height .35s ease, margin .35s ease; max-height: 120px; overflow: hidden; }
-  #site-header.compact .hdr-logo  { width: 2.25rem; height: 2.25rem; }
-  #site-header.compact .hdr-title { font-size: 1.15rem; }
-  #site-header.compact .hdr-wrap  { padding-top: .45rem; padding-bottom: .45rem; }
-  #site-header.compact .hdr-shrink { opacity: 0; max-height: 0; margin: 0; pointer-events: none; }
 
   /* Texto enriquecido (Markdown desde el CMS): un solo estilo para todo el sitio */
   .prose > :first-child { margin-top: 0; }

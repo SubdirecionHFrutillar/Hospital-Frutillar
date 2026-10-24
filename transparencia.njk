@@ -16,9 +16,9 @@ permalink: transparencia.html
       {% for s in transparencia.secciones %}
       {% set externo = s.enlace and s.enlace.startsWith("http") %}
       <div id="{{ s.id }}" class="scroll-mt-24 bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow flex flex-col">
-        <div class="bg-primary px-4 py-3 flex items-center gap-2">
-          <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">{{ s.icon }}</span>
-          <h2 class="text-white font-bold text-sm tracking-wide">{{ s.titulo }}</h2>
+        <div class="px-4 py-3 flex items-center gap-2 border-b border-gray-100 border-l-4 border-l-primary">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">{{ s.icon }}</span>
+          <h2 class="text-primary-deep font-bold text-sm tracking-wide">{{ s.titulo }}</h2>
         </div>
         <div class="px-4 py-4 flex-1 flex flex-col gap-3">
           <div class="prose max-w-none text-sm text-gray-700 leading-relaxed flex-1">{{ s.descripcion | markdown | safe }}</div>
