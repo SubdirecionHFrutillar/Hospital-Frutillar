@@ -47,27 +47,15 @@
 <body class="font-sans antialiased bg-zinc-100 text-gray-800{% if portada %} es-portada{% endif %}">
 <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-white focus:text-primary focus:px-4 focus:py-2 focus:rounded-custom focus:shadow-lg">Saltar al contenido principal</a>
 
-<!-- BARRA DE IDENTIDAD GOBIERNO DE CHILE -->
-<div class="bg-white border-b border-gray-200">
-  <div class="container mx-auto px-4 flex items-center justify-between py-1.5">
-    <div class="flex items-center gap-2.5">
-      <div class="flex items-center gap-px" aria-hidden="true">
-        <span class="block w-1 h-4 rounded-sm bg-gob-rojo"></span>
-        <span class="block w-1 h-4 rounded-sm bg-primary"></span>
-      </div>
-      <a href="https://www.gob.cl" target="_blank" rel="noopener" class="text-[11px] font-semibold text-gray-500 hover:text-primary transition-colors tracking-wide">Gobierno de Chile</a>
-    </div>
-    <a href="https://www.gob.cl" target="_blank" rel="noopener" class="text-[11px] text-gray-400 hover:text-primary transition-colors hidden sm:block">gob.cl</a>
-  </div>
-</div>
-
 {% if not esPortal %}
-<!-- BARRA SUPERIOR -->
+<!-- BARRA SUPERIOR: identidad Gobierno de Chile + dirección + redes -->
 <div class="bg-gob-gris text-white text-xs py-1.5 border-b border-white/10">
   <div class="container mx-auto px-4 flex justify-between items-center flex-wrap gap-2">
-    <div class="flex items-center gap-1.5 text-white/65">
-      <span aria-hidden="true" class="material-symbols-outlined text-xs">location_on</span>
-      {{ site.direccion }} &nbsp;·&nbsp; {{ site.region }}
+    <div class="flex items-center gap-3 text-white/65">
+      <a href="https://www.gob.cl" target="_blank" rel="noopener" class="flex items-center gap-2 font-semibold text-white/85 hover:text-white">
+        <span class="flex items-center gap-px" aria-hidden="true"><span class="block w-1 h-3.5 rounded-sm bg-primary-light"></span><span class="block w-1 h-3.5 rounded-sm bg-gob-rojo"></span></span>Gobierno de Chile
+      </a>
+      <span class="hidden sm:flex items-center gap-1.5"><span aria-hidden="true" class="w-px h-3 bg-white/20"></span><span aria-hidden="true" class="material-symbols-outlined text-xs">location_on</span>{{ site.direccion }}</span>
     </div>
     <div class="flex gap-5 text-white/65">
       {% if site.facebook %}<a href="{{ site.facebook }}" target="_blank" rel="noopener" class="hover:text-white transition-colors">Facebook</a>{% endif %}
@@ -78,29 +66,26 @@
 </div>
 {% endif %}
 
-{% if portada %}{% include "hero-portada.njk" %}{% endif %}
 
 {% if esPortal %}
 {% include "portal-encabezado.njk" %}
 {% else %}
 <!-- ENCABEZADO + MENÚ -->
-{% if portada %}<div class="sticky top-0 z-50">{% endif %}
-<header id="site-header" class="bg-hospital text-white w-full{% if not portada %} shadow-md{% endif %}">
-  <div class="hdr-wrap container mx-auto px-4 py-5">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-5">
-      <a href="/" class="flex items-center gap-5 group" aria-label="{{ site.name }} — Inicio">
-        <div class="hdr-logo w-20 h-20 rounded-custom flex-shrink-0 overflow-hidden shadow-lg border-2 border-white/30">
+<header id="site-header" class="bg-hospital text-white w-full">
+  <div class="hdr-wrap container mx-auto px-4 py-3 md:py-5">
+    <div class="flex flex-row items-center justify-between gap-5">
+      <a href="/" class="flex items-center gap-4 md:gap-5 group" aria-label="{{ site.name }} — Inicio">
+        <div class="hdr-logo w-14 h-14 md:w-20 md:h-20 rounded-custom flex-shrink-0 overflow-hidden shadow-lg border-2 border-white/30">
           <img src="/img/logo-hospital.png" alt="" width="80" height="80" class="w-full h-full object-cover">
         </div>
         <div>
-          <p class="hdr-shrink text-[10px] font-bold tracking-widest uppercase text-white/60 mb-1">Trabajando para usted</p>
-          <h1 class="hdr-title text-3xl md:text-4xl font-bold tracking-tight leading-tight group-hover:text-primary-pale transition-colors">Hospital de <span class="text-primary-light">Frutillar</span></h1>
-          <div class="hdr-shrink w-48 border-t-2 border-dashed border-white/30 my-1.5"></div>
+          <p class="hdr-shrink hidden md:block text-[10px] font-bold tracking-widest uppercase text-white/60 mb-1">Trabajando para usted</p>
+          <h1 class="hdr-title text-2xl md:text-4xl font-bold tracking-tight leading-tight group-hover:text-primary-pale transition-colors">Hospital de <span class="text-primary-light">Frutillar</span></h1>
+          <div class="hdr-shrink hidden md:block w-48 border-t-2 border-dashed border-white/30 my-1.5"></div>
           <p class="hdr-shrink text-[11px] tracking-widest uppercase text-white/65">{{ site.servicio }}</p>
         </div>
       </a>
-      <div class="hdr-shrink flex flex-col items-center md:items-end gap-3">
-        <span class="text-[10px] tracking-widest uppercase text-white/40">Gobierno de Chile</span>
+      <div class="hdr-shrink hidden md:flex flex-col items-end gap-3">
         <a href="{{ site.telefonoHref }}" class="flex items-center gap-2 text-white/80 hover:text-white text-sm transition-colors group">
           <span aria-hidden="true" class="material-symbols-outlined text-lg text-primary-light group-hover:text-white transition-colors">call</span>
           <span>{{ site.telefonoLabel }} <strong class="text-white">{{ site.telefono }}</strong></span>
@@ -114,7 +99,7 @@
   </div>
 </header>
 
-<nav class="bg-gob-gris shadow-lg{% if not portada %} sticky top-0 z-40{% endif %}" aria-label="Menú principal">
+<nav class="bg-gob-gris shadow-lg sticky top-0 z-40" aria-label="Menú principal">
   <div class="container mx-auto px-4">
     <ul class="hidden md:flex flex-wrap items-center text-sm font-semibold text-white/80">
       {% for item in nav %}
@@ -133,7 +118,7 @@
     </ul>
     <!-- Barra móvil -->
     <div class="flex md:hidden items-center justify-between py-3">
-      <span class="text-sm font-bold text-white">{{ site.name }}</span>
+      <a href="{{ site.telefonoHref }}" class="text-sm text-white/80"><span class="text-white/60">{{ site.telefonoLabel }}</span> <strong class="text-white">{{ site.telefono }}</strong></a>
       <button id="menu-toggle" type="button" class="flex items-center gap-1 text-white" aria-controls="mobile-menu" aria-expanded="false">
         <span id="menu-icon" aria-hidden="true" class="material-symbols-outlined text-2xl">menu</span>
         <span class="text-sm font-semibold">Menú</span>
@@ -166,7 +151,7 @@
     </ul>
   </div>
 </nav>
-{% if portada %}</div>{% endif %}
+{% if portada %}{% include "hero-portada.njk" %}{% endif %}
 {% endif %}
 
 <!-- CONTENIDO -->

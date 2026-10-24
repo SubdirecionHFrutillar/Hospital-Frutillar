@@ -6,24 +6,25 @@
 {# Banner azul de cabecera de página, con ruta de navegación.
    migas: lista de { label, url } (la última es la página actual y no lleva enlace). #}
 {% macro banner(titulo, subtitulo, icono, migas=[]) %}
-<section class="bg-banner text-white py-8">
-  <div class="container mx-auto px-4">
-    <nav class="flex items-center gap-2 text-primary-light/80 text-xs mb-3 flex-wrap" aria-label="Ruta de navegación">
-      <a href="/" class="hover:text-white transition-colors">Inicio</a>
+<section class="bg-white border-b border-gray-200">
+  <div class="container mx-auto px-4 py-6">
+    <nav class="flex items-center gap-1.5 text-gray-500 text-xs mb-3 flex-wrap" aria-label="Ruta de navegación">
+      <a href="/" class="hover:text-primary transition-colors">Inicio</a>
       {% for m in migas %}
-      <span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
-      {% if m.url and not loop.last %}<a href="{{ m.url }}" class="hover:text-white transition-colors">{{ m.label }}</a>{% else %}<span{% if loop.last %} aria-current="page"{% endif %}>{{ m.label }}</span>{% endif %}
+      <span aria-hidden="true" class="material-symbols-outlined text-sm text-gray-300">chevron_right</span>
+      {% if m.url and not loop.last %}<a href="{{ m.url }}" class="hover:text-primary transition-colors">{{ m.label }}</a>{% else %}<span{% if loop.last %} aria-current="page" class="text-gray-700 font-medium"{% endif %}>{{ m.label }}</span>{% endif %}
       {% endfor %}
     </nav>
     <div class="flex items-center gap-4">
-      <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
+      <div class="w-12 h-12 bg-primary-bg text-primary rounded-full flex items-center justify-center flex-shrink-0">
         <span aria-hidden="true" class="material-symbols-outlined text-2xl">{{ icono }}</span>
       </div>
       <div>
-        <h2 class="text-2xl md:text-3xl font-bold">{{ titulo }}</h2>
-        {% if subtitulo %}<p class="text-white/65 text-sm mt-0.5">{{ subtitulo }}</p>{% endif %}
+        <h2 class="text-2xl md:text-3xl font-bold text-primary-deep leading-tight">{{ titulo }}</h2>
+        {% if subtitulo %}<p class="text-gray-500 text-sm mt-0.5">{{ subtitulo }}</p>{% endif %}
       </div>
     </div>
+    <div class="gob-barra mt-4" aria-hidden="true"></div>
   </div>
 </section>
 {% endmacro %}
@@ -44,9 +45,9 @@
 {# Tarjeta de sección con barra de título azul. El contenido va en el bloque {% call %}. #}
 {% macro seccion(titulo, icono, id="", oscuro=false, padding="px-6 py-6") %}
 <div{% if id %} id="{{ id }}"{% endif %} class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden scroll-mt-24">
-  <div class="{{ 'bg-primary-dark' if oscuro else 'bg-primary' }} px-5 py-3 flex items-center gap-2">
-    <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl">{{ icono }}</span>
-    <h2 class="text-white font-bold text-base tracking-wide uppercase">{{ titulo }}</h2>
+  <div class="px-5 py-3.5 flex items-center gap-2.5 border-b border-gray-100 border-l-4 {{ 'border-l-primary-deep' if oscuro else 'border-l-primary' }}">
+    <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">{{ icono }}</span>
+    <h2 class="text-primary-deep font-bold text-base tracking-wide uppercase">{{ titulo }}</h2>
   </div>
   <div class="{{ padding }}">{{ caller() }}</div>
 </div>
