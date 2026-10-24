@@ -22,7 +22,7 @@
       "preguntas": [
         {
           "pregunta": "¿Cuáles son los horarios de visita para hospitalizados?",
-          "respuesta": "Los horarios de visita son:\n\n- **Lunes a Viernes:** 10:00 a 19:00 hrs\n- **Fines de semana y festivos:** 12:00 a 18:00 hrs\n\nSe recomienda un máximo de dos visitas simultáneas por paciente. En casos especiales (menores de edad hospitalizados, cuidados paliativos), consulte con el equipo de enfermería."
+          "respuesta": "Horario de visita:\n\n- **Todos los días** (incluidos fines de semana y festivos): 10:00 a 19:00 hrs\n\nSe recomienda un máximo de dos visitas simultáneas por paciente. En casos especiales (menores de edad hospitalizados, cuidados paliativos), consulte con el equipo de enfermería."
         },
         {
           "pregunta": "¿Dónde puedo retirar resultados de exámenes de laboratorio?",

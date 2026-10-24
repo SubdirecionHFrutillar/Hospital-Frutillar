@@ -28,6 +28,13 @@ module.exports = function (eleventyConfig) {
   });
   eleventyConfig.addFilter("fechaISO", (fecha) => new Date(fecha).toISOString().slice(0, 10));
 
+  // Imagen redimensionada por el Image CDN de Netlify (WebP/AVIF según el navegador).
+  // Solo para imágenes propias del sitio; las externas se dejan tal cual.
+  eleventyConfig.addFilter("imagenCdn", (url, ancho = 1200) => {
+    if (typeof url !== "string" || !url.startsWith("/")) return url;
+    return `/.netlify/images?url=${encodeURIComponent(url)}&w=${ancho}&q=75`;
+  });
+
   // ¿Corresponde este ítem del menú a la página actual?
   eleventyConfig.addFilter("navActivo", (item, url) => {
     if (typeof url !== "string") return false;

@@ -3,33 +3,7 @@ title: Portal Funcionarios
 permalink: funcionarios/index.html
 ---
 {% import "componentes.njk" as ui with context %}
-{{ ui.banner("Intranet Funcionarios", "Medio oficial de información interna del Hospital de Frutillar", "badge", [{ label: "Portal Funcionarios" }]) }}
-
 <div class="container mx-auto px-4 py-8" data-pagina="portal">
-  <div class="flex flex-wrap items-center justify-between gap-4 bg-white border border-gray-200 rounded-custom shadow-sm px-6 py-5 mb-6">
-    <div class="flex items-center gap-4">
-      <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white">
-        <span aria-hidden="true" class="material-symbols-outlined">person</span>
-      </div>
-      <div>
-        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold">Bienvenido/a</p>
-        <p class="text-lg font-bold text-gray-800" data-campo="nombre">…</p>
-        <p class="text-xs text-gray-500"><span data-campo="rut"></span><span data-campo="cargo" class="before:content-['_·_']"></span></p>
-      </div>
-    </div>
-    <div class="flex flex-wrap gap-2">
-      <a href="/funcionarios/noticias-sitio.html" data-solo-comunicaciones class="hidden inline-flex items-center gap-2 text-sm font-bold text-primary border border-primary-pale bg-primary-bg hover:bg-primary-pale px-4 py-2 rounded-custom">
-        <span aria-hidden="true" class="material-symbols-outlined text-base">newspaper</span>Noticias del sitio
-      </a>
-      <a href="/funcionarios/publicar.html" data-solo-editor class="hidden inline-flex items-center gap-2 text-sm font-bold text-white bg-primary hover:bg-primary-dark px-4 py-2 rounded-custom shadow">
-        <span aria-hidden="true" class="material-symbols-outlined text-base">edit_square</span>Publicar
-      </a>
-      <button type="button" data-salir class="inline-flex items-center gap-2 text-sm font-bold text-primary border border-primary-pale bg-primary-bg hover:bg-primary-pale px-4 py-2 rounded-custom">
-        <span aria-hidden="true" class="material-symbols-outlined text-base">logout</span>Cerrar sesión
-      </button>
-    </div>
-  </div>
-
   <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-7 items-start">
     <!-- MURO DE PUBLICACIONES -->
     <section aria-labelledby="titulo-muro" class="min-w-0">
@@ -47,7 +21,7 @@ permalink: funcionarios/index.html
     <!-- ACCESOS -->
     <aside class="flex flex-col gap-5">
       <!-- Banner Calidad -->
-      <a href="/funcionarios/?categoria=Calidad" class="gob-stripe group block rounded-custom shadow-md overflow-hidden text-white" style="background:linear-gradient(135deg,#00695C 0%,#00897B 60%,#26A69A 100%);">
+      <a href="{{ portal.calidadUrl }}" target="_blank" rel="noopener" class="gob-stripe group block rounded-custom shadow-md overflow-hidden text-white" style="background:linear-gradient(135deg,#00695C 0%,#00897B 60%,#26A69A 100%);">
         <div class="px-5 py-5 flex flex-col gap-3">
           <div class="flex items-center gap-3">
             <div class="w-11 h-11 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
@@ -58,9 +32,9 @@ permalink: funcionarios/index.html
               <p class="font-bold leading-tight">Calidad y Seguridad del Paciente</p>
             </div>
           </div>
-          <p class="text-xs text-teal-50 leading-relaxed">Protocolos, indicadores, acreditación y avisos de Calidad e IAAS.</p>
+          <p class="text-xs text-teal-50 leading-relaxed">Protocolos, indicadores, acreditación y documentos de Calidad e IAAS (carpeta en Google Drive).</p>
           <span class="inline-flex items-center gap-1.5 self-start bg-white text-teal-800 text-xs font-bold px-3 py-1.5 rounded-custom group-hover:bg-teal-50">
-            Ver documentos de Calidad <span aria-hidden="true" class="material-symbols-outlined text-sm">arrow_forward</span>
+            Ver documentos de Calidad <span aria-hidden="true" class="material-symbols-outlined text-sm">open_in_new</span>
           </span>
         </div>
       </a>

@@ -14,7 +14,7 @@
       "id": "hospitalizacion",
       "icon": "bed",
       "descripcion": "El Servicio de Hospitalización cuenta con camas para la atención de pacientes adultos que requieren internación médica o quirúrgica. El equipo de salud está integrado por médicos, enfermeras y técnicos paramédicos que brindan atención continua.",
-      "horario": "Visitas: Lunes a Viernes 10:00–19:00 hrs · Fines de semana y festivos 12:00–18:00 hrs",
+      "horario": "Visitas: todos los días 10:00–19:00 hrs",
       "horario_icon": "person_add",
       "ubicacion": ""
     },

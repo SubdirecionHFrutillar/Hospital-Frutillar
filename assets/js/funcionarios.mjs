@@ -29,9 +29,23 @@ function irAlIngreso() {
 }
 
 /** Usuario con sesión; si la sesión ya no es válida, vuelve al ingreso. */
+// Encabezado del portal: nombre, cargo y opciones según el rol
+function pintarCabecera(u) {
+  const nombre = $('[data-cab="nombre"]');
+  if (nombre) nombre.textContent = u.nombre;
+  const cargo = $('[data-cab="cargo"]');
+  if (cargo) cargo.textContent = u.cargo || formatearRut(u.rut);
+  $$("[data-sesion]").forEach((x) => { x.classList.remove("hidden"); if (x.tagName === "DIV") x.classList.add("flex"); });
+  if (u.rol === "admin") $$("[data-solo-admin]").forEach((x) => x.classList.remove("hidden"));
+  if (PUBLICA_INTRANET.includes(u.rol)) $$("[data-solo-editor]").forEach((x) => x.classList.remove("hidden"));
+  if (PUBLICA_SITIO.includes(u.rol)) $$("[data-solo-comunicaciones]").forEach((x) => x.classList.remove("hidden"));
+}
+
 async function usuarioActual() {
   try {
-    return (await api("/api/auth/yo")).usuario;
+    const u = (await api("/api/auth/yo")).usuario;
+    if (!u.debeCambiarClave) pintarCabecera(u);
+    return u;
   } catch (e) {
     if (e.status === 401) irAlIngreso();
     throw e;
@@ -96,7 +110,31 @@ function textoEnriquecido(texto) {
  * Sube un archivo. Los de más de 4 MB se envían en partes de 4 MB (las funciones de Netlify
  * aceptan ~6 MB por petición). Devuelve { id, nombre, tipo, tamano }.
  */
+// Achica las fotos antes de subirlas (máx. 1600 px, JPEG/WebP ~80 %): una foto de celular
+// de 4–8 MB queda en 200–400 KB y el muro carga mucho más rápido.
+const MAX_LADO = 1600;
+async function optimizarImagen(f) {
+  if (!/^image\/(jpeg|png|webp)$/.test(f.type) || f.size < 300 * 1024) return f;
+  try {
+    const bmp = await createImageBitmap(f, { imageOrientation: "from-image" });
+    const escala = Math.min(1, MAX_LADO / Math.max(bmp.width, bmp.height));
+    const lienzo = document.createElement("canvas");
+    lienzo.width = Math.round(bmp.width * escala);
+    lienzo.height = Math.round(bmp.height * escala);
+    lienzo.getContext("2d").drawImage(bmp, 0, 0, lienzo.width, lienzo.height);
+    bmp.close?.();
+    const tipo = f.type === "image/png" ? "image/webp" : "image/jpeg";
+    const blob = await new Promise((r) => lienzo.toBlob(r, tipo, 0.82));
+    if (!blob || blob.size >= f.size || (tipo === "image/webp" && blob.type !== "image/webp")) return f;
+    const ext = blob.type === "image/webp" ? "webp" : "jpg";
+    return new File([blob], f.name.replace(/\.[^.]+$/, "") + "." + ext, { type: blob.type });
+  } catch {
+    return f;
+  }
+}
+
 async function subirArchivo(url, f) {
+  f = await optimizarImagen(f);
   const PARTE = 4 * 1024 * 1024;
   const base = { "content-type": f.type || "application/octet-stream", "x-nombre": encodeURIComponent(f.name) };
   const enviar = async (cuerpo, extra = {}) => {
@@ -169,13 +207,6 @@ const paginas = {
   async portal() {
     const u = await usuarioActual();
     if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
-    $('[data-campo="nombre"]').textContent = u.nombre;
-    $('[data-campo="rut"]').textContent = formatearRut(u.rut);
-    const cargo = $('[data-campo="cargo"]');
-    if (u.cargo) cargo.textContent = u.cargo; else cargo.remove();
-    if (u.rol === "admin") $$("[data-solo-admin]").forEach((el) => el.classList.remove("hidden"));
-    if (PUBLICA_INTRANET.includes(u.rol)) $$("[data-solo-editor]").forEach((el) => el.classList.remove("hidden"));
-    if (PUBLICA_SITIO.includes(u.rol)) $$("[data-solo-comunicaciones]").forEach((el) => el.classList.remove("hidden"));
 
     // Muro de publicaciones (paginado: POR_PAGINA por página, con la página en la URL)
     const POR_PAGINA = 12;

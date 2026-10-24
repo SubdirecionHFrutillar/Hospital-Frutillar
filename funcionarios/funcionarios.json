@@ -2,5 +2,8 @@
   "layout": "base.njk",
   "noindex": true,
   "eleventyExcludeFromCollections": true,
-  "scripts": ["/assets/js/funcionarios.mjs"]
+  "scripts": [
+    "/assets/js/funcionarios.mjs"
+  ],
+  "esPortal": true
 }

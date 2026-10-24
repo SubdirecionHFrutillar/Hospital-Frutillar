@@ -95,7 +95,7 @@ accesosRapidos:
           <article class="news-card bg-white rounded-custom shadow-md overflow-hidden">
             <div class="bg-noticia relative h-52 md:h-60 overflow-hidden">
               {% if n.data.imagen %}
-                <img src="{{ n.data.imagen }}" alt="" class="w-full h-full object-cover">
+                <img src="{{ n.data.imagen | imagenCdn(1000) }}" onerror="this.onerror=null;this.src='{{ n.data.imagen }}'" alt="" decoding="async" class="w-full h-full object-cover">
               {% else %}
                 <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
                   <span class="material-symbols-outlined text-white/10 text-[160px] leading-none">article</span>
