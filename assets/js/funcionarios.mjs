@@ -56,6 +56,8 @@ const fecha = (iso) =>
   iso ? new Date(iso).toLocaleString("es-CL", { dateStyle: "short", timeStyle: "short", timeZone: "America/Santiago" }) : "—";
 
 const TZ = { timeZone: "America/Santiago" };
+// "Área · Autor" sin repetir cuando son iguales (p. ej. "Bienestar · Bienestar")
+const firma = (...partes) => [...new Map(partes.filter(Boolean).map((x) => [x.trim().toLowerCase(), x.trim()])).values()].join(" · ");
 const PUBLICA_INTRANET = ["editor", "comunicaciones", "admin"];
 const PUBLICA_SITIO = ["comunicaciones", "admin"];
 const DESTINOS = {
@@ -251,7 +253,7 @@ const paginas = {
       const a = el("a", "news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow");
       a.href = `/funcionarios/publicacion.html?id=${p.id}`;
       if (p.imagen) {
-        const img = el("img", "w-full h-48 object-cover object-top bg-gray-100");
+        const img = el("img", "w-full h-48 object-cover bg-gray-100");
         img.src = `/api/intranet/archivos/${p.imagen}?tam=min`;
         img.decoding = "async";
         img.alt = "";
@@ -261,11 +263,11 @@ const paginas = {
       const cuerpo = el("div", "p-4 flex flex-col gap-1.5 flex-1");
       const meta = el("div", "flex flex-wrap items-center gap-2 text-[11px]");
       meta.append(el("span", "px-2 py-0.5 bg-primary-bg text-primary font-bold uppercase tracking-wide rounded", p.categoria));
-      meta.append(el("span", "text-gray-400", fechaCorta(p.fecha)));
-      cuerpo.append(meta, el("h3", "font-bold text-gray-800 text-sm leading-snug", p.titulo));
-      if (p.extracto) cuerpo.append(el("p", "text-xs text-gray-500 leading-relaxed line-clamp-3", p.extracto));
-      const pie = el("div", "mt-auto pt-2 flex items-center justify-between text-xs text-gray-400");
-      pie.append(el("span", "", [p.area, p.autor].filter(Boolean).join(" · ")));
+      meta.append(el("span", "text-gray-500", fechaCorta(p.fecha)));
+      cuerpo.append(meta, el("h3", "font-bold text-primary-deep text-[15px] leading-snug", p.titulo));
+      if (p.extracto) cuerpo.append(el("p", "text-[13px] text-gray-600 leading-relaxed line-clamp-3", p.extracto));
+      const pie = el("div", "mt-auto pt-2 flex items-center justify-between text-xs text-gray-500");
+      pie.append(el("span", "", firma(p.area, p.autor)));
       if (p.adjuntos) {
         const adj = el("span", "inline-flex items-center gap-1");
         adj.append(icono("attach_file", "text-sm"), document.createTextNode(String(p.adjuntos)));
@@ -376,8 +378,8 @@ const paginas = {
     const meta = el("div", "flex flex-wrap items-center gap-2 text-xs text-gray-500");
     meta.append(el("span", "px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded", p.categoria));
     meta.append(el("span", "", fechaLarga(p.fecha)));
-    meta.append(el("span", "", "· " + [p.area, p.autor?.nombre].filter(Boolean).join(" · ")));
-    caja.append(meta, el("h2", "text-2xl md:text-3xl font-bold text-gray-900 leading-snug", p.titulo));
+    if (firma(p.area, p.autor?.nombre)) meta.append(el("span", "", "· " + firma(p.area, p.autor?.nombre)));
+    caja.append(meta, el("h1", "text-2xl md:text-3xl font-bold text-primary-deep leading-snug", p.titulo));
     if (p.cuerpo) {
       const texto = el("div", "prose max-w-none text-gray-700 leading-relaxed");
       texto.append(textoEnriquecido(p.cuerpo));
@@ -619,7 +621,7 @@ const paginas = {
       const meta = el("div", "flex flex-wrap items-center gap-2 text-[11px] mb-1");
       meta.append(el("span", "px-2 py-0.5 bg-primary-bg text-primary font-bold uppercase tracking-wide rounded", n.categoria), el("span", "text-gray-400", fechaCorta(n.fecha)));
       if (n.destacada) meta.append(el("span", "px-2 py-0.5 bg-amber-100 text-amber-800 font-bold rounded", "Destacada"));
-      info.append(meta, el("p", "font-bold text-gray-800 text-sm", n.titulo), el("p", "text-xs text-gray-500 line-clamp-1", n.resumen));
+      info.append(meta, el("p", "font-bold text-primary-deep text-sm", n.titulo), el("p", "text-xs text-gray-500 line-clamp-1", n.resumen));
       const acciones = el("div", "flex gap-3 text-xs font-bold");
       const ver = el("a", "text-primary hover:underline", "Ver en el sitio");
       ver.href = `/noticias/${n.slug}/`;
