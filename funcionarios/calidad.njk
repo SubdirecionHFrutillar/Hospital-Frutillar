@@ -1,0 +1,52 @@
+---
+title: Calidad y Seguridad del Paciente
+permalink: funcionarios/calidad.html
+---
+{% import "componentes.njk" as ui with context %}
+{% set c = calidad %}
+<section class="text-white" style="background:linear-gradient(135deg,#00574B 0%,#00796B 55%,#26A69A 100%);">
+  <div class="container mx-auto px-4 py-7 flex flex-wrap items-center gap-5">
+    <span class="w-14 h-14 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0" aria-hidden="true"><span class="material-symbols-outlined text-3xl">verified</span></span>
+    <div class="flex-1 min-w-[240px]">
+      <p class="text-[11px] font-bold uppercase tracking-widest text-teal-100">Unidad de Calidad</p>
+      <h1 class="font-cartel font-bold text-3xl md:text-4xl leading-none mt-1">{{ c.titulo }}</h1>
+      <p class="text-sm text-teal-50 mt-2 max-w-3xl">{{ c.descripcion }}</p>
+    </div>
+    <a href="{{ c.carpetaGeneral }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-white text-teal-800 font-bold text-sm px-4 py-2.5 rounded-custom hover:bg-teal-50">
+      <span aria-hidden="true" class="material-symbols-outlined text-base">folder_open</span>Carpeta en Drive
+    </a>
+  </div>
+</section>
+
+<div class="container mx-auto px-4 py-8 flex flex-col gap-8" data-pagina="calidad">
+
+  <!-- Novedades: destacados fijos + últimas publicaciones de la categoría Calidad -->
+  <section aria-labelledby="titulo-novedades">
+    <h2 id="titulo-novedades" class="text-xl font-bold text-primary-deep border-l-4 border-teal-600 pl-3 mb-4">Últimas novedades</h2>
+    <div id="novedades-calidad" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {% for d in c.destacados %}
+      <a href="{{ d.url }}"{% if d.url.startsWith("http") %} target="_blank" rel="noopener"{% endif %} class="calidad-tarjeta group">
+        <span class="text-[10px] font-bold uppercase tracking-widest text-teal-700">Destacado</span>
+        <strong class="block text-[15px] text-primary-deep leading-snug group-hover:underline">{{ d.titulo }}</strong>
+        <span class="block text-[13px] text-gray-600 leading-snug">{{ d.descripcion }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Ámbitos de acreditación -->
+  <section aria-labelledby="titulo-ambitos">
+    <h2 id="titulo-ambitos" class="text-xl font-bold text-primary-deep border-l-4 border-teal-600 pl-3 mb-1">Documentos por ámbito de acreditación</h2>
+    <p class="text-sm text-gray-500 mb-4 pl-4">Manual del Estándar General de Acreditación para Prestadores Institucionales de Atención Cerrada.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      {% for a in c.ambitos %}{% set item = a %}{% include "calidad-ambito.njk" %}{% endfor %}
+    </div>
+  </section>
+
+  <section aria-labelledby="titulo-otros">
+    <h2 id="titulo-otros" class="text-xl font-bold text-primary-deep border-l-4 border-teal-600 pl-3 mb-4">IAAS, indicadores y capacitación</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {% for a in c.otros %}{% set item = a %}{% include "calidad-ambito.njk" %}{% endfor %}
+    </div>
+  </section>
+</div>

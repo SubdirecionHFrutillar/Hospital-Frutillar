@@ -19,12 +19,6 @@
       "icono": "health_and_safety"
     },
     {
-      "titulo": "Imágenes de exámenes",
-      "descripcion": "Visor de imágenes del Servicio de Salud.",
-      "url": "https://examenes.ssdr.gob.cl/login",
-      "icono": "radiology"
-    },
-    {
       "titulo": "Intranet anterior (archivo)",
       "descripcion": "Publicaciones antiguas de la intranet en Wix.",
       "url": "https://hospitaldefrutilla.wixsite.com/intranet",
@@ -44,5 +38,7 @@
       "soloAdmin": true
     }
   ],
-  "calidadUrl": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link"
+  "calidadUrl": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+  "siconges": "https://agenda.ssdr.gob.cl/siconges2/index.php",
+  "autoconsulta": "http://10.6.43.25/autoconsulta"
 }

@@ -1,0 +1,46 @@
+{#
+  Banner rotativo de campañas estacionales (editable en el CMS: Campañas de salud → Banner rotativo).
+  Cada lámina tiene "meses" (1–12; vacío = todo el año). En el build se dejan las del mes actual y,
+  en el navegador, se vuelven a filtrar por si el sitio no se ha regenerado desde que cambió el mes.
+#}
+{% from "campana-arte.njk" import arte %}
+{%- set mesBuild = (null | mesActual) %}
+{%- set laminas = [] %}
+{%- for l in campanas.rotativo %}{% if not l.meses.length or mesBuild in l.meses %}{% set laminas = (laminas.push(l), laminas) %}{% endif %}{% endfor %}
+{% if laminas.length %}
+<section class="rotativo" aria-roledescription="carrusel" aria-label="Campañas y avisos de salud" data-rotativo>
+  <div class="rotativo__pista">
+    {% for l in laminas %}
+    {%- set externo = l.url.startsWith("http") %}
+    <article class="lamina lamina--{{ l.estilo }}{% if loop.first %} activa{% endif %}" data-meses="{{ l.meses | join(',') }}" aria-roledescription="lámina" aria-label="{{ loop.index }} de {{ laminas.length }}: {{ l.titulo }}"{% if not loop.first %} aria-hidden="true" inert{% endif %}>
+      <div class="lamina__cuerpo">
+        <div class="lamina__arte" aria-hidden="true">{{ arte(l.arte) }}</div>
+        <p class="lamina__temporada">{{ l.temporada }}</p>
+        <h2 class="lamina__titulo">{{ l.titulo }}</h2>
+        <p class="lamina__texto">{{ l.texto }}</p>
+      </div>
+      {% if l.consejos.length %}
+      <ul class="lamina__consejos">
+        {% for c in l.consejos %}
+        <li><span class="lamina__consejo-arte" aria-hidden="true">{{ arte(c.arte) }}</span><span>{{ c.texto }}</span></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <a href="{{ l.url }}"{% if externo %} target="_blank" rel="noopener"{% endif %} class="lamina__boton">
+        {{ l.boton }}<span aria-hidden="true" class="material-symbols-outlined text-lg">{{ "open_in_new" if externo else "arrow_forward" }}</span>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+  {% if laminas.length > 1 %}
+  <div class="rotativo__controles">
+    <button type="button" class="rotativo__flecha" data-anterior aria-label="Lámina anterior"><span aria-hidden="true" class="material-symbols-outlined">chevron_left</span></button>
+    <div class="rotativo__puntos" role="group" aria-label="Elegir lámina">
+      {% for l in laminas %}<button type="button" class="rotativo__punto" data-ir="{{ loop.index0 }}" aria-label="Ver: {{ l.titulo }}"{% if loop.first %} aria-current="true"{% endif %}></button>{% endfor %}
+    </div>
+    <button type="button" class="rotativo__flecha" data-siguiente aria-label="Lámina siguiente"><span aria-hidden="true" class="material-symbols-outlined">chevron_right</span></button>
+    <button type="button" class="rotativo__pausa" data-pausa aria-label="Pausar rotación"><span aria-hidden="true" class="material-symbols-outlined">pause</span></button>
+  </div>
+  {% endif %}
+</section>
+{% endif %}

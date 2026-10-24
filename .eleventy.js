@@ -35,6 +35,9 @@ module.exports = function (eleventyConfig) {
     return `/.netlify/images?url=${encodeURIComponent(url)}&w=${ancho}&q=75`;
   });
 
+  // Mes actual en Chile (1–12), para campañas estacionales.
+  eleventyConfig.addFilter("mesActual", () => Number(new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" }).slice(5, 7)));
+
   // Años cumplidos desde una fecha (AAAA-MM-DD) a la fecha del build, en hora de Chile.
   eleventyConfig.addFilter("aniosDesde", (desde) => {
     const [a, m, d] = String(desde).split("-").map(Number);

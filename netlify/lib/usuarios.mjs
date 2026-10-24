@@ -94,6 +94,18 @@ export async function listar() {
   const lista = await Promise.all(blobs.map((b) => st.get(b.key, { type: "json" })));
   return lista.filter(Boolean).sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
 }
+export async function eliminar(rut) {
+  const st = await almacen();
+  await st.delete(kU(rut));
+  await st.delete(kI(rut));
+}
+/** Correo de contacto opcional: "" si viene vacío, null si es inválido. */
+export function correoValido(v) {
+  if (v === undefined || v === null || v === "") return "";
+  const c = String(v).trim().toLowerCase().slice(0, 120);
+  if (!c) return "";
+  return /^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/.test(c) ? c : null;
+}
 export async function hayAdministrador() {
   return (await listar()).some((u) => u.rol === "admin" && u.activo);
 }

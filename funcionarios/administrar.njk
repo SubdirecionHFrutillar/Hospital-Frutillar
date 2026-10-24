@@ -3,13 +3,13 @@ title: Administrar cuentas
 permalink: funcionarios/administrar.html
 ---
 {% import "componentes.njk" as ui with context %}
-{{ ui.tituloPortal("Administrar cuentas", "Crear cuentas, restablecer contraseñas y desactivar accesos", "manage_accounts") }}
+{{ ui.tituloPortal("Administrar cuentas", "Crear, editar y eliminar cuentas; restablecer contraseñas", "manage_accounts") }}
 
 <div class="container mx-auto px-4 py-8 flex flex-col gap-6" data-pagina="administrar">
 
   {% call ui.seccion("Nueva cuenta", "person_add") %}
     <p id="modo-clave" class="text-xs text-gray-500 mb-4"></p>
-    <form id="form-nuevo" class="grid grid-cols-1 md:grid-cols-[160px_1fr_1fr_230px_auto] gap-3 items-end" novalidate>
+    <form id="form-nuevo" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[150px_1fr_1fr_1fr_210px_auto] gap-3 items-end" novalidate>
       <div>
         <label for="n-rut" class="block text-xs font-bold text-gray-600 mb-1">RUT</label>
         <input id="n-rut" name="rut" type="text" required data-rut maxlength="12" placeholder="12.345.678-9" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
@@ -21,6 +21,10 @@ permalink: funcionarios/administrar.html
       <div>
         <label for="n-cargo" class="block text-xs font-bold text-gray-600 mb-1">Cargo / unidad</label>
         <input id="n-cargo" name="cargo" type="text" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
+      </div>
+      <div>
+        <label for="n-correo" class="block text-xs font-bold text-gray-600 mb-1">Correo de contacto <span class="font-normal text-gray-400">(opcional)</span></label>
+        <input id="n-correo" name="correo" type="email" autocomplete="off" placeholder="nombre@redsalud.gob.cl" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
       </div>
       <div>
         <label for="n-rol" class="block text-xs font-bold text-gray-600 mb-1">Rol</label>
@@ -71,3 +75,44 @@ permalink: funcionarios/administrar.html
     </div>
   {% endcall %}
 </div>
+
+<!-- Editar cuenta -->
+<dialog id="dlg-editar" class="rounded-custom shadow-xl p-0 w-[min(560px,calc(100vw-2rem))] backdrop:bg-black/40">
+  <form method="dialog" id="form-editar" class="flex flex-col">
+    <div class="px-6 py-4 border-b border-gray-100 border-l-4 border-l-primary flex items-center justify-between">
+      <h2 class="font-bold text-primary-deep">Editar cuenta <span class="font-normal text-gray-500 text-sm" data-campo="rut-editar"></span></h2>
+      <button type="button" data-cancelar class="text-gray-400 hover:text-gray-700" aria-label="Cerrar"><span aria-hidden="true" class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="px-6 py-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="sm:col-span-2">
+        <label for="e-nombre" class="block text-xs font-bold text-gray-600 mb-1">Nombre completo</label>
+        <input id="e-nombre" name="nombre" type="text" required class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
+      </div>
+      <div>
+        <label for="e-cargo" class="block text-xs font-bold text-gray-600 mb-1">Cargo / unidad</label>
+        <input id="e-cargo" name="cargo" type="text" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
+      </div>
+      <div>
+        <label for="e-correo" class="block text-xs font-bold text-gray-600 mb-1">Correo de contacto</label>
+        <input id="e-correo" name="correo" type="email" autocomplete="off" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
+      </div>
+      <div class="sm:col-span-2">
+        <label for="e-rol" class="block text-xs font-bold text-gray-600 mb-1">Rol</label>
+        <select id="e-rol" name="rol" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">
+          <option value="funcionario">Funcionario</option>
+          <option value="editor">Editor (intranet)</option>
+          <option value="comunicaciones">Comunicaciones (intranet y sitio)</option>
+          <option value="admin">Administrador</option>
+        </select>
+      </div>
+      <p id="e-mensaje" role="alert" class="hidden sm:col-span-2 text-sm rounded-custom px-4 py-2"></p>
+    </div>
+    <div class="px-6 py-4 bg-gray-50 flex flex-wrap items-center justify-between gap-3">
+      <button type="button" data-eliminar class="text-sm font-bold text-red-600 hover:underline">Eliminar cuenta</button>
+      <div class="flex gap-2">
+        <button type="button" data-cancelar class="text-sm font-bold text-primary px-4 py-2 rounded-custom hover:bg-primary-bg">Cancelar</button>
+        <button type="submit" value="guardar" class="bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-5 py-2 rounded-custom shadow">Guardar cambios</button>
+      </div>
+    </div>
+  </form>
+</dialog>

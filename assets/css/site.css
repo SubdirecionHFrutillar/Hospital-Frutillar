@@ -67,6 +67,22 @@
   .triage--c1 { --nivel: #B71C1C; } .triage--c2 { --nivel: #E65100; } .triage--c3 { --nivel: #F2A900; }
   .triage--c4 { --nivel: #2E7D32; } .triage--c5 { --nivel: #1D5DB4; }
 
+  /* Portal: acceso a sistemas del Servicio de Salud (SICONGES) */
+  .sistema-ssr { position: relative; display: flex; align-items: stretch; overflow: hidden; border-radius: 4px; text-decoration: none;
+    background: linear-gradient(120deg, #0A2A5E 0%, #0B4F96 60%, #0F69C4 100%); box-shadow: 0 2px 8px rgba(10,42,94,.18); transition: box-shadow .15s; }
+  .sistema-ssr:hover { box-shadow: 0 8px 22px rgba(10,42,94,.28); }
+  .sistema-ssr:focus-visible { outline: 3px solid theme("colors.gob.rojo"); outline-offset: 2px; }
+  .sistema-ssr__franja { width: 6px; flex-shrink: 0; background: linear-gradient(180deg, theme("colors.primary.light") 0 50%, theme("colors.gob.rojo") 50% 100%); }
+  .sistema-ssr__icono { display: flex; align-items: center; justify-content: center; width: 64px; flex-shrink: 0; color: #fff; background: rgba(255,255,255,.08); }
+  .sistema-ssr:hover .sistema-ssr__icono { background: rgba(255,255,255,.16); }
+
+  /* Portal: página de Calidad */
+  .calidad-tarjeta { display: flex; flex-direction: column; gap: .35rem; background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid #00796B; border-radius: 4px; padding: 1rem 1.1rem; text-decoration: none; transition: box-shadow .15s; }
+  .calidad-tarjeta:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .calidad-ambito { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-radius: 4px; padding: 1rem 1.1rem; }
+  .calidad-ambito__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E0F2F1; color: #00796B; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .calidad-ambito__sigla { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: #fff; background: #00796B; border-radius: 3px; padding: 1px 6px; vertical-align: 2px; }
+
   /* Ítems de menú lateral */
   .acceso-item { border-left: 4px solid theme("colors.primary.light"); transition: border-color .15s, background .15s; }
   .acceso-item:hover,
@@ -134,7 +150,45 @@
   .campana--destacada .campana__titular { font-size: 1.75rem; max-width: 12ch; }
   .campana--destacada .campana__bajada { font-size: 12.5px; max-width: 30ch; }
   .campana--destacada .campana__arte { right: -10px; top: -14px; bottom: auto; width: 128px; height: 128px; }
-  .campana-alerta { background: #F2B705; }
+  /* Banner rotativo de campañas estacionales */
+  .rotativo { position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .lamina { --fondo: #F2B705; --tinta: #2B2100; --banda: #2B2100; --banda-tinta: #FFF4CC; --boton: #F2B705; --boton-hover: #FFC928;
+    background: var(--fondo); color: var(--tinta); display: flex; flex-direction: column; min-height: 100%; }
+  .lamina--naranjo { --fondo: #F57C00; --tinta: #2A1300; --banda: #3A1C00; --banda-tinta: #FFE7CC; --boton: #F57C00; --boton-hover: #FF9800; }
+  .lamina--azul { --fondo: #1D5DB4; --tinta: #fff; --banda: #0A2A5E; --banda-tinta: #DCE9FA; --boton: #1D5DB4; --boton-hover: #2A6FCC; }
+  .lamina--institucional { --fondo: #0B4F96; --tinta: #fff; --banda: #0A2A5E; --banda-tinta: #DCE9FA; --boton: #0B4F96; --boton-hover: #0F69C4; }
+  .rotativo__pista { display: grid; }
+  .rotativo__pista > .lamina { grid-area: 1 / 1 / 2 / 2; visibility: hidden; opacity: 0; transition: opacity .45s ease, visibility 0s linear .45s; }
+  .rotativo__pista > .lamina.activa { visibility: visible; opacity: 1; transition: opacity .45s ease; }
+  @media (prefers-reduced-motion: reduce) { .rotativo__pista > .lamina { transition: none; } }
+  .lamina__cuerpo { position: relative; padding: 1.25rem 10rem 1rem 1.5rem; min-height: 9.5rem; }
+  .lamina__arte { position: absolute; right: -.5rem; bottom: -.5rem; width: 9.5rem; height: 9rem; color: var(--fondo); opacity: .95; }
+  .lamina__temporada { font-size: .75rem; font-weight: 600; opacity: .75; }
+  .lamina__titulo { font-family: theme("fontFamily.cartel"); font-weight: 800; font-size: 2rem; line-height: .95; margin-top: .25rem; }
+  .lamina__texto { font-size: .875rem; line-height: 1.55; margin-top: .5rem; max-width: 62ch; opacity: .9; }
+  .lamina__consejos { display: grid; grid-template-columns: 1fr; background: var(--banda); color: var(--banda-tinta); }
+  .lamina__consejos li { display: flex; align-items: flex-start; gap: .75rem; padding: .85rem 1.25rem; font-size: 13px; line-height: 1.35; }
+  .lamina__consejo-arte { width: 2.25rem; height: 2.25rem; flex-shrink: 0; color: var(--banda); }
+  @media (min-width: 640px) {
+    .lamina__consejos { grid-template-columns: repeat(3, 1fr); }
+    .lamina__consejos li + li { border-left: 1px solid rgba(255,255,255,.1); }
+  }
+  .lamina__boton { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .6rem 1.5rem; padding-right: 11rem; background: var(--boton); color: var(--tinta); font-size: .875rem; font-weight: 700; }
+  .lamina__boton:hover { background: var(--boton-hover); }
+  .lamina__boton:focus-visible { outline: 2px solid var(--tinta); outline-offset: -4px; }
+  .rotativo__controles { position: absolute; right: .5rem; bottom: .35rem; display: flex; align-items: center; gap: .15rem; }
+  .rotativo__flecha, .rotativo__pausa { width: 2rem; height: 2rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 9999px; color: inherit; }
+  .rotativo__flecha:hover, .rotativo__pausa:hover { background: rgba(0,0,0,.12); }
+  .rotativo__puntos { display: flex; gap: .35rem; padding: 0 .25rem; }
+  .rotativo__punto { width: .55rem; height: .55rem; border-radius: 9999px; background: currentColor; opacity: .35; }
+  .rotativo__punto[aria-current="true"] { opacity: 1; width: 1.2rem; }
+  .rotativo__controles { color: var(--rot-tinta, #2B2100); }
+  @media (max-width: 639px) {
+    .lamina__cuerpo { padding-right: 1.5rem; padding-bottom: 6rem; }
+    .lamina__arte { width: 6rem; height: 6rem; right: .25rem; bottom: .25rem; }
+    .lamina__boton { padding-right: 1.5rem; padding-bottom: 2.75rem; }
+    .rotativo__controles { left: 50%; right: auto; transform: translateX(-50%); }
+  }
   @media (prefers-reduced-motion: reduce) { .campana::after { transition: none; } }
 
   /* Acordeón de preguntas frecuentes */

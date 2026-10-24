@@ -56,6 +56,8 @@ const fecha = (iso) =>
   iso ? new Date(iso).toLocaleString("es-CL", { dateStyle: "short", timeStyle: "short", timeZone: "America/Santiago" }) : "—";
 
 const TZ = { timeZone: "America/Santiago" };
+// "Área · Autor" sin repetir cuando son iguales (p. ej. "Bienestar · Bienestar")
+const firma = (...partes) => [...new Map(partes.filter(Boolean).map((x) => [x.trim().toLowerCase(), x.trim()])).values()].join(" · ");
 const PUBLICA_INTRANET = ["editor", "comunicaciones", "admin"];
 const PUBLICA_SITIO = ["comunicaciones", "admin"];
 const DESTINOS = {
@@ -251,7 +253,7 @@ const paginas = {
       const a = el("a", "news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow");
       a.href = `/funcionarios/publicacion.html?id=${p.id}`;
       if (p.imagen) {
-        const img = el("img", "w-full h-48 object-cover object-top bg-gray-100");
+        const img = el("img", "w-full h-48 object-cover bg-gray-100");
         img.src = `/api/intranet/archivos/${p.imagen}?tam=min`;
         img.decoding = "async";
         img.alt = "";
@@ -261,11 +263,11 @@ const paginas = {
       const cuerpo = el("div", "p-4 flex flex-col gap-1.5 flex-1");
       const meta = el("div", "flex flex-wrap items-center gap-2 text-[11px]");
       meta.append(el("span", "px-2 py-0.5 bg-primary-bg text-primary font-bold uppercase tracking-wide rounded", p.categoria));
-      meta.append(el("span", "text-gray-400", fechaCorta(p.fecha)));
-      cuerpo.append(meta, el("h3", "font-bold text-gray-800 text-sm leading-snug", p.titulo));
-      if (p.extracto) cuerpo.append(el("p", "text-xs text-gray-500 leading-relaxed line-clamp-3", p.extracto));
-      const pie = el("div", "mt-auto pt-2 flex items-center justify-between text-xs text-gray-400");
-      pie.append(el("span", "", [p.area, p.autor].filter(Boolean).join(" · ")));
+      meta.append(el("span", "text-gray-500", fechaCorta(p.fecha)));
+      cuerpo.append(meta, el("h3", "font-bold text-primary-deep text-[15px] leading-snug", p.titulo));
+      if (p.extracto) cuerpo.append(el("p", "text-[13px] text-gray-600 leading-relaxed line-clamp-3", p.extracto));
+      const pie = el("div", "mt-auto pt-2 flex items-center justify-between text-xs text-gray-500");
+      pie.append(el("span", "", firma(p.area, p.autor)));
       if (p.adjuntos) {
         const adj = el("span", "inline-flex items-center gap-1");
         adj.append(icono("attach_file", "text-sm"), document.createTextNode(String(p.adjuntos)));
@@ -376,8 +378,8 @@ const paginas = {
     const meta = el("div", "flex flex-wrap items-center gap-2 text-xs text-gray-500");
     meta.append(el("span", "px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded", p.categoria));
     meta.append(el("span", "", fechaLarga(p.fecha)));
-    meta.append(el("span", "", "· " + [p.area, p.autor?.nombre].filter(Boolean).join(" · ")));
-    caja.append(meta, el("h2", "text-2xl md:text-3xl font-bold text-gray-900 leading-snug", p.titulo));
+    if (firma(p.area, p.autor?.nombre)) meta.append(el("span", "", "· " + firma(p.area, p.autor?.nombre)));
+    caja.append(meta, el("h1", "text-2xl md:text-3xl font-bold text-primary-deep leading-snug", p.titulo));
     if (p.cuerpo) {
       const texto = el("div", "prose max-w-none text-gray-700 leading-relaxed");
       texto.append(textoEnriquecido(p.cuerpo));
@@ -619,7 +621,7 @@ const paginas = {
       const meta = el("div", "flex flex-wrap items-center gap-2 text-[11px] mb-1");
       meta.append(el("span", "px-2 py-0.5 bg-primary-bg text-primary font-bold uppercase tracking-wide rounded", n.categoria), el("span", "text-gray-400", fechaCorta(n.fecha)));
       if (n.destacada) meta.append(el("span", "px-2 py-0.5 bg-amber-100 text-amber-800 font-bold rounded", "Destacada"));
-      info.append(meta, el("p", "font-bold text-gray-800 text-sm", n.titulo), el("p", "text-xs text-gray-500 line-clamp-1", n.resumen));
+      info.append(meta, el("p", "font-bold text-primary-deep text-sm", n.titulo), el("p", "text-xs text-gray-500 line-clamp-1", n.resumen));
       const acciones = el("div", "flex gap-3 text-xs font-bold");
       const ver = el("a", "text-primary hover:underline", "Ver en el sitio");
       ver.href = `/noticias/${n.slug}/`;
@@ -630,6 +632,25 @@ const paginas = {
       fila.append(info, acciones);
       lista.append(fila);
     }
+  },
+
+  async calidad() {
+    const u = await usuarioActual();
+    if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
+    const caja = $("#novedades-calidad");
+    try {
+      const r = await api("/api/intranet/publicaciones?categoria=Calidad&limite=3");
+      for (const p of r.publicaciones) {
+        const a = el("a", "calidad-tarjeta group");
+        a.href = `/funcionarios/publicacion.html?id=${p.id}`;
+        a.append(
+          el("span", "text-[10px] font-bold uppercase tracking-widest text-teal-700", fechaCorta(p.fecha)),
+          el("strong", "block text-[15px] text-primary-deep leading-snug group-hover:underline", p.titulo),
+        );
+        if (p.extracto) a.append(el("span", "block text-[13px] text-gray-600 leading-snug line-clamp-2", p.extracto));
+        caja.append(a);
+      }
+    } catch {}
   },
 
   async avisos() {
@@ -794,35 +815,70 @@ const paginas = {
     };
 
     const NOMBRES_ROL = { funcionario: "Funcionario", editor: "Editor (intranet)", comunicaciones: "Comunicaciones (intranet y sitio)", admin: "Administrador" };
-    const celdaRol = (u) => {
-      if (u.rut === yo.rut) return celda(NOMBRES_ROL[u.rol]);
-      const td = document.createElement("td");
-      td.className = "px-5 py-3";
-      const s = document.createElement("select");
-      s.className = "border-gray-300 rounded-custom py-1 pl-2 pr-8 text-sm";
-      s.setAttribute("aria-label", `Rol de ${u.nombre}`);
-      for (const [v, t] of Object.entries(NOMBRES_ROL)) s.append(new Option(t, v, false, v === u.rol));
-      s.addEventListener("change", async () => {
-        if (!confirm(`¿Cambiar el rol de ${u.nombre} a "${NOMBRES_ROL[s.value]}"?`)) return (s.value = u.rol);
-        s.disabled = true;
-        try {
-          await api("/api/admin/usuarios", { metodo: "PATCH", datos: { rut: u.rut, accion: "editar", rol: s.value } });
-          msg.classList.add("hidden");
-          await cargar();
-        } catch (err) {
-          mensaje(msg, err.message);
-          s.value = u.rol;
-          s.disabled = false;
-        }
-      });
-      td.append(s);
+
+    // Diálogo de edición
+    const dlg = $("#dlg-editar");
+    const fe = $("#form-editar");
+    const emsg = $("#e-mensaje");
+    let editando = null;
+    const abrirEdicion = (u) => {
+      editando = u;
+      $('[data-campo="rut-editar"]', dlg).textContent = formatearRut(u.rut);
+      fe.nombre.value = u.nombre;
+      fe.cargo.value = u.cargo || "";
+      fe.correo.value = u.correo || "";
+      fe.rol.value = u.rol;
+      fe.rol.disabled = u.rut === yo.rut;
+      $("[data-eliminar]", dlg).classList.toggle("hidden", u.rut === yo.rut);
+      emsg.classList.add("hidden");
+      dlg.showModal();
+    };
+    $$("[data-cancelar]", dlg).forEach((b) => b.addEventListener("click", () => dlg.close()));
+    fe.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const boton = $("button[type=submit]", fe);
+      boton.disabled = true;
+      try {
+        const datos = { rut: editando.rut, accion: "editar", nombre: fe.nombre.value, cargo: fe.cargo.value, correo: fe.correo.value.trim() };
+        if (editando.rut !== yo.rut) datos.rol = fe.rol.value;
+        if (datos.rol && datos.rol !== editando.rol && !confirm(`¿Cambiar el rol de ${editando.nombre} a "${NOMBRES_ROL[datos.rol]}"? Su sesión actual se cerrará.`)) return;
+        await api("/api/admin/usuarios", { metodo: "PATCH", datos });
+        dlg.close();
+        mensaje(msg, `Cuenta de ${datos.nombre} actualizada.`, "ok");
+        await cargar();
+      } catch (err) {
+        mensaje(emsg, err.message);
+      } finally {
+        boton.disabled = false;
+      }
+    });
+    $("[data-eliminar]", dlg).addEventListener("click", async () => {
+      const u = editando;
+      if (!confirm(`¿Eliminar definitivamente la cuenta de ${u.nombre} (${formatearRut(u.rut)})? Esta acción no se puede deshacer. Si solo quiere impedir el acceso, use "Desactivar".`)) return;
+      try {
+        await api("/api/admin/usuarios", { metodo: "DELETE", datos: { rut: u.rut } });
+        dlg.close();
+        mensaje(msg, `Cuenta de ${u.nombre} eliminada.`, "ok");
+        await cargar();
+      } catch (err) {
+        mensaje(emsg, err.message);
+      }
+    });
+
+    const celdaNombre = (u) => {
+      const td = celda(u.nombre, "font-semibold text-gray-800");
+      if (u.correo) {
+        const a = el("a", "block text-xs font-normal text-primary hover:underline", u.correo);
+        a.href = `mailto:${u.correo}`;
+        td.append(a);
+      }
       return td;
     };
 
     const pintar = () => {
       const q = $("#filtro").value.trim().toLowerCase();
       const lista = usuarios.filter((u) =>
-        !q || [u.nombre, u.rut, formatearRut(u.rut), u.cargo].some((x) => (x || "").toLowerCase().includes(q))
+        !q || [u.nombre, u.rut, formatearRut(u.rut), u.cargo, u.correo].some((x) => (x || "").toLowerCase().includes(q))
       );
       tabla.replaceChildren();
       if (!lista.length) {
@@ -849,15 +905,15 @@ const paginas = {
         const estado = celda(estadoTxt, estadoClase);
         const acciones = document.createElement("td");
         acciones.className = "px-5 py-3 text-right whitespace-nowrap space-x-3";
-        acciones.append(boton("Restablecer clave", "restablecer", u.rut));
+        acciones.append(boton("Editar", "editar", u.rut), boton("Restablecer clave", "restablecer", u.rut));
         if (u.rut !== yo.rut) {
           acciones.append(u.activo ? boton("Desactivar", "desactivar", u.rut, true) : boton("Activar", "activar", u.rut));
         }
         tr.append(
-          celda(u.nombre, "font-semibold text-gray-800"),
+          celdaNombre(u),
           celda(formatearRut(u.rut), "whitespace-nowrap"),
           celda(u.cargo || "—"),
-          celdaRol(u),
+          celda(NOMBRES_ROL[u.rol] || u.rol),
           estado,
           celda(fecha(u.ultimoAcceso), "whitespace-nowrap"),
           acciones
@@ -881,6 +937,7 @@ const paginas = {
       const b = e.target.closest("button[data-accion]");
       if (!b) return;
       const u = usuarios.find((x) => x.rut === b.dataset.rut);
+      if (b.dataset.accion === "editar") return abrirEdicion(u);
       const preguntas = {
         restablecer: `¿Restablecer la contraseña de ${u.nombre}? Volverá a la clave inicial y su sesión actual se cerrará.`,
         desactivar: `¿Desactivar la cuenta de ${u.nombre}? No podrá ingresar hasta que se reactive.`,
@@ -910,7 +967,7 @@ const paginas = {
       try {
         const r = await api("/api/admin/usuarios", {
           metodo: "POST",
-          datos: { rut, nombre: form.nombre.value, cargo: form.cargo.value, rol: form.rol.value },
+          datos: { rut, nombre: form.nombre.value, cargo: form.cargo.value, correo: form.correo.value.trim(), rol: form.rol.value },
         });
         form.reset();
         if (r.claveComun) {

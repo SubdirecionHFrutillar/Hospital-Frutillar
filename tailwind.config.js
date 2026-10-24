@@ -9,7 +9,7 @@ module.exports = {
     "./assets/js/**/*.{js,mjs}",
   ],
   // Variantes armadas desde _data/links.json (link-min--abajo, --arriba, --ambas, --linea)
-  safelist: [{ pattern: /^link-min/ }, { pattern: /^aviso/ }, { pattern: /^consulta/ }, { pattern: /^triage/ }],
+  safelist: [{ pattern: /^link-min/ }, { pattern: /^aviso/ }, { pattern: /^consulta/ }, { pattern: /^triage/ }, { pattern: /^calidad/ }, { pattern: /^lamina/ }, { pattern: /^rotativo/ }, { pattern: /^sistema-ssr/ }],
   theme: {
     extend: {
       fontFamily: {

@@ -184,6 +184,40 @@ collections:
                   - { label: "Espera", name: espera, widget: string }
               - { label: "Nota", name: nota, widget: text }
 
+      - label: "Calidad (Portal Funcionarios)"
+        name: "calidad"
+        file: "_data/calidad.json"
+        fields:
+          - { label: "Título", name: titulo, widget: string }
+          - { label: "Descripción", name: descripcion, widget: text }
+          - { label: "Carpeta general (Drive)", name: carpetaGeneral, widget: string }
+          - label: "Destacados"
+            name: destacados
+            widget: list
+            fields:
+              - { label: "Título", name: titulo, widget: string }
+              - { label: "Descripción", name: descripcion, widget: string }
+              - { label: "Enlace", name: url, widget: string }
+          - label: "Ámbitos de acreditación"
+            name: ambitos
+            widget: list
+            fields:
+              - { label: "Sigla", name: sigla, widget: string }
+              - { label: "Nombre", name: nombre, widget: string }
+              - { label: "Descripción", name: descripcion, widget: string }
+              - { label: "Ícono", name: icono, widget: string }
+              - { label: "Carpeta (Drive)", name: url, widget: string, required: false }
+              - { label: "Documentos", name: documentos, widget: list, required: false, fields: [{ label: "Título", name: titulo, widget: string }, { label: "Código", name: codigo, widget: string, required: false }, { label: "Enlace (Drive)", name: url, widget: string }] }
+          - label: "Otros temas"
+            name: otros
+            widget: list
+            fields:
+              - { label: "Nombre", name: nombre, widget: string }
+              - { label: "Descripción", name: descripcion, widget: string }
+              - { label: "Ícono", name: icono, widget: string }
+              - { label: "Carpeta (Drive)", name: url, widget: string, required: false }
+              - { label: "Documentos", name: documentos, widget: list, required: false, fields: [{ label: "Título", name: titulo, widget: string }, { label: "Código", name: codigo, widget: string, required: false }, { label: "Enlace (Drive)", name: url, widget: string }] }
+
       - label: "Trabaja con Nosotros"
         name: "trabaja"
         file: "_data/trabaja.json"
@@ -213,23 +247,27 @@ collections:
         name: "campanas"
         file: "_data/campanas.json"
         fields:
-          - label: "Alerta de temporada (banner amarillo)"
-            name: alerta
-            widget: object
+          - label: "Banner rotativo (campañas estacionales)"
+            name: rotativo
+            widget: list
+            hint: "Rota cada 8 segundos. Cada lámina se muestra solo en los meses indicados (vacío = todo el año)."
             fields:
-              - { label: "Mostrar", name: mostrar, widget: boolean, default: true }
-              - { label: "Temporada", name: temporada, widget: string }
+              - { label: "Id", name: id, widget: string }
+              - { label: "Meses en que se muestra (1 = enero … 12 = diciembre)", name: meses, widget: list, required: false, field: { label: "Mes", name: mes, widget: number, min: 1, max: 12, value_type: int } }
+              - { label: "Color", name: estilo, widget: select, options: ["amarillo", "naranjo", "azul", "institucional"] }
+              - { label: "Temporada / fuente", name: temporada, widget: string }
               - { label: "Título", name: titulo, widget: string }
               - { label: "Texto", name: texto, widget: text }
-              - label: "Consejos (3)"
+              - label: "Consejos (hasta 3)"
                 name: consejos
                 widget: list
+                required: false
                 fields:
-                  - { label: "Dibujo", name: arte, widget: select, options: ["ventilar", "frasco", "carpa"] }
+                  - { label: "Dibujo", name: arte, widget: select, options: ["hanta", "sol", "pulmon", "casa", "vacuna", "ventilar", "frasco", "carpa", "agua", "gorro", "manos", "sarampion", "oncologia", "conversacion", "lazo", "donacion", "tabaco"] }
                   - { label: "Texto", name: texto, widget: string }
               - { label: "Enlace", name: url, widget: string }
               - { label: "Texto del botón", name: boton, widget: string }
-              - { label: "Dibujo principal", name: arte, widget: select, options: ["hanta"] }
+              - { label: "Dibujo principal", name: arte, widget: select, options: ["hanta", "sol", "pulmon", "casa", "vacuna", "ventilar", "frasco", "carpa", "agua", "gorro", "manos", "sarampion", "oncologia", "conversacion", "lazo", "donacion", "tabaco"] }
           - label: "Campañas"
             name: campanas
             widget: list

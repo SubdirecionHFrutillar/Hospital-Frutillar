@@ -1,0 +1,109 @@
+{
+  "titulo": "Calidad y Seguridad del Paciente",
+  "descripcion": "Documentos de la Unidad de Calidad ordenados por ámbito del Manual de Acreditación de Atención Cerrada (Superintendencia de Salud), más IAAS e indicadores.",
+  "carpetaGeneral": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+  "destacados": [
+    {
+      "titulo": "Carpeta general de Calidad",
+      "descripcion": "Todos los documentos vigentes de la Unidad de Calidad en Google Drive.",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link"
+    }
+  ],
+  "ambitos": [
+    {
+      "sigla": "DP",
+      "nombre": "Respeto a la dignidad del paciente",
+      "descripcion": "Derechos y deberes, consentimiento informado, comité de ética.",
+      "icono": "diversity_3",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    },
+    {
+      "sigla": "CAL",
+      "nombre": "Gestión de la calidad",
+      "descripcion": "Programa de calidad, política, evaluación anual.",
+      "icono": "workspace_premium",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    },
+    {
+      "sigla": "GCL",
+      "nombre": "Gestión clínica",
+      "descripcion": "Protocolos clínicos, eventos adversos, prevención de caídas, IAAS.",
+      "icono": "clinical_notes",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    },
+    {
+      "sigla": "AOC",
+      "nombre": "Acceso, oportunidad y continuidad",
+      "descripcion": "Urgencia, derivación, traslado, alertas de resultados críticos.",
+      "icono": "alt_route",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    },
+    {
+      "sigla": "RH",
+      "nombre": "Competencias del recurso humano",
+      "descripcion": "Habilitación, certificación, inducción y capacitación.",
+      "icono": "school",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    },
+    {
+      "sigla": "REG",
+      "nombre": "Registros",
+      "descripcion": "Ficha clínica: contenido, manejo y conservación.",
+      "icono": "folder_shared",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    },
+    {
+      "sigla": "EQ",
+      "nombre": "Seguridad del equipamiento",
+      "descripcion": "Mantención preventiva de equipos críticos.",
+      "icono": "precision_manufacturing",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    },
+    {
+      "sigla": "INS",
+      "nombre": "Seguridad de las instalaciones",
+      "descripcion": "Plan de emergencia, prevención de incendios, mantención.",
+      "icono": "domain",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    },
+    {
+      "sigla": "AP",
+      "nombre": "Servicios de apoyo",
+      "descripcion": "Laboratorio, farmacia, esterilización, imagenología, transfusión y otros.",
+      "icono": "biotech",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    }
+  ],
+  "otros": [
+    {
+      "nombre": "IAAS",
+      "descripcion": "Infecciones asociadas a la atención de salud: precauciones estándar, higiene de manos, vigilancia.",
+      "icono": "sanitizer",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    },
+    {
+      "nombre": "Indicadores",
+      "descripcion": "Pautas de cotejo, mediciones periódicas y resultados.",
+      "icono": "monitoring",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    },
+    {
+      "nombre": "Capacitaciones",
+      "descripcion": "Material de capacitación en calidad y seguridad del paciente.",
+      "icono": "co_present",
+      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+      "documentos": []
+    }
+  ]
+}
