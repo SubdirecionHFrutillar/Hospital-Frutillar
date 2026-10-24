@@ -39,8 +39,14 @@ permalink: funcionarios/index.html
         </div>
       </a>
       <!-- Sistemas del Servicio de Salud -->
-      <a href="{{ portal.siconges }}" target="_blank" rel="noopener" class="block rounded-custom overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow bg-white" title="SICONGES — Sistema Integrado de Control de Gestión (se abre en otra pestaña)">
-        <img src="/img/siconges.webp" alt="SICONGES — Sistema Integrado de Control de Gestión" width="940" height="148" class="w-full h-auto block">
+      <a href="{{ portal.siconges }}" target="_blank" rel="noopener" class="sistema-ssr group" title="Se abre en otra pestaña">
+        <span class="sistema-ssr__franja" aria-hidden="true"></span>
+        <span class="flex-1 min-w-0 px-4 py-3">
+          <span class="block text-[10px] font-bold uppercase tracking-widest text-primary-light">Servicio de Salud del Reloncaví</span>
+          <span class="block font-cartel font-extrabold text-[1.9rem] leading-none tracking-wide text-white mt-0.5">SICONGES</span>
+          <span class="block text-xs text-white/75 mt-1">Sistema Integrado de Control de Gestión</span>
+        </span>
+        <span class="sistema-ssr__icono" aria-hidden="true"><span class="material-symbols-outlined text-[28px]">monitoring</span></span>
       </a>
       <a href="{{ portal.autoconsulta }}" target="_blank" rel="noopener" class="group flex items-center gap-3 rounded-custom border border-gray-200 border-l-4 border-l-primary bg-white px-4 py-3 shadow-sm hover:shadow-md transition-shadow">
         <span class="w-10 h-10 rounded-full bg-primary-bg text-primary flex items-center justify-center flex-shrink-0" aria-hidden="true"><span class="material-symbols-outlined">badge</span></span>

@@ -67,6 +67,15 @@
   .triage--c1 { --nivel: #B71C1C; } .triage--c2 { --nivel: #E65100; } .triage--c3 { --nivel: #F2A900; }
   .triage--c4 { --nivel: #2E7D32; } .triage--c5 { --nivel: #1D5DB4; }
 
+  /* Portal: acceso a sistemas del Servicio de Salud (SICONGES) */
+  .sistema-ssr { position: relative; display: flex; align-items: stretch; overflow: hidden; border-radius: 4px; text-decoration: none;
+    background: linear-gradient(120deg, #0A2A5E 0%, #0B4F96 60%, #0F69C4 100%); box-shadow: 0 2px 8px rgba(10,42,94,.18); transition: box-shadow .15s; }
+  .sistema-ssr:hover { box-shadow: 0 8px 22px rgba(10,42,94,.28); }
+  .sistema-ssr:focus-visible { outline: 3px solid theme("colors.gob.rojo"); outline-offset: 2px; }
+  .sistema-ssr__franja { width: 6px; flex-shrink: 0; background: linear-gradient(180deg, theme("colors.primary.light") 0 50%, theme("colors.gob.rojo") 50% 100%); }
+  .sistema-ssr__icono { display: flex; align-items: center; justify-content: center; width: 64px; flex-shrink: 0; color: #fff; background: rgba(255,255,255,.08); }
+  .sistema-ssr:hover .sistema-ssr__icono { background: rgba(255,255,255,.16); }
+
   /* Portal: página de Calidad */
   .calidad-tarjeta { display: flex; flex-direction: column; gap: .35rem; background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid #00796B; border-radius: 4px; padding: 1rem 1.1rem; text-decoration: none; transition: box-shadow .15s; }
   .calidad-tarjeta:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); }
