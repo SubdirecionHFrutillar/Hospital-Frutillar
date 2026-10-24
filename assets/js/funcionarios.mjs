@@ -783,7 +783,7 @@ const paginas = {
       if (!b) return;
       const u = usuarios.find((x) => x.rut === b.dataset.rut);
       const preguntas = {
-        restablecer: `¿Generar una nueva contraseña temporal para ${u.nombre}? Su sesión actual se cerrará.`,
+        restablecer: `¿Restablecer la contraseña de ${u.nombre}? Volverá a la clave inicial y su sesión actual se cerrará.`,
         desactivar: `¿Desactivar la cuenta de ${u.nombre}? No podrá ingresar hasta que se reactive.`,
       };
       if (preguntas[b.dataset.accion] && !confirm(preguntas[b.dataset.accion])) return;
@@ -791,9 +791,10 @@ const paginas = {
       b.disabled = true;
       try {
         const r = await api("/api/admin/usuarios", { metodo: "PATCH", datos });
-        if (r.claveTemporal) mostrarClave(r.usuario, r.claveTemporal);
-        msg.classList.add("hidden");
         await cargar();
+        if (r.claveTemporal) { msg.classList.add("hidden"); mostrarClave(r.usuario, r.claveTemporal); }
+        else if (r.claveComun) mensaje(msg, `Contraseña de ${r.usuario.nombre} restablecida a la clave inicial común. Debe ingresar con ella antes del ${fecha(r.usuario.claveTemporalVence)} y cambiarla.`, "ok");
+        else msg.classList.add("hidden");
       } catch (err) {
         mensaje(msg, err.message);
         b.disabled = false;

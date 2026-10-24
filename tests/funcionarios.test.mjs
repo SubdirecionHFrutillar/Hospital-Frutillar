@@ -200,11 +200,14 @@ test("Clave inicial común: se usa al crear, no se devuelve, vence a las 72 h y 
     assert.equal(r.status, 403);
     assert.match((await r.json()).error, /venció/);
 
-    // El administrador restablece → clave individual nueva, vigente
+    // El administrador restablece → vuelve a la clave común, con 72 h nuevas (no se devuelve ninguna clave)
     r = await admin(req("/api/admin/usuarios", { metodo: "PATCH", cookie: cAdmin, datos: { rut: "10000013-K", accion: "restablecer" } }));
-    const nueva = (await r.json()).claveTemporal;
-    assert.notEqual(nueva, "Hospital2026inicio");
-    assert.equal((await login("10000013-K", nueva)).status, 200);
+    const j = await r.json();
+    assert.equal(j.claveComun, true);
+    assert.equal(j.claveTemporal, undefined);
+    r = await login("10000013-K", "Hospital2026inicio");
+    assert.equal(r.status, 200);
+    assert.equal((await r.json()).debeCambiarClave, true);
 
     // Tras cambiar la clave, el vencimiento desaparece
     r = await cambiar(req("/api/auth/cambiar-clave", { metodo: "POST", cookie: cAna, datos: { actual: "Hospital2026inicio", nueva: "Lago2026sur" } }));

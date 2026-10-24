@@ -52,16 +52,21 @@ export default manejador(["GET", "POST", "PATCH"], async (req) => {
   if (!u) return error("No existe una cuenta con ese RUT.", 404);
   const esUno = u.rut === yo.rut;
   let claveTemporal;
+  let claveComun = false;
 
   switch (datos.accion) {
-    case "restablecer":
-      claveTemporal = U.claveTemporal();
-      u.hash = await U.hashClave(claveTemporal);
+    case "restablecer": {
+      // Con FUNCIONARIOS_CLAVE_INICIAL definida se vuelve a la clave común (no se devuelve);
+      // si no, se genera una clave temporal individual que se muestra una sola vez.
+      const comun = env("FUNCIONARIOS_CLAVE_INICIAL");
+      if (comun) claveComun = true; else claveTemporal = U.claveTemporal();
+      u.hash = await U.hashClave(comun || claveTemporal);
       u.debeCambiarClave = true;
       u.claveTemporalVence = U.venceTemporal();
       u.sv += 1;
       await U.limpiarFallos(rut);
       break;
+    }
     case "activar":
       u.activo = true;
       await U.limpiarFallos(rut);
@@ -90,7 +95,7 @@ export default manejador(["GET", "POST", "PATCH"], async (req) => {
       return error("Acción no reconocida.");
   }
   await U.guardar(u);
-  return json({ usuario: U.publico(u), ...(claveTemporal && { claveTemporal }) });
+  return json({ usuario: U.publico(u), ...(claveTemporal && { claveTemporal }), ...(claveComun && { claveComun }) });
 });
 
 export const config = { path: "/api/admin/usuarios" };

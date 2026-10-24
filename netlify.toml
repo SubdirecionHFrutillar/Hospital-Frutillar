@@ -23,6 +23,12 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
+# Imágenes del sitio: una semana de caché
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
 # Portal de funcionarios: nunca en caché compartida ni en buscadores
 [[headers]]
   for = "/funcionarios/*"
