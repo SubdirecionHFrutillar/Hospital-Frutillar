@@ -234,3 +234,30 @@ test("Miniaturas de imágenes: solo editores las suben; el listado las usa y cae
   r = await archivos(req(`/api/intranet/archivos/${pdf.id}/miniatura`, { metodo: "POST", cookie: cEditor, headers: { "content-type": "image/webp" }, cuerpo: new Uint8Array(10) }), { params: { id: pdf.id, accion: "miniatura" } });
   assert.equal(r.status, 404);
 });
+
+test("Avisos del sitio: solo Comunicaciones/Admin; validación, máximo y API pública de vigentes", async () => {
+  const avisos = (await import("../netlify/functions/avisos.mjs")).default;
+  const { cAdmin, cEditor } = await preparar();
+  const crear = (cookie, datos) => avisos(req("/api/avisos", { metodo: "POST", cookie, datos }), { params: {} });
+
+  assert.equal((await crear(cEditor, { texto: "Aviso de prueba" })).status, 403, "editor de intranet no publica en el sitio");
+  assert.equal((await crear(cAdmin, { texto: "Hola" })).status, 400, "texto muy corto");
+  assert.equal((await crear(cAdmin, { texto: "Aviso con enlace raro", url: "javascript:alert(1)" })).status, 400);
+  assert.equal((await crear(cAdmin, { texto: "Aviso que ya venció", hasta: "2000-01-01" })).status, 400);
+
+  let r = await crear(cAdmin, { texto: "Farmacia cerrada el feriado", tipo: "importante", url: "/horarios.html", hasta: "2999-12-31" });
+  assert.equal(r.status, 201);
+  const { aviso } = await r.json();
+  assert.equal(aviso.tipo, "importante");
+  for (let i = 0; i < 4; i++) assert.equal((await crear(cAdmin, { texto: `Aviso número ${i}` })).status, 201);
+  assert.equal((await crear(cAdmin, { texto: "Uno de más" })).status, 409, "máximo 5 avisos");
+
+  r = await avisos(req("/api/avisos/vigentes"), { params: { id: "vigentes" } });
+  assert.equal((await r.json()).avisos.length, 5, "la lista pública no requiere sesión");
+  assert.equal((await avisos(req("/api/avisos"), { params: {} })).status, 401);
+
+  r = await avisos(req(`/api/avisos/${aviso.id}`, { metodo: "DELETE", cookie: cAdmin }), { params: { id: aviso.id } });
+  assert.equal(r.status, 200);
+  r = await avisos(req("/api/avisos/vigentes"), { params: { id: "vigentes" } });
+  assert.equal((await r.json()).avisos.length, 4);
+});

@@ -21,6 +21,12 @@
     });
   });
 
+  // Avisos con fecha de término: se ocultan apenas vencen, aunque el sitio aún no se haya regenerado
+  var hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
+  document.querySelectorAll(".aviso[data-hasta]").forEach(function (a) {
+    if (a.getAttribute("data-hasta") < hoy) a.remove();
+  });
+
   // Enlaces de invitación/recuperación de Netlify Identity (usuarios del CMS):
   // el widget solo se carga cuando la URL trae uno de esos tokens.
   if (/(invite|recovery|confirmation|email_change)_token=/.test(location.hash)) {

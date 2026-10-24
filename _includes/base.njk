@@ -151,6 +151,21 @@
     </ul>
   </div>
 </nav>
+{% if not esPortal and avisos.length %}
+<!-- AVISOS DEL HOSPITAL (se publican desde el Portal Funcionarios; los vencidos se ocultan solos) -->
+<div class="avisos" role="region" aria-label="Avisos del hospital">
+  {% for a in avisos %}
+  <div class="aviso aviso--{{ a.tipo }}"{% if a.hasta %} data-hasta="{{ a.hasta }}"{% endif %}>
+    <div class="container mx-auto px-4 py-2.5 flex items-center gap-3 text-sm">
+      <span aria-hidden="true" class="material-symbols-outlined text-xl flex-shrink-0">{{ "campaign" if a.tipo == "importante" else "info" }}</span>
+      <p class="flex-1 leading-snug"><strong class="font-bold">{{ "Importante" if a.tipo == "importante" else "Aviso" }}:</strong> {{ a.texto }}</p>
+      {% if a.url %}<a href="{{ a.url }}"{% if a.url.startsWith("http") %} target="_blank" rel="noopener"{% endif %} class="font-bold underline underline-offset-2 whitespace-nowrap">Ver más</a>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
 {% if portada %}{% include "hero-portada.njk" %}{% endif %}
 {% endif %}
 

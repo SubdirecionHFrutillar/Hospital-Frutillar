@@ -83,6 +83,13 @@ Las noticias del sitio se publican desde el portal (ya no desde el CMS `/admin`)
 - **Publicación automática:** cree un *build hook* en Netlify (*Site configuration → Build & deploy → Build hooks*) y guarde su URL en la variable `NETLIFY_BUILD_HOOK`. Así el sitio se regenera solo después de cada cambio (1–2 minutos). Sin la variable, las noticias aparecen en la siguiente publicación del sitio.
 - Las noticias antiguas en `content/noticias/*.md` siguen funcionando; si existe una noticia del portal con la misma dirección, se muestra la del portal.
 
+### Avisos del sitio público
+
+Comunicaciones o un administrador publica avisos breves desde **Portal → Avisos** (cambios de horario,
+cortes de servicio, feriados). Aparecen en una franja bajo el menú de todas las páginas públicas;
+máximo 5 a la vez. Con fecha de término, el aviso se oculta solo ese día. Igual que las noticias,
+el sitio se regenera con `NETLIFY_BUILD_HOOK` (uno o dos minutos).
+
 ### Roles
 
 | Rol | Intranet | Sitio público | Cuentas |

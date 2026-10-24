@@ -17,7 +17,8 @@
       { "label": "Hospitalización", "url": "/servicios.html#hospitalizacion" },
       { "label": "Hospitalización Domiciliaria", "url": "/servicios.html#hospitalizacion-domiciliaria" },
       { "label": "Pabellón Quirúrgico", "url": "/servicios.html#pabellon" },
-      { "label": "Maternidad", "url": "/servicios.html#maternidad" },
+      { "label": "Unidad de Salud de la Mujer", "url": "/servicios.html#maternidad" },
+      { "label": "COSAM Frutillar", "url": "/servicios.html#cosam" },
       { "label": "Laboratorio", "url": "/servicios.html#laboratorio" },
       { "label": "Imagenología", "url": "/servicios.html#imagenologia" },
       { "label": "Farmacia", "url": "/servicios.html#farmacia" }
@@ -26,7 +27,9 @@
   {
     "label": "Información al Usuario", "url": "/horarios.html", "id": "info",
     "items": [
+      { "label": "¿Dónde consultar?", "url": "/donde-consultar.html", "icon": "alt_route" },
       { "label": "Horarios de Atención", "url": "/horarios.html", "icon": "schedule" },
+      { "label": "Visitas a hospitalizados", "url": "/visitas.html", "icon": "groups" },
       { "label": "Carta de Derechos y Deberes", "url": "/carta-derechos.html", "icon": "verified_user" },
       { "label": "Aranceles", "url": "/aranceles.html", "icon": "receipt_long" },
       { "label": "Copago Cero", "url": "/copago-cero.html", "icon": "money_off" },

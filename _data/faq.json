@@ -22,7 +22,7 @@
       "preguntas": [
         {
           "pregunta": "¿Cuáles son los horarios de visita para hospitalizados?",
-          "respuesta": "Horario de visita:\n\n- **Todos los días** (incluidos fines de semana y festivos): 10:00 a 19:00 hrs\n\nSe recomienda un máximo de dos visitas simultáneas por paciente. En casos especiales (menores de edad hospitalizados, cuidados paliativos), consulte con el equipo de enfermería."
+          "respuesta": "Horario de visita:\n\n- **Todos los días** (incluidos fines de semana y festivos): 10:00 a 19:00 hrs\n\nSe recomienda un máximo de dos visitas simultáneas por paciente. En casos especiales (menores de edad hospitalizados, cuidados paliativos), consulte con el equipo de enfermería.\n\nMás información en [Visitas a hospitalizados](/visitas.html)."
         },
         {
           "pregunta": "¿Dónde puedo retirar resultados de exámenes de laboratorio?",
@@ -39,7 +39,7 @@
       "preguntas": [
         {
           "pregunta": "¿Qué cubre FONASA en el hospital?",
-          "respuesta": "FONASA cubre la atención en establecimientos públicos (como el Hospital de Frutillar) según el tramo de afiliación:\n\n- **Tramo A:** Sin copago (indigentes, embarazadas, menores de 6 años)\n- **Tramo B:** Sin copago en establecimientos públicos\n- **Tramo C:** Copago del 10% del arancel\n- **Tramo D:** Copago del 20% del arancel\n\nAdemás, la Ley de Copago Cero elimina el copago para los tramos C y D en determinadas atenciones. Consulte los detalles en nuestra sección correspondiente."
+          "respuesta": "Desde septiembre de 2022, con **Copago Cero**, todas las personas beneficiarias de FONASA (tramos A, B, C y D) se atienden **sin copago** en la red pública, incluido el Hospital de Frutillar.\n\nNo es necesario inscribirse: el beneficio se aplica automáticamente con FONASA vigente. Más detalles en nuestra sección [Copago Cero](/copago-cero.html)."
         },
         {
           "pregunta": "¿Cómo saber a qué tramo FONASA pertenezco?",

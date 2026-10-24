@@ -1,0 +1,56 @@
+---
+layout: base.njk
+title: Visitas a hospitalizados
+description: "Horario de visitas, recomendaciones e información a familiares de pacientes hospitalizados en el Hospital de Frutillar."
+permalink: visitas.html
+---
+{% import "componentes.njk" as ui with context %}
+{% set d = visitas %}
+{% set infoNav = nav | buscar("id", "info") %}
+{{ ui.banner(d.titulo, "Horario, recomendaciones e información clínica", "groups", [{ label: "Información al Usuario", url: "/horarios.html" }, { label: "Visitas" }]) }}
+
+{% call ui.dosColumnas() %}
+  <div class="min-w-0 flex flex-col gap-6">
+    {{ ui.aviso(d.intro) }}
+
+    {% call ui.seccion("Horario de visita", "schedule") %}
+      <ul class="flex flex-col gap-3">
+        {% for h in d.horario %}
+        <li class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span class="text-sm text-gray-600">{{ h.dias }}</span>
+          <strong class="font-cartel text-3xl text-primary-deep leading-none">{{ h.horario }}</strong>
+        </li>
+        {% endfor %}
+      </ul>
+      {% if d.notaHorario %}<p class="text-xs text-gray-500 mt-3">{{ d.notaHorario }}</p>{% endif %}
+      {% if d.maximoVisitas or d.informeMedico %}
+      <dl class="grid sm:grid-cols-2 gap-4 mt-5 pt-5 border-t border-gray-100 text-sm">
+        {% if d.maximoVisitas %}<div><dt class="text-xs font-bold text-gray-500 uppercase tracking-wide">Visitas por paciente</dt><dd class="text-gray-800 mt-1">{{ d.maximoVisitas }}</dd></div>{% endif %}
+        {% if d.informeMedico %}<div><dt class="text-xs font-bold text-gray-500 uppercase tracking-wide">Información médica a familiares</dt><dd class="text-gray-800 mt-1">{{ d.informeMedico }}</dd></div>{% endif %}
+      </dl>
+      {% endif %}
+    {% endcall %}
+
+    {% call ui.seccion("Recomendaciones para su visita", "check_circle") %}
+      <ul class="flex flex-col gap-3 text-sm text-gray-700">
+        {% for r in d.recomendaciones %}
+        <li class="flex gap-3"><span aria-hidden="true" class="material-symbols-outlined text-primary text-lg flex-shrink-0">check</span><span class="leading-relaxed">{{ r }}</span></li>
+        {% endfor %}
+      </ul>
+    {% endcall %}
+
+    <div class="grid md:grid-cols-2 gap-6">
+      {% call ui.seccion("Información clínica", "medical_information") %}
+        <div class="prose max-w-none text-sm text-gray-700 leading-relaxed">{{ d.informacionClinica | markdown | safe }}</div>
+      {% endcall %}
+      {% call ui.seccion("Compañía y acompañamiento", "favorite") %}
+        <div class="prose max-w-none text-sm text-gray-700 leading-relaxed">{{ d.acompanamiento | markdown | safe }}</div>
+      {% endcall %}
+    </div>
+  </div>
+
+  <aside class="flex flex-col gap-5">
+    {{ ui.menuLateral("Información al Usuario", infoNav.items) }}
+    {{ ui.saludResponde() }}
+  </aside>
+{% endcall %}

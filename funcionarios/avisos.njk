@@ -1,0 +1,41 @@
+---
+title: Avisos del sitio
+permalink: funcionarios/avisos.html
+---
+{% import "componentes.njk" as ui with context %}
+{{ ui.tituloPortal("Avisos del sitio web", "Franja breve bajo el menú del sitio público: cambios de horario, cortes de servicio, feriados", "campaign") }}
+
+<div class="container mx-auto px-4 py-8 max-w-4xl flex flex-col gap-5" data-pagina="avisos">
+  {% call ui.seccion("Nuevo aviso", "add_alert", padding="px-6 py-5") %}
+  <form id="form-aviso" class="grid grid-cols-1 md:grid-cols-6 gap-4" novalidate>
+    <div class="md:col-span-6">
+      <label for="aviso-texto" class="block text-xs font-bold text-gray-600 mb-1">Texto del aviso <span class="text-red-600">*</span></label>
+      <textarea id="aviso-texto" name="texto" rows="2" maxlength="220" required class="w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary" placeholder="Ej: El sábado 1 de noviembre (feriado) la Farmacia atenderá de 09:00 a 13:00 hrs."></textarea>
+      <p class="text-xs text-gray-500 mt-1"><span id="aviso-cuenta">0</span>/220 caracteres. Una o dos frases.</p>
+    </div>
+    <div class="md:col-span-2">
+      <label for="aviso-tipo" class="block text-xs font-bold text-gray-600 mb-1">Tipo</label>
+      <select id="aviso-tipo" name="tipo" class="w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary">
+        <option value="info">Aviso (azul)</option>
+        <option value="importante">Importante (naranjo)</option>
+      </select>
+    </div>
+    <div class="md:col-span-2">
+      <label for="aviso-hasta" class="block text-xs font-bold text-gray-600 mb-1">Mostrar hasta <span class="font-normal text-gray-400">(opcional)</span></label>
+      <input id="aviso-hasta" name="hasta" type="date" class="w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary">
+    </div>
+    <div class="md:col-span-2">
+      <label for="aviso-url" class="block text-xs font-bold text-gray-600 mb-1">Enlace <span class="font-normal text-gray-400">(opcional)</span></label>
+      <input id="aviso-url" name="url" type="text" class="w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary" placeholder="/horarios.html o https://…">
+    </div>
+    <div class="md:col-span-6 flex flex-wrap items-center gap-3">
+      <button type="submit" class="bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-5 py-2.5 rounded-custom shadow">Publicar aviso</button>
+      <p id="aviso-msg" role="status" class="hidden flex-1 text-sm rounded-custom px-4 py-2"></p>
+    </div>
+  </form>
+  {% endcall %}
+
+  {% call ui.seccion("Avisos publicados", "list", padding="p-0") %}
+  <div id="lista-avisos" class="divide-y divide-gray-100"><p class="p-6 text-sm text-gray-400">Cargando…</p></div>
+  {% endcall %}
+</div>

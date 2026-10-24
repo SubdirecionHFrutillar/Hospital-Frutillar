@@ -135,6 +135,55 @@ collections:
           - { label: "Introducción", name: intro, widget: text }
           - { label: "Contenido", name: body, widget: markdown }
 
+      - label: "Visitas a hospitalizados"
+        name: "visitas"
+        file: "_data/visitas.json"
+        fields:
+          - { label: "Título", name: titulo, widget: string }
+          - { label: "Introducción", name: intro, widget: text }
+          - label: "Horario"
+            name: horario
+            widget: list
+            fields:
+              - { label: "Días", name: dias, widget: string }
+              - { label: "Horario", name: horario, widget: string }
+          - { label: "Nota del horario", name: notaHorario, widget: string, required: false }
+          - { label: "Visitas por paciente (ej: 2 personas a la vez)", name: maximoVisitas, widget: string, required: false }
+          - { label: "Información médica a familiares (horario o modalidad)", name: informeMedico, widget: string, required: false }
+          - { label: "Recomendaciones", name: recomendaciones, widget: list, field: { label: "Recomendación", name: texto, widget: string } }
+          - { label: "Información clínica", name: informacionClinica, widget: markdown }
+          - { label: "Compañía y acompañamiento", name: acompanamiento, widget: markdown }
+
+      - label: "¿Dónde consultar?"
+        name: "donde_consultar"
+        file: "_data/donde_consultar.json"
+        fields:
+          - { label: "Título", name: titulo, widget: string }
+          - { label: "Introducción", name: intro, widget: text }
+          - label: "Opciones"
+            name: opciones
+            widget: list
+            fields:
+              - { label: "Id", name: id, widget: string }
+              - { label: "Título", name: titulo, widget: string }
+              - { label: "Qué hacer", name: accion, widget: string }
+              - { label: "Ícono (Material Symbols)", name: icono, widget: string }
+              - { label: "Color", name: tono, widget: select, options: ["rojo", "azul", "verde"] }
+              - { label: "Ejemplos", name: ejemplos, widget: list, field: { label: "Ejemplo", name: texto, widget: string } }
+          - label: "Categorización en Urgencia"
+            name: categorizacion
+            widget: object
+            fields:
+              - { label: "Introducción", name: intro, widget: markdown }
+              - label: "Niveles"
+                name: niveles
+                widget: list
+                fields:
+                  - { label: "Nivel", name: nivel, widget: string }
+                  - { label: "Nombre", name: nombre, widget: string }
+                  - { label: "Espera", name: espera, widget: string }
+              - { label: "Nota", name: nota, widget: text }
+
       - label: "Trabaja con Nosotros"
         name: "trabaja"
         file: "_data/trabaja.json"

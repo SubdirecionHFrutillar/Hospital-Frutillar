@@ -35,6 +35,13 @@ module.exports = function (eleventyConfig) {
     return `/.netlify/images?url=${encodeURIComponent(url)}&w=${ancho}&q=75`;
   });
 
+  // Años cumplidos desde una fecha (AAAA-MM-DD) a la fecha del build, en hora de Chile.
+  eleventyConfig.addFilter("aniosDesde", (desde) => {
+    const [a, m, d] = String(desde).split("-").map(Number);
+    const hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" }).split("-").map(Number);
+    return hoy[0] - a - (hoy[1] < m || (hoy[1] === m && hoy[2] < d) ? 1 : 0);
+  });
+
   // ¿Corresponde este ítem del menú a la página actual?
   eleventyConfig.addFilter("navActivo", (item, url) => {
     if (typeof url !== "string") return false;

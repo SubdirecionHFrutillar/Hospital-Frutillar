@@ -1,0 +1,35 @@
+---
+layout: base.njk
+title: ¿Dónde consultar?
+description: "Cuándo llamar al 131, cuándo acudir a la Urgencia del Hospital de Frutillar y cuándo consultar en su CESFAM. Cómo funciona la categorización en Urgencia."
+permalink: donde-consultar.html
+---
+{% import "componentes.njk" as ui with context %}
+{% set d = donde_consultar %}
+{% set infoNav = nav | buscar("id", "info") %}
+{{ ui.banner(d.titulo, "Urgencia, CESFAM o 131: cómo elegir y cómo se prioriza la atención", "alt_route", [{ label: "Información al Usuario", url: "/horarios.html" }, { label: d.titulo }]) }}
+
+{% call ui.dosColumnas() %}
+  <div class="min-w-0 flex flex-col gap-6">
+    {{ ui.aviso(d.intro) }}
+    {% include "donde-consultar-tarjetas.njk" %}
+
+    {% call ui.seccion("¿Cómo se prioriza la atención en Urgencia?", "format_list_numbered", id="categorizacion") %}
+      <div class="prose max-w-none text-sm text-gray-700 leading-relaxed mb-4">{{ d.categorizacion.intro | markdown | safe }}</div>
+      <ol class="flex flex-col gap-2">
+        {% for n in d.categorizacion.niveles %}
+        <li class="triage triage--{{ n.nivel | lower }}">
+          <span class="triage__nivel">{{ n.nivel }}</span>
+          <span class="flex-1"><strong class="block text-sm text-gray-900">{{ n.nombre }}</strong><span class="text-xs text-gray-600">{{ n.espera }}</span></span>
+        </li>
+        {% endfor %}
+      </ol>
+      <p class="text-xs text-gray-500 mt-4">{{ d.categorizacion.nota }}</p>
+    {% endcall %}
+  </div>
+
+  <aside class="flex flex-col gap-5">
+    {{ ui.menuLateral("Información al Usuario", infoNav.items) }}
+    {{ ui.saludResponde() }}
+  </aside>
+{% endcall %}

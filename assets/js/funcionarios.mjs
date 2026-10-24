@@ -632,6 +632,74 @@ const paginas = {
     }
   },
 
+  async avisos() {
+    const u = await usuarioActual();
+    if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
+    const lista = $("#lista-avisos");
+    const form = $("#form-aviso");
+    const msg = $("#aviso-msg");
+    if (!PUBLICA_SITIO.includes(u.rol)) {
+      form.closest("div.bg-white")?.remove();
+      lista.replaceChildren(el("p", "p-6 text-sm text-gray-600", "Solo Comunicaciones o un administrador puede gestionar los avisos."));
+      return;
+    }
+    const texto = $("#aviso-texto");
+    texto.addEventListener("input", () => ($("#aviso-cuenta").textContent = String(texto.value.length)));
+    $("#aviso-hasta").min = new Date().toLocaleDateString("en-CA", TZ);
+    const avisoRegeneracion = (r) => (r.regenerando ? " El sitio se está actualizando: se verá en uno o dos minutos." : " Se verá en la próxima publicación del sitio.");
+
+    const cargar = async () => {
+      const { avisos } = await api("/api/avisos");
+      lista.replaceChildren();
+      if (!avisos.length) return lista.append(el("p", "p-6 text-sm text-gray-500", "No hay avisos publicados."));
+      for (const a of avisos) {
+        const fila = el("div", "flex items-start gap-4 px-5 py-4");
+        fila.append(icono(a.tipo === "importante" ? "campaign" : "info", a.tipo === "importante" ? "text-orange-600 mt-0.5" : "text-primary mt-0.5"));
+        const info = el("div", "flex-1 min-w-0");
+        info.append(el("p", "text-sm text-gray-800", a.texto));
+        const meta = [a.tipo === "importante" ? "Importante" : "Aviso", `por ${a.autor}`, fechaCorta(a.creado)];
+        if (a.hasta) meta.push(`hasta ${new Date(a.hasta + "T12:00:00").toLocaleDateString("es-CL", { dateStyle: "medium", ...TZ })}`);
+        if (!a.vigente) meta.push("vencido");
+        info.append(el("p", "text-xs text-gray-500 mt-1", meta.join(" · ")));
+        if (a.url) info.append(el("p", "text-xs text-primary mt-0.5 truncate", a.url));
+        const borrar = el("button", "text-xs font-bold text-red-600 hover:underline flex-shrink-0", "Eliminar");
+        borrar.type = "button";
+        borrar.addEventListener("click", async () => {
+          if (!confirm("¿Eliminar este aviso del sitio?")) return;
+          borrar.disabled = true;
+          try {
+            const r = await api(`/api/avisos/${a.id}`, { metodo: "DELETE" });
+            mensaje(msg, "Aviso eliminado." + avisoRegeneracion(r), "ok");
+            await cargar();
+          } catch (err) {
+            mensaje(msg, err.message);
+            borrar.disabled = false;
+          }
+        });
+        fila.append(info, borrar);
+        lista.append(fila);
+      }
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const boton = $("button[type=submit]", form);
+      boton.disabled = true;
+      try {
+        const r = await api("/api/avisos", { metodo: "POST", datos: { texto: texto.value, tipo: form.tipo.value, hasta: form.hasta.value, url: form.url.value.trim() } });
+        form.reset();
+        $("#aviso-cuenta").textContent = "0";
+        mensaje(msg, "Aviso publicado." + avisoRegeneracion(r), "ok");
+        await cargar();
+      } catch (err) {
+        mensaje(msg, err.message);
+      } finally {
+        boton.disabled = false;
+      }
+    });
+    await cargar();
+  },
+
   async "cambiar-clave"() {
     const u = await usuarioActual();
     if (u.debeCambiarClave) {
