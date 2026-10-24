@@ -45,6 +45,28 @@
   /* Barra bicolor corta bajo títulos (identidad gob.cl) */
   .gob-barra { width: 56px; height: 4px; background: linear-gradient(90deg, theme("colors.primary.DEFAULT") 0 50%, theme("colors.gob.rojo") 50% 100%); }
 
+  /* Avisos del hospital (franja bajo el menú) */
+  .aviso { border-bottom: 1px solid; }
+  .aviso--info { background: theme("colors.primary.bg"); border-color: theme("colors.primary.pale"); color: theme("colors.primary.deep"); }
+  .aviso--info .material-symbols-outlined { color: theme("colors.primary.DEFAULT"); }
+  .aviso--importante { background: #FFF4E5; border-color: #F5C98B; color: #5C3300; }
+  .aviso--importante .material-symbols-outlined { color: #C25E00; }
+
+  /* ¿Dónde consultar? */
+  .consulta { background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid var(--tono); border-radius: 4px; padding: 1rem 1.1rem 1.1rem; }
+  .consulta--rojo  { --tono: #C8102E; --tono-bg: #FDECEE; }
+  .consulta--azul  { --tono: theme("colors.primary.DEFAULT"); --tono-bg: theme("colors.primary.bg"); }
+  .consulta--verde { --tono: #2E7D32; --tono-bg: #EAF5EA; }
+  .consulta__icono { width: 44px; height: 44px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--tono-bg); color: var(--tono); }
+  .consulta__accion { font-size: 12.5px; font-weight: 600; color: var(--tono); line-height: 1.3; margin-top: 2px; }
+  .consulta__punto { width: 6px; height: 6px; border-radius: 9999px; background: var(--tono); flex-shrink: 0; margin-top: .45rem; }
+
+  /* Niveles de categorización en Urgencia */
+  .triage { display: flex; align-items: center; gap: .9rem; padding: .6rem .8rem; border-radius: 4px; background: #F8FAFC; border: 1px solid theme("colors.gray.100"); }
+  .triage__nivel { width: 44px; height: 44px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; font-family: theme("fontFamily.cartel"); font-weight: 800; font-size: 1.35rem; color: #fff; background: var(--nivel); }
+  .triage--c1 { --nivel: #B71C1C; } .triage--c2 { --nivel: #E65100; } .triage--c3 { --nivel: #F2A900; }
+  .triage--c4 { --nivel: #2E7D32; } .triage--c5 { --nivel: #1D5DB4; }
+
   /* Ítems de menú lateral */
   .acceso-item { border-left: 4px solid theme("colors.primary.light"); transition: border-color .15s, background .15s; }
   .acceso-item:hover,

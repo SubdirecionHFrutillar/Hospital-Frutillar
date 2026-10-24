@@ -1,0 +1,79 @@
+{
+  "titulo": "¿Dónde consultar?",
+  "intro": "Elegir el lugar correcto ayuda a que usted reciba atención más rápido y a que la Urgencia esté disponible para quienes más la necesitan.",
+  "opciones": [
+    {
+      "id": "131",
+      "titulo": "Emergencia con riesgo vital",
+      "accion": "Llame al 131 (SAMU) o acuda de inmediato a Urgencia",
+      "icono": "emergency",
+      "tono": "rojo",
+      "ejemplos": [
+        "Dolor de pecho intenso o que se extiende al brazo o mandíbula",
+        "Dificultad grave para respirar",
+        "Pérdida de conciencia o convulsiones",
+        "Signos de ataque cerebral: cara desviada, debilidad de un lado del cuerpo o dificultad para hablar",
+        "Hemorragia que no se detiene o accidente grave"
+      ]
+    },
+    {
+      "id": "urgencia",
+      "titulo": "Urgencia del Hospital",
+      "accion": "Abierta las 24 horas, todos los días",
+      "icono": "local_hospital",
+      "tono": "azul",
+      "ejemplos": [
+        "Fiebre alta que no baja con tratamiento",
+        "Dolor abdominal intenso",
+        "Heridas que necesitan sutura, golpes o posibles fracturas",
+        "Crisis de asma o dificultad respiratoria moderada",
+        "Deshidratación, sobre todo en niños y personas mayores"
+      ]
+    },
+    {
+      "id": "cesfam",
+      "titulo": "Su CESFAM",
+      "accion": "Controles, enfermedades crónicas y consultas que pueden esperar",
+      "icono": "home_health",
+      "tono": "verde",
+      "ejemplos": [
+        "Resfrío, dolor de garganta o síntomas leves",
+        "Controles de enfermedades crónicas y renovación de recetas",
+        "Exámenes de rutina y certificados",
+        "Vacunas y controles del niño sano",
+        "¿Dudas? Llame a Salud Responde: 600 360 7777 (24 horas)"
+      ]
+    }
+  ],
+  "categorizacion": {
+    "intro": "Al llegar a Urgencia, un profesional evalúa a cada paciente y le asigna una categoría según su gravedad (categorización o *triage*). **Se atiende primero a quien está más grave, no por orden de llegada.**",
+    "niveles": [
+      {
+        "nivel": "C1",
+        "nombre": "Emergencia vital",
+        "espera": "Atención inmediata"
+      },
+      {
+        "nivel": "C2",
+        "nombre": "Riesgo alto",
+        "espera": "Hasta 30 minutos"
+      },
+      {
+        "nivel": "C3",
+        "nombre": "Riesgo moderado",
+        "espera": "Hasta 90 minutos"
+      },
+      {
+        "nivel": "C4",
+        "nombre": "Baja complejidad",
+        "espera": "Después de los casos más graves; la espera puede ser larga"
+      },
+      {
+        "nivel": "C5",
+        "nombre": "No urgente",
+        "espera": "Después de los casos más graves; puede ser orientado a su CESFAM"
+      }
+    ],
+    "nota": "Los tiempos son referenciales y pueden variar según la cantidad de pacientes graves que estén siendo atendidos. Si mientras espera sus síntomas empeoran, avise de inmediato al personal."
+  }
+}

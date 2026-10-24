@@ -1,0 +1,23 @@
+{
+  "titulo": "Visitas e información a familiares",
+  "intro": "Las visitas acompañan la recuperación de nuestros pacientes. Le pedimos respetar el horario y las indicaciones del equipo de salud para cuidar a todos los pacientes hospitalizados.",
+  "horario": [
+    {
+      "dias": "Todos los días (incluidos fines de semana y festivos)",
+      "horario": "10:00 – 19:00 hrs"
+    }
+  ],
+  "notaHorario": "Horario continuado.",
+  "informeMedico": "",
+  "maximoVisitas": "",
+  "recomendaciones": [
+    "Lávese las manos o use alcohol gel al entrar y al salir de la sala.",
+    "No visite si tiene fiebre, tos, resfrío, diarrea o vómitos: puede contagiar a pacientes delicados.",
+    "Siga las indicaciones del personal; durante procedimientos o urgencias se le puede pedir esperar fuera de la sala.",
+    "Consulte antes de traer alimentos: algunos pacientes tienen régimen o ayuno indicado.",
+    "Mantenga un tono de voz bajo y el teléfono en silencio para respetar el descanso de los demás pacientes.",
+    "Si el paciente requiere un acompañante permanente o una visita fuera de horario, converse con la enfermera o enfermero de turno."
+  ],
+  "informacionClinica": "La información sobre el estado de salud del paciente la entrega el **médico tratante** al propio paciente o a quien él autorice, según la **Ley N° 20.584** de derechos y deberes de los pacientes.",
+  "acompanamiento": "Toda persona hospitalizada tiene derecho a recibir visitas, compañía y asistencia espiritual, de acuerdo con el horario y las normas del establecimiento (Ley N° 20.584). Si su familiar necesita compañía permanente, converse con el equipo de la unidad."
+}

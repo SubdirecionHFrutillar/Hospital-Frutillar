@@ -9,7 +9,8 @@ accesosUsuarios:
   - { titulo: "OIRS", texto: "Oficina de Información, Reclamos y Sugerencias. Haz llegar tu opinión o reclamo.", url: "/contacto.html", icono: "campaign", cta: "Contactar", fondo: "bg-teal-50 border-teal-100", circulo: "bg-teal-600", color: "text-teal-600" }
   - { titulo: "Preguntas Frecuentes", texto: "Respuestas sobre atención, horarios, pagos FONASA y trámites en el hospital", url: "/faq.html", icono: "help", cta: "Ver respuestas", fondo: "bg-purple-50 border-purple-100", circulo: "bg-purple-600", color: "text-purple-600" }
 accesosRapidos:
-  - { titulo: "Urgencias", texto: "Horarios y categorización", url: "/servicios.html#urgencia", icono: "emergency", tono: "bg-red-50 text-red-500" }
+  - { titulo: "¿Urgencia o CESFAM?", texto: "Dónde consultar y categorización", url: "/donde-consultar.html", icono: "emergency", tono: "bg-red-50 text-red-500" }
+  - { titulo: "Visitas a hospitalizados", texto: "Todos los días, 10:00 a 19:00 hrs", url: "/visitas.html", icono: "groups", tono: "bg-amber-50 text-amber-600" }
   - { titulo: "Horarios de Atención", texto: "Consultas y especialidades", url: "/horarios.html", icono: "schedule", tono: "bg-primary-bg text-primary" }
   - { titulo: "Imagenología", texto: "Ver exámenes en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", tono: "bg-indigo-50 text-indigo-600" }
   - { titulo: "Teléfonos del Hospital", texto: "Contacto y cómo llegar", url: "/contacto.html", icono: "call", tono: "bg-green-50 text-green-600" }
@@ -39,6 +40,20 @@ accesosRapidos:
       </a>
       {% endfor %}
     </div>
+  </div>
+</section>
+
+<!-- ¿DÓNDE CONSULTAR? -->
+<section class="bg-zinc-50 border-b border-gray-200 py-10" aria-labelledby="titulo-consultar">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap items-end justify-between gap-3 mb-6">
+      <div>
+        <h2 id="titulo-consultar" class="text-2xl font-bold text-primary-deep">¿Dónde consultar?</h2>
+        <p class="text-sm text-gray-600 mt-1 max-w-2xl">{{ donde_consultar.intro }}</p>
+      </div>
+      <a href="/donde-consultar.html#categorizacion" class="text-sm font-bold text-primary hover:underline">Cómo se prioriza la atención en Urgencia →</a>
+    </div>
+    {% include "donde-consultar-tarjetas.njk" %}
   </div>
 </section>
 
@@ -179,3 +194,25 @@ accesosRapidos:
     </div>
   </aside>
 {% endcall %}
+
+<!-- CÓMO LLEGAR -->
+<section class="bg-white border-t border-gray-200 py-10" aria-labelledby="titulo-llegar">
+  <div class="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 items-stretch">
+    <div class="rounded-custom overflow-hidden border border-gray-200 shadow-sm min-h-[300px] bg-gray-100">
+      <iframe src="{{ site.mapsEmbed }}" title="Mapa de ubicación del {{ site.name }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full h-full min-h-[300px] border-0"></iframe>
+    </div>
+    <div class="flex flex-col gap-4">
+      <div>
+        <h2 id="titulo-llegar" class="text-2xl font-bold text-primary-deep">Cómo llegar</h2>
+        <div class="gob-barra mt-3" aria-hidden="true"></div>
+      </div>
+      <p class="flex items-start gap-2 text-gray-800"><span aria-hidden="true" class="material-symbols-outlined text-primary">location_on</span><span><strong>{{ site.direccion }}</strong><br><span class="text-sm text-gray-500">{{ site.region }}, Chile</span></span></p>
+      <p class="flex items-start gap-2 text-gray-800"><span aria-hidden="true" class="material-symbols-outlined text-primary">call</span><span><a href="{{ site.telefonoCentralHref }}" class="font-bold hover:underline">{{ site.telefonoCentral }}</a><br><span class="text-sm text-gray-500">Central telefónica</span></span></p>
+      <p class="flex items-start gap-2 text-gray-800"><span aria-hidden="true" class="material-symbols-outlined text-red-600">emergency</span><span><strong>Urgencia 24 horas</strong><br><span class="text-sm text-gray-500">Emergencia vital: llame al <a href="tel:131" class="font-bold text-gray-800 hover:underline">131</a></span></span></p>
+      <div class="flex flex-wrap gap-2 mt-auto">
+        <a href="{{ site.mapsUrl }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-bold px-4 py-2.5 rounded-custom"><span aria-hidden="true" class="material-symbols-outlined text-base">directions</span>Abrir en Google Maps</a>
+        <a href="/contacto.html" class="inline-flex items-center gap-2 border border-primary-pale bg-primary-bg text-primary text-sm font-bold px-4 py-2.5 rounded-custom hover:bg-primary-pale">Contacto</a>
+      </div>
+    </div>
+  </div>
+</section>
