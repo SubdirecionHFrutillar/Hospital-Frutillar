@@ -133,8 +133,36 @@ async function optimizarImagen(f) {
   }
 }
 
+// Miniatura liviana (640 px) para los listados del muro.
+async function miniatura(f) {
+  if (!/^image\/(jpeg|png|webp)$/.test(f.type)) return null;
+  try {
+    const bmp = await createImageBitmap(f, { imageOrientation: "from-image" });
+    const escala = Math.min(1, 640 / bmp.width);
+    const lienzo = document.createElement("canvas");
+    lienzo.width = Math.round(bmp.width * escala);
+    lienzo.height = Math.round(bmp.height * escala);
+    lienzo.getContext("2d").drawImage(bmp, 0, 0, lienzo.width, lienzo.height);
+    bmp.close?.();
+    let blob = await new Promise((r) => lienzo.toBlob(r, "image/webp", 0.72));
+    if (!blob || blob.type !== "image/webp") blob = await new Promise((r) => lienzo.toBlob(r, "image/jpeg", 0.75));
+    return blob && blob.size <= 290 * 1024 ? blob : null;
+  } catch {
+    return null;
+  }
+}
+
 async function subirArchivo(url, f) {
   f = await optimizarImagen(f);
+  const archivo = await subirOriginal(url, f);
+  if (url === "/api/intranet/archivos") {
+    const mini = await miniatura(f);
+    if (mini) await fetch(`${url}/${archivo.id}/miniatura`, { method: "POST", credentials: "same-origin", headers: { "content-type": mini.type }, body: mini }).catch(() => {});
+  }
+  return archivo;
+}
+
+async function subirOriginal(url, f) {
   const PARTE = 4 * 1024 * 1024;
   const base = { "content-type": f.type || "application/octet-stream", "x-nombre": encodeURIComponent(f.name) };
   const enviar = async (cuerpo, extra = {}) => {
@@ -205,8 +233,10 @@ const paginas = {
   },
 
   async portal() {
-    const u = await usuarioActual();
-    if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
+    // La sesión y el listado se piden en paralelo (el listado también exige sesión)
+    const sesion = usuarioActual().then((u) => {
+      if (u.debeCambiarClave) location.href = "/funcionarios/cambiar-clave.html";
+    });
 
     // Muro de publicaciones (paginado: POR_PAGINA por página, con la página en la URL)
     const POR_PAGINA = 12;
@@ -222,7 +252,8 @@ const paginas = {
       a.href = `/funcionarios/publicacion.html?id=${p.id}`;
       if (p.imagen) {
         const img = el("img", "w-full h-48 object-cover object-top bg-gray-100");
-        img.src = `/api/intranet/archivos/${p.imagen}`;
+        img.src = `/api/intranet/archivos/${p.imagen}?tam=min`;
+        img.decoding = "async";
         img.alt = "";
         img.loading = "lazy";
         a.append(img);
@@ -322,7 +353,7 @@ const paginas = {
         muro.removeAttribute("aria-busy");
       }
     };
-    await cargar();
+    await Promise.all([sesion, cargar()]);
   },
 
   async publicacion() {

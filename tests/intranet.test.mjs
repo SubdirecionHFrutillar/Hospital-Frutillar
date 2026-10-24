@@ -202,3 +202,35 @@ test("Archivos grandes: subida por partes y descarga completa", async () => {
   r = await archivos(req("/api/intranet/archivos", { metodo: "POST", cookie: cEditor, headers: { "content-type": "application/pdf" }, cuerpo: new Uint8Array(6 * 1024 * 1024) }), { params: {} });
   assert.equal(r.status, 413);
 });
+
+test("Miniaturas de imágenes: solo editores las suben; el listado las usa y cae al original si faltan", async () => {
+  const { cEditor, cFunc } = await preparar();
+  const foto = new Uint8Array(2000).fill(7);
+  let r = await archivos(req("/api/intranet/archivos", { metodo: "POST", cookie: cEditor, headers: { "content-type": "image/jpeg", "x-nombre": "foto.jpg" }, cuerpo: foto }), { params: {} });
+  const { archivo } = await r.json();
+  const p = { id: archivo.id };
+
+  // Sin miniatura: ?tam=min entrega el original con caché corta
+  r = await archivos(req(`/api/intranet/archivos/${archivo.id}?tam=min`, { cookie: cFunc }), { params: p });
+  assert.equal(r.status, 200);
+  assert.equal((await r.arrayBuffer()).byteLength, 2000);
+  assert.match(r.headers.get("cache-control"), /max-age=3600/);
+
+  // Funcionario no puede subir miniaturas; tipo y tamaño se validan
+  const mini = (cookie, tipo, cuerpo) => archivos(req(`/api/intranet/archivos/${archivo.id}/miniatura`, { metodo: "POST", cookie, headers: { "content-type": tipo }, cuerpo }), { params: { ...p, accion: "miniatura" } });
+  assert.equal((await mini(cFunc, "image/webp", new Uint8Array(10))).status, 403);
+  assert.equal((await mini(cEditor, "image/png", new Uint8Array(10))).status, 415);
+  assert.equal((await mini(cEditor, "image/webp", new Uint8Array(400 * 1024))).status, 413);
+  assert.equal((await mini(cEditor, "image/webp", new Uint8Array(300))).status, 201);
+
+  r = await archivos(req(`/api/intranet/archivos/${archivo.id}?tam=min`, { cookie: cFunc }), { params: p });
+  assert.equal((await r.arrayBuffer()).byteLength, 300);
+  assert.equal(r.headers.get("content-type"), "image/webp");
+  assert.match(r.headers.get("cache-control"), /immutable/);
+
+  // Un PDF no admite miniatura
+  r = await archivos(req("/api/intranet/archivos", { metodo: "POST", cookie: cEditor, headers: { "content-type": "application/pdf", "x-nombre": "a.pdf" }, cuerpo: new Uint8Array([37, 80, 68, 70]) }), { params: {} });
+  const pdf = (await r.json()).archivo;
+  r = await archivos(req(`/api/intranet/archivos/${pdf.id}/miniatura`, { metodo: "POST", cookie: cEditor, headers: { "content-type": "image/webp" }, cuerpo: new Uint8Array(10) }), { params: { id: pdf.id, accion: "miniatura" } });
+  assert.equal(r.status, 404);
+});

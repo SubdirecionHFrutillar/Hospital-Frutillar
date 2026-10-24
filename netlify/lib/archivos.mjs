@@ -65,6 +65,20 @@ export function repoArchivos(nombreAlmacen) {
       const m = (await st.getMetadata(`archivos/${id}`))?.metadata;
       if (m?.partes) for (let i = 0; i < m.partes; i++) await st.delete(`partes/${m.subida}/${i}`);
       await st.delete(`archivos/${id}`);
+      await st.delete(`miniaturas/${id}`);
+    },
+    /** Miniatura (≈640 px) de una imagen, para listados. La genera el navegador al subir la foto. */
+    async guardarMiniatura(id, datos, tipo) {
+      if (!esId(id)) return false;
+      const st = await almacen();
+      const m = (await st.getMetadata(`archivos/${id}`))?.metadata;
+      if (!m || !m.tipo?.startsWith("image/")) return false;
+      await st.set(`miniaturas/${id}`, datos, { metadata: { nombre: m.nombre, tipo, tamano: datos.byteLength } });
+      return true;
+    },
+    async leerMiniatura(id) {
+      if (!esId(id)) return null;
+      return (await almacen()).getWithMetadata(`miniaturas/${id}`, { type: "arrayBuffer" });
     },
     /** Guarda una parte de una subida grande. */
     async guardarParte({ subida, parte, datos }) {
@@ -132,6 +146,10 @@ export async function recibirArchivo(req, repo, subidoPor) {
   if (!archivo) return { status: 400, cuerpo: { error: `Faltan partes o el archivo supera los ${MAX_ARCHIVO_PARTES_MB} MB.` } };
   return { status: 201, cuerpo: { archivo } };
 }
+
+/** Tipos y tamaño máximo aceptados para miniaturas. */
+export const TIPOS_MINIATURA = ["image/webp", "image/jpeg"];
+export const MAX_MINIATURA_KB = 300;
 
 /** Respuesta HTTP para entregar un archivo guardado. */
 export function respuestaArchivo(r, cache) {
