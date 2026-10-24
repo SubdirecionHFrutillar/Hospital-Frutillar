@@ -1,12 +1,17 @@
 {
   "titulo": "Calidad y Seguridad del Paciente",
-  "descripcion": "Documentos de la Unidad de Calidad ordenados por ámbito del Manual de Acreditación de Atención Cerrada (Superintendencia de Salud), más IAAS e indicadores.",
-  "carpetaGeneral": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
+  "descripcion": "Documentos de la Unidad de Calidad ordenados por ámbito del Manual de Acreditación de Atención Cerrada (Superintendencia de Salud). Cada enlace abre la carpeta o el documento vigente en Google Drive.",
+  "carpetaGeneral": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI",
   "destacados": [
     {
-      "titulo": "Carpeta general de Calidad",
-      "descripcion": "Todos los documentos vigentes de la Unidad de Calidad en Google Drive.",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link"
+      "titulo": "Plan Institucional de Emergencia y Evacuación",
+      "descripcion": "INS 2.1 · Seguridad de las instalaciones.",
+      "url": "https://drive.google.com/file/d/1Av8gOCsUy2jkvxffsRMbH1UCx6ZwhfRw/view"
+    },
+    {
+      "titulo": "Política de calidad",
+      "descripcion": "CAL · Gestión de la calidad.",
+      "url": "https://drive.google.com/drive/folders/1gTDWmR71zdEmqQ7q7v6OXjii3P4UNs9T"
     }
   ],
   "ambitos": [
@@ -15,95 +20,353 @@
       "nombre": "Respeto a la dignidad del paciente",
       "descripcion": "Derechos y deberes, consentimiento informado, comité de ética.",
       "icono": "diversity_3",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "https://drive.google.com/drive/folders/1w9wtfNJQ5m0ehmCfV1-sBNC0lExO__qi",
+      "documentos": [
+        {
+          "titulo": "Derechos y deberes del paciente",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/19eYqPFc2cFIuluE3uiE45UMRPK86zy3u"
+        },
+        {
+          "titulo": "Gestión de reclamos",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1sgtpN1dTK24sIK_BIdaySYfFAIgEMoOd"
+        },
+        {
+          "titulo": "Encuesta de satisfacción usuaria",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1GYlIJKIS2FuuPkNaoU0HzzdASdco2DC2"
+        },
+        {
+          "titulo": "Investigación en seres humanos",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1nfbQY2npT4_Q39BieW42USOpgxxtP19s"
+        },
+        {
+          "titulo": "Actividades de pregrado",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1UnJhCtjupN3lYlDpekvT1lcjFTcmylPP"
+        },
+        {
+          "titulo": "Comité de ética",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1Fm3WTtwxqFx4ozcFy-z32EyqfoeH8xew"
+        }
+      ]
     },
     {
       "sigla": "CAL",
       "nombre": "Gestión de la calidad",
       "descripcion": "Programa de calidad, política, evaluación anual.",
       "icono": "workspace_premium",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "https://drive.google.com/drive/folders/1ejqupMoL8UiouwQUMIc568Tj3fxlwS7b",
+      "documentos": [
+        {
+          "titulo": "Política de calidad",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1gTDWmR71zdEmqQ7q7v6OXjii3P4UNs9T"
+        },
+        {
+          "titulo": "Metas por servicio",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1fBF3ctXV5bPYnlhsmiB-rJND9XLwHKgw"
+        }
+      ]
     },
     {
       "sigla": "GCL",
       "nombre": "Gestión clínica",
       "descripcion": "Protocolos clínicos, eventos adversos, prevención de caídas, IAAS.",
       "icono": "clinical_notes",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "https://drive.google.com/drive/folders/1FjSzYFxrUd7BEkhCWGj8F5xvQatNXIxD",
+      "documentos": [
+        {
+          "titulo": "Atención de enfermería",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1tUIIKuvfs9y4Xz0PDSrz44jHPO6tVDSx"
+        },
+        {
+          "titulo": "Reanimación cardiopulmonar",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/13xf5DjnFFwmxxGuieqqn7nOZvVAJyRbz"
+        },
+        {
+          "titulo": "Indicación de transfusión",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1OsdMAu4zkHujTpHuKI76GnwkFBXWczZK"
+        },
+        {
+          "titulo": "Agitación psicomotora",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1M1YiFzEZS5Tr57vbcvH9MGi_8z_hv7AZ"
+        },
+        {
+          "titulo": "Pacientes con ideación suicida",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1tJSNMwfxwaEFlDhQb4MJX86-lPMwI74C"
+        },
+        {
+          "titulo": "Procedimiento de biopsias",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/14VG5mMUTu9Qgwo3CgRd-VGUlQNYec7dx"
+        },
+        {
+          "titulo": "Identificación de pacientes",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1hjudoGHN9ecVB2fk4B84HLCCV9aYZAW5"
+        },
+        {
+          "titulo": "Eventos adversos",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1MbpCgPiau0EP13X4hBr7q9jFFzAV3mwb"
+        },
+        {
+          "titulo": "Vigilancia de eventos adversos",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1gBX-H8Lu08sc-ZkPJcD5WFAxuGtF7VWk"
+        }
+      ]
     },
     {
       "sigla": "AOC",
       "nombre": "Acceso, oportunidad y continuidad",
       "descripcion": "Urgencia, derivación, traslado, alertas de resultados críticos.",
       "icono": "alt_route",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "https://drive.google.com/drive/folders/1_xKRIa3YoTewYTOeNs8BozIu5BgMPFW1",
+      "documentos": [
+        {
+          "titulo": "Clave azul",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/13mUNLtIPmBgIJEBO9tOSy4N4UW29KDOB"
+        },
+        {
+          "titulo": "Categorización de pacientes",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1RVs4uCWlpsiuRJIPP7DP5d7LZm1ImIxI"
+        },
+        {
+          "titulo": "Notificación de valores críticos",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1PqXMzFLkk-nAG5Y1fNBRAXRZh7hUqktJ"
+        },
+        {
+          "titulo": "Derivación de pacientes (Urgencia)",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1bMi9rEikJJJsAWQhRduWFeS-HcvuXLRc"
+        },
+        {
+          "titulo": "Entrega de turno",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1NZD4mf4mkI3_jucU09kHzLAlCRdYn86v"
+        }
+      ]
     },
     {
       "sigla": "RH",
       "nombre": "Competencias del recurso humano",
       "descripcion": "Habilitación, certificación, inducción y capacitación.",
       "icono": "school",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "https://drive.google.com/drive/folders/1AEK7xL2uvUE3fFuHw13FM8U6Lr8hl74P",
+      "documentos": [
+        {
+          "titulo": "Programa de inducción",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1lNjBLVPh2Ci1QJHKRoiIs2k-4MsFAPNk"
+        },
+        {
+          "titulo": "Programa de orientación",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1_EcIGsZYzaOkx6mPgNwUz_0bUJWeREm-"
+        },
+        {
+          "titulo": "Programa de capacitación IAAS y RCP",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/18JJCuWoqFROAlgkmMvMKqvu_tQeUSv2Z"
+        },
+        {
+          "titulo": "Riesgo de exposiciones (dosímetro)",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1lGigyBOPsxBGn6On1Wc2IzqDvBoCsRFQ"
+        },
+        {
+          "titulo": "Accidentes cortopunzantes",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/18D96txhyVEhkWQ5uuJkFec4qLTuJy4Ab"
+        },
+        {
+          "titulo": "Vacunación del personal",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1WzVy8EY1Zt3_femHrwSl_6_EugLoONoD"
+        }
+      ]
     },
     {
       "sigla": "REG",
       "nombre": "Registros",
       "descripcion": "Ficha clínica: contenido, manejo y conservación.",
       "icono": "folder_shared",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
-    },
-    {
-      "sigla": "EQ",
-      "nombre": "Seguridad del equipamiento",
-      "descripcion": "Mantención preventiva de equipos críticos.",
-      "icono": "precision_manufacturing",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "https://drive.google.com/drive/folders/1KwtqrX-VAbL8TG3I0vPbZGGmPeEkWymT",
+      "documentos": [
+        {
+          "titulo": "Ficha clínica única",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/19ZzqEHCkPMJ9DptBSjfK1_F5rQCwZ3R1"
+        },
+        {
+          "titulo": "Conservación de la ficha clínica",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1sOa04nromPGp1MSIyDEesM7X-gd70Wn1"
+        },
+        {
+          "titulo": "Registros clínicos estandarizados",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/1XtKr8KBqgUCKH-zM1Yesnj7xHEo79ZYh"
+        },
+        {
+          "titulo": "Prestaciones escritas al usuario",
+          "codigo": "",
+          "url": "https://drive.google.com/drive/folders/13wL5Wl479zn3mcDP39TMhsYpK0DnSpJ7"
+        }
+      ]
     },
     {
       "sigla": "INS",
       "nombre": "Seguridad de las instalaciones",
       "descripcion": "Plan de emergencia, prevención de incendios, mantención.",
       "icono": "domain",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "https://drive.google.com/drive/folders/12MBd0P9OdW31eMUtGnibwSRShf5glDw6",
+      "documentos": [
+        {
+          "titulo": "Plan Institucional de Emergencia y Evacuación",
+          "codigo": "INS 2.1",
+          "url": "https://drive.google.com/file/d/1Av8gOCsUy2jkvxffsRMbH1UCx6ZwhfRw/view"
+        }
+      ]
     },
     {
       "sigla": "AP",
       "nombre": "Servicios de apoyo",
       "descripcion": "Laboratorio, farmacia, esterilización, imagenología, transfusión y otros.",
       "icono": "biotech",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "",
+      "documentos": [
+        {
+          "titulo": "Farmacia: almacenamiento y conservación de medicamentos",
+          "codigo": "APF",
+          "url": "https://drive.google.com/drive/folders/1wobM-dICgsdJzpxDvtMK8zvhAF0Xky6R"
+        },
+        {
+          "titulo": "Farmacia: procedimientos de la unidad",
+          "codigo": "APF",
+          "url": "https://drive.google.com/drive/folders/1YcfbA1aoFeiKatVNJ65oJOqmsfNL-I8x"
+        },
+        {
+          "titulo": "Farmacia: stock mínimo de medicamentos e insumos",
+          "codigo": "APF",
+          "url": "https://drive.google.com/drive/folders/17XVO2KoRAB6UzXQltKDaLfaaU5HaYvQo"
+        },
+        {
+          "titulo": "Farmacia: adquisición de medicamentos e insumos",
+          "codigo": "APF",
+          "url": "https://drive.google.com/drive/folders/1IMECsAcL1HetgLh-g4mvfxYaiSOVFda0"
+        },
+        {
+          "titulo": "Imagenología: solicitud de examen imagenológico",
+          "codigo": "API",
+          "url": "https://drive.google.com/drive/folders/1SrsEdvZhlxRtMBFd-SpMRKAkI7qpH6KU"
+        },
+        {
+          "titulo": "Anatomía patológica: etapa preanalítica",
+          "codigo": "APA 1.2",
+          "url": "https://drive.google.com/drive/folders/1peWfrYWoQT3Gi7mErjF9Am7CTTLBsHub"
+        },
+        {
+          "titulo": "Transporte de pacientes",
+          "codigo": "APT 1.2",
+          "url": "https://drive.google.com/drive/folders/1FKsoPx4ayQbr8qpVSORNvF1WFjkg0e7W"
+        },
+        {
+          "titulo": "Esterilización",
+          "codigo": "APE 1.3",
+          "url": "https://drive.google.com/drive/folders/1dVAEeyczIvD3_VksGTZZF6SKkVAWTJUS"
+        },
+        {
+          "titulo": "Esterilización",
+          "codigo": "APE 1.4",
+          "url": "https://drive.google.com/drive/folders/1RHpXlosqzsOiVkWosqg-BXKmNWW-QRJ5"
+        },
+        {
+          "titulo": "Medicina transfusional: procedimiento",
+          "codigo": "APTr 1.2",
+          "url": "https://drive.google.com/drive/folders/1OB0QwhnPaQvO4aI0tQV0LzdtVv04dJVu"
+        },
+        {
+          "titulo": "Medicina transfusional: trazabilidad de componentes sanguíneos",
+          "codigo": "APTr 1.3",
+          "url": "https://drive.google.com/drive/folders/1HTmL73Z1u7Fy0P9scfmDTTw4nJbBS8hL"
+        },
+        {
+          "titulo": "Atención kinésica respiratoria",
+          "codigo": "APK 1.2",
+          "url": "https://drive.google.com/drive/folders/1H28PZMBa0UGB6PiozWOPiG60YaWSqPPH"
+        },
+        {
+          "titulo": "Atención kinésica musculoesquelética",
+          "codigo": "APK 1.3",
+          "url": "https://drive.google.com/drive/folders/1Gw3pjLqBFZXDwwKEl02H7q0x0Xf7tMFK"
+        }
+      ]
     }
   ],
   "otros": [
     {
       "nombre": "IAAS",
-      "descripcion": "Infecciones asociadas a la atención de salud: precauciones estándar, higiene de manos, vigilancia.",
+      "descripcion": "Infecciones asociadas a la atención de salud: prevención, control y vigilancia.",
       "icono": "sanitizer",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "",
+      "documentos": [
+        {
+          "titulo": "IAAS",
+          "codigo": "GCL",
+          "url": "https://drive.google.com/drive/folders/18hs__ywCuCTdTZpRTIOGH6isVtJlPotp"
+        },
+        {
+          "titulo": "Prevención y control de IAAS",
+          "codigo": "GCL",
+          "url": "https://drive.google.com/drive/folders/1rlAfY6gDHt65yMv0L5kUS4LWUtlr4Hmu"
+        }
+      ]
     },
     {
-      "nombre": "Indicadores",
-      "descripcion": "Pautas de cotejo, mediciones periódicas y resultados.",
+      "nombre": "Indicadores y metas",
+      "descripcion": "Metas de calidad por servicio.",
       "icono": "monitoring",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "",
+      "documentos": [
+        {
+          "titulo": "Metas por servicio",
+          "codigo": "CAL",
+          "url": "https://drive.google.com/drive/folders/1fBF3ctXV5bPYnlhsmiB-rJND9XLwHKgw"
+        }
+      ]
     },
     {
       "nombre": "Capacitaciones",
-      "descripcion": "Material de capacitación en calidad y seguridad del paciente.",
+      "descripcion": "Inducción, orientación y capacitación del personal.",
       "icono": "co_present",
-      "url": "https://drive.google.com/drive/folders/1cBUFnA-tHKI6gPaD5XH7VCR0dejD5wlI?usp=drive_link",
-      "documentos": []
+      "url": "",
+      "documentos": [
+        {
+          "titulo": "Programa de capacitación IAAS y RCP",
+          "codigo": "RH",
+          "url": "https://drive.google.com/drive/folders/18JJCuWoqFROAlgkmMvMKqvu_tQeUSv2Z"
+        },
+        {
+          "titulo": "Programa de inducción",
+          "codigo": "RH",
+          "url": "https://drive.google.com/drive/folders/1lNjBLVPh2Ci1QJHKRoiIs2k-4MsFAPNk"
+        }
+      ]
     }
   ]
 }
