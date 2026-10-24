@@ -4,14 +4,15 @@
 //         Si FUNCIONARIOS_CLAVE_INICIAL está definida, la cuenta parte con esa clave común;
 //         si no, se genera una clave temporal individual (que se devuelve una sola vez).
 //         En ambos casos vence a las 72 h si no se cambia.
-//   PATCH /api/admin/usuarios  { rut, accion: "restablecer" | "activar" | "desactivar" | "editar", nombre?, cargo?, rol? }
+//   PATCH /api/admin/usuarios  { rut, accion: "restablecer" | "activar" | "desactivar" | "editar", nombre?, cargo?, rol?, correo? }
+//   DELETE /api/admin/usuarios { rut }  → elimina la cuenta (no la propia ni el último administrador)
 import { normalizarRut } from "../lib/rut.mjs";
 import * as U from "../lib/usuarios.mjs";
 import { manejador, sesionActual, leerJSON, json, error, env } from "../lib/http.mjs";
 
 const texto = (v, max = 120) => (typeof v === "string" ? v.trim().replace(/\s+/g, " ").slice(0, max) : "");
 
-export default manejador(["GET", "POST", "PATCH"], async (req) => {
+export default manejador(["GET", "POST", "PATCH", "DELETE"], async (req) => {
   const yo = await sesionActual(req);
   if (!yo) return error("Sesión no válida.", 401);
   if (yo.rol !== "admin") return error("No tiene permisos para administrar cuentas.", 403);
@@ -34,12 +35,14 @@ export default manejador(["GET", "POST", "PATCH"], async (req) => {
     if (nombre.length < 3) return error("Ingrese el nombre completo.");
     const rol = U.ROLES.includes(datos.rol) ? datos.rol : "funcionario";
     if (await U.obtener(rut)) return error("Ya existe una cuenta con ese RUT.", 409);
+    const correo = U.correoValido(datos.correo);
+    if (correo === null) return error("El correo de contacto no es válido.");
 
     const comun = env("FUNCIONARIOS_CLAVE_INICIAL");
     const temporal = comun || U.claveTemporal();
     const ahora = new Date().toISOString();
     const nuevo = await U.guardar({
-      rut, nombre, cargo: texto(datos.cargo), rol, activo: true,
+      rut, nombre, cargo: texto(datos.cargo), correo, rol, activo: true,
       hash: await U.hashClave(temporal), sv: 1, debeCambiarClave: true, claveTemporalVence: U.venceTemporal(),
       creado: ahora, creadoPor: yo.rut, ultimoAcceso: null,
     });
@@ -47,10 +50,19 @@ export default manejador(["GET", "POST", "PATCH"], async (req) => {
     return json({ usuario: U.publico(nuevo), ...(comun ? { claveComun: true } : { claveTemporal: temporal }) }, 201);
   }
 
-  // PATCH
   const u = await U.obtener(rut);
   if (!u) return error("No existe una cuenta con ese RUT.", 404);
   const esUno = u.rut === yo.rut;
+  const otrosAdmins = async () => (await U.listar()).some((x) => x.rut !== u.rut && x.rol === "admin" && x.activo);
+
+  if (req.method === "DELETE") {
+    if (esUno) return error("No puede eliminar su propia cuenta.");
+    if (u.rol === "admin" && !(await otrosAdmins())) return error("No se puede eliminar al único administrador.");
+    await U.eliminar(rut);
+    return json({ ok: true });
+  }
+
+  // PATCH
   let claveTemporal;
   let claveComun = false;
 
@@ -83,6 +95,11 @@ export default manejador(["GET", "POST", "PATCH"], async (req) => {
         u.nombre = n;
       }
       if (datos.cargo !== undefined) u.cargo = texto(datos.cargo);
+      if (datos.correo !== undefined) {
+        const c = U.correoValido(datos.correo);
+        if (c === null) return error("El correo de contacto no es válido.");
+        u.correo = c;
+      }
       if (datos.rol !== undefined) {
         if (!U.ROLES.includes(datos.rol)) return error("Rol inválido.");
         if (esUno && datos.rol !== "admin") return error("No puede quitarse a sí mismo el rol de administrador.");

@@ -5,11 +5,11 @@ title: Inicio
 portada: true
 accesosUsuarios:
   - { titulo: "Ver Imágenes de Exámenes", texto: "Accede a tus imágenes de radiología, ecografía y otros exámenes en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", cta: "Acceder", fondo: "bg-primary-bg border-primary-pale hover:border-primary-light", circulo: "bg-primary", color: "text-primary" }
-  - { titulo: "Solicitar Ficha Clínica", texto: "Solicita copia de tu ficha clínica según Ley N° 20.584 sobre derechos del paciente", url: "/carta-derechos.html", icono: "folder_shared", cta: "Más información", fondo: "bg-amber-50 border-amber-100", circulo: "bg-amber-500", color: "text-amber-600" }
+  - { titulo: "¿Urgencia o CESFAM?", texto: "Dónde consultar según su problema y cómo se prioriza la atención en Urgencia", url: "/donde-consultar.html", icono: "alt_route", cta: "Ver guía", fondo: "bg-red-50 border-red-100", circulo: "bg-red-600", color: "text-red-600" }
   - { titulo: "OIRS", texto: "Oficina de Información, Reclamos y Sugerencias. Haz llegar tu opinión o reclamo.", url: "/contacto.html", icono: "campaign", cta: "Contactar", fondo: "bg-teal-50 border-teal-100", circulo: "bg-teal-600", color: "text-teal-600" }
   - { titulo: "Preguntas Frecuentes", texto: "Respuestas sobre atención, horarios, pagos FONASA y trámites en el hospital", url: "/faq.html", icono: "help", cta: "Ver respuestas", fondo: "bg-purple-50 border-purple-100", circulo: "bg-purple-600", color: "text-purple-600" }
 accesosRapidos:
-  - { titulo: "¿Urgencia o CESFAM?", texto: "Dónde consultar y categorización", url: "/donde-consultar.html", icono: "emergency", tono: "bg-red-50 text-red-500" }
+  - { titulo: "Urgencias", texto: "Atención 24 horas y categorización", url: "/donde-consultar.html#categorizacion", icono: "emergency", tono: "bg-red-50 text-red-500" }
   - { titulo: "Visitas a hospitalizados", texto: "Todos los días, 10:00 a 19:00 hrs", url: "/visitas.html", icono: "groups", tono: "bg-amber-50 text-amber-600" }
   - { titulo: "Horarios de Atención", texto: "Consultas y especialidades", url: "/horarios.html", icono: "schedule", tono: "bg-primary-bg text-primary" }
   - { titulo: "Imagenología", texto: "Ver exámenes en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", tono: "bg-indigo-50 text-indigo-600" }
@@ -43,59 +43,10 @@ accesosRapidos:
   </div>
 </section>
 
-<!-- ¿DÓNDE CONSULTAR? -->
-<section class="bg-zinc-50 border-b border-gray-200 py-10" aria-labelledby="titulo-consultar">
-  <div class="container mx-auto px-4">
-    <div class="flex flex-wrap items-end justify-between gap-3 mb-6">
-      <div>
-        <h2 id="titulo-consultar" class="text-2xl font-bold text-primary-deep">¿Dónde consultar?</h2>
-        <p class="text-sm text-gray-600 mt-1 max-w-2xl">{{ donde_consultar.intro }}</p>
-      </div>
-      <a href="/donde-consultar.html#categorizacion" class="text-sm font-bold text-primary hover:underline">Cómo se prioriza la atención en Urgencia →</a>
-    </div>
-    {% include "donde-consultar-tarjetas.njk" %}
-  </div>
-</section>
-
 {% call ui.dosColumnas() %}
   <div class="min-w-0 flex flex-col gap-5">
 
-    {% if campanas.alerta.mostrar %}
-    {% set al = campanas.alerta %}
-    <!-- Alerta de temporada (editable en el CMS: Campañas de salud) -->
-    <section class="campana-alerta rounded-custom overflow-hidden" aria-labelledby="titulo-alerta">
-      <div class="relative px-6 pt-5 pb-4 pr-36 sm:pr-44">
-        <div class="absolute -right-3 -bottom-2 w-36 sm:w-44 h-32 sm:h-36 text-[#F2B705]">{{ arte(al.arte) }}</div>
-        <p class="text-xs font-semibold text-[#2B2100]/70">{{ al.temporada }} · Ministerio de Salud</p>
-        <h2 id="titulo-alerta" class="font-cartel font-extrabold text-[2rem] leading-[0.95] text-[#2B2100] mt-1">{{ al.titulo }}</h2>
-        <p class="text-sm text-[#2B2100]/85 leading-relaxed mt-2 max-w-prose">{{ al.texto }}</p>
-      </div>
-      <ul class="grid grid-cols-1 sm:grid-cols-3 bg-[#2B2100] text-[#FFF4CC]">
-        {% for c in al.consejos %}
-        <li class="flex items-start gap-3 px-5 py-3.5 sm:border-l sm:first:border-l-0 border-white/10">
-          <span class="w-9 h-9 flex-shrink-0 text-[#2B2100] mt-0.5">{{ arte(c.arte) }}</span>
-          <span class="text-[13px] leading-snug">{{ c.texto }}</span>
-        </li>
-        {% endfor %}
-      </ul>
-      <a href="{{ al.url }}" target="_blank" rel="noopener" class="flex items-center justify-between gap-3 px-6 py-2.5 bg-[#F2B705] text-[#2B2100] text-sm font-bold hover:bg-[#FFC928] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-[#2B2100]">
-        {{ al.boton }}
-        <span aria-hidden="true" class="material-symbols-outlined text-lg">open_in_new</span>
-      </a>
-    </section>
-    {% endif %}
-
-    <!-- Banner HODOM -->
-    <div class="bg-banner rounded-custom shadow-md flex items-center gap-4 px-6 py-4 text-white flex-wrap">
-      <div class="w-12 h-12 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
-        <span aria-hidden="true" class="material-symbols-outlined text-2xl">home_health</span>
-      </div>
-      <div class="flex-1">
-        <h2 class="font-bold text-lg leading-tight">Hospitalización Domiciliaria <span class="font-normal text-white/75 text-base">(HODOM)</span></h2>
-        <p class="text-sm text-white/70 mt-0.5">Atención clínica en tu hogar · Frutillar y sectores rurales del Lago Llanquihue</p>
-      </div>
-      <a href="/servicios.html#hospitalizacion-domiciliaria" class="bg-white text-primary-dark font-bold text-sm px-5 py-2.5 rounded-custom hover:bg-primary-pale transition-colors whitespace-nowrap flex-shrink-0">Más información</a>
-    </div>
+    {% include "campana-rotativa.njk" %}
 
     <!-- NOTICIAS -->
     <section aria-labelledby="titulo-noticias">

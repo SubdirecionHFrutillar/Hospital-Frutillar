@@ -21,7 +21,7 @@ permalink: funcionarios/index.html
     <!-- ACCESOS -->
     <aside class="flex flex-col gap-5">
       <!-- Banner Calidad -->
-      <a href="{{ portal.calidadUrl }}" target="_blank" rel="noopener" class="gob-stripe group block rounded-custom shadow-md overflow-hidden text-white" style="background:linear-gradient(135deg,#00695C 0%,#00897B 60%,#26A69A 100%);">
+      <a href="/funcionarios/calidad.html" class="gob-stripe group block rounded-custom shadow-md overflow-hidden text-white" style="background:linear-gradient(135deg,#00695C 0%,#00897B 60%,#26A69A 100%);">
         <div class="px-5 py-5 flex flex-col gap-3">
           <div class="flex items-center gap-3">
             <div class="w-11 h-11 bg-white/15 rounded-full flex items-center justify-center flex-shrink-0">
@@ -32,11 +32,23 @@ permalink: funcionarios/index.html
               <p class="font-bold leading-tight">Calidad y Seguridad del Paciente</p>
             </div>
           </div>
-          <p class="text-xs text-teal-50 leading-relaxed">Protocolos, indicadores, acreditación y documentos de Calidad e IAAS (carpeta en Google Drive).</p>
+          <p class="text-xs text-teal-50 leading-relaxed">Protocolos por ámbito de acreditación, IAAS, indicadores y novedades de Calidad.</p>
           <span class="inline-flex items-center gap-1.5 self-start bg-white text-teal-800 text-xs font-bold px-3 py-1.5 rounded-custom group-hover:bg-teal-50">
-            Ver documentos de Calidad <span aria-hidden="true" class="material-symbols-outlined text-sm">open_in_new</span>
+            Ir a Calidad <span aria-hidden="true" class="material-symbols-outlined text-sm">arrow_forward</span>
           </span>
         </div>
+      </a>
+      <!-- Sistemas del Servicio de Salud -->
+      <a href="{{ portal.siconges }}" target="_blank" rel="noopener" class="block rounded-custom overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow bg-white" title="SICONGES — Sistema Integrado de Control de Gestión (se abre en otra pestaña)">
+        <img src="/img/siconges.webp" alt="SICONGES — Sistema Integrado de Control de Gestión" width="940" height="148" class="w-full h-auto block">
+      </a>
+      <a href="{{ portal.autoconsulta }}" target="_blank" rel="noopener" class="group flex items-center gap-3 rounded-custom border border-gray-200 border-l-4 border-l-primary bg-white px-4 py-3 shadow-sm hover:shadow-md transition-shadow">
+        <span class="w-10 h-10 rounded-full bg-primary-bg text-primary flex items-center justify-center flex-shrink-0" aria-hidden="true"><span class="material-symbols-outlined">badge</span></span>
+        <span class="flex-1 min-w-0">
+          <strong class="block text-sm text-primary-deep group-hover:underline">Módulo de autoconsulta</strong>
+          <span class="block text-xs text-gray-500 leading-snug">Solo funciona conectado a la red del hospital.</span>
+        </span>
+        <span aria-hidden="true" class="material-symbols-outlined text-base text-gray-400">open_in_new</span>
       </a>
       <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
         <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">Accesos</div>

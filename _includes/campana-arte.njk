@@ -73,6 +73,31 @@
   <path d="M12 96 60 22l48 74z" stroke-width="7"/>
   <path d="M60 22v74M46 96l14-30 14 30" stroke-width="6"/>
   <path d="M6 104h108" stroke-width="7"/>
+{% elif clave == "sol" %}
+  {# Sol con rayos #}
+  <circle cx="60" cy="60" r="22" fill="#fff" fill-opacity=".92" stroke="none"/>
+  <path d="M60 14v14M60 92v14M14 60h14M92 60h14M27 27l10 10M83 83l10 10M27 93l10-10M83 37l10-10" stroke-width="7"/>
+{% elif clave == "agua" %}
+  {# Vaso con agua #}
+  <path d="M30 20h60l-8 84a6 6 0 0 1-6 5H44a6 6 0 0 1-6-5z" stroke-width="7"/>
+  <path d="M36 52h48l-5 50H41z" fill="#fff" fill-opacity=".6" stroke="none"/>
+{% elif clave == "gorro" %}
+  {# Sombrero de ala ancha #}
+  <path d="M38 70c0-22 8-40 22-40s22 18 22 40" fill="#fff" fill-opacity=".9" stroke="none"/>
+  <path d="M8 76c20 10 84 10 104 0" stroke-width="8"/>
+{% elif clave == "manos" %}
+  {# Gotas y manos (lavado) #}
+  <path d="M60 14c10 14 16 24 16 32a16 16 0 0 1-32 0c0-8 6-18 16-32z" fill="#fff" fill-opacity=".9" stroke="none"/>
+  <path d="M20 106V82c0-6 8-6 8 0v-8c0-6 8-6 8 0v4c0-6 8-6 8 0v28M100 106V82c0-6-8-6-8 0v-8c0-6-8-6-8 0v4c0-6-8-6-8 0v28" stroke-width="6"/>
+{% elif clave == "pulmon" %}
+  {# Pulmones #}
+  <path d="M60 18v40M60 58c-6-4-12-4-14 2" stroke-width="6"/>
+  <path d="M46 40c-14 0-30 26-30 50 0 12 8 18 18 16 10-2 16-8 16-20V48c0-5-1-8-4-8z" fill="#fff" fill-opacity=".9" stroke="none"/>
+  <path d="M74 40c14 0 30 26 30 50 0 12-8 18-18 16-10-2-16-8-16-20V48c0-5 1-8 4-8z" fill="#fff" fill-opacity=".9" stroke="none"/>
+{% elif clave == "casa" %}
+  {# Casa con cruz: hospitalización domiciliaria #}
+  <path d="M14 58 60 20l46 38v50H14z" fill="#fff" fill-opacity=".92" stroke="none"/>
+  <path d="M60 50v34M43 67h34" stroke="currentColor" stroke-width="10"/>
 {% endif %}
 </svg>
 {% endmacro %}

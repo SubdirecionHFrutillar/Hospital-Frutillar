@@ -219,3 +219,25 @@ test("Clave inicial común: se usa al crear, no se devuelve, vence a las 72 h y 
     delete process.env.FUNCIONARIOS_CLAVE_INICIAL;
   }
 });
+
+test("Administrar: correo de contacto, editar y eliminar cuentas", async () => {
+  await crearAdmin();
+  const cAdmin = cookieDe(await login(ADMIN.rut, ADMIN.clave));
+  let r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "12345678-5", nombre: "Ana Pérez", correo: "no-es-correo" } }));
+  assert.equal(r.status, 400);
+  r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "12345678-5", nombre: "Ana Pérez", correo: "Ana.Perez@Redsalud.gob.cl" } }));
+  assert.equal(r.status, 201);
+  assert.equal((await r.json()).usuario.correo, "ana.perez@redsalud.gob.cl");
+
+  r = await admin(req("/api/admin/usuarios", { metodo: "PATCH", cookie: cAdmin, datos: { rut: "12345678-5", accion: "editar", nombre: "Ana Pérez Soto", cargo: "Calidad", correo: "", rol: "editor" } }));
+  assert.equal(r.status, 200);
+  const ana = (await r.json()).usuario;
+  assert.deepEqual([ana.nombre, ana.cargo, ana.correo, ana.rol], ["Ana Pérez Soto", "Calidad", "", "editor"]);
+
+  // No se puede eliminar la propia cuenta ni al único administrador
+  assert.equal((await admin(req("/api/admin/usuarios", { metodo: "DELETE", cookie: cAdmin, datos: { rut: ADMIN.rut } }))).status, 400);
+  r = await admin(req("/api/admin/usuarios", { metodo: "DELETE", cookie: cAdmin, datos: { rut: "12345678-5" } }));
+  assert.equal(r.status, 200);
+  assert.equal(await U.obtener("12345678-5"), null);
+  assert.equal((await admin(req("/api/admin/usuarios", { metodo: "DELETE", cookie: cAdmin, datos: { rut: "12345678-5" } }))).status, 404);
+});
