@@ -8,7 +8,7 @@ permalink: funcionarios/index.html
     <!-- MURO DE PUBLICACIONES -->
     <section aria-labelledby="titulo-muro" class="min-w-0">
       <div class="flex items-center gap-3 mb-4">
-        <h2 id="titulo-muro" class="text-2xl font-bold text-primary border-l-4 border-primary-light pl-3">Publicaciones</h2>
+        <h2 id="titulo-muro" class="text-xl font-bold text-primary-deep border-l-4 border-primary pl-3">Publicaciones</h2>
         <div class="h-px bg-gray-200 flex-1"></div>
       </div>
       <div id="filtros" class="flex flex-wrap gap-2 mb-5" role="group" aria-label="Filtrar por categoría"></div>
@@ -47,7 +47,7 @@ permalink: funcionarios/index.html
             <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl mt-0.5">{{ t.icono }}</span>
             <span>
               <strong class="text-sm text-primary block">{{ t.titulo }}{% if externo %} <span aria-hidden="true" class="material-symbols-outlined text-xs text-gray-400 align-middle">open_in_new</span>{% endif %}</strong>
-              <span class="text-xs text-gray-500">{{ t.descripcion }}</span>
+              <span class="block text-xs text-gray-500 leading-snug mt-0.5">{{ t.descripcion }}</span>
             </span>
           </a>
           {% endfor %}
