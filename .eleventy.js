@@ -71,6 +71,24 @@ module.exports = function (eleventyConfig) {
   };
   eleventyConfig.addCollection("noticias", todasLasNoticias);
 
+  // Noticias en Markdown (las del portal llegan en vivo desde /api/sitio-vivo), como JSON
+  // para que assets/js/sitio-vivo.js las mezcle con las del portal. "<" escapado para ir dentro de <script>.
+  eleventyConfig.addFilter("noticiasEstaticasJSON", (lista) =>
+    JSON.stringify(
+      (lista || [])
+        .filter((n) => n.inputPath)
+        .map((n) => ({
+          url: n.url,
+          titulo: n.data.title,
+          categoria: n.data.categoria,
+          resumen: n.data.resumen,
+          fecha: n.date.toISOString().slice(0, 10),
+          destacada: n.data.destacada === true,
+          imagen: n.data.imagen || "",
+        }))
+    ).replace(/</g, "\\u003c")
+  );
+
   // Portada: destacadas primero, luego por fecha; máximo 5
   eleventyConfig.addCollection("noticiasPortada", (api) =>
     todasLasNoticias(api)

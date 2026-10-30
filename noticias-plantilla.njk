@@ -1,0 +1,12 @@
+---
+# Plantilla de las noticias publicadas desde el portal. No es una página para visitar:
+# la función noticia-pagina la descarga y reemplaza las marcas por los datos de cada noticia
+# (ver MARCAS en netlify/lib/vivo.mjs). Así la noticia hereda el encabezado, menú y pie del sitio.
+layout: base.njk
+permalink: noticias/plantilla.html
+eleventyExcludeFromCollections: true
+title: __NOTICIA_TITULO__
+description: __NOTICIA_RESUMEN__
+imagen: /__NOTICIA_IMAGEN__
+---
+<!--__NOTICIA_CUERPO__-->

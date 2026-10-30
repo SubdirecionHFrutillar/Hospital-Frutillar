@@ -1,7 +1,8 @@
 # Sitio web Hospital de Frutillar
 
 Sitio estático hecho con [Eleventy](https://www.11ty.dev/) y Tailwind CSS, publicado en Netlify.
-Las páginas y noticias se editan desde el panel `/admin` (Decap CMS).
+Las noticias, avisos e intranet se publican desde el **Portal Funcionarios** y se ven al instante, sin regenerar el sitio.
+Las páginas fijas (horarios, servicios, autoridades) se editan desde el panel `/admin` (Decap CMS).
 
 ## Desarrollo local
 
@@ -79,8 +80,14 @@ La portada del portal (`/funcionarios/`) es el muro de publicaciones de la intra
 Las noticias del sitio se publican desde el portal (ya no desde el CMS `/admin`):
 
 - **Quién:** cuentas con rol **Comunicaciones** o **Administrador**. En *Publicar* eligen "Sitio web público"; en *Noticias del sitio* las editan o eliminan.
-- **Cómo aparecen:** se guardan en Netlify Blobs (almacén `noticias`) y las páginas se generan al publicar el sitio. La primera imagen adjunta es la foto principal.
-- **Publicación automática:** cree un *build hook* en Netlify (*Site configuration → Build & deploy → Build hooks*) y guarde su URL en la variable `NETLIFY_BUILD_HOOK`. Así el sitio se regenera solo después de cada cambio (1–2 minutos). Sin la variable, las noticias aparecen en la siguiente publicación del sitio.
+- **Cómo aparecen:** se guardan en Netlify Blobs (almacén `noticias`) y se ven **al instante**, sin regenerar el sitio
+  (cada regeneración cuesta 15 créditos de Netlify). La primera imagen adjunta es la foto principal.
+  - La página de cada noticia (`/noticias/<dirección>/`) la arma la función `noticia-pagina` con la plantilla
+    `noticias/plantilla.html` (encabezado, menú y pie del sitio), con título e imagen para compartir en WhatsApp/Facebook.
+  - Portada y *Noticias* traen una copia del último build y `assets/js/sitio-vivo.js` la reemplaza con lo vigente de `/api/sitio-vivo`.
+  - Todo queda en la caché del CDN de Netlify (etiqueta `sitio-vivo`) y se purga al publicar, editar o eliminar.
+    Si la purga fallara, lo nuevo se ve igual a los 5 minutos.
+- **Build hook:** ya no se usa. Si existe la variable `NETLIFY_BUILD_HOOK` o un *build hook* en Netlify, bórrelos.
 - Las noticias antiguas en `content/noticias/*.md` siguen funcionando; si existe una noticia del portal con la misma dirección, se muestra la del portal.
 
 ### Avisos del sitio público
@@ -88,7 +95,7 @@ Las noticias del sitio se publican desde el portal (ya no desde el CMS `/admin`)
 Comunicaciones o un administrador publica avisos breves desde **Portal → Avisos** (cambios de horario,
 cortes de servicio, feriados). Aparecen en una franja bajo el menú de todas las páginas públicas;
 máximo 5 a la vez. Con fecha de término, el aviso se oculta solo ese día. Igual que las noticias,
-el sitio se regenera con `NETLIFY_BUILD_HOOK` (uno o dos minutos).
+se ven al instante (vía `/api/sitio-vivo`), sin regenerar el sitio.
 
 ### Roles
 
@@ -104,7 +111,23 @@ el sitio se regenera con `NETLIFY_BUILD_HOOK` (uno o dos minutos).
 Si el hospital adopta una base de datos o un directorio institucional, solo hay que reemplazar
 `netlify/lib/usuarios.mjs`; las páginas y la API no cambian.
 
-## Formulario de contacto
+## Formularios (consultas y actualización de datos)
 
-Usa **Netlify Forms**. Para recibir los mensajes: Netlify → *Forms* → habilitar la detección de formularios,
-y en *Form notifications* agregar el correo de la OIRS.
+Usan **Netlify Forms** (gratis e ilimitado en los planes por créditos):
+
+| Formulario | Dónde | Nombre en Netlify |
+|---|---|---|
+| Consultas | `/contacto.html` | `contacto` |
+| Actualiza tus datos | `/actualiza-tus-datos.html` y desplegable en `/contacto.html` | `actualizacion-datos` |
+
+El formulario de datos está en `_includes/form-actualiza-datos.njk` y ambos los maneja `assets/js/formularios.mjs`
+(validación, RUT, secciones condicionales). Cada envío trae un asunto propio (campo oculto `subject`).
+
+**Para recibirlos por correo** (una sola vez, en Netlify):
+
+1. *Forms* → habilitar la detección de formularios (si no está) y volver a publicar.
+2. *Project configuration* (antes *Site configuration*) *→ Notifications → Emails and webhooks → Form submission notifications* → *Add notification* → *Email notification*.
+3. *Event to listen for:* "New form submission"; *Email to notify:* `pablomerino@ssdr.gob.cl`; *Form:* **Any form**
+   (o una notificación por formulario si más adelante cada uno va a un correo distinto, por ejemplo OIRS y SOME).
+
+Los envíos también quedan en Netlify → *Forms*. Contienen datos personales: limitar quién tiene acceso al equipo de Netlify.

@@ -573,7 +573,7 @@ const paginas = {
       };
       try {
         const r = await api(id ? `${D[destino].api}/${id}` : D[destino].api, { metodo: id ? "PATCH" : "POST", datos });
-        if (destino === "sitio") location.href = `/funcionarios/noticias-sitio.html?guardada=${encodeURIComponent(r.noticia.slug)}&regenerando=${r.regenerando ? 1 : 0}`;
+        if (destino === "sitio") location.href = `/funcionarios/noticias-sitio.html?guardada=${encodeURIComponent(r.noticia.slug)}`;
         else location.href = `/funcionarios/publicacion.html?id=${r.publicacion.id}`;
       } catch (err) {
         mensaje(msg, err.message);
@@ -595,9 +595,7 @@ const paginas = {
       const aviso = $("#aviso-guardada");
       const url = `/noticias/${q.get("guardada")}/`;
       aviso.replaceChildren(
-        el("span", "", q.get("regenerando") === "1"
-          ? "Noticia guardada. El sitio se está actualizando: estará visible en uno o dos minutos en "
-          : "Noticia guardada. Aparecerá en el sitio en la próxima publicación del sitio: "),
+        el("span", "", "Noticia guardada y publicada. Ya se ve en el sitio: "),
       );
       const a = el("a", "font-bold underline", url);
       a.href = url;
@@ -667,7 +665,7 @@ const paginas = {
     const texto = $("#aviso-texto");
     texto.addEventListener("input", () => ($("#aviso-cuenta").textContent = String(texto.value.length)));
     $("#aviso-hasta").min = new Date().toLocaleDateString("en-CA", TZ);
-    const avisoRegeneracion = (r) => (r.regenerando ? " El sitio se está actualizando: se verá en uno o dos minutos." : " Se verá en la próxima publicación del sitio.");
+    const yaSeVe = " Ya se ve en el sitio.";
 
     const cargar = async () => {
       const { avisos } = await api("/api/avisos");
@@ -690,7 +688,7 @@ const paginas = {
           borrar.disabled = true;
           try {
             const r = await api(`/api/avisos/${a.id}`, { metodo: "DELETE" });
-            mensaje(msg, "Aviso eliminado." + avisoRegeneracion(r), "ok");
+            mensaje(msg, "Aviso eliminado." + yaSeVe, "ok");
             await cargar();
           } catch (err) {
             mensaje(msg, err.message);
@@ -710,7 +708,7 @@ const paginas = {
         const r = await api("/api/avisos", { metodo: "POST", datos: { texto: texto.value, tipo: form.tipo.value, hasta: form.hasta.value, url: form.url.value.trim() } });
         form.reset();
         $("#aviso-cuenta").textContent = "0";
-        mensaje(msg, "Aviso publicado." + avisoRegeneracion(r), "ok");
+        mensaje(msg, "Aviso publicado." + yaSeVe, "ok");
         await cargar();
       } catch (err) {
         mensaje(msg, err.message);

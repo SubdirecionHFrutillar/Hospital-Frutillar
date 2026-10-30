@@ -1,14 +1,15 @@
 // Noticias del sitio web público.
-//   GET    /api/noticias/publicas         → todas las noticias completas (público; lo usa el build del sitio)
+//   GET    /api/noticias/publicas         → todas las noticias completas (público; lo usa el build para el sitemap y la copia estática)
 //   GET    /api/noticias                  → listado para gestionar   (comunicaciones o admin)
 //   POST   /api/noticias                  → crear                    (comunicaciones o admin)
 //   GET    /api/noticias/:id              → detalle para editar      (comunicaciones o admin)
 //   PATCH  /api/noticias/:id              → editar                   (comunicaciones o admin)
 //   DELETE /api/noticias/:id              → eliminar                 (comunicaciones o admin)
-// Tras cada cambio se regenera el sitio con el build hook NETLIFY_BUILD_HOOK.
+// Tras cada cambio se purga la caché del CDN: la noticia se ve al instante, sin regenerar el sitio.
 import * as N from "../lib/noticias.mjs";
 import { PUEDEN_PUBLICAR_SITIO } from "../lib/usuarios.mjs";
-import { manejador, sesionActual, leerJSON, json, error, env } from "../lib/http.mjs";
+import { manejador, sesionActual, leerJSON, json, error } from "../lib/http.mjs";
+import { purgarSitioVivo } from "../lib/vivo.mjs";
 
 export default manejador(["GET", "POST", "PATCH", "DELETE"], async (req, ctx) => {
   const id = ctx?.params?.id;
@@ -22,10 +23,9 @@ export default manejador(["GET", "POST", "PATCH", "DELETE"], async (req, ctx) =>
   if (u.debeCambiarClave) return error("Debe cambiar su contraseña temporal antes de continuar.", 403);
   if (!PUEDEN_PUBLICAR_SITIO.includes(u.rol)) return error("Solo Comunicaciones o un administrador puede gestionar las noticias del sitio.", 403);
   const esAdmin = u.rol === "admin";
-  const regenerar = () => N.regenerarSitio(env("NETLIFY_BUILD_HOOK"));
 
   if (req.method === "GET") {
-    if (!id) return json({ noticias: await N.listar(), categorias: N.CATEGORIAS, regeneraSolo: !!env("NETLIFY_BUILD_HOOK") });
+    if (!id) return json({ noticias: await N.listar(), categorias: N.CATEGORIAS });
     const n = await N.obtener(id);
     return n ? json({ noticia: n }) : error("Noticia no encontrada.", 404);
   }
@@ -35,19 +35,22 @@ export default manejador(["GET", "POST", "PATCH", "DELETE"], async (req, ctx) =>
     const { error: e, datos } = N.validar(await leerJSON(req), { esAdmin });
     if (e) return error(e);
     const noticia = await N.crear(datos, u);
-    return json({ noticia, regenerando: await regenerar() }, 201);
+    await purgarSitioVivo();
+    return json({ noticia }, 201);
   }
 
   const n = await N.obtener(id);
   if (!n) return error("Noticia no encontrada.", 404);
   if (req.method === "DELETE") {
     await N.eliminar(n);
-    return json({ ok: true, regenerando: await regenerar() });
+    await purgarSitioVivo();
+    return json({ ok: true });
   }
   const { error: e, datos } = N.validar(await leerJSON(req), { esAdmin });
   if (e) return error(e);
   const noticia = await N.actualizar(n, datos);
-  return json({ noticia, regenerando: await regenerar() });
+  await purgarSitioVivo();
+  return json({ noticia });
 });
 
 export const config = { path: ["/api/noticias", "/api/noticias/:id"] };

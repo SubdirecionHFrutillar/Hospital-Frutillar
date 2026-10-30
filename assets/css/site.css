@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 @layer base {
+  /* El atributo hidden manda sobre las clases de display de Tailwind (grid, flex…) */
+  [hidden] { display: none !important; }
   .material-symbols-outlined { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; display: inline-block; width: 1em; overflow: hidden; white-space: nowrap; }
   [x-cloak] { display: none !important; }
 }
@@ -47,6 +49,7 @@
 
   /* Avisos del hospital (franja bajo el menú) */
   .aviso { border-bottom: 1px solid; }
+  .desplegable-datos > summary::-webkit-details-marker { display: none; }
   .aviso--info { background: theme("colors.primary.bg"); border-color: theme("colors.primary.pale"); color: theme("colors.primary.deep"); }
   .aviso--info .material-symbols-outlined { color: theme("colors.primary.DEFAULT"); }
   .aviso--importante { background: #FFF4E5; border-color: #F5C98B; color: #5C3300; }

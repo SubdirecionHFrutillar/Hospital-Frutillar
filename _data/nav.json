@@ -30,6 +30,7 @@
       { "label": "¿Dónde consultar?", "url": "/donde-consultar.html", "icon": "alt_route" },
       { "label": "Horarios de Atención", "url": "/horarios.html", "icon": "schedule" },
       { "label": "Visitas a hospitalizados", "url": "/visitas.html", "icon": "groups" },
+      { "label": "Actualiza tus datos", "url": "/actualiza-tus-datos.html", "icon": "person_edit" },
       { "label": "Carta de Derechos y Deberes", "url": "/carta-derechos.html", "icon": "verified_user" },
       { "label": "Aranceles", "url": "/aranceles.html", "icon": "receipt_long" },
       { "label": "Copago Cero", "url": "/copago-cero.html", "icon": "money_off" },

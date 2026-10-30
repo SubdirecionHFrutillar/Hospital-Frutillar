@@ -9,4 +9,8 @@ eleventyExcludeFromCollections: true
   <url><loc>{{ site.url }}{{ p.url }}</loc>{% if p.data.fechaNoticia or p.date %}<lastmod>{{ (p.data.fechaNoticia or p.date) | fechaISO }}</lastmod>{% endif %}</url>
 {%- endif %}
 {%- endfor %}
+{#- Noticias del portal: sus páginas las arma una función, no son archivos del build #}
+{%- for n in noticiasPortal %}
+  <url><loc>{{ site.url }}{{ n.url }}</loc><lastmod>{{ n.fecha | fechaISO }}</lastmod></url>
+{%- endfor %}
 </urlset>

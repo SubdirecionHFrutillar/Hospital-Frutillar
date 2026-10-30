@@ -7,6 +7,7 @@ accesosUsuarios:
   - { titulo: "Ver Imágenes de Exámenes", texto: "Accede a tus imágenes de radiología, ecografía y otros exámenes en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", cta: "Acceder", fondo: "bg-primary-bg border-primary-pale hover:border-primary-light", circulo: "bg-primary", color: "text-primary" }
   - { titulo: "¿Urgencia o CESFAM?", texto: "Dónde consultar según su problema y cómo se prioriza la atención en Urgencia", url: "/donde-consultar.html", icono: "alt_route", cta: "Ver guía", fondo: "bg-red-50 border-red-100", circulo: "bg-red-600", color: "text-red-600" }
   - { titulo: "OIRS", texto: "Oficina de Información, Reclamos y Sugerencias. Haz llegar tu opinión o reclamo.", url: "/contacto.html", icono: "campaign", cta: "Contactar", fondo: "bg-teal-50 border-teal-100", circulo: "bg-teal-600", color: "text-teal-600" }
+  - { titulo: "Actualiza tus datos", texto: "¿Cambió de dirección, teléfono o previsión? Actualice su registro en el hospital", url: "/actualiza-tus-datos.html", icono: "person_edit", cta: "Actualizar", fondo: "bg-amber-50 border-amber-100", circulo: "bg-amber-500", color: "text-amber-700" }
   - { titulo: "Preguntas Frecuentes", texto: "Respuestas sobre atención, horarios, pagos FONASA y trámites en el hospital", url: "/faq.html", icono: "help", cta: "Ver respuestas", fondo: "bg-purple-50 border-purple-100", circulo: "bg-purple-600", color: "text-purple-600" }
 accesosRapidos:
   - { titulo: "Urgencias", texto: "Atención 24 horas y categorización", url: "/donde-consultar.html#categorizacion", icono: "emergency", tono: "bg-red-50 text-red-500" }
@@ -26,7 +27,7 @@ accesosRapidos:
       <h2 id="titulo-atencion" class="text-2xl font-bold text-primary">Atención de Usuarios</h2>
       <div class="h-px bg-gray-200 flex-1"></div>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
       {% for a in accesosUsuarios %}
       <a href="{{ a.url }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %} class="group {{ a.fondo }} border rounded-custom p-5 flex flex-col gap-3 hover:shadow-md transition-all">
         <div class="w-12 h-12 {{ a.circulo }} rounded-full flex items-center justify-center flex-shrink-0">
@@ -55,7 +56,9 @@ accesosRapidos:
         <div class="h-px bg-gray-200 flex-1"></div>
       </div>
 
-      <div class="flex flex-col gap-3">
+      {# Copia del último build; sitio-vivo.js la reemplaza con las noticias vigentes del portal #}
+      <script type="application/json" id="noticias-estaticas">{{ collections.noticias | noticiasEstaticasJSON | safe }}</script>
+      <div class="flex flex-col gap-3" data-noticias-portada aria-live="polite">
         {% for n in collections.noticiasPortada %}
           {% if loop.first %}
           <article class="news-card bg-white rounded-custom shadow-md overflow-hidden">

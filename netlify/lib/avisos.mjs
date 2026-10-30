@@ -1,6 +1,6 @@
 // Avisos breves del hospital (franja en el sitio público), en Netlify Blobs (almacén "avisos", clave "lista").
 //   { id, texto, tipo: "info" | "importante", url, hasta (AAAA-MM-DD, opcional), creado, autor }
-// El sitio se regenera tras cada cambio; los avisos vencidos se ocultan en el navegador y se descartan en el build.
+// Se muestran en vivo (sin regenerar el sitio); los vencidos se ocultan en el navegador.
 import { abrirAlmacen } from "./almacen.mjs";
 import { nuevoId, esId, texto } from "./archivos.mjs";
 
