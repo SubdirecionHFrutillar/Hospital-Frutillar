@@ -261,3 +261,77 @@ test("Avisos del sitio: solo Comunicaciones/Admin; validación, máximo y API p�
   r = await avisos(req("/api/avisos/vigentes"), { params: { id: "vigentes" } });
   assert.equal((await r.json()).avisos.length, 4);
 });
+
+test("Noticias en vivo: página armada al momento, API pública con caché y sin HTML del autor", async () => {
+  const { cAdmin } = await preparar();
+  const noticias = (await import("../netlify/functions/noticias.mjs")).default;
+  const pagina = (await import("../netlify/functions/noticia-pagina.mjs")).default;
+  const vivo = (await import("../netlify/functions/sitio-vivo.mjs")).default;
+  const avisos = (await import("../netlify/functions/avisos.mjs")).default;
+
+  // La función descarga la plantilla y el 404 del propio sitio
+  const PLANTILLA = '<html><head><title>__NOTICIA_TITULO__ - Hospital</title><meta name="description" content="__NOTICIA_RESUMEN__">'
+    + '<link rel="canonical" href="https://hospital.test/noticias/plantilla.html"><meta property="og:image" content="https://hospital.test/__NOTICIA_IMAGEN__">'
+    + "</head><body><main><!--__NOTICIA_CUERPO__--></main></body></html>";
+  const fetchOriginal = globalThis.fetch;
+  const pedidas = [];
+  globalThis.fetch = async (url) => {
+    pedidas.push(String(url));
+    if (String(url).endsWith("/noticias/plantilla.html")) return new Response(PLANTILLA);
+    if (String(url).endsWith("/404.html")) return new Response("<h1>No encontrada</h1>");
+    return fetchOriginal(url);
+  };
+  try {
+    let r = await noticias(req("/api/noticias", { metodo: "POST", cookie: cAdmin, datos: {
+      titulo: 'Vacunación "influenza" <2026>', resumen: "Campaña de vacunación en el hospital & CESFAM.", categoria: "Salud",
+      cuerpo: "**Horario:** 08:00 a 17:00\n\n<script>alert(1)</script>",
+    } }), { params: {} });
+    assert.equal(r.status, 201);
+    const n = (await r.json()).noticia;
+
+    // Página: datos escapados en <head>, Markdown interpretado y HTML crudo neutralizado
+    r = await pagina(req(`/noticias/${n.slug}/`), { params: { slug: n.slug } });
+    assert.equal(r.status, 200);
+    assert.match(r.headers.get("netlify-cdn-cache-control"), /s-maxage/);
+    assert.equal(r.headers.get("netlify-cache-tag"), "sitio-vivo");
+    const html = await r.text();
+    assert.match(html, /<title>Vacunación &quot;influenza&quot; &lt;2026&gt; - Hospital<\/title>/);
+    assert.match(html, /content="Campaña de vacunación en el hospital &amp; CESFAM\."/);
+    assert.match(html, new RegExp(`href="https://hospital.test/noticias/${n.slug}/"`));
+    assert.match(html, /og:image" content="https:\/\/hospital.test\/img\/hero-hospital.jpg"/, "sin foto usa la imagen del hospital");
+    assert.match(html, /<strong>Horario:<\/strong>/);
+    assert.doesNotMatch(html, /<script>alert/);
+    assert.doesNotMatch(html, /__NOTICIA_/);
+
+    // Sin barra final → redirige a la dirección canónica
+    r = await pagina(req(`/noticias/${n.slug}`), { params: { slug: n.slug } });
+    assert.equal(r.status, 301);
+    assert.equal(r.headers.get("location"), `/noticias/${n.slug}/`);
+
+    // Inexistente → 404 del sitio
+    r = await pagina(req("/noticias/no-existe/"), { params: { slug: "no-existe" } });
+    assert.equal(r.status, 404);
+    assert.match(await r.text(), /No encontrada/);
+
+    // API pública: resumen de noticias + avisos vigentes, sin sesión y en caché del CDN
+    await avisos(req("/api/avisos", { metodo: "POST", cookie: cAdmin, datos: { texto: "Corte de agua programado el lunes", tipo: "importante" } }), { params: {} });
+    r = await vivo(req("/api/sitio-vivo"));
+    assert.equal(r.status, 200);
+    assert.match(r.headers.get("netlify-cdn-cache-control"), /durable/);
+    const d = await r.json();
+    assert.equal(d.noticias.length, 1);
+    assert.equal(d.noticias[0].url, `/noticias/${n.slug}/`);
+    assert.equal(d.noticias[0].cuerpo, undefined, "el listado no trae el cuerpo");
+    assert.equal(d.avisos.length, 1);
+
+    // Editar se refleja de inmediato; eliminar deja la dirección en 404
+    await noticias(req(`/api/noticias/${n.id}`, { metodo: "PATCH", cookie: cAdmin, datos: { titulo: "Vacunación influenza 2026", resumen: "Resumen corregido de la campaña.", adjuntos: [] } }), { params: { id: n.id } });
+    r = await pagina(req(`/noticias/${n.slug}/`), { params: { slug: n.slug } });
+    assert.match(await r.text(), /<title>Vacunación influenza 2026 - Hospital<\/title>/);
+    await noticias(req(`/api/noticias/${n.id}`, { metodo: "DELETE", cookie: cAdmin }), { params: { id: n.id } });
+    assert.equal((await pagina(req(`/noticias/${n.slug}/`), { params: { slug: n.slug } })).status, 404);
+    assert.equal(pedidas.filter((u) => u.endsWith("plantilla.html")).length, 1, "la plantilla se descarga una sola vez");
+  } finally {
+    globalThis.fetch = fetchOriginal;
+  }
+});

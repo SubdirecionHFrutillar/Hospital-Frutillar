@@ -1,0 +1,41 @@
+---
+layout: base.njk
+title: Actualiza tus datos
+description: "Actualice su dirección, teléfono, previsión y contacto de emergencia en el registro del Hospital de Frutillar."
+permalink: actualiza-tus-datos.html
+scripts: ["/assets/js/formularios.mjs"]
+---
+{% import "componentes.njk" as ui with context %}
+
+{{ ui.banner("Actualiza tus datos", "Mantenga al día su dirección, teléfono y previsión en el registro del hospital", "person_edit", [{ label: "Información al Usuario", url: "/horarios.html" }, { label: "Actualiza tus datos" }]) }}
+
+{% call ui.dosColumnas() %}
+  <div class="min-w-0">
+    {% call ui.seccion("Formulario de actualización de datos", "badge", oscuro=true) %}
+      {% include "form-actualiza-datos.njk" %}
+    {% endcall %}
+  </div>
+
+  <aside class="flex flex-col gap-5">
+    <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
+      <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">¿Por qué es importante?</div>
+      <ul class="flex flex-col divide-y divide-gray-100 text-sm">
+        {% for d in [
+          { i: "call", t: "Le podemos avisar", s: "Citaciones, cambios de hora, resultados y su lugar en la lista de espera." },
+          { i: "home_health", t: "Llegamos a su casa", s: "Hospitalización Domiciliaria y visitas necesitan una dirección exacta." },
+          { i: "health_and_safety", t: "Atención sin cobros indebidos", s: "Su previsión al día evita cobros y trámites extra." }
+        ] %}
+        <li class="flex items-start gap-3 px-4 py-3">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary text-lg mt-0.5">{{ d.i }}</span>
+          <div><strong class="text-primary-deep block">{{ d.t }}</strong><span class="text-xs text-gray-500">{{ d.s }}</span></div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {{ ui.aviso("¿Prefiere hacerlo en persona? Acérquese a Admisión (SOME) con su cédula de identidad: lunes a jueves de 08:00 a 17:00 y viernes de 08:00 a 16:00.") }}
+    <div class="flex flex-col gap-2.5">
+      {{ ui.botonTarjeta("/horarios.html", "Horarios de Atención") }}
+      {{ ui.botonTarjeta("/contacto.html", "Contacto y consultas") }}
+    </div>
+  </aside>
+{% endcall %}

@@ -21,12 +21,6 @@
     });
   });
 
-  // Avisos con fecha de término: se ocultan apenas vencen, aunque el sitio aún no se haya regenerado
-  var hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
-  document.querySelectorAll(".aviso[data-hasta]").forEach(function (a) {
-    if (a.getAttribute("data-hasta") < hoy) a.remove();
-  });
-
   // Banner rotativo de campañas: filtra por mes, rota cada 8 s, pausa al pasar el mouse o al enfocar
   document.querySelectorAll("[data-rotativo]").forEach(function (rot) {
     var mes = Number(new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" }).slice(5, 7));

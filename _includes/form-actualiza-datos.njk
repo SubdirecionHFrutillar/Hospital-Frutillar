@@ -1,0 +1,218 @@
+{#- Formulario "Actualiza tus datos" (modelo ficha de inscripción CESFAM).
+    Netlify Forms (nombre "actualizacion-datos"): cada envío queda en Netlify → Forms y se notifica por correo.
+    Lo usan actualiza-tus-datos.njk y contacto.njk. Lo maneja assets/js/formularios.mjs. -#}
+{%- set inp = "w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale" %}
+{%- set lbl = "block text-xs font-bold text-gray-600 mb-1" %}
+{%- set req = '<span class="text-red-500" aria-hidden="true">*</span>' %}
+{%- set legend = "flex items-center gap-2 text-sm font-bold text-primary-deep uppercase tracking-wide mb-3" %}
+{%- set num = "w-6 h-6 rounded-full bg-primary text-white text-xs flex items-center justify-center flex-shrink-0" %}
+
+<form name="actualizacion-datos" method="POST" action="/actualiza-tus-datos.html?enviado=1" data-netlify="true" netlify-honeypot="bot-field" data-formulario class="flex flex-col gap-7" novalidate>
+  <input type="hidden" name="form-name" value="actualizacion-datos">
+  <input type="hidden" name="subject" value="Actualización de datos de paciente — Hospital de Frutillar">
+  <p class="hidden"><label>No completar: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+  <p class="text-xs text-gray-500">Los campos con <span class="text-red-500">*</span> son obligatorios. Sus datos se revisan en Admisión (SOME) antes de actualizarse en la ficha; si falta algo, le llamaremos.</p>
+
+  {# 1. Quién hace el trámite #}
+  <fieldset>
+    <legend class="{{ legend }}"><span class="{{ num }}">1</span>¿Para quién son los datos?</legend>
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-6">
+      <label class="flex items-center gap-2 text-sm text-gray-700"><input type="radio" name="tramite_para" value="Para mí" required checked class="text-primary"> Para mí</label>
+      <label class="flex items-center gap-2 text-sm text-gray-700"><input type="radio" name="tramite_para" value="Para un familiar o persona a mi cargo" class="text-primary"> Para un familiar o persona a mi cargo</label>
+    </div>
+    <div data-mostrar-si="tramite_para=Para un familiar o persona a mi cargo" hidden class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 bg-primary-bg border border-primary-pale rounded-custom p-4">
+      <p class="sm:col-span-2 text-xs text-primary-dark">Datos de quien realiza el trámite (usted). Más abajo se ingresan los datos del paciente.</p>
+      <div>
+        <label for="ad-sol-nombre" class="{{ lbl }}">Su nombre completo {{ req | safe }}</label>
+        <input id="ad-sol-nombre" name="solicitante_nombre" type="text" required autocomplete="name" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-sol-rut" class="{{ lbl }}">Su RUT {{ req | safe }}</label>
+        <input id="ad-sol-rut" name="solicitante_rut" type="text" required data-rut maxlength="12" placeholder="12.345.678-9" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-sol-parentesco" class="{{ lbl }}">Parentesco o relación con el paciente {{ req | safe }}</label>
+        <select id="ad-sol-parentesco" name="solicitante_parentesco" required class="{{ inp }} bg-white">
+          <option value="">Seleccione</option>
+          {% for p in ["Madre o padre", "Hija o hijo", "Cónyuge o pareja", "Hermana o hermano", "Nieta o nieto", "Tutor legal", "Cuidador o cuidadora", "Otro familiar", "Otro"] %}<option>{{ p }}</option>{% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="ad-sol-telefono" class="{{ lbl }}">Su teléfono {{ req | safe }}</label>
+        <input id="ad-sol-telefono" name="solicitante_telefono" type="tel" required autocomplete="tel" inputmode="tel" placeholder="+56 9 1234 5678" class="{{ inp }}">
+      </div>
+    </div>
+  </fieldset>
+
+  {# 2. Identificación #}
+  <fieldset>
+    <legend class="{{ legend }}"><span class="{{ num }}">2</span>Datos del paciente</legend>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div>
+        <label for="ad-rut" class="{{ lbl }}">RUT {{ req | safe }}</label>
+        <input id="ad-rut" name="rut" type="text" required data-rut maxlength="12" placeholder="12.345.678-9" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-nombres" class="{{ lbl }}">Nombres {{ req | safe }}</label>
+        <input id="ad-nombres" name="nombres" type="text" required autocomplete="given-name" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-apellido1" class="{{ lbl }}">Primer apellido {{ req | safe }}</label>
+        <input id="ad-apellido1" name="primer_apellido" type="text" required autocomplete="family-name" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-apellido2" class="{{ lbl }}">Segundo apellido</label>
+        <input id="ad-apellido2" name="segundo_apellido" type="text" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-nombre-social" class="{{ lbl }}">Nombre social <span class="font-normal text-gray-400">(si corresponde)</span></label>
+        <input id="ad-nombre-social" name="nombre_social" type="text" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-nacimiento" class="{{ lbl }}">Fecha de nacimiento {{ req | safe }}</label>
+        <input id="ad-nacimiento" name="fecha_nacimiento" type="date" required autocomplete="bday" min="1900-01-01" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-sexo" class="{{ lbl }}">Sexo registral {{ req | safe }}</label>
+        <select id="ad-sexo" name="sexo" required class="{{ inp }} bg-white">
+          <option value="">Seleccione</option>
+          <option>Femenino</option><option>Masculino</option><option>No binario</option>
+        </select>
+      </div>
+      <div>
+        <label for="ad-nacionalidad" class="{{ lbl }}">Nacionalidad {{ req | safe }}</label>
+        <input id="ad-nacionalidad" name="nacionalidad" type="text" required value="Chilena" list="ad-paises" class="{{ inp }}">
+        <datalist id="ad-paises">{% for p in ["Chilena", "Argentina", "Boliviana", "Colombiana", "Haitiana", "Peruana", "Venezolana"] %}<option value="{{ p }}">{% endfor %}</datalist>
+      </div>
+      <div>
+        <label for="ad-pueblo" class="{{ lbl }}">Pueblo originario <span class="font-normal text-gray-400">(opcional)</span></label>
+        <select id="ad-pueblo" name="pueblo_originario" class="{{ inp }} bg-white">
+          <option value="">Prefiero no responder</option>
+          {% for p in ["No pertenece", "Mapuche (incluye Huilliche)", "Aymara", "Rapa Nui", "Quechua", "Lickanantay (Atacameño)", "Colla", "Diaguita", "Chango", "Kawésqar", "Yagán", "Selk'nam", "Otro"] %}<option>{{ p }}</option>{% endfor %}
+        </select>
+      </div>
+    </div>
+  </fieldset>
+
+  {# 3. Domicilio #}
+  <fieldset>
+    <legend class="{{ legend }}"><span class="{{ num }}">3</span>Domicilio</legend>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="sm:col-span-2">
+        <label for="ad-direccion" class="{{ lbl }}">Calle y número {{ req | safe }}</label>
+        <input id="ad-direccion" name="direccion" type="text" required autocomplete="address-line1" placeholder="Ej: Av. Philippi 1234" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-depto" class="{{ lbl }}">Depto., block o casa</label>
+        <input id="ad-depto" name="depto_block" type="text" autocomplete="address-line2" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-sector" class="{{ lbl }}">Villa, población o sector {{ req | safe }}</label>
+        <input id="ad-sector" name="sector" type="text" required placeholder="Ej: Frutillar Alto, Casma, Paraguay Chico" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-comuna" class="{{ lbl }}">Comuna {{ req | safe }}</label>
+        <select id="ad-comuna" name="comuna" required class="{{ inp }} bg-white">
+          <option value="">Seleccione</option>
+          {% for c in ["Frutillar", "Llanquihue", "Puerto Varas", "Puerto Octay", "Fresia", "Purranque", "Puerto Montt", "Osorno", "Otra comuna"] %}<option>{{ c }}</option>{% endfor %}
+        </select>
+      </div>
+      <div>
+        <span class="{{ lbl }}" id="ad-zona-l">Zona {{ req | safe }}</span>
+        <div class="flex gap-5 pt-2" role="radiogroup" aria-labelledby="ad-zona-l">
+          <label class="flex items-center gap-2 text-sm text-gray-700"><input type="radio" name="zona" value="Urbana" required class="text-primary"> Urbana</label>
+          <label class="flex items-center gap-2 text-sm text-gray-700"><input type="radio" name="zona" value="Rural" class="text-primary"> Rural</label>
+        </div>
+      </div>
+      <div class="sm:col-span-2 lg:col-span-3">
+        <label for="ad-referencia" class="{{ lbl }}">Referencia para llegar <span class="font-normal text-gray-400">(útil en sectores rurales y para Hospitalización Domiciliaria)</span></label>
+        <input id="ad-referencia" name="referencia_domicilio" type="text" placeholder="Ej: casa verde frente a la escuela, km 4 camino a Casma" class="{{ inp }}">
+      </div>
+    </div>
+  </fieldset>
+
+  {# 4. Contacto #}
+  <fieldset>
+    <legend class="{{ legend }}"><span class="{{ num }}">4</span>Contacto</legend>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div>
+        <label for="ad-celular" class="{{ lbl }}">Teléfono celular {{ req | safe }}</label>
+        <input id="ad-celular" name="telefono_celular" type="tel" required autocomplete="tel" inputmode="tel" placeholder="+56 9 1234 5678" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-telefono2" class="{{ lbl }}">Otro teléfono</label>
+        <input id="ad-telefono2" name="telefono_alternativo" type="tel" inputmode="tel" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-correo" class="{{ lbl }}">Correo electrónico</label>
+        <input id="ad-correo" name="correo" type="email" autocomplete="email" placeholder="correo@ejemplo.com" class="{{ inp }}">
+      </div>
+    </div>
+  </fieldset>
+
+  {# 5. Previsión #}
+  <fieldset>
+    <legend class="{{ legend }}"><span class="{{ num }}">5</span>Previsión de salud</legend>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div>
+        <label for="ad-prevision" class="{{ lbl }}">Previsión {{ req | safe }}</label>
+        <select id="ad-prevision" name="prevision" required class="{{ inp }} bg-white">
+          <option value="">Seleccione</option>
+          {% for p in ["FONASA tramo A", "FONASA tramo B", "FONASA tramo C", "FONASA tramo D", "FONASA, no sé el tramo", "ISAPRE", "CAPREDENA o DIPRECA", "Sin previsión"] %}<option>{{ p }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="flex items-end">
+        <label class="flex items-center gap-2 text-sm text-gray-700 pb-2"><input type="checkbox" name="prais" value="Sí" class="rounded text-primary"> Beneficiario PRAIS</label>
+      </div>
+    </div>
+  </fieldset>
+
+  {# 6. Contacto de emergencia #}
+  <fieldset>
+    <legend class="{{ legend }}"><span class="{{ num }}">6</span>Contacto de emergencia</legend>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div>
+        <label for="ad-em-nombre" class="{{ lbl }}">Nombre</label>
+        <input id="ad-em-nombre" name="emergencia_nombre" type="text" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-em-parentesco" class="{{ lbl }}">Parentesco</label>
+        <input id="ad-em-parentesco" name="emergencia_parentesco" type="text" placeholder="Ej: hija, vecino" class="{{ inp }}">
+      </div>
+      <div>
+        <label for="ad-em-telefono" class="{{ lbl }}">Teléfono</label>
+        <input id="ad-em-telefono" name="emergencia_telefono" type="tel" inputmode="tel" class="{{ inp }}">
+      </div>
+    </div>
+  </fieldset>
+
+  {# 7. Qué cambió #}
+  <fieldset>
+    <legend class="{{ legend }}"><span class="{{ num }}">7</span>¿Qué datos cambiaron?</legend>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+      {% for c in ["Dirección", "Teléfono", "Correo", "Previsión", "Nombre social", "Contacto de emergencia", "Primera vez que me atiendo", "Otro"] %}
+      <label class="flex items-center gap-2 text-sm text-gray-700"><input type="checkbox" name="datos_que_cambian[]" value="{{ c }}" class="rounded text-primary"> {{ c }}</label>
+      {% endfor %}
+    </div>
+    <label for="ad-obs" class="{{ lbl }}">Observaciones</label>
+    <textarea id="ad-obs" name="observaciones" rows="3" placeholder="Ej: me cambié de casa en septiembre; prefiero que me llamen en la tarde" class="{{ inp }} resize-none"></textarea>
+  </fieldset>
+
+  <div class="flex flex-col gap-3 border-t border-gray-100 pt-5">
+    <p class="text-xs text-gray-500 flex items-start gap-2"><span aria-hidden="true" class="material-symbols-outlined text-base text-primary">info</span>Si cambió de comuna, recuerde inscribirse también en el CESFAM o CECOSF que corresponde a su nuevo domicilio, con su cédula de identidad.</p>
+    <label class="flex items-start gap-2 text-xs text-gray-600">
+      <input type="checkbox" name="declaracion" value="Acepta" required class="mt-0.5 flex-shrink-0 rounded text-primary">
+      <span>Declaro que los datos ingresados son verdaderos y autorizo al Hospital de Frutillar a usarlos para actualizar el registro del paciente y contactarlo por su atención de salud (Ley N° 19.628 y Ley N° 20.584). {{ req | safe }}</span>
+    </label>
+    <div><button type="submit" class="bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-6 py-2.5 rounded-custom transition-colors shadow">Enviar actualización</button></div>
+    <div data-ok role="status" tabindex="-1" class="hidden flex items-start gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-custom px-4 py-3">
+      <span aria-hidden="true" class="material-symbols-outlined text-green-600 mt-0.5 text-base">check_circle</span>
+      <span>Recibimos sus datos. Admisión (SOME) los revisará y actualizará la ficha; si falta algo, le llamaremos.</span>
+    </div>
+    <div data-error role="alert" class="hidden flex items-start gap-2 text-sm text-red-700 bg-red-50 border border-red-200 rounded-custom px-4 py-3">
+      <span aria-hidden="true" class="material-symbols-outlined text-red-600 mt-0.5 text-base">error</span>
+      <span data-error-texto>No pudimos enviar el formulario. Intente nuevamente o acérquese a Admisión (SOME).</span>
+    </div>
+  </div>
+</form>

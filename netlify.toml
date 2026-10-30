@@ -29,6 +29,12 @@
   [headers.values]
     Cache-Control = "public, max-age=604800"
 
+# Plantilla de las noticias del portal (la usa la función noticia-pagina; no es para buscadores)
+[[headers]]
+  for = "/noticias/plantilla.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
 # Portal de funcionarios: nunca en caché compartida ni en buscadores
 [[headers]]
   for = "/funcionarios/*"

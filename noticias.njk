@@ -9,6 +9,9 @@ permalink: noticias.html
 {{ ui.banner("Noticias", "Novedades e información institucional del Hospital de Frutillar", "newspaper", [{ label: "Noticias" }]) }}
 
 <div class="container mx-auto px-4 py-10">
+  {# Copia del último build; sitio-vivo.js la reemplaza con las noticias vigentes del portal #}
+  <script type="application/json" id="noticias-estaticas">{{ collections.noticias | noticiasEstaticasJSON | safe }}</script>
+  <div data-noticias-lista>
   {% if collections.noticias.length %}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {% for n in collections.noticias %}{{ ui.tarjetaNoticia(n) }}{% endfor %}
@@ -16,4 +19,5 @@ permalink: noticias.html
   {% else %}
   <p class="text-gray-500 text-center py-16">No hay noticias publicadas aún.</p>
   {% endif %}
+  </div>
 </div>

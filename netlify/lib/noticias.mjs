@@ -2,7 +2,7 @@
 //   noticias/<id> → { id, slug, titulo, categoria, resumen, cuerpo, fecha, destacada, imagen, adjuntos[], autor, creado, editado }
 //   archivos/<id> → imágenes y documentos (públicos)
 //   indice        → [ resumen de cada noticia ]
-// El sitio se regenera después de cada cambio (NETLIFY_BUILD_HOOK) y las páginas se generan en el build.
+// Las páginas de noticias las arma la función noticia-pagina al momento (no se regenera el sitio).
 import { abrirAlmacen } from "./almacen.mjs";
 import { repoArchivos, esId, texto, nuevoId } from "./archivos.mjs";
 
@@ -52,6 +52,14 @@ async function guardarIndice(st, indice) {
 
 export async function listar() {
   return leerIndice(await almacen());
+}
+
+/** Noticia completa por su dirección, o null. */
+export async function porSlug(slug) {
+  if (!slugValido(slug)) return null;
+  const st = await almacen();
+  const r = (await leerIndice(st)).find((x) => x.slug === slug);
+  return r ? st.get(`noticias/${r.id}`, { type: "json" }) : null;
 }
 
 export async function obtener(id) {
@@ -160,16 +168,4 @@ export async function eliminar(n) {
   for (const a of n.adjuntos) await archivos.borrar(a.id);
   await st.delete(`noticias/${n.id}`);
   await guardarIndice(st, (await leerIndice(st)).filter((x) => x.id !== n.id));
-}
-
-/** Pide a Netlify que regenere el sitio. Devuelve true si se solicitó. */
-export async function regenerarSitio(hook) {
-  if (!hook) return false;
-  try {
-    const r = await fetch(hook, { method: "POST", body: "{}" });
-    return r.ok;
-  } catch (e) {
-    console.error("No se pudo regenerar el sitio:", e);
-    return false;
-  }
 }
