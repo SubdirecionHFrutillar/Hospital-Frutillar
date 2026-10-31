@@ -34,6 +34,12 @@ export const FORMULARIOS = {
     texto: { campo: "mensaje", titulo: "Mensaje" },
     nota: (d) => (/reclamo/i.test(d.asunto || "") ? "Plazo legal de respuesta a reclamos: 15 días hábiles desde su recepción (Ley N° 20.584)." : ""),
     usoInterno: ["N° de registro OIRS", "Derivado a", "Fecha de respuesta"],
+    copia: {
+      titulo: "Recibimos su consulta",
+      intro: (e) =>
+        `Gracias por escribirnos. Su solicitud (${e.etiqueta.toLowerCase()}) quedó registrada con el folio ${e.folio}. ` +
+        "La Oficina de Informaciones, Reclamos y Sugerencias (OIRS) del Hospital de Frutillar la revisará y le responderá a este correo o por teléfono.",
+    },
   },
   "actualizacion-datos": {
     prefijo: "ACT",
@@ -68,6 +74,12 @@ export const FORMULARIOS = {
     linea: (d) => (lista(d.datos_que_cambian).length ? ["Datos que cambiaron", lista(d.datos_que_cambian).join(" · ")] : null),
     nota: () => "",
     usoInterno: ["Actualizado en sistema por", "Fecha", "Firma"],
+    copia: {
+      titulo: "Recibimos su actualización de datos",
+      intro: (e) =>
+        `Gracias. Su solicitud quedó registrada con el folio ${e.folio}. Admisión (SOME) revisará los datos y actualizará la ficha del paciente; si falta algo, le llamaremos.`,
+      nota: "Si el paciente cambió de comuna, recuerde inscribirlo también en el CESFAM o CECOSF de su nuevo domicilio.",
+    },
     columnas: 4,
   },
 };
@@ -132,6 +144,7 @@ export function prepararEnvio(payload) {
     texto: d[def.texto.campo] ? { titulo: def.texto.titulo, valor: String(d[def.texto.campo]) } : null,
     nota: def.nota(d),
     usoInterno: def.usoInterno,
+    copia: def.copia,
     columnas: def.columnas || 3,
   };
 }
@@ -146,6 +159,7 @@ function tono(etiqueta) {
 }
 
 export const asunto = (e) => `${e.titulo}: ${e.etiqueta} — ${e.nombre} [${e.folio}]`;
+export const asuntoCopia = (e) => `${e.copia.titulo} — Hospital de Frutillar [${e.folio}]`;
 
 // ---------- Correo HTML ----------
 
@@ -153,7 +167,8 @@ const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ESC[c]);
 const parrafos = (t) => esc(t).replace(/\r?\n/g, "<br>");
 
-export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app" } = {}) {
+/** Correo interno (copia=false) o confirmación para quien envió el formulario (copia=true). */
+export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app", copia = false } = {}) {
   const t = tono(e.etiqueta);
   const F = "font-family:'Public Sans',Segoe UI,Helvetica,Arial,sans-serif;";
   const filas = (campos) =>
@@ -179,11 +194,12 @@ export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app" 
         <div style="${F}background:#F6F8FB;border-left:3px solid #0A2A5E;border-radius:4px;padding:14px 16px;font-size:14px;line-height:1.6;color:#1F2937;">${parrafos(e.texto.valor)}</div>
       </td></tr>`
     : "";
+  const nota = copia ? e.copia.nota || e.nota : e.nota;
   const boton = e.correo
     ? `<a href="mailto:${esc(e.correo)}?subject=${encodeURIComponent("Re: " + e.titulo + " [" + e.folio + "]")}" style="${F}display:inline-block;background:#0F69C4;color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;padding:11px 20px;border-radius:4px;">Responder a ${esc(e.nombre.split(" ")[0])}</a>`
     : `<span style="${F}font-size:13px;color:#6B7280;">No dejó correo electrónico: responder por teléfono.</span>`;
 
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(asunto(e))}</title></head>
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(copia ? asuntoCopia(e) : asunto(e))}</title></head>
 <body style="margin:0;padding:0;background:#EEF1F5;">
 <div style="display:none;max-height:0;overflow:hidden;">${esc(e.etiqueta)} · ${esc(e.nombre)} · ${esc(e.fecha.larga)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EEF1F5;"><tr><td align="center" style="padding:24px 12px;">
@@ -204,26 +220,42 @@ export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app" 
   <tr><td style="padding:0 32px;"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td width="56" height="4" style="background:#0F69C4;font-size:0;line-height:0;">&nbsp;</td><td width="56" height="4" style="background:#DA291C;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>
   <tr><td style="padding:20px 32px 4px;">
     <span style="${F}display:inline-block;background:${t.fondo};color:${t.texto};border:1px solid ${t.borde};font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:4px 10px;border-radius:999px;">${esc(e.etiqueta)}</span>
-    <h1 style="${F}margin:10px 0 4px;font-size:22px;line-height:1.25;color:#0A2A5E;">${esc(e.titulo)}</h1>
-    <div style="${F}font-size:13px;color:#6B7280;">De <strong style="color:#111827;">${esc(e.nombre)}</strong> · ${esc(e.fecha.larga)} · para ${esc(e.unidad)}</div>
+    <h1 style="${F}margin:10px 0 4px;font-size:22px;line-height:1.25;color:#0A2A5E;">${esc(copia ? e.copia.titulo : e.titulo)}</h1>
+    ${copia
+      ? `<p style="${F}margin:8px 0 0;font-size:15px;line-height:1.6;color:#1F2937;">${esc(e.copia.intro(e))}</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr>
+      <td style="${F}background:#EEF4FB;border:1px solid #CCE3F7;border-radius:4px;padding:10px 16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:#6B7280;text-transform:uppercase;">Su número de folio</div>
+        <div style="font-size:20px;font-weight:800;color:#0F69C4;white-space:nowrap;">${esc(e.folio)}</div>
+        <div style="font-size:12px;color:#6B7280;">Recibido el ${esc(e.fecha.larga)}</div>
+      </td></tr></table>
+    <div style="${F}font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#9CA3AF;margin-top:24px;">Copia de lo que nos envió</div>`
+      : `<div style="${F}font-size:13px;color:#6B7280;">De <strong style="color:#111827;">${esc(e.nombre)}</strong> · ${esc(e.fecha.larga)} · para ${esc(e.unidad)}</div>`}
     ${e.linea ? `<div style="${F}font-size:13px;color:#111827;margin-top:6px;"><strong>${esc(e.linea[0])}:</strong> ${esc(e.linea[1])}</div>` : ""}
   </td></tr>
   ${texto}
   ${secciones}
-  ${e.nota ? `<tr><td style="padding:20px 32px 0;"><div style="${F}background:#FFF8E6;border:1px solid #F5D7A1;border-radius:4px;padding:10px 14px;font-size:13px;color:#7A4B00;">${esc(e.nota)}</div></td></tr>` : ""}
-  <tr><td style="padding:24px 32px 26px;">${boton}
-    <div style="${F}font-size:12px;color:#6B7280;margin-top:12px;">Se adjunta la ficha en PDF (${esc(e.folio)}.pdf) para imprimir o archivar.</div>
+  ${nota ? `<tr><td style="padding:20px 32px 0;"><div style="${F}background:#FFF8E6;border:1px solid #F5D7A1;border-radius:4px;padding:10px 14px;font-size:13px;color:#7A4B00;">${esc(nota)}</div></td></tr>` : ""}
+  <tr><td style="padding:24px 32px 26px;">${copia
+    ? `<div style="${F}font-size:13px;color:#374151;line-height:1.6;">Si necesita agregar información, responda este correo indicando su folio. Ante una emergencia vital llame al <strong>131</strong> o acuda a la Urgencia del hospital, abierta las 24 horas.</div>
+    <div style="${F}font-size:12px;color:#6B7280;margin-top:12px;">Se adjunta su comprobante en PDF (${esc(e.folio)}.pdf).</div>`
+    : `${boton}
+    <div style="${F}font-size:12px;color:#6B7280;margin-top:12px;">Se adjunta la ficha en PDF (${esc(e.folio)}.pdf) para imprimir o archivar.</div>`}
   </td></tr>
   <tr><td style="${F}background:#F6F8FB;border-top:1px solid #E5E7EB;padding:14px 32px;font-size:11px;color:#9CA3AF;line-height:1.5;">
-    Recibido mediante el formulario del sitio web del Hospital de Frutillar. Contiene datos personales: tratar con reserva (Ley N° 19.628).
+    ${copia
+      ? "Hospital de Frutillar · Av. Las Piedras S/N, Frutillar · (65) 2 421 000. Mensaje automático enviado porque se ingresó este correo en un formulario del sitio web; si usted no lo hizo, puede ignorarlo."
+      : "Recibido mediante el formulario del sitio web del Hospital de Frutillar. Contiene datos personales: tratar con reserva (Ley N° 19.628)."}
   </td></tr>
 </table>
 </td></tr></table>
 </body></html>`;
 }
 
-export function correoTexto(e) {
-  const out = [`${e.titulo.toUpperCase()} — ${e.etiqueta}`, `Folio: ${e.folio}`, `Recibido: ${e.fecha.larga}`];
+export function correoTexto(e, { copia = false } = {}) {
+  const out = copia
+    ? [e.copia.titulo.toUpperCase(), "", e.copia.intro(e), "", `Folio: ${e.folio}`, `Recibido: ${e.fecha.larga}`, "", "COPIA DE LO QUE NOS ENVIÓ"]
+    : [`${e.titulo.toUpperCase()} — ${e.etiqueta}`, `Folio: ${e.folio}`, `Recibido: ${e.fecha.larga}`];
   if (e.linea) out.push(`${e.linea[0]}: ${e.linea[1]}`);
   out.push("");
   if (e.texto) out.push(`${e.texto.titulo}:`, e.texto.valor, "");
@@ -232,8 +264,9 @@ export function correoTexto(e) {
     for (const c of s.campos) out.push(`  ${c.etiqueta}: ${c.valor}`);
     out.push("");
   }
-  if (e.nota) out.push(e.nota, "");
-  out.push("Se adjunta la ficha en PDF.");
+  const nota = copia ? e.copia.nota || e.nota : e.nota;
+  if (nota) out.push(nota, "");
+  out.push(copia ? "Se adjunta su comprobante en PDF. Si necesita agregar información, responda este correo indicando su folio." : "Se adjunta la ficha en PDF.");
   return out.join("\n");
 }
 
@@ -252,9 +285,10 @@ const C = {
 const hex = (h) => rgb(parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255);
 
 /** Ficha en PDF (A4). logo: bytes PNG opcionales. */
-export async function fichaPDF(e, { logo } = {}) {
+/** comprobante=true: versión para quien envió el formulario (sin recuadro de uso interno). */
+export async function fichaPDF(e, { logo, comprobante = false } = {}) {
   const doc = await PDFDocument.create();
-  doc.setTitle(`${e.titulo} — ${e.folio}`);
+  doc.setTitle(`${comprobante ? "Comprobante — " : ""}${e.titulo} — ${e.folio}`);
   doc.setAuthor("Hospital de Frutillar");
   doc.setSubject(`${e.etiqueta} · ${e.nombre}`);
   doc.setCreator("Sitio web Hospital de Frutillar");
@@ -340,7 +374,7 @@ export async function fichaPDF(e, { logo } = {}) {
   rectRedondo(M, y - 12, anchoEt, 16, 8, { color: hex(t.fondo), borderColor: hex(t.borde), borderWidth: 0.75 });
   texto(et, M + 8, y - 7, { f: neg, t: 8, c: hex(t.texto) });
   y -= 36;
-  for (const l of envolver(e.titulo, neg, 20, ANCHO)) { texto(l, M, y, { f: neg, t: 20, c: C.marino }); y -= 24; }
+  for (const l of envolver(comprobante ? `Comprobante: ${e.titulo.toLowerCase()}` : e.titulo, neg, 20, ANCHO)) { texto(l, M, y, { f: neg, t: 20, c: C.marino }); y -= 24; }
   texto(`Recibido el ${e.fecha.larga} a través del sitio web · Para ${e.unidad}`, M, y + 6, { t: 9.5, c: C.gris });
   if (e.linea) {
     y -= 10;
@@ -421,8 +455,9 @@ export async function fichaPDF(e, { logo } = {}) {
   }
 
   // Nota
-  if (e.nota) {
-    const lineas = envolver(e.nota, reg, 9.5, ANCHO - 24);
+  const nota = comprobante ? e.copia?.nota || e.nota : e.nota;
+  if (nota) {
+    const lineas = envolver(nota, reg, 9.5, ANCHO - 24);
     const alto = lineas.length * 13 + 14;
     asegurar(alto + 10);
     rectRedondo(M, y - alto + 10, ANCHO, alto, 4, { color: hex("#FFF8E6"), borderColor: hex("#F5D7A1"), borderWidth: 0.75 });
@@ -430,16 +465,18 @@ export async function fichaPDF(e, { logo } = {}) {
     y -= alto + 16;
   }
 
-  // Uso interno (para completar a mano)
-  asegurar(42);
-  pag.drawRectangle({ x: M, y: y - 42, width: ANCHO, height: 48, borderColor: C.grisClaro, borderWidth: 0.9, borderDashArray: [3, 2] });
-  texto(`USO INTERNO — ${e.unidad.toUpperCase()}`, M + 12, y - 7, { f: neg, t: 7, c: C.gris });
-  const colI = (ANCHO - 24) / e.usoInterno.length;
-  e.usoInterno.forEach((c, i) => {
-    const x = M + 12 + i * colI;
-    pag.drawRectangle({ x, y: y - 28, width: colI - 16, height: 0.6, color: C.gris });
-    texto(c, x, y - 38, { t: 7.5, c: C.gris });
-  });
+  // Uso interno (para completar a mano); el comprobante no lo lleva
+  if (!comprobante) {
+    asegurar(42);
+    pag.drawRectangle({ x: M, y: y - 42, width: ANCHO, height: 48, borderColor: C.grisClaro, borderWidth: 0.9, borderDashArray: [3, 2] });
+    texto(`USO INTERNO — ${e.unidad.toUpperCase()}`, M + 12, y - 7, { f: neg, t: 7, c: C.gris });
+    const colI = (ANCHO - 24) / e.usoInterno.length;
+    e.usoInterno.forEach((c, i) => {
+      const x = M + 12 + i * colI;
+      pag.drawRectangle({ x, y: y - 28, width: colI - 16, height: 0.6, color: C.gris });
+      texto(c, x, y - 38, { t: 7.5, c: C.gris });
+    });
+  }
 
   // Pie en todas las páginas
   const paginas = doc.getPages();

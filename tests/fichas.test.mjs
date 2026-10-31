@@ -95,3 +95,38 @@ test("Consulta en nombre de otra persona: paciente en resumen, sección propia y
   assert.equal(propia.secciones.some((s) => s.titulo === "Paciente"), false);
   assert.ok(propia.secciones.find((s) => s.titulo === "Quien escribe").soloCorreo);
 });
+
+test("Copia a quien envió: confirmación con folio, comprobante sin uso interno y respuestas al hospital", async () => {
+  const enviados = [];
+  const espia = { sendMail: async (m) => (enviados.push(m), { messageId: `id-${enviados.length}` }) };
+  const r = await enviarFicha(consulta, { transporte: espia, logo });
+  assert.equal(enviados.length, 2);
+  const [interno, copia] = enviados;
+  assert.equal(interno.to, "pablomerino@ssdr.gob.cl");
+  assert.equal(copia.to, "paty@example.com");
+  assert.equal(copia.replyTo, "pablomerino@ssdr.gob.cl");
+  assert.equal(copia.subject, "Recibimos su consulta — Hospital de Frutillar [CON-2026-00012]");
+  assert.match(copia.html, /Su número de folio/);
+  assert.doesNotMatch(copia.html, /Responder a/);
+  assert.match(copia.text, /quedó registrada con el folio CON-2026-00012/);
+  assert.equal(r.copia, "id-2");
+  const comp = await PDFDocument.load(copia.attachments[0].content);
+  assert.match(comp.getTitle(), /^Comprobante/);
+
+  // Sin correo válido o con la copia desactivada: solo el correo interno
+  enviados.length = 0;
+  await enviarFicha({ ...consulta, data: { ...consulta.data, email: "no-es-correo" } }, { transporte: espia, logo });
+  assert.equal(enviados.length, 1);
+  enviados.length = 0;
+  process.env.COPIA_AL_REMITENTE = "no";
+  await enviarFicha(consulta, { transporte: espia, logo });
+  delete process.env.COPIA_AL_REMITENTE;
+  assert.equal(enviados.length, 1);
+
+  // Si falla la copia, el correo interno ya salió y no se cae
+  let n = 0;
+  const fallaSegundo = { sendMail: async () => { if (++n === 2) throw new Error("buzón inexistente"); return { messageId: "ok" }; } };
+  const r2 = await enviarFicha(consulta, { transporte: fallaSegundo, logo });
+  assert.equal(r2.enviado, "ok");
+  assert.match(r2.copia, /^error: buzón inexistente/);
+});

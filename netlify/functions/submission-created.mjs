@@ -7,13 +7,16 @@
 //   SMTP_HOST, SMTP_PORT (465), SMTP_USER, SMTP_PASS   servidor de correo (p. ej. Gmail con contraseña de aplicación)
 //   CORREO_FORMULARIOS     destinatarios, separados por coma (por defecto pablomerino@ssdr.gob.cl)
 //   CORREO_CONTACTO / CORREO_ACTUALIZACION   destinatarios propios de cada formulario (opcional)
-//   CORREO_REMITENTE       nombre y correo del remitente (por defecto "Sitio web Hospital de Frutillar" <SMTP_USER>)
+//   CORREO_REMITENTE       nombre y correo del remitente (por defecto "Hospital de Frutillar" <SMTP_USER>)
+//   COPIA_AL_REMITENTE     "no" para no enviar la confirmación a quien completó el formulario (por defecto se envía)
+//   CORREO_RESPONDER_A     a dónde llegan las respuestas a esa confirmación (por defecto, los mismos destinatarios)
 import nodemailer from "nodemailer";
-import { prepararEnvio, asunto, correoHTML, correoTexto, fichaPDF } from "../lib/fichas.mjs";
+import { prepararEnvio, asunto, asuntoCopia, correoHTML, correoTexto, fichaPDF } from "../lib/fichas.mjs";
 
 const DESTINO_POR_DEFECTO = "pablomerino@ssdr.gob.cl";
 const POR_FORMULARIO = { contacto: "CORREO_CONTACTO", "actualizacion-datos": "CORREO_ACTUALIZACION" };
 const env = (k) => process.env[k] || "";
+const correoValido = (c) => /^[^@\s<>]+@[^@\s<>]+\.[^@\s<>]+$/.test(c || "");
 
 export async function enviarFicha(payload, { transporte, sitio = env("URL") || "https://hospitalfrutillar.netlify.app", logo } = {}) {
   const e = prepararEnvio(payload);
@@ -40,8 +43,9 @@ export async function enviarFicha(payload, { transporte, sitio = env("URL") || "
   if (!transporte) return { omitido: "SMTP no configurado (SMTP_HOST, SMTP_USER, SMTP_PASS)" };
 
   const para = env(POR_FORMULARIO[e.formulario]) || env("CORREO_FORMULARIOS") || DESTINO_POR_DEFECTO;
+  const remitente = env("CORREO_REMITENTE") || `"Hospital de Frutillar" <${env("SMTP_USER")}>`;
   const info = await transporte.sendMail({
-    from: env("CORREO_REMITENTE") || `"Sitio web Hospital de Frutillar" <${env("SMTP_USER")}>`,
+    from: remitente,
     to: para,
     replyTo: e.correo || undefined,
     subject: asunto(e),
@@ -49,7 +53,27 @@ export async function enviarFicha(payload, { transporte, sitio = env("URL") || "
     html: correoHTML(e, { sitio }),
     attachments: [{ filename: `${e.folio}.pdf`, content: Buffer.from(pdf), contentType: "application/pdf" }],
   });
-  return { enviado: info.messageId, para, folio: e.folio };
+  const resultado = { enviado: info.messageId, para, folio: e.folio };
+
+  // Confirmación a quien completó el formulario, con su comprobante (sin recuadro de uso interno)
+  if (correoValido(e.correo) && env("COPIA_AL_REMITENTE").toLowerCase() !== "no") {
+    try {
+      const comprobante = await fichaPDF(e, { logo, comprobante: true });
+      const copia = await transporte.sendMail({
+        from: remitente,
+        to: e.correo,
+        replyTo: env("CORREO_RESPONDER_A") || para,
+        subject: asuntoCopia(e),
+        text: correoTexto(e, { copia: true }),
+        html: correoHTML(e, { sitio, copia: true }),
+        attachments: [{ filename: `${e.folio}.pdf`, content: Buffer.from(comprobante), contentType: "application/pdf" }],
+      });
+      resultado.copia = copia.messageId;
+    } catch (err) {
+      resultado.copia = `error: ${err.message}`;
+    }
+  }
+  return resultado;
 }
 
 export const handler = async (event) => {

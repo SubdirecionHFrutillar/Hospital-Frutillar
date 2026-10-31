@@ -133,6 +133,10 @@ y adjunta la ficha en PDF (`netlify/lib/fichas.mjs`): folio (`CON-2026-00012`, `
 datos por sección, plazo legal si es un reclamo y un recuadro de **uso interno** (OIRS / SOME) para completar a mano.
 "Responder" en el correo le contesta directo a quien escribió.
 
+Quien completó el formulario recibe además una **confirmación** con su folio, copia de lo que envió y un comprobante
+en PDF (sin el recuadro de uso interno), si dejó un correo válido. Si responde a esa confirmación, la respuesta llega
+al hospital. Si falla solo la confirmación (p. ej. un correo mal escrito), el correo interno igual se envía.
+
 Configuración (Netlify → *Project configuration → Environment variables*, alcance *Functions*):
 
 | Variable | Valor |
@@ -143,7 +147,9 @@ Configuración (Netlify → *Project configuration → Environment variables*, a
 | `SMTP_PASS` | Con Gmail: una **contraseña de aplicación** (Cuenta de Google → Seguridad → Verificación en 2 pasos → Contraseñas de aplicaciones), no la clave normal |
 | `CORREO_FORMULARIOS` | Destinatarios, separados por coma. Por defecto `pablomerino@ssdr.gob.cl` |
 | `CORREO_CONTACTO` / `CORREO_ACTUALIZACION` | Opcional: destinatarios propios de cada formulario (p. ej. OIRS y SOME) |
-| `CORREO_REMITENTE` | Opcional: `"Sitio web Hospital de Frutillar" <cuenta@gmail.com>` |
+| `CORREO_REMITENTE` | Opcional: `"Hospital de Frutillar" <cuenta@gmail.com>` |
+| `COPIA_AL_REMITENTE` | `no` para desactivar la confirmación a quien envió el formulario (por defecto se envía) |
+| `CORREO_RESPONDER_A` | Opcional: a dónde llegan las respuestas a esa confirmación (por defecto, los mismos destinatarios) |
 
 Después de crear o cambiar las variables hay que volver a publicar. Si el correo falla, el envío igual queda en
 Netlify → *Forms* y el error aparece en *Logs → Functions → submission-created*.
