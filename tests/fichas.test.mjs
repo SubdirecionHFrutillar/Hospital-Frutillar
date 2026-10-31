@@ -34,12 +34,12 @@ test("Preparar envío: folio, hora de Chile, secciones y campos vacíos fuera", 
   assert.equal(prepararEnvio({ form_name: "otro", data: {} }), null);
 });
 
-test("Correo: HTML escapado, botón de respuesta y texto plano", () => {
+test("Correo: HTML escapado, cómo responder y texto plano", () => {
   const e = prepararEnvio(consulta);
   const html = correoHTML(e, { sitio: "https://sitio.test" });
   assert.match(html, /Patricia &lt;b&gt;Vargas&lt;\/b&gt;/);
   assert.doesNotMatch(html, /<b>Vargas/);
-  assert.match(html, /mailto:paty@example.com/);
+  assert.match(html, /le llega a paty@example.com/);
   assert.match(html, /https:\/\/sitio.test\/img\/logo-hospital.png/);
   assert.match(html, /Línea 1<br>Línea 2/);
   assert.match(correoTexto(e), /Folio: CON-2026-00012/);
@@ -79,21 +79,18 @@ test("Envío: destinatario por defecto, responder-a y PDF adjunto; sin SMTP no e
   assert.match(sinSmtp.omitido, /SMTP no configurado/);
 });
 
-test("Consulta en nombre de otra persona: paciente en resumen, sección propia y línea destacada", async () => {
+test("Consulta en nombre de otra persona: sección Paciente y línea destacada", async () => {
   const p = { ...consulta, data: { ...consulta.data, nombre: "Ana Soto", consulta_sobre: "Sobre otra persona", paciente_nombre: "Juan Soto", paciente_rut: "4.567.890-3", paciente_relacion: "Hija o hijo" } };
   const e = prepararEnvio(p);
-  assert.deepEqual(e.resumen.slice(0, 2), [["Paciente", "Juan Soto"], ["Escribe", "Ana Soto"]]);
   assert.deepEqual(e.linea, ["En nombre de", "Juan Soto · quien escribe es: hija o hijo"]);
-  assert.ok(e.secciones.some((s) => s.titulo === "Paciente" && !s.soloCorreo));
-  assert.ok(e.secciones.some((s) => s.titulo === "Quien escribe" && !s.soloCorreo), "con paciente aparte, quien escribe va completo también en el PDF");
-  assert.match(correoHTML(e), /En nombre de:<\/strong> Juan Soto/);
+  assert.deepEqual(e.secciones.map((s) => s.titulo), ["Paciente", "Quien escribe"]);
+  assert.match(correoHTML(e), /En nombre de<\/td>\s*<td[^>]*>Juan Soto/);
   const doc = await PDFDocument.load(await fichaPDF(e, { logo }));
   assert.equal(doc.getPageCount(), 1);
-  // Sobre sí mismo: sin sección Paciente y sus datos solo en el resumen del PDF
+  // Sobre sí mismo: sin sección Paciente
   const propia = prepararEnvio(consulta);
   assert.equal(propia.linea, null);
-  assert.equal(propia.secciones.some((s) => s.titulo === "Paciente"), false);
-  assert.ok(propia.secciones.find((s) => s.titulo === "Quien escribe").soloCorreo);
+  assert.deepEqual(propia.secciones.map((s) => s.titulo), ["Quien escribe"]);
 });
 
 test("Copia a quien envió: confirmación con folio, comprobante sin uso interno y respuestas al hospital", async () => {
@@ -106,8 +103,8 @@ test("Copia a quien envió: confirmación con folio, comprobante sin uso interno
   assert.equal(copia.to, "paty@example.com");
   assert.equal(copia.replyTo, "pablomerino@ssdr.gob.cl");
   assert.equal(copia.subject, "Recibimos su consulta — Hospital de Frutillar [CON-2026-00012]");
-  assert.match(copia.html, /Su número de folio/);
-  assert.doesNotMatch(copia.html, /Responder a/);
+  assert.match(copia.html, /Recibimos su consulta/);
+  assert.doesNotMatch(copia.html, /le llega a/);
   assert.match(copia.text, /quedó registrada con el folio CON-2026-00012/);
   assert.equal(r.copia, "id-2");
   const comp = await PDFDocument.load(copia.attachments[0].content);

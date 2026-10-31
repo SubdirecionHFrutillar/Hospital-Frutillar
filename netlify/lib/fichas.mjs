@@ -17,19 +17,14 @@ export const FORMULARIOS = {
     nombre: (d) => d.nombre,
     correo: (d) => d.email,
     etiqueta: (d) => d.asunto || "Consulta",
-    resumen: (d) =>
-      porOtra(d)
-        ? [["Paciente", d.paciente_nombre], ["Escribe", d.nombre], ["Teléfono", d.telefono]]
-        : [["Nombre", d.nombre], ["RUT", d.rut], ["Correo", d.email], ["Teléfono", d.telefono]],
     linea: (d) => (porOtra(d) ? ["En nombre de", `${d.paciente_nombre || "otra persona"}${d.paciente_relacion ? ` · quien escribe es: ${d.paciente_relacion.toLowerCase()}` : ""}`] : null),
     secciones: [
-      // En el PDF estos datos ya van en el recuadro de resumen
       {
         titulo: "Paciente",
         soloSi: porOtra,
         campos: [["paciente_nombre", "Nombre"], ["paciente_rut", "RUT"], ["paciente_relacion", "Quien escribe es"]],
       },
-      { titulo: "Quien escribe", soloCorreoSi: (d) => !porOtra(d), campos: [["nombre", "Nombre"], ["rut", "RUT"], ["email", "Correo electrónico"], ["telefono", "Teléfono"]] },
+      { titulo: "Quien escribe", campos: [["nombre", "Nombre"], ["rut", "RUT"], ["email", "Correo electrónico"], ["telefono", "Teléfono"]] },
     ],
     texto: { campo: "mensaje", titulo: "Mensaje" },
     nota: (d) => (/reclamo/i.test(d.asunto || "") ? "Plazo legal de respuesta a reclamos: 15 días hábiles desde su recepción (Ley N° 20.584)." : ""),
@@ -48,7 +43,6 @@ export const FORMULARIOS = {
     nombre: (d) => [d.nombres, d.primer_apellido, d.segundo_apellido].filter(Boolean).join(" "),
     correo: (d) => d.correo,
     etiqueta: (d) => (d.tramite_para && /familiar/i.test(d.tramite_para) ? "Trámite por un familiar" : "Trámite personal"),
-    resumen: (d) => [["Paciente", [d.nombres, d.primer_apellido, d.segundo_apellido].filter(Boolean).join(" ")], ["RUT", d.rut], ["Teléfono", d.telefono_celular]],
     secciones: [
       {
         titulo: "Quién realiza el trámite",
@@ -122,8 +116,6 @@ export function prepararEnvio(payload) {
     .filter((s) => !s.soloSi || s.soloSi(d))
     .map((s) => ({
       titulo: s.titulo,
-      // En el PDF el recuadro de resumen ya trae estos datos; en el correo se muestran completos
-      soloCorreo: !!(s.soloCorreoSi && s.soloCorreoSi(d)),
       campos: s.campos
         .map(([k, etiqueta, fmt, ancho]) => ({ etiqueta, valor: String((fmt ? fmt(d[k]) : Array.isArray(d[k]) ? d[k].join(", ") : d[k]) ?? "").trim(), ancho: !!ancho }))
         .filter((c) => c.valor),
@@ -139,7 +131,6 @@ export function prepararEnvio(payload) {
     correo: def.correo(d) || "",
     etiqueta: def.etiqueta(d),
     linea: def.linea ? def.linea(d) : null,
-    resumen: def.resumen(d).map(([k, v]) => [k, String(v || "No indicado")]),
     secciones,
     texto: d[def.texto.campo] ? { titulo: def.texto.titulo, valor: String(d[def.texto.campo]) } : null,
     nota: def.nota(d),
@@ -147,15 +138,6 @@ export function prepararEnvio(payload) {
     copia: def.copia,
     columnas: def.columnas || 3,
   };
-}
-
-/** Color de la etiqueta según el tipo de consulta. */
-function tono(etiqueta) {
-  const e = etiqueta.toLowerCase();
-  if (e.includes("reclamo")) return { fondo: "#FDECEA", texto: "#B42318", borde: "#F5C2BC" };
-  if (e.includes("felicita")) return { fondo: "#E8F5EC", texto: "#1E7B3C", borde: "#B9E0C4" };
-  if (e.includes("familiar")) return { fondo: "#FFF4E0", texto: "#A15C00", borde: "#F5D7A1" };
-  return { fondo: "#EEF4FB", texto: "#0B4F96", borde: "#CCE3F7" };
 }
 
 export const asunto = (e) => `${e.titulo}: ${e.etiqueta} — ${e.nombre} [${e.folio}]`;
@@ -167,85 +149,55 @@ const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ESC[c]);
 const parrafos = (t) => esc(t).replace(/\r?\n/g, "<br>");
 
-/** Correo interno (copia=false) o confirmación para quien envió el formulario (copia=true). */
+/** Correo interno (copia=false) o confirmación para quien envió el formulario (copia=true). Diseño sobrio, tipo memo. */
 export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app", copia = false } = {}) {
-  const t = tono(e.etiqueta);
-  const F = "font-family:'Public Sans',Segoe UI,Helvetica,Arial,sans-serif;";
-  const filas = (campos) =>
-    campos
+  const F = "font-family:Helvetica,Arial,sans-serif;";
+  const p = (html, extra = "") => `<p style="${F}margin:0 0 12px;font-size:15px;line-height:1.55;color:#1a1a1a;${extra}">${html}</p>`;
+  const h2 = (t) => `<p style="${F}margin:26px 0 8px;font-size:13px;font-weight:bold;color:#1a1a1a;">${esc(t)}</p>`;
+  const tabla = (campos) =>
+    `<table role="presentation" cellpadding="0" cellspacing="0" width="100%">${campos
       .map(
         (c) => `<tr>
-          <td style="${F}padding:7px 0;border-bottom:1px solid #EEF0F3;width:38%;vertical-align:top;font-size:12px;color:#6B7280;">${esc(c.etiqueta)}</td>
-          <td style="${F}padding:7px 0;border-bottom:1px solid #EEF0F3;vertical-align:top;font-size:14px;color:#111827;font-weight:600;">${parrafos(c.valor)}</td>
-        </tr>`
+        <td style="${F}padding:3px 16px 3px 0;width:32%;vertical-align:top;font-size:14px;color:#6b6b6b;">${esc(c.etiqueta)}</td>
+        <td style="${F}padding:3px 0;vertical-align:top;font-size:14px;color:#1a1a1a;">${parrafos(c.valor)}</td>
+      </tr>`
       )
-      .join("");
-  const secciones = e.secciones
-    .map(
-      (s) => `<tr><td style="padding:22px 32px 0;">
-        <div style="${F}font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#0F69C4;border-left:3px solid #0F69C4;padding-left:8px;margin-bottom:6px;">${esc(s.titulo)}</div>
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${filas(s.campos)}</table>
-      </td></tr>`
-    )
-    .join("");
-  const texto = e.texto
-    ? `<tr><td style="padding:22px 32px 0;">
-        <div style="${F}font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#0F69C4;border-left:3px solid #0F69C4;padding-left:8px;margin-bottom:8px;">${esc(e.texto.titulo)}</div>
-        <div style="${F}background:#F6F8FB;border-left:3px solid #0A2A5E;border-radius:4px;padding:14px 16px;font-size:14px;line-height:1.6;color:#1F2937;">${parrafos(e.texto.valor)}</div>
-      </td></tr>`
-    : "";
+      .join("")}</table>`;
   const nota = copia ? e.copia.nota || e.nota : e.nota;
-  const boton = e.correo
-    ? `<a href="mailto:${esc(e.correo)}?subject=${encodeURIComponent("Re: " + e.titulo + " [" + e.folio + "]")}" style="${F}display:inline-block;background:#0F69C4;color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;padding:11px 20px;border-radius:4px;">Responder a ${esc(e.nombre.split(" ")[0])}</a>`
-    : `<span style="${F}font-size:13px;color:#6B7280;">No dejó correo electrónico: responder por teléfono.</span>`;
+  const datos = [["Folio", e.folio], ["Recibido", e.fecha.larga], ...(e.linea ? [e.linea] : [])];
+
+  const cuerpo = [
+    copia ? p(esc(e.copia.intro(e))) : p(`${esc(e.etiqueta)}, de <strong>${esc(e.nombre)}</strong>.`),
+    tabla(datos.map(([etiqueta, valor]) => ({ etiqueta, valor }))),
+    e.texto ? h2(e.texto.titulo) + p(parrafos(e.texto.valor)) : "",
+    ...e.secciones.map((s) => h2(s.titulo) + tabla(s.campos)),
+    nota ? `<p style="${F}margin:24px 0 0;font-size:14px;line-height:1.5;color:#4a4a4a;">${esc(nota)}</p>` : "",
+    copia
+      ? `<p style="${F}margin:24px 0 0;font-size:14px;line-height:1.5;color:#4a4a4a;">Si necesita agregar información, responda este correo indicando su folio. Ante una emergencia vital llame al 131 o acuda a la Urgencia del hospital (24 horas). Se adjunta su comprobante en PDF.</p>`
+      : `<p style="${F}margin:24px 0 0;font-size:14px;line-height:1.5;color:#4a4a4a;">${
+          e.correo ? `Para responder, conteste este correo: le llega a ${esc(e.correo)}.` : "No dejó correo electrónico: responder por teléfono."
+        } Se adjunta la ficha en PDF.</p>`,
+  ].join("\n");
 
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(copia ? asuntoCopia(e) : asunto(e))}</title></head>
-<body style="margin:0;padding:0;background:#EEF1F5;">
-<div style="display:none;max-height:0;overflow:hidden;">${esc(e.etiqueta)} · ${esc(e.nombre)} · ${esc(e.fecha.larga)}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EEF1F5;"><tr><td align="center" style="padding:24px 12px;">
-<table role="presentation" width="640" cellpadding="0" cellspacing="0" style="width:100%;max-width:640px;background:#ffffff;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(10,42,94,.08);">
-  <tr><td style="padding:20px 32px 16px;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-      <td width="56" style="vertical-align:middle;"><img src="${esc(sitio)}/img/logo-hospital.png" width="52" height="52" alt="Hospital de Frutillar" style="display:block;border:0;"></td>
-      <td style="${F}vertical-align:middle;padding-left:12px;">
-        <div style="font-size:17px;font-weight:800;color:#0A2A5E;line-height:1.2;">Hospital de Frutillar</div>
-        <div style="font-size:12px;color:#6B7280;">Servicio de Salud del Reloncaví</div>
-      </td>
-      <td align="right" style="${F}vertical-align:middle;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:#9CA3AF;text-transform:uppercase;">Folio</div>
-        <div style="font-size:15px;font-weight:800;color:#0F69C4;white-space:nowrap;">${esc(e.folio)}</div>
-      </td>
+<body style="margin:0;padding:0;background:#ffffff;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:28px 16px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;">
+  <tr><td>
+    <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+      <td style="vertical-align:middle;padding-right:12px;"><img src="${esc(sitio)}/img/logo-hospital.png" width="40" height="40" alt="" style="display:block;border:0;"></td>
+      <td style="${F}vertical-align:middle;font-size:15px;line-height:1.3;color:#1a1a1a;"><strong>Hospital de Frutillar</strong><br><span style="font-size:13px;color:#6b6b6b;">Servicio de Salud del Reloncaví</span></td>
     </tr></table>
   </td></tr>
-  <tr><td style="padding:0 32px;"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td width="56" height="4" style="background:#0F69C4;font-size:0;line-height:0;">&nbsp;</td><td width="56" height="4" style="background:#DA291C;font-size:0;line-height:0;">&nbsp;</td></tr></table></td></tr>
-  <tr><td style="padding:20px 32px 4px;">
-    <span style="${F}display:inline-block;background:${t.fondo};color:${t.texto};border:1px solid ${t.borde};font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:4px 10px;border-radius:999px;">${esc(e.etiqueta)}</span>
-    <h1 style="${F}margin:10px 0 4px;font-size:22px;line-height:1.25;color:#0A2A5E;">${esc(copia ? e.copia.titulo : e.titulo)}</h1>
-    ${copia
-      ? `<p style="${F}margin:8px 0 0;font-size:15px;line-height:1.6;color:#1F2937;">${esc(e.copia.intro(e))}</p>
-    <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr>
-      <td style="${F}background:#EEF4FB;border:1px solid #CCE3F7;border-radius:4px;padding:10px 16px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:#6B7280;text-transform:uppercase;">Su número de folio</div>
-        <div style="font-size:20px;font-weight:800;color:#0F69C4;white-space:nowrap;">${esc(e.folio)}</div>
-        <div style="font-size:12px;color:#6B7280;">Recibido el ${esc(e.fecha.larga)}</div>
-      </td></tr></table>
-    <div style="${F}font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#9CA3AF;margin-top:24px;">Copia de lo que nos envió</div>`
-      : `<div style="${F}font-size:13px;color:#6B7280;">De <strong style="color:#111827;">${esc(e.nombre)}</strong> · ${esc(e.fecha.larga)} · para ${esc(e.unidad)}</div>`}
-    ${e.linea ? `<div style="${F}font-size:13px;color:#111827;margin-top:6px;"><strong>${esc(e.linea[0])}:</strong> ${esc(e.linea[1])}</div>` : ""}
+  <tr><td style="padding:20px 0 24px;"><div style="border-top:1px solid #e3e3e3;font-size:0;line-height:0;">&nbsp;</div></td></tr>
+  <tr><td>
+    <h1 style="${F}margin:0 0 16px;font-size:20px;font-weight:bold;color:#1a1a1a;">${esc(copia ? e.copia.titulo : e.titulo)}</h1>
+    ${cuerpo}
   </td></tr>
-  ${texto}
-  ${secciones}
-  ${nota ? `<tr><td style="padding:20px 32px 0;"><div style="${F}background:#FFF8E6;border:1px solid #F5D7A1;border-radius:4px;padding:10px 14px;font-size:13px;color:#7A4B00;">${esc(nota)}</div></td></tr>` : ""}
-  <tr><td style="padding:24px 32px 26px;">${copia
-    ? `<div style="${F}font-size:13px;color:#374151;line-height:1.6;">Si necesita agregar información, responda este correo indicando su folio. Ante una emergencia vital llame al <strong>131</strong> o acuda a la Urgencia del hospital, abierta las 24 horas.</div>
-    <div style="${F}font-size:12px;color:#6B7280;margin-top:12px;">Se adjunta su comprobante en PDF (${esc(e.folio)}.pdf).</div>`
-    : `${boton}
-    <div style="${F}font-size:12px;color:#6B7280;margin-top:12px;">Se adjunta la ficha en PDF (${esc(e.folio)}.pdf) para imprimir o archivar.</div>`}
-  </td></tr>
-  <tr><td style="${F}background:#F6F8FB;border-top:1px solid #E5E7EB;padding:14px 32px;font-size:11px;color:#9CA3AF;line-height:1.5;">
-    ${copia
-      ? "Hospital de Frutillar · Av. Las Piedras S/N, Frutillar · (65) 2 421 000. Mensaje automático enviado porque se ingresó este correo en un formulario del sitio web; si usted no lo hizo, puede ignorarlo."
-      : "Recibido mediante el formulario del sitio web del Hospital de Frutillar. Contiene datos personales: tratar con reserva (Ley N° 19.628)."}
+  <tr><td style="padding:28px 0 0;"><div style="border-top:1px solid #e3e3e3;font-size:0;line-height:0;">&nbsp;</div></td></tr>
+  <tr><td style="${F}padding-top:12px;font-size:12px;line-height:1.5;color:#8a8a8a;">
+    Hospital de Frutillar · Av. Las Piedras S/N, Frutillar · (65) 2 421 000<br>
+    ${copia ? "Mensaje automático enviado porque se ingresó este correo en un formulario del sitio web. Si usted no lo hizo, puede ignorarlo." : "Recibido mediante el formulario del sitio web. Contiene datos personales (Ley N° 19.628)."}
   </td></tr>
 </table>
 </td></tr></table>
@@ -272,20 +224,11 @@ export function correoTexto(e, { copia = false } = {}) {
 
 // ---------- Ficha PDF ----------
 
-const C = {
-  tinta: rgb(0.067, 0.094, 0.153),
-  gris: rgb(0.42, 0.45, 0.5),
-  grisClaro: rgb(0.9, 0.91, 0.93),
-  fondo: rgb(0.965, 0.973, 0.984),
-  azul: rgb(0.059, 0.412, 0.769),
-  marino: rgb(0.039, 0.165, 0.369),
-  rojo: rgb(0.855, 0.161, 0.11),
-  blanco: rgb(1, 1, 1),
-};
-const hex = (h) => rgb(parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255);
+const NEGRO = rgb(0.1, 0.1, 0.1);
+const GRIS = rgb(0.42, 0.42, 0.42);
+const LINEA = rgb(0.85, 0.85, 0.85);
 
-/** Ficha en PDF (A4). logo: bytes PNG opcionales. */
-/** comprobante=true: versión para quien envió el formulario (sin recuadro de uso interno). */
+/** Ficha en PDF (A4), sobria. comprobante=true: versión para quien envió el formulario (sin uso interno). */
 export async function fichaPDF(e, { logo, comprobante = false } = {}) {
   const doc = await PDFDocument.create();
   doc.setTitle(`${comprobante ? "Comprobante — " : ""}${e.titulo} — ${e.folio}`);
@@ -299,18 +242,20 @@ export async function fichaPDF(e, { logo, comprobante = false } = {}) {
 
   // Solo caracteres que la fuente puede dibujar (WinAnsi); el resto se reemplaza.
   const juego = new Set(reg.getCharacterSet());
-  const seguro = (s) =>
-    [...String(s ?? "").normalize("NFC").replace(/\t/g, "  ")]
-      .map((ch) => (ch === "\n" || juego.has(ch.codePointAt(0)) ? ch : ch === "≥" ? ">=" : "?"))
+  const seguro = (t) =>
+    [...String(t ?? "").normalize("NFC").replace(/\t/g, "  ")]
+      .map((ch) => (ch === "\n" || juego.has(ch.codePointAt(0)) ? ch : "?"))
       .join("");
 
   const A4 = [595.28, 841.89];
-  const M = 48; // margen
+  const M = 56;
   const ANCHO = A4[0] - 2 * M;
+  const FONDO = M + 18; // el contenido no baja de aquí (el pie va debajo)
   let pag, y;
 
-  const texto = (t, x, yy, { f = reg, t: tam = 10, c = C.tinta } = {}) => pag.drawText(seguro(t), { x, y: yy, size: tam, font: f, color: c });
+  const texto = (t, x, yy, { f = reg, t: tam = 10, c = NEGRO } = {}) => pag.drawText(seguro(t), { x, y: yy, size: tam, font: f, color: c });
   const ancho = (t, f, tam) => f.widthOfTextAtSize(seguro(t), tam);
+  const regla = (yy) => pag.drawLine({ start: { x: M, y: yy }, end: { x: M + ANCHO, y: yy }, thickness: 0.5, color: LINEA });
   const envolver = (t, f, tam, max) => {
     const lineas = [];
     for (const parrafo of seguro(t).split(/\r?\n/)) {
@@ -320,7 +265,6 @@ export async function fichaPDF(e, { logo, comprobante = false } = {}) {
         if (f.widthOfTextAtSize(prueba, tam) <= max) linea = prueba;
         else {
           if (linea) lineas.push(linea);
-          // palabra más larga que la línea: se corta
           let resto = palabra;
           while (f.widthOfTextAtSize(resto, tam) > max) {
             let n = resto.length;
@@ -335,157 +279,112 @@ export async function fichaPDF(e, { logo, comprobante = false } = {}) {
     }
     return lineas;
   };
-  const rectRedondo = (x, yy, w, h, r, opts) =>
-    pag.drawSvgPath(`M ${r} 0 H ${w - r} Q ${w} 0 ${w} ${r} V ${h - r} Q ${w} ${h} ${w - r} ${h} H ${r} Q 0 ${h} 0 ${h - r} V ${r} Q 0 0 ${r} 0 Z`, { x, y: yy + h, ...opts });
 
-  function encabezado(primera) {
+  const nuevaPagina = (primera) => {
     pag = doc.addPage(A4);
     const top = A4[1] - M;
     if (primera) {
-      if (img) pag.drawImage(img, { x: M, y: top - 54, width: 54, height: 54 });
-      const tx = M + (img ? 66 : 0);
-      texto("Hospital de Frutillar", tx, top - 22, { f: neg, t: 16, c: C.marino });
-      texto("Servicio de Salud del Reloncaví · Región de Los Lagos", tx, top - 37, { t: 9, c: C.gris });
-      texto("Av. Las Piedras S/N, Frutillar · (65) 2 421 000", tx, top - 49, { t: 9, c: C.gris });
-      const r = A4[0] - M;
-      texto("FOLIO", r - ancho("FOLIO", neg, 7.5), top - 14, { f: neg, t: 7.5, c: C.gris });
-      texto(e.folio, r - ancho(e.folio, neg, 14), top - 31, { f: neg, t: 14, c: C.azul });
-      texto(e.fecha.corta, r - ancho(e.fecha.corta, reg, 9), top - 45, { t: 9, c: C.gris });
-      y = top - 66;
+      if (img) pag.drawImage(img, { x: M, y: top - 36, width: 36, height: 36 });
+      const tx = M + (img ? 46 : 0);
+      texto("Hospital de Frutillar", tx, top - 15, { f: neg, t: 12 });
+      texto("Servicio de Salud del Reloncaví", tx, top - 29, { t: 9, c: GRIS });
+      const der = [`Folio ${e.folio}`, e.fecha.corta];
+      der.forEach((l, i) => texto(l, M + ANCHO - ancho(l, reg, 9), top - 15 - i * 14, { t: 9, c: i ? GRIS : NEGRO }));
+      y = top - 50;
     } else {
-      texto(`${e.titulo} — ${e.folio} (continuación)`, M, top - 10, { f: neg, t: 9, c: C.gris });
+      texto(`${e.titulo} · Folio ${e.folio} (continuación)`, M, top - 10, { t: 9, c: GRIS });
       y = top - 20;
     }
-    // Franja gob.cl
-    pag.drawRectangle({ x: M, y, width: 44, height: 3.5, color: C.azul });
-    pag.drawRectangle({ x: M + 44, y, width: 44, height: 3.5, color: C.rojo });
-    pag.drawRectangle({ x: M + 88, y: y + 1.25, width: ANCHO - 88, height: 0.75, color: C.grisClaro });
-    y -= 22;
+    regla(y);
+    y -= 28;
+  };
+  const asegurar = (alto) => { if (y - alto < FONDO) nuevaPagina(false); };
+
+  nuevaPagina(true);
+
+  // Título y datos de recepción
+  for (const l of envolver(comprobante ? `Comprobante: ${e.titulo.toLowerCase()}` : e.titulo, neg, 15, ANCHO)) { texto(l, M, y, { f: neg, t: 15 }); y -= 20; }
+  y -= 6;
+  const meta = [["Recibido", `${e.fecha.larga}, sitio web`], ["Tipo", e.etiqueta], ["Para", e.unidad], ...(e.linea ? [e.linea] : [])];
+  for (const [k, v] of meta) {
+    const lineas = envolver(v, reg, 10, ANCHO - 110);
+    texto(k, M, y, { t: 10, c: GRIS });
+    lineas.forEach((l, i) => texto(l, M + 110, y - i * 14, { t: 10 }));
+    y -= 14 * lineas.length + 2;
   }
-  // El pie ocupa hasta M + 14; el contenido no baja de M + 16.
-  const asegurar = (alto) => { if (y - alto < M + 16) encabezado(false); };
+  y -= 14;
 
-  encabezado(true);
-
-  // Etiqueta + título
-  const t = tono(e.etiqueta);
-  const et = seguro(e.etiqueta.toUpperCase());
-  const anchoEt = ancho(et, neg, 8) + 16;
-  rectRedondo(M, y - 12, anchoEt, 16, 8, { color: hex(t.fondo), borderColor: hex(t.borde), borderWidth: 0.75 });
-  texto(et, M + 8, y - 7, { f: neg, t: 8, c: hex(t.texto) });
-  y -= 36;
-  for (const l of envolver(comprobante ? `Comprobante: ${e.titulo.toLowerCase()}` : e.titulo, neg, 20, ANCHO)) { texto(l, M, y, { f: neg, t: 20, c: C.marino }); y -= 24; }
-  texto(`Recibido el ${e.fecha.larga} a través del sitio web · Para ${e.unidad}`, M, y + 6, { t: 9.5, c: C.gris });
-  if (e.linea) {
-    y -= 10;
-    const et3 = `${e.linea[0]}: `;
-    texto(et3, M, y, { f: neg, t: 9.5, c: C.tinta });
-    texto(envolver(e.linea[1], reg, 9.5, ANCHO - ancho(et3, neg, 9.5))[0], M + ancho(et3, neg, 9.5), y, { t: 9.5, c: C.tinta });
-  }
-  y -= 22;
-
-  // Resumen (2 líneas como máximo por dato)
-  // Ancho de cada columna proporcional a su contenido (un correo largo no se corta si hay espacio)
-  const natural = e.resumen.map(([k, v]) => Math.max(ancho(v, neg, 10), ancho(k.toUpperCase(), neg, 7), 50) + 24);
-  const escala = ANCHO / natural.reduce((a, b) => a + b, 0);
-  const colsR = natural.map((n) => n * escala);
-  const xsR = colsR.map((_, i) => M + 14 + colsR.slice(0, i).reduce((a, b) => a + b, 0));
-  const valores = e.resumen.map(([, v], i) => envolver(v, neg, 10, colsR[i] - 22).slice(0, 2));
-  const altoR = 30 + Math.max(...valores.map((v) => v.length)) * 13;
-  rectRedondo(M, y - altoR + 6, ANCHO, altoR, 4, { color: C.fondo, borderColor: C.grisClaro, borderWidth: 0.75 });
-  e.resumen.forEach(([et2], i) => {
-    const x = xsR[i];
-    texto(et2.toUpperCase(), x, y - 12, { f: neg, t: 7, c: C.gris });
-    valores[i].forEach((l, j) => texto(l, x, y - 27 - j * 13, { f: neg, t: 10, c: C.tinta }));
-  });
-  y -= altoR + 14;
-
-  const tituloSeccion = (s) => {
-    asegurar(46);
-    pag.drawRectangle({ x: M, y: y - 2, width: 3, height: 11, color: C.azul });
-    texto(s.toUpperCase(), M + 9, y, { f: neg, t: 8.5, c: C.azul });
-    y -= 18;
+  const titulo = (t) => {
+    asegurar(40);
+    texto(t, M, y, { f: neg, t: 10.5 });
+    y -= 7;
+    regla(y);
+    y -= 16;
   };
 
-  // Texto libre (mensaje / observaciones): bloque con fondo y barra lateral; puede seguir en otra página
+  // Mensaje u observaciones, en texto corrido
   if (e.texto) {
-    tituloSeccion(e.texto.titulo);
-    const lineas = envolver(e.texto.valor, reg, 10.5, ANCHO - 30);
-    const LH = 15, PAD = 9;
-    const franja = (alto) => {
-      pag.drawRectangle({ x: M, y: y - alto, width: ANCHO, height: alto, color: C.fondo });
-      pag.drawRectangle({ x: M, y: y - alto, width: 3, height: alto, color: C.marino });
-      y -= alto;
-    };
-    asegurar(LH + 2 * PAD);
-    franja(PAD);
-    for (const l of lineas) {
-      if (y - LH < M + 16) { encabezado(false); franja(PAD); }
-      franja(LH);
-      texto(l, M + 16, y + 4, { t: 10.5, c: C.tinta });
+    titulo(e.texto.titulo);
+    for (const l of envolver(e.texto.valor, reg, 10.5, ANCHO)) {
+      asegurar(15);
+      texto(l, M, y, { t: 10.5 });
+      y -= 15;
     }
-    franja(PAD);
-    y -= 22;
+    y -= 14;
   }
 
-  // Secciones en columnas (3 o 4 según el formulario; los campos largos ocupan todo el ancho)
-  const N = e.columnas, GAP = 14;
+  // Secciones: etiqueta arriba, valor abajo, en columnas
+  const N = e.columnas, GAP = 18;
   const COL = (ANCHO - GAP * (N - 1)) / N;
-  for (const s of e.secciones.filter((x) => !x.soloCorreo)) {
-    tituloSeccion(s.titulo);
+  for (const s of e.secciones) {
+    titulo(s.titulo);
     const campos = [...s.campos];
     while (campos.length) {
       const fila = [];
       if (campos[0].ancho) fila.push(campos.shift());
       else while (fila.length < N && campos.length && !campos[0].ancho) fila.push(campos.shift());
       const w = fila[0].ancho ? ANCHO : COL;
-      const bloques = fila.map((c) => envolver(c.valor, neg, 10, w));
-      const alto = 11 + Math.max(...bloques.map((b) => b.length)) * 13 + 3;
-      asegurar(alto + 6);
+      const bloques = fila.map((c) => envolver(c.valor, reg, 10, w));
+      const alto = 12 + Math.max(...bloques.map((b) => b.length)) * 13;
+      asegurar(alto);
       fila.forEach((c, i) => {
         const x = M + i * (COL + GAP);
-        texto(c.etiqueta.toUpperCase(), x, y, { f: neg, t: 6.8, c: C.gris });
-        bloques[i].forEach((l, j) => texto(l, x, y - 12.5 - j * 13, { f: neg, t: 10, c: C.tinta }));
+        texto(c.etiqueta, x, y, { t: 8, c: GRIS });
+        bloques[i].forEach((l, j) => texto(l, x, y - 12 - j * 13, { t: 10 }));
       });
-      y -= alto;
-      pag.drawRectangle({ x: M, y: y + 3, width: ANCHO, height: 0.6, color: C.grisClaro });
-      y -= 6;
+      y -= alto + 8;
     }
-    y -= 6;
+    y -= 8;
   }
 
-  // Nota
   const nota = comprobante ? e.copia?.nota || e.nota : e.nota;
   if (nota) {
-    const lineas = envolver(nota, reg, 9.5, ANCHO - 24);
-    const alto = lineas.length * 13 + 14;
-    asegurar(alto + 10);
-    rectRedondo(M, y - alto + 10, ANCHO, alto, 4, { color: hex("#FFF8E6"), borderColor: hex("#F5D7A1"), borderWidth: 0.75 });
-    lineas.forEach((l, i) => texto(l, M + 12, y - 4 - i * 13, { t: 9.5, c: hex("#7A4B00") }));
-    y -= alto + 16;
+    const lineas = envolver(nota, reg, 9, ANCHO);
+    asegurar(lineas.length * 12 + 8);
+    lineas.forEach((l) => { texto(l, M, y, { t: 9, c: GRIS }); y -= 12; });
+    y -= 14;
   }
 
-  // Uso interno (para completar a mano); el comprobante no lo lleva
+  // Uso interno: líneas para completar a mano (el comprobante no lo lleva)
   if (!comprobante) {
-    asegurar(42);
-    pag.drawRectangle({ x: M, y: y - 42, width: ANCHO, height: 48, borderColor: C.grisClaro, borderWidth: 0.9, borderDashArray: [3, 2] });
-    texto(`USO INTERNO — ${e.unidad.toUpperCase()}`, M + 12, y - 7, { f: neg, t: 7, c: C.gris });
-    const colI = (ANCHO - 24) / e.usoInterno.length;
+    asegurar(56);
+    texto(`Uso interno ${e.unidad}`, M, y, { f: neg, t: 9, c: GRIS });
+    y -= 30;
+    const colI = (ANCHO - GAP * (e.usoInterno.length - 1)) / e.usoInterno.length;
     e.usoInterno.forEach((c, i) => {
-      const x = M + 12 + i * colI;
-      pag.drawRectangle({ x, y: y - 28, width: colI - 16, height: 0.6, color: C.gris });
-      texto(c, x, y - 38, { t: 7.5, c: C.gris });
+      const x = M + i * (colI + GAP);
+      pag.drawLine({ start: { x, y }, end: { x: x + colI, y }, thickness: 0.5, color: GRIS });
+      texto(c, x, y - 11, { t: 8, c: GRIS });
     });
   }
 
-  // Pie en todas las páginas
+  // Pie
   const paginas = doc.getPages();
   paginas.forEach((p, i) => {
     pag = p;
-    pag.drawRectangle({ x: M, y: M + 14, width: ANCHO, height: 0.6, color: C.grisClaro });
-    texto("Recibido mediante el formulario del sitio web del Hospital de Frutillar. Contiene datos personales (Ley N° 19.628).", M, M, { t: 7.5, c: C.gris });
-    const der = `${e.folio} · Página ${i + 1} de ${paginas.length}`;
-    texto(der, A4[0] - M - ancho(der, reg, 7.5), M, { t: 7.5, c: C.gris });
+    texto("Hospital de Frutillar · Av. Las Piedras S/N, Frutillar · (65) 2 421 000", M, M, { t: 7.5, c: GRIS });
+    const der = `Página ${i + 1} de ${paginas.length}`;
+    texto(der, M + ANCHO - ancho(der, reg, 7.5), M, { t: 7.5, c: GRIS });
   });
 
   return doc.save();
