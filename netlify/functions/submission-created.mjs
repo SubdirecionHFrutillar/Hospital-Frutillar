@@ -5,7 +5,7 @@
 //
 // Variables de entorno (Netlify → Project configuration → Environment variables):
 //   SMTP_HOST, SMTP_PORT (465), SMTP_USER, SMTP_PASS   servidor de correo (p. ej. Gmail con contraseña de aplicación)
-//   CORREO_FORMULARIOS     destinatarios, separados por coma (por defecto pablomerino@ssdr.gob.cl)
+//   CORREO_FORMULARIOS     destinatarios, separados por coma (por defecto pablo.merino@ssdr.gob.cl)
 //   CORREO_CONTACTO / CORREO_ACTUALIZACION   destinatarios propios de cada formulario (opcional)
 //   CORREO_REMITENTE       nombre y correo del remitente (por defecto "Hospital de Frutillar" <SMTP_USER>)
 //   COPIA_AL_REMITENTE     "no" para no enviar la confirmación a quien completó el formulario (por defecto se envía)
@@ -16,7 +16,7 @@
 import nodemailer from "nodemailer";
 import { prepararEnvio, asunto, asuntoCopia, correoHTML, correoTexto, fichaPDF } from "../lib/fichas.mjs";
 
-const DESTINO_POR_DEFECTO = "pablomerino@ssdr.gob.cl";
+const DESTINO_POR_DEFECTO = "pablo.merino@ssdr.gob.cl";
 const POR_FORMULARIO = { contacto: "CORREO_CONTACTO", "actualizacion-datos": "CORREO_ACTUALIZACION" };
 const env = (k) => process.env[k] || "";
 const correoValido = (c) => /^[^@\s<>]+@[^@\s<>]+\.[^@\s<>]+$/.test(c || "");

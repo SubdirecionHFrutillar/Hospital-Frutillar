@@ -62,7 +62,7 @@ test("Ficha PDF: válida, con metadatos y sin fallar por caracteres fuera de la 
 test("Envío: destinatario por defecto, responder-a y PDF adjunto; sin SMTP no envía", async () => {
   const transporte = nodemailer.createTransport({ jsonTransport: true });
   const r = await enviarFicha(consulta, { transporte, logo, sitio: "https://sitio.test" });
-  assert.equal(r.para, "pablomerino@ssdr.gob.cl");
+  assert.equal(r.para, "pablo.merino@ssdr.gob.cl");
   assert.equal(r.folio, "CON-2026-00012");
 
   let enviado;
@@ -99,9 +99,9 @@ test("Copia a quien envió: confirmación con folio, comprobante sin uso interno
   const r = await enviarFicha(consulta, { transporte: espia, logo });
   assert.equal(enviados.length, 2);
   const [interno, copia] = enviados;
-  assert.equal(interno.to, "pablomerino@ssdr.gob.cl");
+  assert.equal(interno.to, "pablo.merino@ssdr.gob.cl");
   assert.equal(copia.to, "paty@example.com");
-  assert.equal(copia.replyTo, "pablomerino@ssdr.gob.cl");
+  assert.equal(copia.replyTo, "pablo.merino@ssdr.gob.cl");
   assert.equal(copia.subject, "Recibimos su consulta — Hospital de Frutillar [CON-2026-00012]");
   assert.match(copia.html, /Recibimos su consulta/);
   assert.doesNotMatch(copia.html, /le llega a/);
