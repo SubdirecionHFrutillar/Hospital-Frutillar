@@ -29,6 +29,16 @@ scripts: ["/assets/js/formularios.mjs"]
             <input type="email" id="email" name="email" required autocomplete="email" placeholder="correo@ejemplo.com" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale">
           </div>
         </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="rut" class="block text-xs font-bold text-gray-600 mb-1">RUT <span class="font-normal text-gray-400">(recomendado para reclamos)</span></label>
+            <input type="text" id="rut" name="rut" data-rut maxlength="12" placeholder="12.345.678-9" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale">
+          </div>
+          <div>
+            <label for="telefono" class="block text-xs font-bold text-gray-600 mb-1">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" autocomplete="tel" inputmode="tel" placeholder="+56 9 1234 5678" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale">
+          </div>
+        </div>
         <div>
           <label for="asunto" class="block text-xs font-bold text-gray-600 mb-1">Asunto <span class="text-red-500" aria-hidden="true">*</span></label>
           <select id="asunto" name="asunto" required class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale bg-white">
