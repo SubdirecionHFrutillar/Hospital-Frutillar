@@ -10,6 +10,9 @@
 //   CORREO_REMITENTE       nombre y correo del remitente (por defecto "Hospital de Frutillar" <SMTP_USER>)
 //   COPIA_AL_REMITENTE     "no" para no enviar la confirmación a quien completó el formulario (por defecto se envía)
 //   CORREO_RESPONDER_A     a dónde llegan las respuestas a esa confirmación (por defecto, los mismos destinatarios)
+//   COPIA_NO_RESPONDER     "si": la confirmación sale como correo automático que no recibe respuestas
+//                          (sin Reply-To; usar como SMTP_USER un buzón "no responder")
+//   CORREO_PARA_SEGUIMIENTO  correo que se indica en esa confirmación para agregar información (p. ej. el de la OIRS)
 import nodemailer from "nodemailer";
 import { prepararEnvio, asunto, asuntoCopia, correoHTML, correoTexto, fichaPDF } from "../lib/fichas.mjs";
 
@@ -59,13 +62,15 @@ export async function enviarFicha(payload, { transporte, sitio = env("URL") || "
   if (correoValido(e.correo) && env("COPIA_AL_REMITENTE").toLowerCase() !== "no") {
     try {
       const comprobante = await fichaPDF(e, { logo, comprobante: true });
+      const noResponder = /^(si|sí|true|1)$/i.test(env("COPIA_NO_RESPONDER"));
+      const opciones = { copia: true, noResponder, contacto: env("CORREO_PARA_SEGUIMIENTO") };
       const copia = await transporte.sendMail({
         from: remitente,
         to: e.correo,
-        replyTo: env("CORREO_RESPONDER_A") || para,
+        replyTo: noResponder ? undefined : env("CORREO_RESPONDER_A") || para,
         subject: asuntoCopia(e),
-        text: correoTexto(e, { copia: true }),
-        html: correoHTML(e, { sitio, copia: true }),
+        text: correoTexto(e, opciones),
+        html: correoHTML(e, { sitio, ...opciones }),
         attachments: [{ filename: `${e.folio}.pdf`, content: Buffer.from(comprobante), contentType: "application/pdf" }],
       });
       resultado.copia = copia.messageId;

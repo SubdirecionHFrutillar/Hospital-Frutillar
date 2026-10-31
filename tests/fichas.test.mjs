@@ -127,3 +127,21 @@ test("Copia a quien envió: confirmación con folio, comprobante sin uso interno
   assert.equal(r2.enviado, "ok");
   assert.match(r2.copia, /^error: buzón inexistente/);
 });
+
+test("Confirmación desde buzón 'no responder': sin Reply-To e indica a dónde escribir", async () => {
+  const enviados = [];
+  const espia = { sendMail: async (m) => (enviados.push(m), { messageId: "x" }) };
+  process.env.COPIA_NO_RESPONDER = "si";
+  process.env.CORREO_PARA_SEGUIMIENTO = "oirs.hfrutillar@ssdr.gob.cl";
+  try {
+    await enviarFicha(consulta, { transporte: espia, logo });
+  } finally {
+    delete process.env.COPIA_NO_RESPONDER;
+    delete process.env.CORREO_PARA_SEGUIMIENTO;
+  }
+  const copia = enviados[1];
+  assert.equal(copia.replyTo, undefined);
+  assert.match(copia.html, /no recibe respuestas\. Si necesita agregar información, escriba a oirs\.hfrutillar@ssdr\.gob\.cl/);
+  assert.match(copia.text, /no recibe respuestas/);
+  assert.equal(enviados[0].replyTo, "paty@example.com", "el correo interno sigue respondiendo a quien escribió");
+});

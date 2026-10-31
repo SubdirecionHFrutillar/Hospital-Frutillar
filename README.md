@@ -150,6 +150,8 @@ Configuración (Netlify → *Project configuration → Environment variables*, a
 | `CORREO_REMITENTE` | Opcional: `"Hospital de Frutillar" <cuenta@gmail.com>` |
 | `COPIA_AL_REMITENTE` | `no` para desactivar la confirmación a quien envió el formulario (por defecto se envía) |
 | `CORREO_RESPONDER_A` | Opcional: a dónde llegan las respuestas a esa confirmación (por defecto, los mismos destinatarios) |
+| `COPIA_NO_RESPONDER` | `si`: la confirmación sale como correo automático que no recibe respuestas (usar como `SMTP_USER` un buzón "no responder") |
+| `CORREO_PARA_SEGUIMIENTO` | Con lo anterior: correo que se indica para agregar información (p. ej. el de la OIRS) |
 
 Después de crear o cambiar las variables hay que volver a publicar. Si el correo falla, el envío igual queda en
 Netlify → *Forms* y el error aparece en *Logs → Functions → submission-created*.

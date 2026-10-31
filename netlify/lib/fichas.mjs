@@ -140,6 +140,14 @@ export function prepararEnvio(payload) {
   };
 }
 
+/** Cómo agregar información a una solicitud ya enviada (texto de la confirmación). */
+export function comoSeguir({ noResponder = false, contacto = "" } = {}) {
+  if (!noResponder) return "Si necesita agregar información, responda este correo indicando su folio.";
+  return contacto
+    ? `Este correo es automático y no recibe respuestas. Si necesita agregar información, escriba a ${contacto} indicando su folio.`
+    : "Este correo es automático y no recibe respuestas. Si necesita agregar información, acérquese a la OIRS del hospital indicando su folio.";
+}
+
 export const asunto = (e) => `${e.titulo}: ${e.etiqueta} — ${e.nombre} [${e.folio}]`;
 export const asuntoCopia = (e) => `${e.copia.titulo} — Hospital de Frutillar [${e.folio}]`;
 
@@ -150,7 +158,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ESC[c]);
 const parrafos = (t) => esc(t).replace(/\r?\n/g, "<br>");
 
 /** Correo interno (copia=false) o confirmación para quien envió el formulario (copia=true). Diseño sobrio, tipo memo. */
-export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app", copia = false } = {}) {
+export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app", copia = false, noResponder = false, contacto = "" } = {}) {
   const F = "font-family:Helvetica,Arial,sans-serif;";
   const p = (html, extra = "") => `<p style="${F}margin:0 0 12px;font-size:15px;line-height:1.55;color:#1a1a1a;${extra}">${html}</p>`;
   const h2 = (t) => `<p style="${F}margin:26px 0 8px;font-size:13px;font-weight:bold;color:#1a1a1a;">${esc(t)}</p>`;
@@ -173,7 +181,7 @@ export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app",
     ...e.secciones.map((s) => h2(s.titulo) + tabla(s.campos)),
     nota ? `<p style="${F}margin:24px 0 0;font-size:14px;line-height:1.5;color:#4a4a4a;">${esc(nota)}</p>` : "",
     copia
-      ? `<p style="${F}margin:24px 0 0;font-size:14px;line-height:1.5;color:#4a4a4a;">Si necesita agregar información, responda este correo indicando su folio. Ante una emergencia vital llame al 131 o acuda a la Urgencia del hospital (24 horas). Se adjunta su comprobante en PDF.</p>`
+      ? `<p style="${F}margin:24px 0 0;font-size:14px;line-height:1.5;color:#4a4a4a;">${esc(comoSeguir({ noResponder, contacto }))} Ante una emergencia vital llame al 131 o acuda a la Urgencia del hospital (24 horas). Se adjunta su comprobante en PDF.</p>`
       : `<p style="${F}margin:24px 0 0;font-size:14px;line-height:1.5;color:#4a4a4a;">${
           e.correo ? `Para responder, conteste este correo: le llega a ${esc(e.correo)}.` : "No dejó correo electrónico: responder por teléfono."
         } Se adjunta la ficha en PDF.</p>`,
@@ -204,7 +212,7 @@ export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app",
 </body></html>`;
 }
 
-export function correoTexto(e, { copia = false } = {}) {
+export function correoTexto(e, { copia = false, noResponder = false, contacto = "" } = {}) {
   const out = copia
     ? [e.copia.titulo.toUpperCase(), "", e.copia.intro(e), "", `Folio: ${e.folio}`, `Recibido: ${e.fecha.larga}`, "", "COPIA DE LO QUE NOS ENVIÓ"]
     : [`${e.titulo.toUpperCase()} — ${e.etiqueta}`, `Folio: ${e.folio}`, `Recibido: ${e.fecha.larga}`];
@@ -218,7 +226,7 @@ export function correoTexto(e, { copia = false } = {}) {
   }
   const nota = copia ? e.copia.nota || e.nota : e.nota;
   if (nota) out.push(nota, "");
-  out.push(copia ? "Se adjunta su comprobante en PDF. Si necesita agregar información, responda este correo indicando su folio." : "Se adjunta la ficha en PDF.");
+  out.push(copia ? `Se adjunta su comprobante en PDF. ${comoSeguir({ noResponder, contacto })}` : "Se adjunta la ficha en PDF.");
   return out.join("\n");
 }
 
