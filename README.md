@@ -123,11 +123,38 @@ Usan **Netlify Forms** (gratis e ilimitado en los planes por créditos):
 El formulario de datos está en `_includes/form-actualiza-datos.njk` y ambos los maneja `assets/js/formularios.mjs`
 (validación, RUT, secciones condicionales). Cada envío trae un asunto propio (campo oculto `subject`).
 
-**Para recibirlos por correo** (una sola vez, en Netlify):
+**Requisito:** Netlify → *Forms* → **Enable form detection** y volver a publicar. Sin esto Netlify rechaza los envíos
+(el formulario muestra "No pudimos enviar su consulta").
 
-1. *Forms* → habilitar la detección de formularios (si no está) y volver a publicar.
-2. *Project configuration* (antes *Site configuration*) *→ Notifications → Emails and webhooks → Form submission notifications* → *Add notification* → *Email notification*.
-3. *Event to listen for:* "New form submission"; *Email to notify:* `pablomerino@ssdr.gob.cl`; *Form:* **Any form**
-   (o una notificación por formulario si más adelante cada uno va a un correo distinto, por ejemplo OIRS y SOME).
+### Correo con diseño y ficha en PDF
+
+Cada envío verificado (no spam) ejecuta la función `submission-created`, que manda un correo con el diseño del hospital
+y adjunta la ficha en PDF (`netlify/lib/fichas.mjs`): folio (`CON-2026-00012`, `ACT-2026-00003`), resumen, mensaje,
+datos por sección, plazo legal si es un reclamo y un recuadro de **uso interno** (OIRS / SOME) para completar a mano.
+"Responder" en el correo le contesta directo a quien escribió.
+
+Quien completó el formulario recibe además una **confirmación** con su folio, copia de lo que envió y un comprobante
+en PDF (sin el recuadro de uso interno), si dejó un correo válido. Si responde a esa confirmación, la respuesta llega
+al hospital. Si falla solo la confirmación (p. ej. un correo mal escrito), el correo interno igual se envía.
+
+Configuración (Netlify → *Project configuration → Environment variables*, alcance *Functions*):
+
+| Variable | Valor |
+|---|---|
+| `SMTP_HOST` | Servidor de salida. Con una cuenta Gmail del hospital: `smtp.gmail.com` |
+| `SMTP_PORT` | `465` (por defecto) |
+| `SMTP_USER` | La cuenta que envía (p. ej. `xxxx@gmail.com`) |
+| `SMTP_PASS` | Con Gmail: una **contraseña de aplicación** (Cuenta de Google → Seguridad → Verificación en 2 pasos → Contraseñas de aplicaciones), no la clave normal |
+| `CORREO_FORMULARIOS` | Destinatarios, separados por coma. Por defecto `pablomerino@ssdr.gob.cl` |
+| `CORREO_CONTACTO` / `CORREO_ACTUALIZACION` | Opcional: destinatarios propios de cada formulario (p. ej. OIRS y SOME) |
+| `CORREO_REMITENTE` | Opcional: `"Hospital de Frutillar" <cuenta@gmail.com>` |
+| `COPIA_AL_REMITENTE` | `no` para desactivar la confirmación a quien envió el formulario (por defecto se envía) |
+| `CORREO_RESPONDER_A` | Opcional: a dónde llegan las respuestas a esa confirmación (por defecto, los mismos destinatarios) |
+| `COPIA_NO_RESPONDER` | `si`: la confirmación sale como correo automático que no recibe respuestas (usar como `SMTP_USER` un buzón "no responder") |
+| `CORREO_PARA_SEGUIMIENTO` | Con lo anterior: correo que se indica para agregar información (p. ej. el de la OIRS) |
+
+Después de crear o cambiar las variables hay que volver a publicar. Si el correo falla, el envío igual queda en
+Netlify → *Forms* y el error aparece en *Logs → Functions → submission-created*.
+No es necesario activar además la notificación por correo de Netlify (llegaría duplicado y sin formato).
 
 Los envíos también quedan en Netlify → *Forms*. Contienen datos personales: limitar quién tiene acceso al equipo de Netlify.

@@ -29,6 +29,16 @@ scripts: ["/assets/js/formularios.mjs"]
             <input type="email" id="email" name="email" required autocomplete="email" placeholder="correo@ejemplo.com" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale">
           </div>
         </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="rut" class="block text-xs font-bold text-gray-600 mb-1">RUT <span class="font-normal text-gray-400">(recomendado para reclamos)</span></label>
+            <input type="text" id="rut" name="rut" data-rut maxlength="12" placeholder="12.345.678-9" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale">
+          </div>
+          <div>
+            <label for="telefono" class="block text-xs font-bold text-gray-600 mb-1">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" autocomplete="tel" inputmode="tel" placeholder="+56 9 1234 5678" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale">
+          </div>
+        </div>
         <div>
           <label for="asunto" class="block text-xs font-bold text-gray-600 mb-1">Asunto <span class="text-red-500" aria-hidden="true">*</span></label>
           <select id="asunto" name="asunto" required class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale bg-white">
@@ -41,6 +51,32 @@ scripts: ["/assets/js/formularios.mjs"]
             <option value="Otro">Otro</option>
           </select>
         </div>
+        <fieldset>
+          <legend class="block text-xs font-bold text-gray-600 mb-1">¿Sobre la atención de quién es su consulta? <span class="text-red-500" aria-hidden="true">*</span></legend>
+          <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 mt-1">
+            <label class="flex items-center gap-2 text-sm text-gray-700"><input type="radio" name="consulta_sobre" value="Sobre mí" required checked class="text-primary"> Sobre mí</label>
+            <label class="flex items-center gap-2 text-sm text-gray-700"><input type="radio" name="consulta_sobre" value="Sobre otra persona" class="text-primary"> Sobre otra persona (familiar o paciente a mi cargo)</label>
+          </div>
+          <div data-mostrar-si="consulta_sobre=Sobre otra persona" hidden class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-4 bg-primary-bg border border-primary-pale rounded-custom p-4">
+            <p class="sm:col-span-3 text-xs text-primary-dark">Datos del paciente. Arriba quedan sus datos como persona que escribe.</p>
+            <div>
+              <label for="paciente_nombre" class="block text-xs font-bold text-gray-600 mb-1">Nombre del paciente <span class="text-red-500" aria-hidden="true">*</span></label>
+              <input type="text" id="paciente_nombre" name="paciente_nombre" required class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale">
+            </div>
+            <div>
+              <label for="paciente_rut" class="block text-xs font-bold text-gray-600 mb-1">RUT del paciente</label>
+              <input type="text" id="paciente_rut" name="paciente_rut" data-rut maxlength="12" placeholder="12.345.678-9" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale">
+            </div>
+            <div>
+              <label for="paciente_relacion" class="block text-xs font-bold text-gray-600 mb-1">Su relación con el paciente <span class="text-red-500" aria-hidden="true">*</span></label>
+              <select id="paciente_relacion" name="paciente_relacion" required class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale bg-white">
+                <option value="">Seleccione</option>
+                {% for p in ["Madre o padre", "Hija o hijo", "Cónyuge o pareja", "Hermana o hermano", "Otro familiar", "Tutor legal o representante", "Cuidador o cuidadora", "Otro"] %}<option>{{ p }}</option>{% endfor %}
+              </select>
+            </div>
+            <p class="sm:col-span-3 text-xs text-gray-600">Si la respuesta requiere entregar información clínica del paciente, podríamos pedir su autorización o que acredite su representación (Ley N° 20.584).</p>
+          </div>
+        </fieldset>
         <div>
           <label for="mensaje" class="block text-xs font-bold text-gray-600 mb-1">Mensaje <span class="text-red-500" aria-hidden="true">*</span></label>
           <textarea id="mensaje" name="mensaje" required rows="5" placeholder="Escriba aquí su consulta o comentario..." class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale resize-none"></textarea>
@@ -54,7 +90,7 @@ scripts: ["/assets/js/formularios.mjs"]
         </div>
         <div id="form-success" data-ok role="status" tabindex="-1" class="hidden flex items-start gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-custom px-4 py-3">
           <span aria-hidden="true" class="material-symbols-outlined text-green-600 mt-0.5 text-base">check_circle</span>
-          <span>Su consulta fue enviada correctamente. Nos comunicaremos con usted a la brevedad.</span>
+          <span>Su consulta fue enviada correctamente. Le enviamos una confirmación con su número de folio al correo que indicó; revise también la carpeta de spam.</span>
         </div>
         <div id="form-error" data-error role="alert" class="hidden flex items-start gap-2 text-sm text-red-700 bg-red-50 border border-red-200 rounded-custom px-4 py-3">
           <span aria-hidden="true" class="material-symbols-outlined text-red-600 mt-0.5 text-base">error</span>
