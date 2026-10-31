@@ -145,7 +145,7 @@ Configuración (Netlify → *Project configuration → Environment variables*, a
 | `SMTP_PORT` | `465` (por defecto) |
 | `SMTP_USER` | La cuenta que envía (p. ej. `xxxx@gmail.com`) |
 | `SMTP_PASS` | Con Gmail: una **contraseña de aplicación** (Cuenta de Google → Seguridad → Verificación en 2 pasos → Contraseñas de aplicaciones), no la clave normal |
-| `CORREO_FORMULARIOS` | Destinatarios, separados por coma. Por defecto `pablomerino@ssdr.gob.cl` |
+| `CORREO_FORMULARIOS` | Destinatarios, separados por coma. Por defecto `pablo.merino@ssdr.gob.cl` |
 | `CORREO_CONTACTO` / `CORREO_ACTUALIZACION` | Opcional: destinatarios propios de cada formulario (p. ej. OIRS y SOME) |
 | `CORREO_REMITENTE` | Opcional: `"Hospital de Frutillar" <cuenta@gmail.com>` |
 | `COPIA_AL_REMITENTE` | `no` para desactivar la confirmación a quien envió el formulario (por defecto se envía) |
