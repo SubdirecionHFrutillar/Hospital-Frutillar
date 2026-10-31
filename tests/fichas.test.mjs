@@ -26,7 +26,7 @@ test("Preparar envío: folio, hora de Chile, secciones y campos vacíos fuera", 
 
   const d = prepararEnvio(datos);
   assert.equal(d.folio, "ACT-2026-123456", "sin número usa el id");
-  assert.equal(d.cambios, "Dirección · Teléfono");
+  assert.deepEqual(d.linea, ["Datos que cambiaron", "Dirección · Teléfono"]);
   assert.equal(d.secciones.find((s) => s.titulo === "Quién realiza el trámite"), undefined, "trámite personal no muestra solicitante");
   const ident = d.secciones.find((s) => s.titulo === "Identificación del paciente");
   assert.match(ident.campos.find((c) => c.etiqueta === "Fecha de nacimiento").valor, /^02-03-1948 \(\d+ años\)$/);
@@ -77,4 +77,21 @@ test("Envío: destinatario por defecto, responder-a y PDF adjunto; sin SMTP no e
 
   const sinSmtp = await enviarFicha(consulta, { logo });
   assert.match(sinSmtp.omitido, /SMTP no configurado/);
+});
+
+test("Consulta en nombre de otra persona: paciente en resumen, sección propia y línea destacada", async () => {
+  const p = { ...consulta, data: { ...consulta.data, nombre: "Ana Soto", consulta_sobre: "Sobre otra persona", paciente_nombre: "Juan Soto", paciente_rut: "4.567.890-3", paciente_relacion: "Hija o hijo" } };
+  const e = prepararEnvio(p);
+  assert.deepEqual(e.resumen.slice(0, 2), [["Paciente", "Juan Soto"], ["Escribe", "Ana Soto"]]);
+  assert.deepEqual(e.linea, ["En nombre de", "Juan Soto · quien escribe es: hija o hijo"]);
+  assert.ok(e.secciones.some((s) => s.titulo === "Paciente" && !s.soloCorreo));
+  assert.ok(e.secciones.some((s) => s.titulo === "Quien escribe" && !s.soloCorreo), "con paciente aparte, quien escribe va completo también en el PDF");
+  assert.match(correoHTML(e), /En nombre de:<\/strong> Juan Soto/);
+  const doc = await PDFDocument.load(await fichaPDF(e, { logo }));
+  assert.equal(doc.getPageCount(), 1);
+  // Sobre sí mismo: sin sección Paciente y sus datos solo en el resumen del PDF
+  const propia = prepararEnvio(consulta);
+  assert.equal(propia.linea, null);
+  assert.equal(propia.secciones.some((s) => s.titulo === "Paciente"), false);
+  assert.ok(propia.secciones.find((s) => s.titulo === "Quien escribe").soloCorreo);
 });

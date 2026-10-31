@@ -7,6 +7,8 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 
 const SI = (v) => (v ? "Sí" : "");
 
+const porOtra = (d) => /otra persona/i.test(d.consulta_sobre || "");
+
 export const FORMULARIOS = {
   contacto: {
     prefijo: "CON",
@@ -15,10 +17,19 @@ export const FORMULARIOS = {
     nombre: (d) => d.nombre,
     correo: (d) => d.email,
     etiqueta: (d) => d.asunto || "Consulta",
-    resumen: (d) => [["Nombre", d.nombre], ["RUT", d.rut], ["Correo", d.email], ["Teléfono", d.telefono]],
+    resumen: (d) =>
+      porOtra(d)
+        ? [["Paciente", d.paciente_nombre], ["Escribe", d.nombre], ["Teléfono", d.telefono]]
+        : [["Nombre", d.nombre], ["RUT", d.rut], ["Correo", d.email], ["Teléfono", d.telefono]],
+    linea: (d) => (porOtra(d) ? ["En nombre de", `${d.paciente_nombre || "otra persona"}${d.paciente_relacion ? ` · quien escribe es: ${d.paciente_relacion.toLowerCase()}` : ""}`] : null),
     secciones: [
       // En el PDF estos datos ya van en el recuadro de resumen
-      { titulo: "Datos de la persona", soloCorreo: true, campos: [["nombre", "Nombre"], ["rut", "RUT"], ["email", "Correo electrónico"], ["telefono", "Teléfono"]] },
+      {
+        titulo: "Paciente",
+        soloSi: porOtra,
+        campos: [["paciente_nombre", "Nombre"], ["paciente_rut", "RUT"], ["paciente_relacion", "Quien escribe es"]],
+      },
+      { titulo: "Quien escribe", soloCorreoSi: (d) => !porOtra(d), campos: [["nombre", "Nombre"], ["rut", "RUT"], ["email", "Correo electrónico"], ["telefono", "Teléfono"]] },
     ],
     texto: { campo: "mensaje", titulo: "Mensaje" },
     nota: (d) => (/reclamo/i.test(d.asunto || "") ? "Plazo legal de respuesta a reclamos: 15 días hábiles desde su recepción (Ley N° 20.584)." : ""),
@@ -54,7 +65,7 @@ export const FORMULARIOS = {
       { titulo: "Contacto de emergencia", campos: [["emergencia_nombre", "Nombre"], ["emergencia_parentesco", "Parentesco"], ["emergencia_telefono", "Teléfono"]] },
     ],
     texto: { campo: "observaciones", titulo: "Observaciones" },
-    cambios: (d) => lista(d.datos_que_cambian).join(" · "),
+    linea: (d) => (lista(d.datos_que_cambian).length ? ["Datos que cambiaron", lista(d.datos_que_cambian).join(" · ")] : null),
     nota: () => "",
     usoInterno: ["Actualizado en sistema por", "Fecha", "Firma"],
     columnas: 4,
@@ -99,7 +110,8 @@ export function prepararEnvio(payload) {
     .filter((s) => !s.soloSi || s.soloSi(d))
     .map((s) => ({
       titulo: s.titulo,
-      soloCorreo: !!s.soloCorreo,
+      // En el PDF el recuadro de resumen ya trae estos datos; en el correo se muestran completos
+      soloCorreo: !!(s.soloCorreoSi && s.soloCorreoSi(d)),
       campos: s.campos
         .map(([k, etiqueta, fmt, ancho]) => ({ etiqueta, valor: String((fmt ? fmt(d[k]) : Array.isArray(d[k]) ? d[k].join(", ") : d[k]) ?? "").trim(), ancho: !!ancho }))
         .filter((c) => c.valor),
@@ -114,7 +126,7 @@ export function prepararEnvio(payload) {
     nombre: def.nombre(d) || "Sin nombre",
     correo: def.correo(d) || "",
     etiqueta: def.etiqueta(d),
-    cambios: def.cambios ? def.cambios(d) : "",
+    linea: def.linea ? def.linea(d) : null,
     resumen: def.resumen(d).map(([k, v]) => [k, String(v || "No indicado")]),
     secciones,
     texto: d[def.texto.campo] ? { titulo: def.texto.titulo, valor: String(d[def.texto.campo]) } : null,
@@ -194,7 +206,7 @@ export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app" 
     <span style="${F}display:inline-block;background:${t.fondo};color:${t.texto};border:1px solid ${t.borde};font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:4px 10px;border-radius:999px;">${esc(e.etiqueta)}</span>
     <h1 style="${F}margin:10px 0 4px;font-size:22px;line-height:1.25;color:#0A2A5E;">${esc(e.titulo)}</h1>
     <div style="${F}font-size:13px;color:#6B7280;">De <strong style="color:#111827;">${esc(e.nombre)}</strong> · ${esc(e.fecha.larga)} · para ${esc(e.unidad)}</div>
-    ${e.cambios ? `<div style="${F}font-size:13px;color:#111827;margin-top:6px;"><strong>Datos que cambiaron:</strong> ${esc(e.cambios)}</div>` : ""}
+    ${e.linea ? `<div style="${F}font-size:13px;color:#111827;margin-top:6px;"><strong>${esc(e.linea[0])}:</strong> ${esc(e.linea[1])}</div>` : ""}
   </td></tr>
   ${texto}
   ${secciones}
@@ -212,7 +224,7 @@ export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app" 
 
 export function correoTexto(e) {
   const out = [`${e.titulo.toUpperCase()} — ${e.etiqueta}`, `Folio: ${e.folio}`, `Recibido: ${e.fecha.larga}`];
-  if (e.cambios) out.push(`Datos que cambiaron: ${e.cambios}`);
+  if (e.linea) out.push(`${e.linea[0]}: ${e.linea[1]}`);
   out.push("");
   if (e.texto) out.push(`${e.texto.titulo}:`, e.texto.valor, "");
   for (const s of e.secciones) {
@@ -330,10 +342,11 @@ export async function fichaPDF(e, { logo } = {}) {
   y -= 36;
   for (const l of envolver(e.titulo, neg, 20, ANCHO)) { texto(l, M, y, { f: neg, t: 20, c: C.marino }); y -= 24; }
   texto(`Recibido el ${e.fecha.larga} a través del sitio web · Para ${e.unidad}`, M, y + 6, { t: 9.5, c: C.gris });
-  if (e.cambios) {
+  if (e.linea) {
     y -= 10;
-    texto("Datos que cambiaron:", M, y, { f: neg, t: 9.5, c: C.tinta });
-    texto(e.cambios, M + ancho("Datos que cambiaron: ", neg, 9.5), y, { t: 9.5, c: C.tinta });
+    const et3 = `${e.linea[0]}: `;
+    texto(et3, M, y, { f: neg, t: 9.5, c: C.tinta });
+    texto(envolver(e.linea[1], reg, 9.5, ANCHO - ancho(et3, neg, 9.5))[0], M + ancho(et3, neg, 9.5), y, { t: 9.5, c: C.tinta });
   }
   y -= 22;
 
