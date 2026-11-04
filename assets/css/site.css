@@ -84,6 +84,7 @@
   .calidad-tarjeta:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); }
   .calidad-ambito { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-radius: 4px; padding: 1rem 1.1rem; }
   .calidad-ambito__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E0F2F1; color: #00796B; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .foto-equipo-pendiente { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .35rem; border: 2px dashed theme("colors.gray.300"); border-radius: 4px; background: theme("colors.gray.50"); color: theme("colors.gray.400"); }
   .protocolo-area { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid #3949AB; border-radius: 4px; padding: 1rem 1.1rem; }
   .protocolo-area__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E8EAF6; color: #283593; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .calidad-ambito__sigla { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: #fff; background: #00796B; border-radius: 3px; padding: 1px 6px; vertical-align: 2px; }

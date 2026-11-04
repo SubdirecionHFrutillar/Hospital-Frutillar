@@ -39,12 +39,10 @@
     {
       "nombre": "Unidad de Salud de la Mujer",
       "id": "maternidad",
-      "icon": "child_care",
-      "descripcion": "La Unidad de Salud de la Mujer...",
-      "horario": "...........",
-      "horario_icon": "info",
-      "ubicacion": "...........",
-      "oculto": true
+      "icon": "pregnant_woman",
+      "descripcion": "La Unidad de Salud de la Mujer reúne la atención de matronas y ginecología del hospital. Incluye la UNACESS (Unidad de Atención y Control en Salud Sexual), que ofrece consejería, prevención, diagnóstico y tratamiento de infecciones de transmisión sexual. El hospital está habilitando además una sala de parto integral.",
+      "horario": "Con hora programada",
+      "horario_icon": "schedule"
     },
     {
       "nombre": "COSAM Frutillar",
@@ -54,6 +52,13 @@
       "horario": "",
       "horario_icon": "",
       "ubicacion": ""
+    },
+    {
+      "nombre": "Servicio Dental",
+      "id": "dental",
+      "icon": "dentistry",
+      "descripcion": "El Servicio Dental atiende urgencias odontológicas derivadas desde la Urgencia del hospital y a pacientes en control con hora programada. Cuenta con atención de especialidades como endodoncia, periodoncia, prótesis, ortodoncia, implantología y trastornos temporomandibulares (TTM).",
+      "horario": "Urgencias dentales por derivación desde Urgencia · controles con hora programada"
     },
     {
       "nombre": "Laboratorio",
