@@ -10,23 +10,36 @@ permalink: servicios.html
 
 {% call ui.dosColumnas() %}
   <div class="min-w-0 flex flex-col gap-7">
-    {% for s in servicios.servicios %}
-      {% call ui.seccion(s.nombre, s.icon, s.id, padding="px-6 py-5 flex flex-col gap-3") %}
-        <p class="text-sm text-gray-700 leading-relaxed">{{ s.descripcion }}</p>
-        {% set detalle = s.horario or s.ubicacion %}
-        {% if detalle %}
-        <div class="flex items-start gap-2 text-sm text-primary bg-primary-bg border border-primary-pale rounded-custom px-4 py-3">
-          <span aria-hidden="true" class="material-symbols-outlined text-primary-light mt-0.5 text-base">{{ s.horario_icon or ("schedule" if s.horario else "location_on") }}</span>
-          <span>{{ detalle }}</span>
+    {% for s in servicios.servicios | rejectattr('oculto') %}
+      {% call ui.seccion(s.nombre, s.icon, s.id, padding="px-6 py-5") %}
+        <div class="flex flex-col sm:flex-row gap-5">
+          {#- Foto del equipo: cuadrada. Mientras no exista (campo "foto_equipo"), se muestra un recuadro de espera. #}
+          {% if s.foto_equipo %}
+          <img src="{{ s.foto_equipo | imagenCdn(400) }}" onerror="this.onerror=null;this.src='{{ s.foto_equipo }}'" alt="Equipo de {{ s.nombre }}" loading="lazy" class="w-28 sm:w-40 aspect-square object-cover rounded-custom border border-gray-200 flex-shrink-0">
+          {% else %}
+          <div class="foto-equipo-pendiente w-28 sm:w-40 aspect-square flex-shrink-0" role="img" aria-label="Foto del equipo de {{ s.nombre }} (próximamente)">
+            <span aria-hidden="true" class="material-symbols-outlined text-3xl">groups</span>
+            <span class="text-[11px] font-semibold leading-tight text-center px-2">Foto del equipo<br>próximamente</span>
+          </div>
+          {% endif %}
+          <div class="flex-1 min-w-0 flex flex-col gap-3">
+            <p class="text-sm text-gray-700 leading-relaxed">{{ s.descripcion }}</p>
+            {% set detalle = s.horario or s.ubicacion %}
+            {% if detalle %}
+            <div class="flex items-start gap-2 text-sm text-primary bg-primary-bg border border-primary-pale rounded-custom px-4 py-3">
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light mt-0.5 text-base">{{ s.horario_icon or ("schedule" if s.horario else "location_on") }}</span>
+              <span>{{ detalle }}</span>
+            </div>
+            {% endif %}
+          </div>
         </div>
-        {% endif %}
       {% endcall %}
     {% endfor %}
   </div>
 
   <aside class="flex flex-col gap-5 lg:sticky lg:top-20">
     {% set menuServicios = [] %}
-    {% for s in servicios.servicios %}{% set menuServicios = (menuServicios.push({ label: s.nombre, url: "#" + s.id, icon: s.icon }), menuServicios) %}{% endfor %}
+    {% for s in servicios.servicios | rejectattr('oculto') %}{% set menuServicios = (menuServicios.push({ label: s.nombre, url: "#" + s.id, icon: s.icon }), menuServicios) %}{% endfor %}
     {{ ui.menuLateral("Servicios", menuServicios) }}
     <div class="flex flex-col gap-2.5">
       {{ ui.botonTarjeta("/horarios.html", "Horarios de Atención") }}

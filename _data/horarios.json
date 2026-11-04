@@ -1,9 +1,9 @@
 {
-  "intro": "Los horarios pueden estar sujetos a cambios en períodos de alta demanda o festivos. Para consultas llame al 600 360 7777 (Salud Responde).",
+  "intro": "Los horarios pueden cambiar en festivos o en períodos de alta demanda. Para confirmar, llame a la central del hospital: (65) 2 421 000.",
   "servicios": [
     {
       "nombre": "SOME",
-      "descripcion": "Servicio de Orientación Médica y Estadística",
+      "descripcion": "Servicio de Orientación Médico Estadístico: admisión, horas y trámites",
       "icon": "medical_information",
       "horarios": [
         {
@@ -53,7 +53,7 @@
       "span2": false
     },
     {
-      "nombre": "Visita Hospitalizados",
+      "nombre": "Visitas a hospitalizados",
       "descripcion": "",
       "icon": "bed",
       "horarios": [
@@ -66,13 +66,13 @@
       "span2": false
     },
     {
-      "nombre": "Unidad de Imagenes",
+      "nombre": "Imagenología",
       "descripcion": "",
       "icon": "radiology",
       "horarios": [
         {
           "dias": "Lunes a Viernes",
-          "horario": "atención programada"
+          "horario": "Con hora programada"
         }
       ],
       "notas": "",
@@ -85,7 +85,7 @@
       "horarios": [
         {
           "dias": "Lunes a Viernes",
-          "horario": "atención programada"
+          "horario": "Con hora programada"
         }
       ],
       "notas": "",
@@ -97,11 +97,11 @@
       "icon": "dentistry",
       "horarios": [
         {
-          "dias": "Lunes a Viernes ",
-          "horario": "Derivación desde servicio de urgencias"
+          "dias": "Lunes a viernes",
+          "horario": "Urgencias dentales derivadas desde la Urgencia del hospital"
         }
       ],
-      "notas": "Los otros horarios y otros días se atiende a usuarios bajo control con hora programada.",
+      "notas": "Los pacientes en control dental se atienden con hora programada.",
       "span2": true
     }
   ]

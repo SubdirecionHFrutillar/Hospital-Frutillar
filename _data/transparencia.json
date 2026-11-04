@@ -5,7 +5,7 @@
       "id": "activa",
       "titulo": "Transparencia Activa",
       "icon": "visibility",
-      "descripcion": "En cumplimiento de la Ley N° 20.285 de Transparencia, el Hospital de Frutillar publica en el Portal de Transparencia del Consejo para la Transparencia la información que los organismos públicos están obligados a mantener a disposición permanente del público.\n\nLa información de Transparencia Activa se encuentra actualizada en el Portal de Transparencia del Gobierno de Chile.",
+      "descripcion": "En cumplimiento de la Ley N° 20.285 de Transparencia, el Hospital de Frutillar publica en el Portal de Transparencia del Consejo para la Transparencia la información que los organismos públicos están obligados a mantener a disposición permanente del público.\n\nLa información de Transparencia Activa está disponible en el Portal de Transparencia del Estado.",
       "enlace": "https://www.portaltransparencia.cl",
       "enlace_texto": "Ir al Portal de Transparencia"
     },
@@ -13,7 +13,7 @@
       "id": "solicitud",
       "titulo": "Solicitud de Información",
       "icon": "request_page",
-      "descripcion": "Cualquier persona tiene derecho a solicitar y recibir información de los actos, resoluciones, procedimientos y documentos del Hospital de Frutillar, conforme a la Ley N° 20.285. Las solicitudes se tramitan a través del Portal de Transparencia.\n\nPlazo de respuesta: Hasta 20 días hábiles desde la recepción de la solicitud.\n\nCosto: Sin costo para el solicitante, salvo reproducción material.",
+      "descripcion": "Cualquier persona tiene derecho a solicitar y recibir información de los actos, resoluciones, procedimientos y documentos del Hospital de Frutillar, conforme a la Ley N° 20.285. Las solicitudes se tramitan a través del Portal de Transparencia.\n\n**Plazo de respuesta:** hasta 20 días hábiles desde la recepción, prorrogables por 10 días hábiles más.\n\n**Costo:** gratuito, salvo el costo de reproducir documentos cuando corresponda.",
       "enlace": "https://www.portaltransparencia.cl",
       "enlace_texto": "Ingresar solicitud en Portal de Transparencia"
     },

@@ -4,7 +4,7 @@
       "nombre": "Urgencia",
       "id": "urgencia",
       "icon": "emergency",
-      "descripcion": "El Servicio de Urgencia del Hospital de Frutillar atiende las 24 horas del día, los 7 días de la semana, toda urgencia o emergencia de salud que requiera atención inmediata. Aplica sistema de categorización TRIAGE para priorizar la atención según la gravedad del caso.",
+      "descripcion": "La Urgencia atiende las 24 horas, todos los días del año, a toda persona con una urgencia o emergencia de salud. Al llegar, un profesional evalúa la gravedad de cada paciente (categorización o triage): se atiende primero a quien está más grave, no por orden de llegada.",
       "horario": "24 horas, todos los días del año",
       "horario_icon": "schedule",
       "ubicacion": ""
@@ -13,16 +13,16 @@
       "nombre": "Hospitalización",
       "id": "hospitalizacion",
       "icon": "bed",
-      "descripcion": "El Servicio de Hospitalización cuenta con camas para la atención de pacientes adultos que requieren internación médica o quirúrgica. El equipo de salud está integrado por médicos, enfermeras y técnicos paramédicos que brindan atención continua.",
+      "descripcion": "Hospitalización cuenta con camas para pacientes adultos que necesitan quedar internados por una causa médica o quirúrgica. Un equipo de médicos, enfermeras y técnicos en enfermería los atiende las 24 horas.",
       "horario": "Visitas: todos los días 10:00–19:00 hrs",
       "horario_icon": "person_add",
       "ubicacion": ""
     },
     {
-      "nombre": "Hospitalización Domiciliaria ",
+      "nombre": "Hospitalización Domiciliaria",
       "id": "hospitalizacion-domiciliaria",
       "icon": "home_health",
-      "descripcion": "El programa de Hospitalización Domiciliaria (HODOM) permite a pacientes estables recibir atención clínica equivalente a la hospitalización en la comodidad de su hogar. El equipo de salud realiza visitas domiciliarias programadas para el seguimiento y tratamiento.",
+      "descripcion": "La Hospitalización Domiciliaria (HODOM) permite que pacientes estables reciban en su casa la misma atención que tendrían hospitalizados. El equipo de salud los visita según un plan de tratamiento y controla su evolución.",
       "horario": "",
       "horario_icon": "location_on",
       "ubicacion": "Disponible para Frutillar y sectores rurales de la cuenca del Lago Llanquihue"
@@ -31,44 +31,50 @@
       "nombre": "Pabellón Quirúrgico",
       "id": "pabellon",
       "icon": "surgical",
-      "descripcion": "El Pabellón Quirúrgico del hospital se encuentra cerrado por un proceso prolongado de remodelación, aún sin nombre asignado. Su reinauguración está prevista para fines de 2026. Una vez reabierto, realizará únicamente cirugía mayor ambulatoria.",
-      "horario": "Cerrado por remodelación — reapertura estimada fines de 2026",
+      "descripcion": "El Pabellón Quirúrgico se encuentra cerrado por remodelación. Cuando reabra realizará cirugía mayor ambulatoria: intervenciones programadas en las que el paciente vuelve a su casa el mismo día.",
+      "horario": "Cerrado por remodelación · reapertura estimada a fines de 2026",
       "horario_icon": "construction",
       "ubicacion": ""
     },
     {
       "nombre": "Unidad de Salud de la Mujer",
       "id": "maternidad",
-      "icon": "child_care",
-      "descripcion": "La Unidad de Salud de la Mujer...",
-      "horario": "...........",
-      "horario_icon": "info",
-      "ubicacion": "..........."
+      "icon": "pregnant_woman",
+      "descripcion": "La Unidad de Salud de la Mujer reúne la atención de matronas y ginecología del hospital. Incluye la UNACESS (Unidad de Atención y Control en Salud Sexual), que ofrece consejería, prevención, diagnóstico y tratamiento de infecciones de transmisión sexual. El hospital está habilitando además una sala de parto integral.",
+      "horario": "Con hora programada",
+      "horario_icon": "schedule"
     },
     {
       "nombre": "COSAM Frutillar",
       "id": "cosam",
       "icon": "psychology",
-      "descripcion": "El COSAM (Centro de Salud Mental) Frutillar es una unidad funcionante del hospital que entrega atención de salud mental a través de un equipo especializado, tanto para población adulta como infantojuvenil. Además cuenta con el programa PAI.",
+      "descripcion": "El COSAM (Centro de Salud Mental Comunitaria) Frutillar es una unidad del hospital que atiende a personas de todas las edades con problemas de salud mental, con un equipo especializado para adultos, niños y adolescentes. Incluye el Programa Ambulatorio Intensivo (PAI) para el tratamiento del consumo de alcohol y otras drogas.",
       "horario": "",
       "horario_icon": "",
       "ubicacion": ""
     },
     {
+      "nombre": "Servicio Dental",
+      "id": "dental",
+      "icon": "dentistry",
+      "descripcion": "El Servicio Dental atiende urgencias odontológicas derivadas desde la Urgencia del hospital y a pacientes en control con hora programada. Cuenta con atención de especialidades como endodoncia, periodoncia, prótesis, ortodoncia, implantología y trastornos temporomandibulares (TTM).",
+      "horario": "Urgencias dentales por derivación desde Urgencia · controles con hora programada"
+    },
+    {
       "nombre": "Laboratorio",
       "id": "laboratorio",
       "icon": "biotech",
-      "descripcion": "El Laboratorio Comunal realiza exámenes de hematología, bioquímica, microbiología y otros análisis clínicos. Presta servicio a pacientes ambulatorios con orden médica y a los hospitalizados.",
-      "horario": "Lunes a Viernes: atención programada",
+      "descripcion": "El Laboratorio Clínico realiza exámenes de hematología, bioquímica, microbiología y otros análisis. Atiende a pacientes hospitalizados y a pacientes ambulatorios con orden médica.",
+      "horario": "Lunes a viernes, con atención programada",
       "horario_icon": "schedule",
       "ubicacion": ""
     },
     {
-      "nombre": "Servicio Imagenología",
+      "nombre": "Imagenología",
       "id": "imagenologia",
       "icon": "radiology",
-      "descripcion": "El Servicio de Imagenología realiza estudios radiológicos para el diagnóstico de diversas patologías. La atención es programada de lunes a viernes para pacientes ambulatorios previo a atención médica.",
-      "horario": "Lunes a Viernes: atención programada",
+      "descripcion": "Imagenología realiza radiografías y otros estudios de imágenes para el diagnóstico. Los pacientes ambulatorios se atienden con hora programada, de lunes a viernes; las imágenes pueden verse en línea en examenes.ssdr.gob.cl.",
+      "horario": "Lunes a viernes, con atención programada",
       "horario_icon": "schedule",
       "ubicacion": ""
     },
@@ -76,7 +82,7 @@
       "nombre": "Farmacia",
       "id": "farmacia",
       "icon": "medication",
-      "descripcion": "La Farmacia del hospital dispensa medicamentos a los pacientes hospitalizados y a quienes cuentan con receta médica del establecimiento. El equipo de químicos farmacéuticos y técnicos asegura la correcta dispensación y seguimiento farmacoterapéutico.",
+      "descripcion": "Farmacia entrega medicamentos a los pacientes hospitalizados y a quienes tienen receta de un médico del hospital. Químicos farmacéuticos y técnicos se encargan de la correcta dispensación y de orientar sobre el uso de los medicamentos.",
       "horario": "Lunes a Jueves: 08:30–16:30 hrs · Viernes: 08:30–15:30 hrs ",
       "horario_icon": "schedule",
       "ubicacion": ""
