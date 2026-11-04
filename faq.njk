@@ -20,7 +20,7 @@ permalink: faq.html
         <details id="{{ p.id }}" class="scroll-mt-24 bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
           <summary class="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
             {% campo rp + ".pregunta", p.pregunta, "span", "font-semibold text-sm text-gray-800" %}
-            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">expand_more</span>
+            <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-xl expand-icon flex-shrink-0 ml-4">keyboard_arrow_down</span>
           </summary>
           <div class="px-5 pb-5 pt-3 text-sm text-gray-600 leading-relaxed border-t border-gray-100">
             {% campoMd rp + ".respuesta", p.respuesta, "prose max-w-none" %}
@@ -37,7 +37,7 @@ permalink: faq.html
   <aside class="flex flex-col gap-5">
     {% set menuFaq = [] %}
     {% for cat in faq.categorias %}{% set menuFaq = (menuFaq.push({ label: cat.titulo, url: "#categoria-" + loop.index, c: "faq:categorias#" + cat.id + ".titulo" }), menuFaq) %}{% endfor %}
-    {{ ui.menuLateral("Categorías", menuFaq, "help_outline") }}
+    {{ ui.menuLateral("Categorías", menuFaq, "help") }}
     <div class="flex flex-col gap-2.5">
       {{ ui.botonTarjeta("/horarios.html", "Horarios de Atención") }}
       {{ ui.botonTarjeta("/aranceles.html", "Aranceles") }}

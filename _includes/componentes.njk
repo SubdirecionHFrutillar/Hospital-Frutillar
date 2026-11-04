@@ -104,7 +104,7 @@
     <span aria-hidden="true" class="material-symbols-outlined text-xl">call</span>
   </div>
   <div>
-    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">{{ site.telefonoLabel }}</span>
+    <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest block">{{ site.telefonoLabel }}</span>
     <span class="text-primary text-xl font-black leading-none">{{ site.telefono }}</span>
   </div>
 </a>
@@ -132,7 +132,7 @@
     <span class="absolute top-2 left-2 px-2 py-0.5 bg-primary text-white text-[9px] font-bold uppercase tracking-wider rounded">{{ n.data.categoria }}</span>
   </div>
   <div class="p-4 flex flex-col flex-1">
-    <p class="text-xs text-gray-400 mb-1"><time datetime="{{ n.date | fechaISO }}">{{ n.date | fechaES }}</time></p>
+    <p class="text-xs text-gray-500 mb-1"><time datetime="{{ n.date | fechaISO }}">{{ n.date | fechaES }}</time></p>
     <h3 class="font-bold text-gray-800 text-sm leading-snug mb-2 flex-1">{{ n.data.title }}</h3>
     <p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-3">{{ n.data.resumen }}</p>
     <a href="{{ n.url }}" class="inline-flex items-center gap-1.5 text-primary text-xs font-bold hover:underline mt-auto">

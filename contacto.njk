@@ -7,7 +7,7 @@ scripts: ["/assets/js/formularios.mjs"]
 ---
 {% import "componentes.njk" as ui with context %}
 
-{{ ui.banner("Contacto y Cómo Llegar", "Formulario de consultas, actualización de datos, dirección y cómo llegar", "place", [{ label: "Contacto" }]) }}
+{{ ui.banner("Contacto y Cómo Llegar", "Formulario de consultas, actualización de datos, dirección y cómo llegar", "location_on", [{ label: "Contacto" }]) }}
 
 {% call ui.dosColumnas() %}
   <div class="min-w-0 flex flex-col gap-6">
@@ -31,7 +31,7 @@ scripts: ["/assets/js/formularios.mjs"]
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="rut" class="block text-xs font-bold text-gray-600 mb-1">RUT <span class="font-normal text-gray-400">(recomendado para reclamos)</span></label>
+            <label for="rut" class="block text-xs font-bold text-gray-600 mb-1">RUT <span class="font-normal text-gray-500">(recomendado para reclamos)</span></label>
             <input type="text" id="rut" name="rut" data-rut maxlength="12" placeholder="12.345.678-9" class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm focus:border-primary focus:ring-primary-pale">
           </div>
           <div>
@@ -108,7 +108,7 @@ scripts: ["/assets/js/formularios.mjs"]
           <span class="block text-sm text-gray-500">¿Cambió de dirección, teléfono o previsión? Actualice su registro en el hospital.</span>
         </span>
         <span class="hidden sm:inline-flex items-center gap-1 text-sm font-bold text-amber-700 group-open:hidden">Completar formulario</span>
-        <span aria-hidden="true" class="material-symbols-outlined text-amber-700 text-2xl transition-transform group-open:rotate-180">expand_more</span>
+        <span aria-hidden="true" class="material-symbols-outlined text-amber-700 text-2xl transition-transform group-open:rotate-180">keyboard_arrow_down</span>
       </summary>
       <div class="px-6 py-6 border-t border-gray-100">
         {% include "form-actualiza-datos.njk" %}

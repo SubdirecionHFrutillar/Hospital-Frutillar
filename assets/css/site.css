@@ -39,9 +39,9 @@
   .link-min__azul { color: #1D5DB4; }
   .link-min__rojo { color: #DA291C; }
   .link-min__pila { display: flex; flex-direction: column; line-height: 1.12; min-width: 0; }
-  .link-min__sup { font-size: .72rem; color: #6B7280; }
+  .link-min__sup { font-size: .72rem; color: #565D6A; }
   .link-min__inf { font-size: .92rem; font-weight: 700; color: #1D5DB4; }
-  .link-min__pila--grande .link-min__sup { font-size: 1.15rem; color: #8A8F96; }
+  .link-min__pila--grande .link-min__sup { font-size: 1.15rem; color: #5F6673; }
   .link-min__pila--grande .link-min__inf { font-size: 1.2rem; }
 
   /* Barra bicolor corta bajo títulos (identidad gob.cl) */
@@ -84,7 +84,7 @@
   .calidad-tarjeta:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); }
   .calidad-ambito { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-radius: 4px; padding: 1rem 1.1rem; }
   .calidad-ambito__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E0F2F1; color: #00796B; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .foto-equipo-pendiente { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .35rem; border: 2px dashed theme("colors.gray.300"); border-radius: 4px; background: theme("colors.gray.50"); color: theme("colors.gray.400"); }
+  .foto-equipo-pendiente { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .35rem; border: 2px dashed theme("colors.gray.300"); border-radius: 4px; background: theme("colors.gray.50"); color: theme("colors.gray.500"); }
   .protocolo-area { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid #3949AB; border-radius: 4px; padding: 1rem 1.1rem; }
   .protocolo-area__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E8EAF6; color: #283593; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .calidad-ambito__sigla { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: #fff; background: #00796B; border-radius: 3px; padding: 1px 6px; vertical-align: 2px; }
@@ -190,9 +190,11 @@
   .rotativo__controles { position: absolute; right: .5rem; bottom: .35rem; display: flex; align-items: center; gap: .15rem; }
   .rotativo__flecha, .rotativo__pausa { width: 2rem; height: 2rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 9999px; color: inherit; }
   .rotativo__flecha:hover, .rotativo__pausa:hover { background: rgba(0,0,0,.12); }
-  .rotativo__puntos { display: flex; gap: .35rem; padding: 0 .25rem; }
-  .rotativo__punto { width: .55rem; height: .55rem; border-radius: 9999px; background: currentColor; opacity: .35; }
-  .rotativo__punto[aria-current="true"] { opacity: 1; width: 1.2rem; }
+  .rotativo__puntos { display: flex; gap: 0; padding: 0 .25rem; }
+  /* El punto se ve chico, pero el área para tocarlo mide 24 × 24 px (accesibilidad en pantallas táctiles) */
+  .rotativo__punto { width: 1.5rem; height: 1.5rem; display: grid; place-items: center; }
+  .rotativo__punto::before { content: ""; width: .55rem; height: .55rem; border-radius: 9999px; background: currentColor; opacity: .35; transition: width .2s; }
+  .rotativo__punto[aria-current="true"]::before { opacity: 1; width: 1.2rem; }
   .rotativo__controles { color: var(--rot-tinta, #2B2100); }
   @media (max-width: 639px) {
     .lamina__cuerpo { padding-right: 1.5rem; padding-bottom: 6rem; }
@@ -209,3 +211,16 @@
   details[open] > summary .expand-icon { transform: rotate(180deg); }
   .expand-icon { transition: transform .2s; }
 }
+
+/* Buscador (Pagefind UI) con los colores del sitio */
+.buscador {
+  --pagefind-ui-primary: #0F69C4;
+  --pagefind-ui-text: #1F2937;
+  --pagefind-ui-background: #fff;
+  --pagefind-ui-border: #D1D5DB;
+  --pagefind-ui-tag: #EEF4FB;
+  --pagefind-ui-border-radius: 6px;
+  --pagefind-ui-font: inherit;
+}
+.buscador .pagefind-ui__result-link { color: #0B3F7A; font-weight: 700; }
+.buscador .pagefind-ui__result-excerpt mark { background: #FFF1B8; color: inherit; }

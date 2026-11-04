@@ -388,7 +388,7 @@ test("Contenido del sitio: permisos, validación, historial, volver al original 
 test("Contenido del sitio: las rutas de los campos existen en los datos reales", async () => {
   const fs = await import("node:fs");
   const { listarCampos, leer, campo } = await import("../netlify/lib/contenido-campos.mjs");
-  const datos = Object.fromEntries(["servicios", "horarios", "autoridades", "faq", "visitas", "transparencia"].map((n) => [n, JSON.parse(fs.readFileSync(new URL(`../_data/${n}.json`, import.meta.url)))]));
+  const datos = Object.fromEntries(["servicios", "horarios", "autoridades", "faq", "visitas", "transparencia", "inicio"].map((n) => [n, JSON.parse(fs.readFileSync(new URL(`../_data/${n}.json`, import.meta.url)))]));
   const campos = listarCampos(datos);
   assert.ok(campos.length > 40);
   for (const c of campos) assert.ok(campo(c.ruta), c.ruta);
@@ -398,7 +398,8 @@ test("Contenido del sitio: las rutas de los campos existen en los datos reales",
   // Los identificadores no se repiten
   assert.equal(leer(datos, "visitas:recomendaciones.0"), datos.visitas.recomendaciones[0]);
   assert.equal(leer(datos, "faq:categorias#pagos-fonasa.preguntas#ley-ricarte-soto.pregunta"), "¿Qué es la Ley Ricarte Soto?");
-  for (const s of ["Preguntas frecuentes", "Visitas", "Transparencia"]) assert.ok(campos.some((c) => c.seccion === s), s);
+  assert.equal(leer(datos, "inicio:cifras#funcionarios.valor"), datos.inicio.cifras[0].valor);
+  for (const s of ["Preguntas frecuentes", "Visitas", "Transparencia", "Portada"]) assert.ok(campos.some((c) => c.seccion === s), s);
   for (const lista of [datos.servicios.servicios, datos.horarios.servicios, datos.autoridades.lista, datos.faq.categorias, ...datos.faq.categorias.map((c) => c.preguntas), datos.transparencia.secciones]) {
     const ids = lista.map((x) => x.id);
     assert.equal(new Set(ids).size, ids.length);
@@ -441,4 +442,25 @@ test("Avisos: destino público, solo intranet o ambos; los de intranet nunca sal
   assert.equal((await crear({ texto: "Uno interno de más", destino: "intranet" })).status, 409);
   assert.equal((await crear({ texto: "Otro de ambos lados", destino: "ambos" })).status, 409);
   assert.equal((await crear({ texto: "Otro para el público", destino: "publico" })).status, 201);
+});
+
+test("Íconos: los que arma el JavaScript existen en Material Symbols y quedan en la fuente reducida", async () => {
+  const fs = await import("node:fs");
+  const { createRequire } = await import("node:module");
+  const { lista } = createRequire(import.meta.url)("../_data/iconos.js")();
+  const pedidos = new Set(lista);
+  const validos = new Set(fs.readFileSync(new URL("../scripts/material-symbols-nombres.txt", import.meta.url), "utf8").split("\n"));
+  const usados = new Set();
+  for (const f of ["funcionarios.mjs", "sitio-vivo.js", "site.js"]) {
+    const js = fs.readFileSync(new URL(`../assets/js/${f}`, import.meta.url), "utf8");
+    // icono("nombre", …) y textContent = cond ? "a" : "b" sobre un ícono
+    for (const m of js.matchAll(/icono\(\s*(?:[^,()]*\?\s*)?"([a-z0-9_]+)"(?:\s*:\s*"([a-z0-9_]+)")?/g)) [m[1], m[2]].filter(Boolean).forEach((x) => usados.add(x));
+    // Plantillas de texto en sitio-vivo.js: '…material-symbols-outlined…">' + (cond ? "a" : "b") + o "nombre"
+    for (const m of js.matchAll(/material-symbols-outlined[^>]*>['"]\s*\+\s*\(?\s*[\w.]+(?:\s*===?\s*"[^"]*")?\s*\?\s*"([a-z0-9_]+)"\s*:\s*"([a-z0-9_]+)"/g)) [m[1], m[2]].forEach((x) => usados.add(x));
+    for (const m of js.matchAll(/\.textContent\s*=\s*\w+\s*\?\s*"([a-z0-9_]+)"\s*:\s*"([a-z0-9_]+)"/g)) [m[1], m[2]].forEach((x) => usados.add(x));
+  }
+  assert.ok(usados.size > 12, `se detectaron ${usados.size} íconos`);
+  const malos = [...usados].filter((x) => !validos.has(x));
+  assert.deepEqual(malos, [], "íconos con nombre inválido (¿alias antiguo?)");
+  assert.deepEqual([...usados].filter((x) => !pedidos.has(x)), [], "íconos que no quedarían en la fuente reducida");
 });

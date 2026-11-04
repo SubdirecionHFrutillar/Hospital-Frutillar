@@ -27,6 +27,7 @@ export const PATRONES = [
   { re: /^transparencia:intro$/, tipo: "largo", max: 500 },
   { re: /^transparencia:secciones#[a-z0-9-]+\.descripcion$/, tipo: "markdown", max: 2000 },
   { re: /^transparencia:secciones#[a-z0-9-]+\.enlace_texto$/, tipo: "texto", max: 80 },
+  { re: /^inicio:cifras#[a-z0-9-]+\.(valor|etiqueta)$/, tipo: "texto", max: 30 },
 ];
 
 /** Definición del campo (tipo y largo máximo) o null si la ruta no es editable. */
@@ -52,7 +53,7 @@ const AYUDA_MD = "Formato: **negrita**, líneas que empiezan con \"- \" para lis
 
 /** Campos editables con su valor base (el del repositorio), agrupados para el editor. */
 export function listarCampos(datos) {
-  const { servicios, horarios, autoridades, faq, visitas, transparencia } = datos;
+  const { servicios, horarios, autoridades, faq, visitas, transparencia, inicio } = datos;
   const out = [];
   const add = (seccion, grupo, ruta, etiqueta, ayuda) => {
     const def = campo(ruta);
@@ -115,6 +116,13 @@ export function listarCampos(datos) {
       const r = `transparencia:secciones#${s.id}`;
       add("Transparencia", s.titulo, `${r}.descripcion`, "Descripción", AYUDA_MD);
       if (s.enlace) add("Transparencia", s.titulo, `${r}.enlace_texto`, "Texto del botón");
+    }
+  }
+  if (inicio) {
+    for (const c of inicio.cifras) {
+      const r = `inicio:cifras#${c.id}`;
+      add("Portada", "Cifras bajo la imagen principal", `${r}.valor`, `${c.etiqueta}: cifra`, "Ej.: 163 o +24.000. Servicios y años de servicio se calculan solos.");
+      add("Portada", "Cifras bajo la imagen principal", `${r}.etiqueta`, `${c.etiqueta}: texto`);
     }
   }
   return out;

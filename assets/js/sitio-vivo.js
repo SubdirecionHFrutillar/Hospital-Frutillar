@@ -183,7 +183,7 @@
       '<article class="news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col"><div class="bg-noticia relative h-36 overflow-hidden">' +
       (n.imagen ? imagen(n, 640, "w-full h-full object-cover", 'loading="lazy" decoding="async"') + '<div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>' : SIN_FOTO(80)) +
       '<span class="absolute top-2 left-2 px-2 py-0.5 bg-primary text-white text-[9px] font-bold uppercase tracking-wider rounded">' + esc(n.categoria) + "</span></div>" +
-      '<div class="p-4 flex flex-col flex-1"><p class="text-xs text-gray-400 mb-1">' + fecha(n) + "</p>" +
+      '<div class="p-4 flex flex-col flex-1"><p class="text-xs text-gray-500 mb-1">' + fecha(n) + "</p>" +
       '<h3 class="font-bold text-gray-800 text-sm leading-snug mb-2 flex-1">' + esc(n.titulo) + "</h3>" +
       '<p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-3">' + esc(n.resumen) + "</p>" +
       '<a href="' + esc(n.url) + '" class="inline-flex items-center gap-1.5 text-primary text-xs font-bold hover:underline mt-auto">Leer más<span class="sr-only">: ' + esc(n.titulo) +
@@ -210,7 +210,7 @@
       '<span aria-hidden="true" class="material-symbols-outlined text-primary text-2xl">article</span></div><div class="flex flex-col justify-center gap-1">' +
       '<span class="px-2 py-0.5 bg-primary-bg text-primary text-[10px] font-bold uppercase tracking-wide rounded w-fit">' + esc(n.categoria) + "</span>" +
       '<h3 class="font-bold text-gray-800 text-sm leading-snug">' + esc(n.titulo) + "</h3>" +
-      '<div class="flex items-center gap-3">' + fecha(n, "text-xs text-gray-400") +
+      '<div class="flex items-center gap-3">' + fecha(n, "text-xs text-gray-500") +
       '<a href="' + esc(n.url) + '" class="text-xs font-bold text-primary hover:underline">Leer más<span class="sr-only">: ' + esc(n.titulo) + "</span> →</a></div></div></article>"
     );
   }

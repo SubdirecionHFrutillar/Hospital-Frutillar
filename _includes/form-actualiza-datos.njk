@@ -66,7 +66,7 @@
         <input id="ad-apellido2" name="segundo_apellido" type="text" class="{{ inp }}">
       </div>
       <div>
-        <label for="ad-nombre-social" class="{{ lbl }}">Nombre social <span class="font-normal text-gray-400">(si corresponde)</span></label>
+        <label for="ad-nombre-social" class="{{ lbl }}">Nombre social <span class="font-normal text-gray-500">(si corresponde)</span></label>
         <input id="ad-nombre-social" name="nombre_social" type="text" class="{{ inp }}">
       </div>
       <div>
@@ -86,7 +86,7 @@
         <datalist id="ad-paises">{% for p in ["Chilena", "Argentina", "Boliviana", "Colombiana", "Haitiana", "Peruana", "Venezolana"] %}<option value="{{ p }}">{% endfor %}</datalist>
       </div>
       <div>
-        <label for="ad-pueblo" class="{{ lbl }}">Pueblo originario <span class="font-normal text-gray-400">(opcional)</span></label>
+        <label for="ad-pueblo" class="{{ lbl }}">Pueblo originario <span class="font-normal text-gray-500">(opcional)</span></label>
         <select id="ad-pueblo" name="pueblo_originario" class="{{ inp }} bg-white">
           <option value="">Prefiero no responder</option>
           {% for p in ["No pertenece", "Mapuche (incluye Huilliche)", "Aymara", "Rapa Nui", "Quechua", "Lickanantay (Atacameño)", "Colla", "Diaguita", "Chango", "Kawésqar", "Yagán", "Selk'nam", "Otro"] %}<option>{{ p }}</option>{% endfor %}
@@ -126,7 +126,7 @@
         </div>
       </div>
       <div class="sm:col-span-2 lg:col-span-3">
-        <label for="ad-referencia" class="{{ lbl }}">Referencia para llegar <span class="font-normal text-gray-400">(útil en sectores rurales y para Hospitalización Domiciliaria)</span></label>
+        <label for="ad-referencia" class="{{ lbl }}">Referencia para llegar <span class="font-normal text-gray-500">(útil en sectores rurales y para Hospitalización Domiciliaria)</span></label>
         <input id="ad-referencia" name="referencia_domicilio" type="text" placeholder="Ej: casa verde frente a la escuela, km 4 camino a Casma" class="{{ inp }}">
       </div>
     </div>

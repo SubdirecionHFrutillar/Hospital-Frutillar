@@ -186,10 +186,25 @@ Dibujos (`arte`): ver `_includes/campana-arte.njk`.
 `/funcionarios/protocolos.html`, con buscador. Los enlaces están en `_data/protocolos.json`, ordenados por área
 clínica; apuntan a los documentos y carpetas de Google Drive (los mismos que usa Calidad, más los de HODOM y Urgencia).
 
+## Buscador
+
+`/buscar.html` (ícono **Buscar** en el menú) usa [Pagefind](https://pagefind.app): el índice se genera al final del
+build (`npm run build:buscador`) con el contenido de `<main data-pagefind-body>` de las páginas públicas; el portal y
+las páginas `noindex` no se indexan. No necesita servidor ni gasta funciones. Lo editado en vivo desde la intranet
+(noticias del portal, Contenido del sitio) entra al índice en el siguiente build.
+
+## Íconos
+
+Los íconos son de Material Symbols y se piden a Google Fonts **solo los que se usan** (`icon_names=…`, calculado
+en `_data/iconos.js`), lo que reduce mucho la descarga. Usar siempre el nombre canónico (p. ej.
+`keyboard_arrow_down`, no `expand_more`): si una página usa un nombre que no está en
+`scripts/material-symbols-nombres.txt`, **el build falla** para no publicar íconos rotos.
+
 ## Contenido del sitio editable desde la intranet
 
 **Portal → Contenido del sitio** (roles Comunicaciones y Administrador): textos y fotos de **Servicios**,
-**Horarios**, **Autoridades**, **Preguntas frecuentes**, **Visitas** y **Transparencia**. Los cambios se ven al instante y **no regeneran el sitio** (no gastan los
+**Horarios**, **Autoridades**, **Preguntas frecuentes**, **Visitas**, **Transparencia** y las **cifras de la
+portada** (funcionarios, población). Los cambios se ven al instante y **no regeneran el sitio** (no gastan los
 15 créditos por publicación).
 
 - Se guardan en Netlify Blobs (almacén `contenido`): solo lo que difiere del repositorio, con autor, fecha e

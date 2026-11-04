@@ -715,7 +715,7 @@ const paginas = {
     }
     const VER = {
       Servicios: "/servicios.html", Horarios: "/horarios.html", Autoridades: "/quienes-somos.html#autoridades",
-      "Preguntas frecuentes": "/faq.html", Visitas: "/visitas.html", Transparencia: "/transparencia.html",
+      "Preguntas frecuentes": "/faq.html", Visitas: "/visitas.html", Transparencia: "/transparencia.html", Portada: "/",
     };
     const [campos, inicial] = await Promise.all([
       fetch("/funcionarios/contenido-campos.json", { credentials: "same-origin" }).then((r) => r.json()),
