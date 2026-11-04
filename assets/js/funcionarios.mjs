@@ -253,7 +253,8 @@ const paginas = {
       const a = el("a", "news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow");
       a.href = `/funcionarios/publicacion.html?id=${p.id}`;
       if (p.imagen) {
-        const img = el("img", "block w-full h-auto max-h-[32rem] object-contain bg-gray-100");
+        // Vista previa: ocupa todo el ancho de la tarjeta con alto fijo, mostrando la parte de arriba (afiches y boletines). Completa, al abrir la publicación.
+        const img = el("img", "block w-full h-56 object-cover object-top bg-gray-100");
         img.src = `/api/intranet/archivos/${p.imagen}?tam=min`;
         img.decoding = "async";
         img.alt = "";
