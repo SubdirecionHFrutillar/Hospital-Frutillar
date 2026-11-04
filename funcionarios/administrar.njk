@@ -36,12 +36,17 @@ permalink: funcionarios/administrar.html
         </select>
       </div>
       <button type="submit" class="bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-5 py-2 rounded-custom shadow h-[38px]">Crear</button>
+      <div class="md:col-span-2 lg:col-span-6 flex items-center gap-3">
+        <span data-n-foto-vista></span>
+        <label for="n-foto" class="text-xs font-bold text-gray-600">Foto de perfil <span class="font-normal text-gray-400">(opcional)</span></label>
+        <input id="n-foto" name="foto" type="file" accept="image/jpeg,image/png,image/webp" class="text-xs">
+      </div>
     </form>
   {% endcall %}
 
   <div id="clave-entregada" role="status" class="hidden bg-amber-50 border border-amber-200 rounded-custom px-5 py-4 text-sm text-amber-900">
-    <p class="font-bold mb-1">Clave temporal para <span data-campo="para"></span></p>
-    <p class="mb-2">Entréguela personalmente. Se muestra <strong>solo esta vez</strong> y vence en 72 horas; el funcionario deberá cambiarla al ingresar.</p>
+    <p class="font-bold mb-1">Clave inicial para <span data-campo="para"></span></p>
+    <p class="mb-2" data-campo="explicacion"></p>
     <div class="flex items-center gap-3 flex-wrap">
       <code data-campo="clave" class="text-lg font-mono font-bold bg-white border border-amber-200 rounded px-3 py-1 select-all"></code>
       <button type="button" data-copiar class="text-xs font-bold text-amber-900 underline">Copiar</button>
@@ -84,6 +89,15 @@ permalink: funcionarios/administrar.html
       <button type="button" data-cancelar class="text-gray-400 hover:text-gray-700" aria-label="Cerrar"><span aria-hidden="true" class="material-symbols-outlined">close</span></button>
     </div>
     <div class="px-6 py-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="sm:col-span-2 flex items-center gap-4">
+        <span data-e-foto></span>
+        <div class="flex flex-col items-start gap-1.5">
+          <span class="text-xs font-bold text-gray-600">Foto de perfil <span class="font-normal text-gray-400">(opcional)</span></span>
+          <label class="cursor-pointer text-sm font-bold text-primary hover:underline"><span data-e-foto-texto>Subir foto</span>
+            <input type="file" accept="image/jpeg,image/png,image/webp" class="sr-only" data-e-foto-archivo></label>
+          <button type="button" data-e-foto-quitar class="text-xs font-bold text-red-600 hover:underline">Quitar foto</button>
+        </div>
+      </div>
       <div class="sm:col-span-2">
         <label for="e-nombre" class="block text-xs font-bold text-gray-600 mb-1">Nombre completo</label>
         <input id="e-nombre" name="nombre" type="text" required class="w-full border-gray-300 rounded-custom px-3 py-2 text-sm">

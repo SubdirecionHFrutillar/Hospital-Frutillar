@@ -3,11 +3,27 @@ title: Cambiar contraseña
 permalink: funcionarios/cambiar-clave.html
 ---
 {% import "componentes.njk" as ui with context %}
-{{ ui.tituloPortal("Cambiar contraseña", "Defina una contraseña personal para su cuenta", "key") }}
+{{ ui.tituloPortal("Mi cuenta", "Foto de perfil y contraseña", "account_circle") }}
 
-<div class="container mx-auto px-4 py-12" data-pagina="cambiar-clave">
-  <div class="max-w-md mx-auto bg-white border border-gray-200 rounded-custom shadow-md overflow-hidden gob-stripe">
+<div class="container mx-auto px-4 py-12 flex flex-col gap-6" data-pagina="cambiar-clave">
+  <section id="mi-foto" class="hidden w-full max-w-md mx-auto bg-white border border-gray-200 rounded-custom shadow-md px-8 py-6">
+    <h2 class="font-bold text-primary-deep mb-1">Foto de perfil <span class="font-normal text-xs text-gray-400">(opcional)</span></h2>
+    <p class="text-xs text-gray-500 mb-4">Se ve junto a su nombre en el portal. Se recorta en un círculo, al centro.</p>
+    <div class="flex items-center gap-5">
+      <span data-mi-foto></span>
+      <div class="flex flex-col items-start gap-2">
+        <label class="cursor-pointer text-sm font-bold text-primary hover:underline">
+          <span data-mi-foto-texto>Subir foto</span>
+          <input type="file" accept="image/jpeg,image/png,image/webp" class="sr-only" data-mi-foto-archivo>
+        </label>
+        <button type="button" data-mi-foto-quitar class="hidden text-xs font-bold text-red-600 hover:underline">Quitar foto</button>
+        <p data-mi-foto-msg role="status" class="text-xs text-gray-500"></p>
+      </div>
+    </div>
+  </section>
+  <div class="w-full max-w-md mx-auto bg-white border border-gray-200 rounded-custom shadow-md overflow-hidden gob-stripe">
     <form id="form-clave" class="px-8 py-8 flex flex-col gap-5" novalidate>
+      <h2 class="font-bold text-primary-deep -mb-2">Cambiar contraseña</h2>
       <p id="aviso-temporal" class="hidden text-sm rounded-custom px-4 py-3 bg-amber-50 text-amber-800 border border-amber-200">
         Está usando una contraseña temporal. Debe cambiarla para continuar.
       </p>

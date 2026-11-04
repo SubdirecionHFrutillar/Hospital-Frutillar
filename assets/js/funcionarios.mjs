@@ -35,6 +35,8 @@ function pintarCabecera(u) {
   if (nombre) nombre.textContent = u.nombre;
   const cargo = $('[data-cab="cargo"]');
   if (cargo) cargo.textContent = u.cargo || formatearRut(u.rut);
+  const foto = $('[data-cab="foto"]');
+  if (foto) foto.replaceChildren(avatar(u, "w-9 h-9 text-xs ring-2 ring-white/25", "bg-white/15 text-white"));
   $$("[data-sesion]").forEach((x) => { x.classList.remove("hidden"); if (x.tagName === "DIV") x.classList.add("flex"); });
   if (u.rol === "admin") $$("[data-solo-admin]").forEach((x) => x.classList.remove("hidden"));
   if (PUBLICA_INTRANET.includes(u.rol)) $$("[data-solo-editor]").forEach((x) => x.classList.remove("hidden"));
@@ -80,6 +82,47 @@ const icono = (nombre, clase = "") => {
   s.setAttribute("aria-hidden", "true");
   return s;
 };
+
+// ── Foto de perfil ─────────────────────────────────────────────────────────
+const iniciales = (n) => (n || "").split(/\s+/).filter(Boolean).slice(0, 2).map((x) => x[0]).join("").toUpperCase() || "?";
+const urlFoto = (u) => (u.foto ? `/api/perfil/foto/${encodeURIComponent(u.rut)}?v=${u.foto}` : "");
+/** Círculo con la foto del funcionario o, si no tiene, sus iniciales. */
+function avatar(u, tam = "w-9 h-9 text-xs", color = "bg-primary-bg text-primary") {
+  const conIniciales = () => {
+    const s = el("span", `${tam} ${color} rounded-full inline-flex items-center justify-center font-bold flex-shrink-0 select-none`, iniciales(u.nombre));
+    s.setAttribute("aria-hidden", "true");
+    return s;
+  };
+  if (!u.foto) return conIniciales();
+  const img = el("img", `${tam} rounded-full object-cover bg-gray-100 flex-shrink-0`);
+  img.src = urlFoto(u);
+  img.alt = "";
+  img.onerror = () => img.replaceWith(conIniciales());
+  return img;
+}
+/** Recorta al centro y deja la foto en 256 × 256 (WebP o JPEG, ~20–40 KB). */
+async function fotoCuadrada(f) {
+  if (!/^image\/(jpeg|png|webp)$/.test(f.type)) throw new Error("La foto debe ser JPG, PNG o WebP.");
+  const bmp = await createImageBitmap(f, { imageOrientation: "from-image" });
+  const lado = Math.min(bmp.width, bmp.height);
+  const lienzo = document.createElement("canvas");
+  lienzo.width = lienzo.height = 256;
+  lienzo.getContext("2d").drawImage(bmp, (bmp.width - lado) / 2, (bmp.height - lado) / 2, lado, lado, 0, 0, 256, 256);
+  bmp.close?.();
+  let blob = await new Promise((r) => lienzo.toBlob(r, "image/webp", 0.82));
+  if (!blob || blob.type !== "image/webp") blob = await new Promise((r) => lienzo.toBlob(r, "image/jpeg", 0.85));
+  return blob;
+}
+/** Sube (o, con f = null, quita) la foto propia o, siendo administrador, la de otra cuenta. */
+async function cambiarFoto(rut, f) {
+  const url = "/api/perfil/foto" + (rut ? `/${encodeURIComponent(rut)}` : "");
+  if (!f) return (await api(url, { metodo: "DELETE" })).usuario;
+  const blob = await fotoCuadrada(f);
+  const r = await fetch(url, { method: "PUT", credentials: "same-origin", headers: { "content-type": blob.type }, body: blob });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || "No se pudo guardar la foto.");
+  return j.usuario;
+}
 
 /**
  * Texto de una publicación → nodos seguros: párrafos, saltos de línea, **negrita** y enlaces https.
@@ -938,6 +981,30 @@ const paginas = {
       $("#aviso-temporal").classList.remove("hidden");
       $("#volver-portal").classList.add("hidden");
     }
+    if (!u.debeCambiarClave) {
+      const caja = $("#mi-foto");
+      caja.classList.remove("hidden");
+      const fmsg = $("[data-mi-foto-msg]", caja);
+      const quitar = $("[data-mi-foto-quitar]", caja);
+      const pintarFoto = (yo) => {
+        $("[data-mi-foto]", caja).replaceChildren(avatar(yo, "w-20 h-20 text-2xl"));
+        quitar.classList.toggle("hidden", !yo.foto);
+        $("[data-mi-foto-texto]", caja).textContent = yo.foto ? "Cambiar foto" : "Subir foto";
+        pintarCabecera(yo);
+      };
+      pintarFoto(u);
+      const actualizar = async (f) => {
+        fmsg.textContent = f ? "Guardando…" : "Quitando…";
+        try {
+          pintarFoto(await cambiarFoto(null, f));
+          fmsg.textContent = f ? "Foto guardada." : "Foto quitada.";
+        } catch (err) {
+          fmsg.textContent = err.message;
+        }
+      };
+      $("[data-mi-foto-archivo]", caja).addEventListener("change", (e) => { if (e.target.files[0]) actualizar(e.target.files[0]); e.target.value = ""; });
+      quitar.addEventListener("click", () => actualizar(null));
+    }
     const form = $("#form-clave");
     const msg = $("#mensaje");
     form.addEventListener("submit", async (e) => {
@@ -995,9 +1062,12 @@ const paginas = {
     const caja = $("#clave-entregada");
     let usuarios = [];
 
-    const mostrarClave = (u, clave) => {
+    const mostrarClave = (u, clave, deRut) => {
       $('[data-campo="para"]', caja).textContent = `${u.nombre} (${formatearRut(u.rut)})`;
       $('[data-campo="clave"]', caja).textContent = clave;
+      $('[data-campo="explicacion"]', caja).textContent = deRut
+        ? "Son los 4 primeros dígitos de su RUT. Ingresa con su RUT y esta clave; vence en 72 horas y deberá cambiarla en su primer ingreso."
+        : "Entréguela personalmente. Se muestra solo esta vez y vence en 72 horas; el funcionario deberá cambiarla al ingresar.";
       caja.classList.remove("hidden");
       caja.scrollIntoView({ behavior: "smooth", block: "center" });
     };
@@ -1040,10 +1110,31 @@ const paginas = {
       fe.correo.value = u.correo || "";
       fe.rol.value = u.rol;
       fe.rol.disabled = u.rut === yo.rut;
+      pintarFotoEdicion(u);
       $("[data-eliminar]", dlg).classList.toggle("hidden", u.rut === yo.rut);
       emsg.classList.add("hidden");
       dlg.showModal();
     };
+    const pintarFotoEdicion = (u) => {
+      $("[data-e-foto]", dlg).replaceChildren(avatar(u, "w-16 h-16 text-xl"));
+      $("[data-e-foto-texto]", dlg).textContent = u.foto ? "Cambiar foto" : "Subir foto";
+      $("[data-e-foto-quitar]", dlg).classList.toggle("hidden", !u.foto);
+    };
+    const fotoEdicion = async (f) => {
+      try {
+        const nuevo = await cambiarFoto(editando.rut, f);
+        Object.assign(editando, { foto: nuevo.foto });
+        if (!nuevo.foto) delete editando.foto;
+        pintarFotoEdicion(editando);
+        if (editando.rut === yo.rut) pintarCabecera(nuevo);
+        pintar();
+        emsg.classList.add("hidden");
+      } catch (err) {
+        mensaje(emsg, err.message);
+      }
+    };
+    $("[data-e-foto-archivo]", dlg).addEventListener("change", (e) => { if (e.target.files[0]) fotoEdicion(e.target.files[0]); e.target.value = ""; });
+    $("[data-e-foto-quitar]", dlg).addEventListener("click", () => fotoEdicion(null));
     $$("[data-cancelar]", dlg).forEach((b) => b.addEventListener("click", () => dlg.close()));
     fe.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -1077,12 +1168,16 @@ const paginas = {
     });
 
     const celdaNombre = (u) => {
-      const td = celda(u.nombre, "font-semibold text-gray-800");
+      const td = celda("", "font-semibold text-gray-800");
+      const fila = el("div", "flex items-center gap-3");
+      const datos = el("div", "min-w-0", u.nombre);
       if (u.correo) {
         const a = el("a", "block text-xs font-normal text-primary hover:underline", u.correo);
         a.href = `mailto:${u.correo}`;
-        td.append(a);
+        datos.append(a);
       }
+      fila.append(avatar(u, "w-8 h-8 text-[11px]"), datos);
+      td.append(fila);
       return td;
     };
 
@@ -1136,9 +1231,11 @@ const paginas = {
     const cargar = async () => {
       const r = await api("/api/admin/usuarios");
       usuarios = r.usuarios;
-      $("#modo-clave").textContent = r.claveComunConfigurada
-        ? `Las cuentas nuevas parten con la clave inicial común. Vence a las ${r.vigenciaHoras} horas si el funcionario no ingresa y la cambia.`
-        : `Las cuentas nuevas reciben una clave temporal individual que se muestra una sola vez. Vence a las ${r.vigenciaHoras} horas si no se cambia.`;
+      $("#modo-clave").textContent = {
+        comun: `Las cuentas nuevas parten con la clave inicial común. Vence a las ${r.vigenciaHoras} horas si el funcionario no ingresa y la cambia.`,
+        aleatoria: `Las cuentas nuevas reciben una clave temporal individual que se muestra una sola vez. Vence a las ${r.vigenciaHoras} horas si no se cambia.`,
+        rut: `Las cuentas nuevas parten con los 4 primeros dígitos del RUT como clave (p. ej. 12.345.678-5 → 1234). Vence a las ${r.vigenciaHoras} horas y debe cambiarse en el primer ingreso.`,
+      }[r.modoClave || (r.claveComunConfigurada ? "comun" : "aleatoria")];
       pintar();
     };
 
@@ -1159,7 +1256,7 @@ const paginas = {
       try {
         const r = await api("/api/admin/usuarios", { metodo: "PATCH", datos });
         await cargar();
-        if (r.claveTemporal) { msg.classList.add("hidden"); mostrarClave(r.usuario, r.claveTemporal); }
+        if (r.claveTemporal) { msg.classList.add("hidden"); mostrarClave(r.usuario, r.claveTemporal, r.claveDeRut); }
         else if (r.claveComun) mensaje(msg, `Contraseña de ${r.usuario.nombre} restablecida a la clave inicial común. Debe ingresar con ella antes del ${fecha(r.usuario.claveTemporalVence)} y cambiarla.`, "ok");
         else msg.classList.add("hidden");
       } catch (err) {
@@ -1169,6 +1266,17 @@ const paginas = {
     });
 
     const form = $("#form-nuevo");
+    const vistaFoto = $("[data-n-foto-vista]", form);
+    form.foto.addEventListener("change", () => {
+      const f = form.foto.files[0];
+      vistaFoto.replaceChildren();
+      if (f) {
+        const img = el("img", "w-9 h-9 rounded-full object-cover");
+        img.src = URL.createObjectURL(f);
+        img.alt = "";
+        vistaFoto.append(img);
+      }
+    });
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const rut = normalizarRut(form.rut.value);
@@ -1180,13 +1288,19 @@ const paginas = {
           metodo: "POST",
           datos: { rut, nombre: form.nombre.value, cargo: form.cargo.value, correo: form.correo.value.trim(), rol: form.rol.value },
         });
+        const foto = form.foto.files[0];
         form.reset();
+        vistaFoto.replaceChildren();
+        let avisoFoto = "";
+        if (foto) {
+          try { r.usuario = await cambiarFoto(rut, foto); } catch (err) { avisoFoto = ` La foto no se pudo guardar: ${err.message}`; }
+        }
         if (r.claveComun) {
           caja.classList.add("hidden");
-          mensaje(msg, `Cuenta creada para ${r.usuario.nombre}. Debe ingresar con la clave inicial común antes del ${fecha(r.usuario.claveTemporalVence)} y cambiarla.`, "ok");
+          mensaje(msg, `Cuenta creada para ${r.usuario.nombre}. Debe ingresar con la clave inicial común antes del ${fecha(r.usuario.claveTemporalVence)} y cambiarla.${avisoFoto}`, "ok");
         } else {
-          msg.classList.add("hidden");
-          mostrarClave(r.usuario, r.claveTemporal);
+          if (avisoFoto) mensaje(msg, avisoFoto.trim()); else msg.classList.add("hidden");
+          mostrarClave(r.usuario, r.claveTemporal, r.claveDeRut);
         }
         await cargar();
       } catch (err) {
