@@ -414,3 +414,31 @@ test("Contenido del sitio: los textos con formato aceptan varias líneas; los co
   assert.match(validar({ "transparencia:secciones#activa.enlace": "https://x" }).error, /no se puede editar/);
   assert.match(validar({ "visitas:informacionClinica": "x".repeat(2001) }).error, /2000/);
 });
+
+test("Avisos: destino público, solo intranet o ambos; los de intranet nunca salen por las API públicas", async () => {
+  const avisos = (await import("../netlify/functions/avisos.mjs")).default;
+  const vivo = (await import("../netlify/functions/sitio-vivo.mjs")).default;
+  const { cAdmin, cEditor } = await preparar();
+  const crear = (datos) => avisos(req("/api/avisos", { metodo: "POST", cookie: cAdmin, datos }), { params: {} });
+  const textos = async (r) => (await r.json()).avisos.map((a) => a.texto).sort();
+
+  assert.equal((await crear({ texto: "Aviso para el público", destino: "publico" })).status, 201);
+  assert.equal((await crear({ texto: "Reunión de jefaturas el jueves", destino: "intranet" })).status, 201);
+  assert.equal((await crear({ texto: "Corte de luz programado", destino: "ambos" })).status, 201);
+  const sinDestino = await (await crear({ texto: "Aviso sin destino indicado" })).json();
+  assert.equal(sinDestino.aviso.destino, "publico");
+
+  const publicos = ["Aviso para el público", "Aviso sin destino indicado", "Corte de luz programado"];
+  assert.deepEqual(await textos(await avisos(req("/api/avisos/vigentes"), { params: { id: "vigentes" } })), publicos);
+  assert.deepEqual(await textos(await vivo(req("/api/sitio-vivo"))), publicos);
+
+  // Intranet: cualquier funcionario con sesión; sin sesión, nada
+  assert.deepEqual(await textos(await avisos(req("/api/avisos/intranet", { cookie: cEditor }), { params: { id: "intranet" } })), ["Corte de luz programado", "Reunión de jefaturas el jueves"]);
+  assert.equal((await avisos(req("/api/avisos/intranet"), { params: { id: "intranet" } })).status, 401);
+
+  // El máximo se cuenta por lugar: con 5 en la intranet, todavía se puede publicar en el sitio público
+  for (let i = 0; i < 3; i++) assert.equal((await crear({ texto: `Interno número ${i}`, destino: "intranet" })).status, 201);
+  assert.equal((await crear({ texto: "Uno interno de más", destino: "intranet" })).status, 409);
+  assert.equal((await crear({ texto: "Otro de ambos lados", destino: "ambos" })).status, 409);
+  assert.equal((await crear({ texto: "Otro para el público", destino: "publico" })).status, 201);
+});

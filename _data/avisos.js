@@ -2,7 +2,9 @@
 // Igual que las noticias: en el build se leen del almacén o, si no se puede, de la API pública.
 module.exports = async function () {
   const hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
-  const vigentes = (lista) => (lista || []).filter((a) => a && a.texto && (!a.hasta || a.hasta >= hoy));
+  // Solo los del sitio público: los de destino "intranet" no deben quedar en el HTML público.
+  const publico = (a) => !a.destino || a.destino === "publico" || a.destino === "ambos";
+  const vigentes = (lista) => (lista || []).filter((a) => a && a.texto && publico(a) && (!a.hasta || a.hasta >= hoy));
 
   if (process.env.NETLIFY || process.env.NETLIFY_BLOBS_CONTEXT) {
     try {

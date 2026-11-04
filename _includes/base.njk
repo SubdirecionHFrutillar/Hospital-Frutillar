@@ -69,6 +69,8 @@
 
 {% if esPortal %}
 {% include "portal-encabezado.njk" %}
+<!-- Avisos para funcionarios: los trae funcionarios.mjs con sesión (/api/avisos/intranet) -->
+<div class="avisos" role="region" aria-label="Avisos para funcionarios" data-avisos-intranet hidden></div>
 {% else %}
 <!-- ENCABEZADO + MENÚ -->
 <header id="site-header" class="bg-hospital text-white w-full">

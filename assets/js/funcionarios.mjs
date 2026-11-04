@@ -43,10 +43,38 @@ function pintarCabecera(u) {
   if (PUBLICA_SITIO.includes(u.rol)) $$("[data-solo-comunicaciones]").forEach((x) => x.classList.remove("hidden"));
 }
 
+// Franja de avisos de la intranet (bajo el encabezado del portal). El texto va siempre como texto.
+async function pintarAvisosIntranet() {
+  const caja = $("[data-avisos-intranet]");
+  if (!caja) return;
+  try {
+    const { avisos } = await api("/api/avisos/intranet");
+    caja.replaceChildren(
+      ...avisos.map((a) => {
+        const imp = a.tipo === "importante";
+        const fila = el("div", `aviso aviso--${imp ? "importante" : "info"}`);
+        const cont = el("div", "container mx-auto px-4 py-2.5 flex items-center gap-3 text-sm");
+        const p = el("p", "flex-1 leading-snug");
+        p.append(el("strong", "font-bold", imp ? "Importante: " : "Aviso: "), document.createTextNode(a.texto));
+        cont.append(icono(imp ? "campaign" : "info", "text-xl flex-shrink-0"), p);
+        if (a.url) {
+          const ver = el("a", "font-bold underline underline-offset-2 whitespace-nowrap", "Ver más");
+          ver.href = a.url;
+          if (/^https?:/.test(a.url)) { ver.target = "_blank"; ver.rel = "noopener"; }
+          cont.append(ver);
+        }
+        fila.append(cont);
+        return fila;
+      }),
+    );
+    caja.hidden = !avisos.length;
+  } catch {}
+}
+
 async function usuarioActual() {
   try {
     const u = (await api("/api/auth/yo")).usuario;
-    if (!u.debeCambiarClave) pintarCabecera(u);
+    if (!u.debeCambiarClave) { pintarCabecera(u); pintarAvisosIntranet(); }
     return u;
   } catch (e) {
     if (e.status === 401) irAlIngreso();
@@ -921,7 +949,8 @@ const paginas = {
     const texto = $("#aviso-texto");
     texto.addEventListener("input", () => ($("#aviso-cuenta").textContent = String(texto.value.length)));
     $("#aviso-hasta").min = new Date().toLocaleDateString("en-CA", TZ);
-    const yaSeVe = " Ya se ve en el sitio.";
+    const DONDE = { publico: "Sitio público", intranet: "Solo intranet", ambos: "Sitio público e intranet" };
+    const yaSeVe = (d) => ({ publico: " Ya se ve en el sitio.", intranet: " Ya se ve en la intranet.", ambos: " Ya se ve en el sitio y en la intranet." })[d] || "";
 
     const cargar = async () => {
       const { avisos } = await api("/api/avisos");
@@ -932,7 +961,7 @@ const paginas = {
         fila.append(icono(a.tipo === "importante" ? "campaign" : "info", a.tipo === "importante" ? "text-orange-600 mt-0.5" : "text-primary mt-0.5"));
         const info = el("div", "flex-1 min-w-0");
         info.append(el("p", "text-sm text-gray-800", a.texto));
-        const meta = [a.tipo === "importante" ? "Importante" : "Aviso", `por ${a.autor}`, fechaCorta(a.creado)];
+        const meta = [a.tipo === "importante" ? "Importante" : "Aviso", DONDE[a.destino] || DONDE.publico, `por ${a.autor}`, fechaCorta(a.creado)];
         if (a.hasta) meta.push(`hasta ${new Date(a.hasta + "T12:00:00").toLocaleDateString("es-CL", { dateStyle: "medium", ...TZ })}`);
         if (!a.vigente) meta.push("vencido");
         info.append(el("p", "text-xs text-gray-500 mt-1", meta.join(" · ")));
@@ -940,12 +969,13 @@ const paginas = {
         const borrar = el("button", "text-xs font-bold text-red-600 hover:underline flex-shrink-0", "Eliminar");
         borrar.type = "button";
         borrar.addEventListener("click", async () => {
-          if (!confirm("¿Eliminar este aviso del sitio?")) return;
+          if (!confirm("¿Eliminar este aviso?")) return;
           borrar.disabled = true;
           try {
             const r = await api(`/api/avisos/${a.id}`, { metodo: "DELETE" });
-            mensaje(msg, "Aviso eliminado." + yaSeVe, "ok");
+            mensaje(msg, "Aviso eliminado.", "ok");
             await cargar();
+            pintarAvisosIntranet();
           } catch (err) {
             mensaje(msg, err.message);
             borrar.disabled = false;
@@ -961,11 +991,12 @@ const paginas = {
       const boton = $("button[type=submit]", form);
       boton.disabled = true;
       try {
-        const r = await api("/api/avisos", { metodo: "POST", datos: { texto: texto.value, tipo: form.tipo.value, hasta: form.hasta.value, url: form.url.value.trim() } });
+        const r = await api("/api/avisos", { metodo: "POST", datos: { texto: texto.value, tipo: form.tipo.value, destino: form.destino.value, hasta: form.hasta.value, url: form.url.value.trim() } });
         form.reset();
         $("#aviso-cuenta").textContent = "0";
-        mensaje(msg, "Aviso publicado." + yaSeVe, "ok");
+        mensaje(msg, "Aviso publicado." + yaSeVe(r.aviso.destino), "ok");
         await cargar();
+        pintarAvisosIntranet();
       } catch (err) {
         mensaje(msg, err.message);
       } finally {

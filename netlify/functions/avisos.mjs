@@ -1,7 +1,8 @@
 // Avisos del hospital (franja del sitio público).
-//   GET    /api/avisos/vigentes  → avisos vigentes (público; lo usa el build para la copia estática)
+//   GET    /api/avisos/vigentes  → avisos vigentes del sitio público (sin sesión; lo usa el build)
+//   GET    /api/avisos/intranet  → avisos vigentes de la intranet (cualquier funcionario con sesión)
 //   GET    /api/avisos           → todos, para gestionar  (comunicaciones o admin)
-//   POST   /api/avisos           → crear { texto, tipo, url?, hasta? }
+//   POST   /api/avisos           → crear { texto, tipo, destino, url?, hasta? }
 //   DELETE /api/avisos/:id       → eliminar
 // Tras cada cambio se purga la caché del CDN: el aviso se ve al instante, sin regenerar el sitio.
 import * as A from "../lib/avisos.mjs";
@@ -16,12 +17,13 @@ export default manejador(["GET", "POST", "DELETE"], async (req, ctx) => {
   const u = await sesionActual(req);
   if (!u) return error("Sesión no válida.", 401);
   if (u.debeCambiarClave) return error("Debe cambiar su contraseña temporal antes de continuar.", 403);
+  if (req.method === "GET" && id === "intranet") return json({ avisos: await A.vigentes("intranet") });
   if (!PUEDEN_PUBLICAR_SITIO.includes(u.rol)) return error("Solo Comunicaciones o un administrador puede gestionar los avisos.", 403);
 
   if (req.method === "GET") {
     if (id) return error("Ruta no válida.", 404);
     const hoy = A.hoyChile();
-    return json({ avisos: (await A.listar()).map((a) => ({ ...a, vigente: A.vigente(a, hoy) })), maximo: A.MAX_AVISOS });
+    return json({ avisos: (await A.listar()).map((a) => ({ ...a, destino: A.destinoDe(a), vigente: A.vigente(a, hoy) })), maximo: A.MAX_AVISOS });
   }
   if (req.method === "POST") {
     if (id) return error("Ruta no válida.", 404);

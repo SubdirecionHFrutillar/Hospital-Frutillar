@@ -103,11 +103,12 @@ Las noticias del sitio se publican desde el portal (ya no desde el CMS `/admin`)
 - **Build hook:** ya no se usa. Si existe la variable `NETLIFY_BUILD_HOOK` o un *build hook* en Netlify, bórrelos.
 - Las noticias antiguas en `content/noticias/*.md` siguen funcionando; si existe una noticia del portal con la misma dirección, se muestra la del portal.
 
-### Avisos del sitio público
+### Avisos (sitio público e intranet)
 
 Comunicaciones o un administrador publica avisos breves desde **Portal → Avisos** (cambios de horario,
-cortes de servicio, feriados). Aparecen en una franja bajo el menú de todas las páginas públicas;
-máximo 5 a la vez. Con fecha de término, el aviso se oculta solo ese día. Igual que las noticias,
+cortes de servicio, feriados) y elige dónde se muestran: **sitio público**, **solo intranet** o **ambos**.
+Aparecen en una franja bajo el menú (del sitio o del portal); máximo 5 a la vez en cada lugar. Los de
+"solo intranet" se piden con sesión a `/api/avisos/intranet` y nunca salen por las API públicas ni en el HTML. Con fecha de término, el aviso se oculta solo ese día. Igual que las noticias,
 se ven al instante (vía `/api/sitio-vivo`), sin regenerar el sitio.
 
 ### Roles
