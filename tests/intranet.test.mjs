@@ -335,3 +335,69 @@ test("Noticias en vivo: página armada al momento, API pública con caché y sin
     globalThis.fetch = fetchOriginal;
   }
 });
+
+test("Contenido del sitio: permisos, validación, historial, volver al original y datos en vivo", async () => {
+  const { cAdmin, cEditor } = await preparar();
+  const contenido = (await import("../netlify/functions/contenido.mjs")).default;
+  const carch = (await import("../netlify/functions/contenido-archivos.mjs")).default;
+  const vivo = (await import("../netlify/functions/sitio-vivo.mjs")).default;
+  const put = (cookie, cambios) => contenido(req("/api/contenido", { metodo: "PUT", cookie, datos: { cambios } }));
+
+  // Sin sesión / sin rol
+  assert.equal((await contenido(req("/api/contenido"))).status, 401);
+  assert.equal((await put(cEditor, { "servicios:servicios#farmacia.descripcion": "x" })).status, 403);
+
+  // Validaciones
+  assert.equal((await put(cAdmin, { "site:telefono": "123" })).status, 400, "ruta no editable");
+  assert.equal((await put(cAdmin, { "autoridades:lista#director.foto": "https://otro.sitio/x.jpg" })).status, 400, "foto externa");
+  assert.equal((await put(cAdmin, { "horarios:servicios#some.horarios.0.horario": "08:00\n17:00" })).status, 400, "una línea");
+  assert.equal((await put(cAdmin, { "servicios:servicios#farmacia.horario": "x".repeat(201) })).status, 400, "largo");
+
+  // Guardar
+  let r = await put(cAdmin, { "servicios:servicios#farmacia.horario": "Lunes a viernes 08:30–17:00", "horarios:intro": "Nueva nota." });
+  assert.equal(r.status, 200, await r.clone().text());
+  let e = await r.json();
+  assert.equal(e.cambios["servicios:servicios#farmacia.horario"].valor, "Lunes a viernes 08:30–17:00");
+  assert.equal(e.cambios["horarios:intro"].autor, "Admin");
+  assert.equal(e.historial.length, 2);
+
+  // Foto: solo imágenes, servida en público
+  r = await carch(req("/api/contenido-archivos", { metodo: "POST", cookie: cAdmin, headers: { "content-type": "application/pdf", "x-nombre": "a.pdf" }, cuerpo: new Uint8Array([37, 80, 68, 70]) }), { params: {} });
+  assert.equal(r.status, 415);
+  r = await carch(req("/api/contenido-archivos", { metodo: "POST", cookie: cAdmin, headers: { "content-type": "image/jpeg", "x-nombre": "equipo.jpg" }, cuerpo: new Uint8Array([255, 216, 255, 224]) }), { params: {} });
+  assert.equal(r.status, 201);
+  const foto = (await r.json()).archivo;
+  r = await put(cAdmin, { "servicios:servicios#farmacia.foto_equipo": `/api/contenido-archivos/${foto.id}` });
+  assert.equal(r.status, 200);
+  assert.equal((await carch(req(`/api/contenido-archivos/${foto.id}`), { params: { id: foto.id } })).status, 200);
+
+  // En vivo
+  let d = await (await vivo(req("/api/sitio-vivo"))).json();
+  assert.equal(d.contenido["horarios:intro"], "Nueva nota.");
+  assert.equal(d.contenido["servicios:servicios#farmacia.foto_equipo"], `/api/contenido-archivos/${foto.id}`);
+
+  // Volver al original
+  r = await put(cAdmin, { "horarios:intro": null });
+  e = await r.json();
+  assert.equal(e.cambios["horarios:intro"], undefined);
+  assert.equal(e.historial[0].despues, null);
+  d = await (await vivo(req("/api/sitio-vivo"))).json();
+  assert.equal(d.contenido["horarios:intro"], undefined);
+});
+
+test("Contenido del sitio: las rutas de los campos existen en los datos reales", async () => {
+  const fs = await import("node:fs");
+  const { listarCampos, leer, campo } = await import("../netlify/lib/contenido-campos.mjs");
+  const datos = Object.fromEntries(["servicios", "horarios", "autoridades"].map((n) => [n, JSON.parse(fs.readFileSync(new URL(`../_data/${n}.json`, import.meta.url)))]));
+  const campos = listarCampos(datos);
+  assert.ok(campos.length > 40);
+  for (const c of campos) assert.ok(campo(c.ruta), c.ruta);
+  assert.equal(leer(datos, "servicios:servicios#urgencia.descripcion"), datos.servicios.servicios.find((s) => s.id === "urgencia").descripcion);
+  assert.equal(leer(datos, "autoridades:lista#director.nombre"), "Dr. Gerardo Salinas Rossel");
+  assert.equal(leer(datos, "servicios:servicios#no-existe.descripcion"), undefined);
+  // Los identificadores no se repiten
+  for (const lista of [datos.servicios.servicios, datos.horarios.servicios, datos.autoridades.lista]) {
+    const ids = lista.map((x) => x.id);
+    assert.equal(new Set(ids).size, ids.length);
+  }
+});

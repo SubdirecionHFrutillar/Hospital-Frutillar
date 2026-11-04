@@ -2,6 +2,7 @@
   "intro": "Los horarios pueden cambiar en festivos o en períodos de alta demanda. Para confirmar, llame a la central del hospital: (65) 2 421 000.",
   "servicios": [
     {
+      "id": "some",
       "nombre": "SOME",
       "descripcion": "Servicio de Orientación Médico Estadístico: admisión, horas y trámites",
       "icon": "medical_information",
@@ -19,6 +20,7 @@
       "span2": false
     },
     {
+      "id": "oirs",
       "nombre": "OIRS",
       "descripcion": "Oficina de Informaciones, Reclamos y Sugerencias",
       "icon": "chat",
@@ -36,6 +38,7 @@
       "span2": false
     },
     {
+      "id": "farmacia",
       "nombre": "Farmacia",
       "descripcion": "",
       "icon": "medication",
@@ -53,6 +56,7 @@
       "span2": false
     },
     {
+      "id": "visitas",
       "nombre": "Visitas a hospitalizados",
       "descripcion": "",
       "icon": "bed",
@@ -66,6 +70,7 @@
       "span2": false
     },
     {
+      "id": "imagenologia",
       "nombre": "Imagenología",
       "descripcion": "",
       "icon": "radiology",
@@ -79,6 +84,7 @@
       "span2": false
     },
     {
+      "id": "laboratorio",
       "nombre": "Laboratorio",
       "descripcion": "",
       "icon": "biotech",
@@ -92,6 +98,7 @@
       "span2": false
     },
     {
+      "id": "dental",
       "nombre": "Servicio Dental",
       "descripcion": "",
       "icon": "dentistry",

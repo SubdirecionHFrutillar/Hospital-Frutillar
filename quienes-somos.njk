@@ -35,20 +35,24 @@ fechasClave:
 
     {% call ui.seccion("Autoridades", "groups", "autoridades") %}
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {% for a in quienes_somos.autoridades %}
+        {% for a in autoridades.lista %}
         {%- set principal = loop.first %}
+        {%- set r = "autoridades:lista#" + a.id %}
+        {%- set foto = a.foto | cv(r + ".foto") %}
+        {%- set tam = "w-24 h-24" if principal else "w-12 h-12" %}
         <div class="flex items-center gap-4 bg-gray-50 border border-gray-100 rounded-custom {{ 'md:col-span-2 p-5' if principal else 'p-4' }}">
-          <div class="{{ 'w-24 h-24' if principal else 'w-12 h-12' }} rounded-full bg-primary flex items-center justify-center flex-shrink-0 overflow-hidden">
-            {% if a.foto %}
-              <img src="{{ a.foto | imagenCdn(240) }}" onerror="this.onerror=null;this.src='{{ a.foto }}'" alt="Fotografía de {{ a.nombre }}" class="w-full h-full object-cover" loading="lazy">
+          <div class="{{ tam }} rounded-full bg-primary flex items-center justify-center flex-shrink-0 overflow-hidden" data-c-foto="{{ r }}.foto" data-c-alt="Fotografía de {{ a.nombre }}" data-c-img="w-full h-full object-cover"{% if foto != (a.foto or "") %} data-c-base="{{ a.foto or '' }}"{% endif %}>
+            <template><span aria-hidden="true" class="material-symbols-outlined text-white {{ 'text-4xl' if principal else 'text-xl' }}">person</span></template>
+            {% if foto %}
+              <img src="{{ foto | imagenCdn(240) }}" onerror="this.onerror=null;this.src='{{ foto }}'" alt="Fotografía de {{ a.nombre }}" class="w-full h-full object-cover" loading="lazy">
             {% else %}
               <span aria-hidden="true" class="material-symbols-outlined text-white {{ 'text-4xl' if principal else 'text-xl' }}">person</span>
             {% endif %}
           </div>
           <div>
-            <p class="text-xs font-bold text-primary-light uppercase tracking-wide mb-0.5">{{ a.cargo }}</p>
-            <p class="{{ 'text-lg font-bold text-primary-deep' if principal else 'text-sm font-semibold text-gray-800' }}">{{ a.nombre }}</p>
-            <p class="text-xs text-gray-500">{{ a.unidad }}</p>
+            {% campo r + ".cargo", a.cargo, "p", "text-xs font-bold text-primary-light uppercase tracking-wide mb-0.5" %}
+            {% campo r + ".nombre", a.nombre, "p", ("text-lg font-bold text-primary-deep" if principal else "text-sm font-semibold text-gray-800") %}
+            {% campo r + ".unidad", a.unidad, "p", "text-xs text-gray-500" %}
           </div>
         </div>
         {% endfor %}

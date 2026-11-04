@@ -253,7 +253,7 @@ const paginas = {
       const a = el("a", "news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow");
       a.href = `/funcionarios/publicacion.html?id=${p.id}`;
       if (p.imagen) {
-        const img = el("img", "w-full h-48 object-cover bg-gray-100");
+        const img = el("img", "block w-full h-auto max-h-[32rem] object-contain bg-gray-100");
         img.src = `/api/intranet/archivos/${p.imagen}?tam=min`;
         img.decoding = "async";
         img.alt = "";
@@ -630,6 +630,184 @@ const paginas = {
       fila.append(info, acciones);
       lista.append(fila);
     }
+  },
+
+  async contenido() {
+    const u = await usuarioActual();
+    if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
+    const caja = $("#contenido-grupos");
+    const msg = $("#contenido-msg");
+    if (!PUBLICA_SITIO.includes(u.rol)) {
+      caja.replaceChildren(el("p", "p-6 text-sm text-gray-600 bg-white border border-gray-200 rounded-custom", "Solo Comunicaciones o un administrador puede editar el contenido del sitio."));
+      return;
+    }
+    const VER = { Servicios: "/servicios.html", Horarios: "/horarios.html", Autoridades: "/quienes-somos.html#autoridades" };
+    const [campos, inicial] = await Promise.all([
+      fetch("/funcionarios/contenido-campos.json", { credentials: "same-origin" }).then((r) => r.json()),
+      api("/api/contenido"),
+    ]);
+    let estado = inicial;
+    const etiquetaRuta = Object.fromEntries(campos.map((c) => [c.ruta, `${c.grupo} · ${c.etiqueta}`]));
+    const secciones = [...new Set(campos.map((c) => c.seccion))];
+    let actual = new URLSearchParams(location.search).get("seccion") || secciones[0];
+    const vigente = (c) => (estado.cambios[c.ruta] ? estado.cambios[c.ruta].valor : c.base);
+
+    const pestanas = $("#contenido-pestanas");
+    const pintarPestanas = () => {
+      pestanas.replaceChildren(
+        ...secciones.map((s) => {
+          const b = el("button", `px-4 py-2 rounded-custom text-sm font-bold border ${s === actual ? "bg-primary text-white border-primary" : "bg-white text-primary border-gray-200 hover:bg-primary-bg"}`, s);
+          b.type = "button";
+          b.setAttribute("role", "tab");
+          b.setAttribute("aria-selected", String(s === actual));
+          b.addEventListener("click", () => { actual = s; history.replaceState(null, "", `?seccion=${encodeURIComponent(s)}`); pintar(); });
+          return b;
+        }),
+      );
+      const ver = el("a", "ml-auto text-sm font-bold text-primary hover:underline inline-flex items-center gap-1", "Ver en el sitio");
+      ver.href = VER[actual] || "/";
+      ver.target = "_blank";
+      ver.append(icono("open_in_new", "text-base"));
+      pestanas.append(ver);
+    };
+
+    const guardar = async (lote, boton) => {
+      if (!Object.keys(lote).length) return mensaje(msg, "No hay cambios para guardar.");
+      if (boton) boton.disabled = true;
+      try {
+        estado = await api("/api/contenido", { metodo: "PUT", datos: { cambios: lote } });
+        mensaje(msg, "Cambios guardados. Ya se ven en el sitio.", "ok");
+        pintar();
+        pintarHistorial();
+      } catch (err) {
+        mensaje(msg, err.message);
+        if (boton) boton.disabled = false;
+      }
+      msg.scrollIntoView({ block: "nearest" });
+    };
+
+    const campoFoto = (c, lote, alCambiar) => {
+      const v = vigente(c);
+      const fila = el("div", "flex flex-wrap items-center gap-4");
+      const marco = el("div", "w-24 h-24 rounded-custom border border-gray-200 bg-gray-50 overflow-hidden flex items-center justify-center flex-shrink-0");
+      const pintarMarco = (url) => {
+        if (url) {
+          const img = el("img", "w-full h-full object-cover");
+          img.src = url;
+          img.alt = "";
+          marco.replaceChildren(img);
+        } else marco.replaceChildren(icono("image", "text-3xl text-gray-300"));
+      };
+      pintarMarco(v);
+      const acciones = el("div", "flex flex-col gap-2");
+      const entrada = el("input", "text-xs");
+      entrada.type = "file";
+      entrada.accept = "image/jpeg,image/png,image/webp";
+      entrada.setAttribute("aria-label", `${c.grupo}: ${c.etiqueta}`);
+      const estadoSubida = el("span", "text-xs text-gray-500");
+      entrada.addEventListener("change", async () => {
+        const f = entrada.files[0];
+        if (!f) return;
+        estadoSubida.textContent = "Subiendo…";
+        try {
+          const a = await subirArchivo("/api/contenido-archivos", f);
+          lote[c.ruta] = `/api/contenido-archivos/${a.id}`;
+          pintarMarco(lote[c.ruta]);
+          estadoSubida.textContent = "Foto lista: guarde para publicarla.";
+          alCambiar();
+        } catch (err) {
+          estadoSubida.textContent = err.message;
+        }
+      });
+      const quitar = el("button", "self-start text-xs font-bold text-red-600 hover:underline", "Quitar foto");
+      quitar.type = "button";
+      quitar.addEventListener("click", () => { lote[c.ruta] = ""; pintarMarco(""); estadoSubida.textContent = "Se quitará al guardar."; alCambiar(); });
+      acciones.append(entrada, quitar, estadoSubida);
+      if (c.ayuda) acciones.append(el("span", "text-xs text-gray-400", c.ayuda));
+      fila.append(marco, acciones);
+      return fila;
+    };
+
+    const pintar = () => {
+      pintarPestanas();
+      const grupos = new Map();
+      for (const c of campos.filter((x) => x.seccion === actual)) {
+        if (!grupos.has(c.grupo)) grupos.set(c.grupo, []);
+        grupos.get(c.grupo).push(c);
+      }
+      caja.replaceChildren();
+      for (const [nombre, lista] of grupos) {
+        const tarjeta = el("section", "bg-white border border-gray-200 rounded-custom shadow-sm");
+        const cab = el("div", "px-5 py-3 border-b border-gray-100 flex items-center gap-2");
+        cab.append(el("h2", "font-bold text-primary-deep", nombre));
+        const editados = lista.filter((c) => estado.cambios[c.ruta]);
+        if (editados.length) cab.append(el("span", "text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800", `${editados.length} editado${editados.length > 1 ? "s" : ""}`));
+        const cuerpo = el("div", "px-5 py-4 grid grid-cols-1 md:grid-cols-2 gap-4");
+        const lote = {};
+        const boton = el("button", "bg-primary hover:bg-primary-dark disabled:opacity-50 text-white font-bold text-sm px-5 py-2 rounded-custom", "Guardar cambios");
+        boton.type = "button";
+        boton.disabled = true;
+        const alCambiar = () => (boton.disabled = !Object.keys(lote).length);
+        for (const c of lista) {
+          const ancho = c.tipo === "largo" || c.tipo === "foto";
+          const bloque = el("div", ancho ? "md:col-span-2" : "");
+          const id = `c-${c.ruta.replace(/[^a-z0-9]+/gi, "-")}`;
+          const lab = el("label", "block text-xs font-bold text-gray-600 mb-1", c.etiqueta);
+          lab.htmlFor = id;
+          bloque.append(lab);
+          if (c.tipo === "foto") bloque.append(campoFoto(c, lote, alCambiar));
+          else {
+            const entrada = el(c.tipo === "largo" ? "textarea" : "input", "w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary");
+            entrada.id = id;
+            if (c.tipo === "largo") entrada.rows = 4;
+            if (c.max) entrada.maxLength = c.max;
+            entrada.value = vigente(c);
+            entrada.addEventListener("input", () => {
+              if (entrada.value.trim() === String(vigente(c)).trim()) delete lote[c.ruta];
+              else lote[c.ruta] = entrada.value;
+              alCambiar();
+            });
+            bloque.append(entrada);
+          }
+          const pie = el("div", "flex flex-wrap items-center gap-3 mt-1 text-[11px] text-gray-500");
+          const cambio = estado.cambios[c.ruta];
+          if (cambio) {
+            pie.append(el("span", "", `Editado por ${cambio.autor} · ${fecha(cambio.editado)}`));
+            const volver = el("button", "font-bold text-primary hover:underline", "Volver al original");
+            volver.type = "button";
+            volver.addEventListener("click", () => {
+              if (confirm(`¿Volver al texto original de "${c.etiqueta}"?\n\n${c.tipo === "foto" ? (c.base ? "(foto original)" : "(sin foto)") : c.base || "(vacío)"}`)) guardar({ [c.ruta]: null });
+            });
+            pie.append(volver);
+          }
+          if (pie.childNodes.length) bloque.append(pie);
+          cuerpo.append(bloque);
+        }
+        const pieTarjeta = el("div", "px-5 py-3 border-t border-gray-100 flex justify-end");
+        boton.addEventListener("click", () => guardar({ ...lote }, boton));
+        pieTarjeta.append(boton);
+        tarjeta.append(cab, cuerpo, pieTarjeta);
+        caja.append(tarjeta);
+      }
+    };
+
+    const pintarHistorial = () => {
+      const ol = $("#contenido-historial");
+      ol.replaceChildren();
+      if (!estado.historial.length) return ol.append(el("li", "px-5 py-4 text-gray-500", "Aún no hay cambios."));
+      for (const h of estado.historial) {
+        const li = el("li", "px-5 py-3 flex flex-wrap gap-x-3 gap-y-1");
+        li.append(
+          el("span", "font-semibold text-gray-800", etiquetaRuta[h.ruta] || h.ruta),
+          el("span", "text-gray-500", h.despues === null ? "volvió al original" : /foto/.test(h.ruta) ? (h.despues ? "nueva foto" : "foto quitada") : `«${h.despues.length > 80 ? h.despues.slice(0, 80) + "…" : h.despues}»`),
+          el("span", "text-xs text-gray-400 ml-auto", `${h.autor} · ${fecha(h.fecha)}`),
+        );
+        ol.append(li);
+      }
+    };
+
+    pintar();
+    pintarHistorial();
   },
 
   async protocolos() {
