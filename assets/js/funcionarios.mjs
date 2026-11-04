@@ -632,6 +632,35 @@ const paginas = {
     }
   },
 
+  async protocolos() {
+    const u = await usuarioActual();
+    if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
+    // Buscador: filtra por área, título o código, sin importar tildes ni mayúsculas
+    const sinTildes = (t) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const campo = $("#buscar-protocolo");
+    const areas = [...document.querySelectorAll("[data-area]")];
+    const cuenta = $("#protocolos-cuenta");
+    const total = document.querySelectorAll("[data-protocolo]").length;
+    const filtrar = () => {
+      const q = sinTildes(campo.value.trim());
+      let visibles = 0;
+      for (const a of areas) {
+        let enArea = 0;
+        for (const li of a.querySelectorAll("[data-protocolo]")) {
+          const ok = !q || sinTildes(li.dataset.protocolo).includes(q);
+          li.hidden = !ok;
+          if (ok) enArea++;
+        }
+        a.hidden = enArea === 0;
+        visibles += enArea;
+      }
+      cuenta.textContent = q ? `${visibles} de ${total} protocolos` : `${total} protocolos`;
+      $("#sin-protocolos").classList.toggle("hidden", visibles > 0);
+    };
+    campo.addEventListener("input", filtrar);
+    filtrar();
+  },
+
   async calidad() {
     const u = await usuarioActual();
     if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");

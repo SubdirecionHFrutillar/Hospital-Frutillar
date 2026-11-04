@@ -1,12 +1,14 @@
 {#
   Banner rotativo de campañas estacionales (editable en el CMS: Campañas de salud → Banner rotativo).
-  Cada lámina tiene "meses" (1–12; vacío = todo el año). En el build se dejan las del mes actual y,
-  en el navegador, se vuelven a filtrar por si el sitio no se ha regenerado desde que cambió el mes.
+  Cada lámina tiene "meses" (1–12; vacío = todo el año) y el navegador muestra solo las del mes actual.
 #}
 {% from "campana-arte.njk" import arte %}
 {%- set mesBuild = (null | mesActual) %}
+{#- Van todas las láminas en el HTML (el sitio ya casi no se regenera): el navegador deja solo las del
+    mes en curso. Las del mes del build van primero, para que sin JavaScript se vea una vigente. #}
 {%- set laminas = [] %}
 {%- for l in campanas.rotativo %}{% if not l.meses.length or mesBuild in l.meses %}{% set laminas = (laminas.push(l), laminas) %}{% endif %}{% endfor %}
+{%- for l in campanas.rotativo %}{% if l.meses.length and not (mesBuild in l.meses) %}{% set laminas = (laminas.push(l), laminas) %}{% endif %}{% endfor %}
 {% if laminas.length %}
 <section class="rotativo" aria-roledescription="carrusel" aria-label="Campañas y avisos de salud" data-rotativo>
   <div class="rotativo__pista">

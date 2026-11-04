@@ -158,3 +158,16 @@ Netlify → *Forms* y el error aparece en *Logs → Functions → submission-cre
 No es necesario activar además la notificación por correo de Netlify (llegaría duplicado y sin formato).
 
 Los envíos también quedan en Netlify → *Forms*. Contienen datos personales: limitar quién tiene acceso al equipo de Netlify.
+
+## Banners de campañas estacionales
+
+Las láminas del banner rotativo de la portada están en `_data/campanas.json` → `rotativo`
+(también editables en `/admin` → Campañas de salud). Cada una tiene `meses` (1–12; vacío = todo el año):
+todas van en el HTML y el navegador muestra solo las del mes en curso, así no hace falta regenerar el sitio
+cuando cambia el mes. Colores (`estilo`): amarillo, naranjo, azul, institucional, rojo, verde, lago, gris, cafe.
+Dibujos (`arte`): ver `_includes/campana-arte.njk`.
+
+## Protocolos clínicos (intranet)
+
+`/funcionarios/protocolos.html`, con buscador. Los enlaces están en `_data/protocolos.json`, ordenados por área
+clínica; apuntan a los documentos y carpetas de Google Drive (los mismos que usa Calidad, más los de HODOM y Urgencia).

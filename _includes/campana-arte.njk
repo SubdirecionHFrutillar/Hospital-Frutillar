@@ -98,6 +98,60 @@
   {# Casa con cruz: hospitalización domiciliaria #}
   <path d="M14 58 60 20l46 38v50H14z" fill="#fff" fill-opacity=".92" stroke="none"/>
   <path d="M60 50v34M43 67h34" stroke="currentColor" stroke-width="10"/>
+{% elif clave == "marea" %}
+  {# Concha de bivalvo sobre olas: marea roja #}
+  <path d="M60 22c-24 0-40 18-40 38 0 6 2 10 6 12h68c4-2 6-6 6-12 0-20-16-38-40-38z" fill="#fff" fill-opacity=".92" stroke="none"/>
+  <path d="M60 26v44M46 30l8 40M74 30l-8 40M34 40l14 30M86 40 72 70" stroke="currentColor" stroke-width="3"/>
+  <path d="M8 90c10-8 18-8 28 0s18 8 28 0 18-8 28 0 14 6 20 2M8 106c10-8 18-8 28 0s18 8 28 0 18-8 28 0 14 6 20 2" stroke-width="6" stroke-opacity=".75"/>
+{% elif clave == "olla" %}
+  {# Olla hirviendo #}
+  <path d="M38 30c-4-6 4-10 0-16M60 30c-4-6 4-10 0-16M82 30c-4-6 4-10 0-16" stroke-width="5"/>
+  <path d="M20 44h80v42a14 14 0 0 1-14 14H34a14 14 0 0 1-14-14z" fill="#fff" fill-opacity=".9" stroke="none"/>
+  <path d="M10 52h10M100 52h10" stroke-width="7"/>
+{% elif clave == "telefono" %}
+  {# Teléfono: llamar o consultar #}
+  <path d="M34 16c6 0 10 14 10 20s-8 8-8 12c4 14 18 28 32 32 4 0 6-8 12-8s20 4 20 10-6 16-14 16C54 98 22 66 22 34c0-8 6-18 12-18z" fill="#fff" fill-opacity=".92" stroke="none"/>
+{% elif clave == "lago" %}
+  {# Olas y salvavidas: lago #}
+  <circle cx="72" cy="46" r="26" stroke-width="12"/>
+  <path d="M72 20v10M72 62v10M46 46h10M88 46h10" stroke="currentColor" stroke-width="8"/>
+  <path d="M8 92c10-8 18-8 28 0s18 8 28 0 18-8 28 0 14 6 20 2M8 108c10-8 18-8 28 0s18 8 28 0 18-8 28 0 14 6 20 2" stroke-width="6" stroke-opacity=".75"/>
+{% elif clave == "salvavidas" %}
+  {# Chaleco/aro salvavidas #}
+  <circle cx="60" cy="60" r="34" stroke-width="16"/>
+  <path d="M60 26v14M60 80v14M26 60h14M80 60h14" stroke="currentColor" stroke-width="9"/>
+{% elif clave == "estufa" %}
+  {# Estufa con cañón y humo: monóxido de carbono #}
+  <path d="M70 12v26" stroke-width="8"/>
+  <rect x="26" y="38" width="62" height="56" rx="6" fill="#fff" fill-opacity=".92" stroke="none"/>
+  <rect x="38" y="52" width="38" height="26" rx="3" stroke="currentColor" stroke-width="4"/>
+  <path d="M48 72c0-8 8-10 8-16 4 4 10 8 10 16" stroke="currentColor" stroke-width="3"/>
+  <path d="M32 94v10M82 94v10" stroke-width="7"/>
+  <path d="M84 20c8-6 16 0 22-4M88 32c8-6 14 0 20-4" stroke-width="4" stroke-opacity=".7"/>
+{% elif clave == "sello" %}
+  {# Sello con visto bueno: certificación sanitaria #}
+  <path d="M60 10 72 20l16-2 4 16 14 8-6 15 6 15-14 8-4 16-16-2-12 10-12-10-16 2-4-16-14-8 6-15-6-15 14-8 4-16 16 2z" fill="#fff" fill-opacity=".92" stroke="none"/>
+  <path d="M42 60l12 12 24-24" stroke="currentColor" stroke-width="9"/>
+{% elif clave == "cerdo" %}
+  {# Cecina/longaniza con lupa: carne con control #}
+  <path d="M14 70c0-10 10-16 22-16h34c12 0 22 6 22 16s-10 16-22 16H36C24 86 14 80 14 70z" fill="#fff" fill-opacity=".9" stroke="none"/>
+  <path d="M34 62v16M52 62v16M70 62v16" stroke="currentColor" stroke-width="3"/>
+  <circle cx="86" cy="40" r="16" stroke-width="7"/>
+  <path d="M98 52l12 12" stroke-width="9"/>
+{% elif clave == "hojas" %}
+  {# Matorral y leña: tifus de los matorrales #}
+  <path d="M30 104c0-40 10-60 30-80 20 20 30 40 30 80z" fill="#fff" fill-opacity=".9" stroke="none"/>
+  <path d="M60 30v74M60 56 46 46M60 70l16-12M60 86 44 76" stroke="currentColor" stroke-width="4"/>
+  <path d="M8 104h104" stroke-width="6"/>
+  <path d="M10 92h28M84 92h26" stroke-width="9" stroke-opacity=".7"/>
+{% elif clave == "ropa" %}
+  {# Polera de manga larga #}
+  <path d="M42 16 24 24 8 70l14 6 12-30v60h52V46l12 30 14-6-16-46-18-8c-2 8-10 12-18 12s-16-4-18-12z" fill="#fff" fill-opacity=".9" stroke="none"/>
+{% elif clave == "termometro" %}
+  {# Termómetro: fiebre #}
+  <path d="M50 74V24a10 10 0 0 1 20 0v50a20 20 0 1 1-20 0z" stroke-width="7"/>
+  <circle cx="60" cy="90" r="10" fill="#fff" stroke="none"/>
+  <path d="M60 86V40" stroke-width="7"/>
 {% endif %}
 </svg>
 {% endmacro %}

@@ -84,6 +84,8 @@
   .calidad-tarjeta:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); }
   .calidad-ambito { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-radius: 4px; padding: 1rem 1.1rem; }
   .calidad-ambito__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E0F2F1; color: #00796B; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .protocolo-area { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid #3949AB; border-radius: 4px; padding: 1rem 1.1rem; }
+  .protocolo-area__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E8EAF6; color: #283593; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .calidad-ambito__sigla { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: #fff; background: #00796B; border-radius: 3px; padding: 1px 6px; vertical-align: 2px; }
 
   /* Ítems de menú lateral */
@@ -159,6 +161,11 @@
     background: var(--fondo); color: var(--tinta); display: flex; flex-direction: column; min-height: 100%; }
   .lamina--naranjo { --fondo: #F57C00; --tinta: #2A1300; --banda: #3A1C00; --banda-tinta: #FFE7CC; --boton: #F57C00; --boton-hover: #FF9800; }
   .lamina--azul { --fondo: #1D5DB4; --tinta: #fff; --banda: #0A2A5E; --banda-tinta: #DCE9FA; --boton: #1D5DB4; --boton-hover: #2A6FCC; }
+  .lamina--rojo { --fondo: #B3261E; --tinta: #fff; --banda: #5C120E; --banda-tinta: #FDE2DF; --boton: #B3261E; --boton-hover: #C93B32; }
+  .lamina--verde { --fondo: #2F6B3A; --tinta: #fff; --banda: #173A1D; --banda-tinta: #DDF0E0; --boton: #2F6B3A; --boton-hover: #3A8047; }
+  .lamina--lago { --fondo: #0B6E8A; --tinta: #fff; --banda: #053746; --banda-tinta: #D6F0F7; --boton: #0B6E8A; --boton-hover: #12819F; }
+  .lamina--gris { --fondo: #3E4A56; --tinta: #fff; --banda: #1D242B; --banda-tinta: #E3E8ED; --boton: #3E4A56; --boton-hover: #4D5B69; }
+  .lamina--cafe { --fondo: #7A4A21; --tinta: #fff; --banda: #3B230F; --banda-tinta: #F5E6D6; --boton: #7A4A21; --boton-hover: #8E5A2C; }
   .lamina--institucional { --fondo: #0B4F96; --tinta: #fff; --banda: #0A2A5E; --banda-tinta: #DCE9FA; --boton: #0B4F96; --boton-hover: #0F69C4; }
   .rotativo__pista { display: grid; }
   .rotativo__pista > .lamina { grid-area: 1 / 1 / 2 / 2; visibility: hidden; opacity: 0; transition: opacity .45s ease, visibility 0s linear .45s; }
@@ -176,7 +183,7 @@
     .lamina__consejos { grid-template-columns: repeat(3, 1fr); }
     .lamina__consejos li + li { border-left: 1px solid rgba(255,255,255,.1); }
   }
-  .lamina__boton { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .6rem 1.5rem; padding-right: 11rem; background: var(--boton); color: var(--tinta); font-size: .875rem; font-weight: 700; }
+  .lamina__boton { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .6rem 1.5rem; padding-right: 15rem; background: var(--boton); color: var(--tinta); font-size: .875rem; font-weight: 700; }
   .lamina__boton:hover { background: var(--boton-hover); }
   .lamina__boton:focus-visible { outline: 2px solid var(--tinta); outline-offset: -4px; }
   .rotativo__controles { position: absolute; right: .5rem; bottom: .35rem; display: flex; align-items: center; gap: .15rem; }

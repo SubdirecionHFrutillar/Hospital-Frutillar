@@ -254,7 +254,7 @@ collections:
             fields:
               - { label: "Id", name: id, widget: string }
               - { label: "Meses en que se muestra (1 = enero … 12 = diciembre)", name: meses, widget: list, required: false, field: { label: "Mes", name: mes, widget: number, min: 1, max: 12, value_type: int } }
-              - { label: "Color", name: estilo, widget: select, options: ["amarillo", "naranjo", "azul", "institucional"] }
+              - { label: "Color", name: estilo, widget: select, options: ["amarillo", "naranjo", "azul", "institucional", "rojo", "verde", "lago", "gris", "cafe"] }
               - { label: "Temporada / fuente", name: temporada, widget: string }
               - { label: "Título", name: titulo, widget: string }
               - { label: "Texto", name: texto, widget: text }
@@ -263,11 +263,11 @@ collections:
                 widget: list
                 required: false
                 fields:
-                  - { label: "Dibujo", name: arte, widget: select, options: ["hanta", "sol", "pulmon", "casa", "vacuna", "ventilar", "frasco", "carpa", "agua", "gorro", "manos", "sarampion", "oncologia", "conversacion", "lazo", "donacion", "tabaco"] }
+                  - { label: "Dibujo", name: arte, widget: select, options: ["hanta", "sol", "pulmon", "casa", "vacuna", "ventilar", "frasco", "carpa", "agua", "gorro", "manos", "sarampion", "oncologia", "conversacion", "lazo", "donacion", "tabaco", "marea", "olla", "telefono", "lago", "salvavidas", "estufa", "sello", "cerdo", "hojas", "ropa", "termometro"] }
                   - { label: "Texto", name: texto, widget: string }
               - { label: "Enlace", name: url, widget: string }
               - { label: "Texto del botón", name: boton, widget: string }
-              - { label: "Dibujo principal", name: arte, widget: select, options: ["hanta", "sol", "pulmon", "casa", "vacuna", "ventilar", "frasco", "carpa", "agua", "gorro", "manos", "sarampion", "oncologia", "conversacion", "lazo", "donacion", "tabaco"] }
+              - { label: "Dibujo principal", name: arte, widget: select, options: ["hanta", "sol", "pulmon", "casa", "vacuna", "ventilar", "frasco", "carpa", "agua", "gorro", "manos", "sarampion", "oncologia", "conversacion", "lazo", "donacion", "tabaco", "marea", "olla", "telefono", "lago", "salvavidas", "estufa", "sello", "cerdo", "hojas", "ropa", "termometro"] }
           - label: "Campañas"
             name: campanas
             widget: list

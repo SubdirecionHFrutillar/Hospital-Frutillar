@@ -95,6 +95,189 @@
       "arte": "pulmon"
     },
     {
+      "id": "marea-roja",
+      "meses": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "estilo": "rojo",
+      "temporada": "Alerta sanitaria · Región de Los Lagos",
+      "titulo": "Marea roja: cuidado con los mariscos",
+      "texto": "En la región hay zonas con prohibición de extraer mariscos por toxina paralizante. La toxina no cambia el olor ni el sabor y no se elimina al cocinar.",
+      "consejos": [
+        {
+          "arte": "sello",
+          "texto": "Compre mariscos solo en locales autorizados y de origen conocido."
+        },
+        {
+          "arte": "olla",
+          "texto": "Cocinar, el limón o el vinagre no eliminan la toxina."
+        },
+        {
+          "arte": "telefono",
+          "texto": "Hormigueo en labios, lengua o cara tras comer mariscos: vaya de inmediato a Urgencia."
+        }
+      ],
+      "url": "tel:6003607777",
+      "boton": "Dudas: Salud Responde 600 360 7777",
+      "arte": "marea"
+    },
+    {
+      "id": "mariscos-cocidos",
+      "meses": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "estilo": "azul",
+      "temporada": "Verano · Ministerio de Salud",
+      "titulo": "Mariscos, siempre cocidos",
+      "texto": "Con el calor aumentan las diarreas por Vibrio parahaemolyticus, una bacteria de los mariscos crudos. Puede causar diarrea, dolor de estómago, náuseas y fiebre.",
+      "consejos": [
+        {
+          "arte": "olla",
+          "texto": "Hierva los mariscos al menos 5 minutos."
+        },
+        {
+          "arte": "agua",
+          "texto": "El limón no cocina los mariscos."
+        },
+        {
+          "arte": "frasco",
+          "texto": "Manténgalos refrigerados y separados de los alimentos cocidos."
+        }
+      ],
+      "url": "https://www.minsal.cl/consume-mariscos-cocidos/",
+      "boton": "Ver recomendaciones del Minsal",
+      "arte": "olla"
+    },
+    {
+      "id": "lago-seguro",
+      "meses": [
+        12,
+        1,
+        2
+      ],
+      "estilo": "lago",
+      "temporada": "Verano · Hospital de Frutillar",
+      "titulo": "Disfrute el lago con seguridad",
+      "texto": "El agua del Lago Llanquihue es fría incluso en verano y puede causar calambres o hipotermia. Los niños deben estar siempre a la vista de un adulto.",
+      "consejos": [
+        {
+          "arte": "sol",
+          "texto": "Báñese solo en playas habilitadas y con salvavidas."
+        },
+        {
+          "arte": "salvavidas",
+          "texto": "Use chaleco salvavidas en bote, kayak o tabla."
+        },
+        {
+          "arte": "agua",
+          "texto": "No se bañe ni navegue después de beber alcohol."
+        }
+      ],
+      "url": "tel:131",
+      "boton": "Emergencia: llame al 131 (SAMU)",
+      "arte": "lago"
+    },
+    {
+      "id": "tifus-matorrales",
+      "meses": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "estilo": "verde",
+      "temporada": "Verano · Región de Los Lagos",
+      "titulo": "Tifus de los matorrales",
+      "texto": "Lo transmite un ácaro muy pequeño que vive en la vegetación, la leña y el suelo; en la región se han confirmado casos en Chiloé y Llanquihue. Tiene tratamiento con antibióticos.",
+      "consejos": [
+        {
+          "arte": "ropa",
+          "texto": "Use manga larga y pantalón al cortar leña o trabajar entre matorrales."
+        },
+        {
+          "arte": "hojas",
+          "texto": "Al volver, revise su piel y lave su ropa."
+        },
+        {
+          "arte": "termometro",
+          "texto": "Fiebre y una costra negra en la piel: consulte y cuente dónde estuvo."
+        }
+      ],
+      "url": "tel:6003607777",
+      "boton": "Dudas: Salud Responde 600 360 7777",
+      "arte": "hojas"
+    },
+    {
+      "id": "calefaccion-segura",
+      "meses": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "estilo": "gris",
+      "temporada": "Otoño e invierno · Hospital de Frutillar",
+      "titulo": "Calefacción segura en casa",
+      "texto": "Braseros, estufas en mal estado y calefactores en piezas cerradas producen monóxido de carbono, un gas sin olor que puede ser mortal. Si varias personas de la casa tienen dolor de cabeza, mareo o náuseas, salgan al aire libre y consulten.",
+      "consejos": [
+        {
+          "arte": "estufa",
+          "texto": "Nunca use braseros ni estufas en piezas cerradas o mientras duerme."
+        },
+        {
+          "arte": "ventilar",
+          "texto": "Deje siempre una ventilación hacia el exterior."
+        },
+        {
+          "arte": "casa",
+          "texto": "Limpie el cañón de la estufa antes del invierno."
+        }
+      ],
+      "url": "tel:6003607777",
+      "boton": "Dudas: Salud Responde 600 360 7777",
+      "arte": "estufa"
+    },
+    {
+      "id": "triquinosis",
+      "meses": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "estilo": "cafe",
+      "temporada": "Otoño e invierno · Región de Los Lagos",
+      "titulo": "Carne de cerdo, solo con certificación",
+      "texto": "Los Lagos y Los Ríos tienen la mayor incidencia de triquinosis del país. El parásito no se ve ni cambia el sabor, y ahumar, salar o congelar en casa no lo elimina.",
+      "consejos": [
+        {
+          "arte": "sello",
+          "texto": "Compre carne de cerdo, jabalí, longanizas y cecinas con certificación sanitaria."
+        },
+        {
+          "arte": "cerdo",
+          "texto": "Si faena en casa, haga analizar la carne por un médico veterinario antes de comerla."
+        },
+        {
+          "arte": "termometro",
+          "texto": "Diarrea, fiebre, dolores musculares o párpados hinchados tras comer cerdo: consulte."
+        }
+      ],
+      "url": "https://www.minsal.cl/seremi-de-salud-los-rios-reitera-medidas-de-prevencion-ante-caso-confirmado-de-triquinosis/",
+      "boton": "Más información",
+      "arte": "cerdo"
+    },
+    {
       "id": "hodom",
       "meses": [],
       "estilo": "institucional",
