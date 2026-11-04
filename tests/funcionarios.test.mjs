@@ -14,6 +14,7 @@ const ingresar = (await import("../netlify/functions/auth-ingresar.mjs")).defaul
 const yo = (await import("../netlify/functions/auth-yo.mjs")).default;
 const cambiar = (await import("../netlify/functions/auth-cambiar-clave.mjs")).default;
 const admin = (await import("../netlify/functions/admin-usuarios.mjs")).default;
+const foto = (await import("../netlify/functions/perfil-foto.mjs")).default;
 const config = (await import("../netlify/functions/configuracion-inicial.mjs")).default;
 const borde = (await import("../netlify/edge-functions/proteger-portal.js")).default;
 
@@ -114,9 +115,21 @@ test("Administración: crear cuenta, clave temporal, cambio obligatorio y permis
   // Crear funcionario
   let r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "12.345.678-5", nombre: "Ana Pérez", cargo: "TENS", rol: "funcionario" } }));
   assert.equal(r.status, 201);
-  const { claveTemporal, usuario } = await r.json();
-  assert.match(claveTemporal, /^[a-z]{4}-\d{4}-[a-z]{4}$/);
+  const { claveTemporal, claveDeRut, usuario } = await r.json();
+  // Por defecto, la clave inicial son los 4 primeros dígitos del RUT
+  assert.equal(claveTemporal, "1234");
+  assert.equal(claveDeRut, true);
   assert.equal(usuario.debeCambiarClave, true);
+
+  // Vigencia pedida (carga masiva): 7 días; fuera de rango, la normal
+  r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "9.876.543-3", nombre: "Juan Soto", vigenciaHoras: 168 } }));
+  const dias = (Date.parse((await r.json()).usuario.claveTemporalVence) - Date.now()) / 86400000;
+  assert.ok(dias > 6.9 && dias <= 7, `vence en ${dias} días`);
+  r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "15.432.870-K", nombre: "Eva Ruiz", vigenciaHoras: 99999 } }));
+  const horas = (Date.parse((await r.json()).usuario.claveTemporalVence) - Date.now()) / 3600000;
+  assert.ok(horas > 71.9 && horas <= 72);
+  await admin(req("/api/admin/usuarios", { metodo: "DELETE", cookie: cAdmin, datos: { rut: "9876543-3" } }));
+  await admin(req("/api/admin/usuarios", { metodo: "DELETE", cookie: cAdmin, datos: { rut: "15432870-K" } }));
 
   // Duplicado
   r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "12345678-5", nombre: "Ana Pérez" } }));
@@ -240,4 +253,61 @@ test("Administrar: correo de contacto, editar y eliminar cuentas", async () => {
   assert.equal(r.status, 200);
   assert.equal(await U.obtener("12345678-5"), null);
   assert.equal((await admin(req("/api/admin/usuarios", { metodo: "DELETE", cookie: cAdmin, datos: { rut: "12345678-5" } }))).status, 404);
+});
+
+test("Clave inicial aleatoria si se pide con FUNCIONARIOS_CLAVE_ALEATORIA", async () => {
+  process.env.FUNCIONARIOS_CLAVE_ALEATORIA = "si";
+  try {
+    await crearAdmin();
+    const cAdmin = cookieDe(await login(ADMIN.rut, ADMIN.clave));
+    const r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "12.345.678-5", nombre: "Ana Pérez" } }));
+    const j = await r.json();
+    assert.match(j.claveTemporal, /^[a-z]{4}-\d{4}-[a-z]{4}$/);
+    assert.equal(j.claveDeRut, undefined);
+  } finally {
+    delete process.env.FUNCIONARIOS_CLAVE_ALEATORIA;
+  }
+});
+
+test("Foto de perfil: propia, de otros solo el administrador, y se borra con la cuenta", async () => {
+  await crearAdmin();
+  const cAdmin = cookieDe(await login(ADMIN.rut, ADMIN.clave));
+  await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "12.345.678-5", nombre: "Ana Pérez" } }));
+  const imagen = (cookie, ruta = "/api/perfil/foto", tipo = "image/webp", cuerpo = new Uint8Array([1, 2, 3])) =>
+    new Request(BASE + ruta, { method: "PUT", headers: { cookie, origin: BASE, "content-type": tipo }, body: cuerpo });
+  const rutaAna = "/api/perfil/foto/12345678-5";
+  const params = { params: { rut: "12345678-5" } };
+
+  // Con la clave inicial aún no puede cambiar su foto
+  let cAna = cookieDe(await login("12345678-5", "1234"));
+  assert.equal((await foto(imagen(cAna), {})).status, 403);
+  cAna = cookieDe(await cambiar(req("/api/auth/cambiar-clave", { metodo: "POST", cookie: cAna, datos: { actual: "1234", nueva: "Lago2026sur" } })));
+
+  // Sube su foto; la cuenta queda con la versión
+  let r = await foto(imagen(cAna), {});
+  assert.equal(r.status, 200);
+  const v = (await r.json()).usuario.foto;
+  assert.ok(v);
+  assert.equal((await U.obtener("12345678-5")).foto, v);
+  // Tipo y tamaño
+  assert.equal((await foto(imagen(cAna, "/api/perfil/foto", "image/svg+xml"), {})).status, 415);
+  assert.equal((await foto(imagen(cAna, "/api/perfil/foto", "image/png", new Uint8Array(301 * 1024)), {})).status, 413);
+
+  // Cualquiera con sesión la ve; sin sesión, no
+  r = await foto(new Request(BASE + rutaAna, { headers: { cookie: cAdmin } }), params);
+  assert.equal(r.status, 200);
+  assert.equal(r.headers.get("content-type"), "image/webp");
+  assert.equal((await foto(new Request(BASE + rutaAna), params)).status, 401);
+
+  // Un funcionario no cambia la foto de otro; el administrador sí
+  assert.equal((await foto(imagen(cAna, "/api/perfil/foto/11111111-1"), { params: { rut: "11111111-1" } })).status, 403);
+  r = await foto(new Request(BASE + rutaAna, { method: "DELETE", headers: { cookie: cAdmin, origin: BASE } }), params);
+  assert.equal(r.status, 200);
+  assert.equal((await U.obtener("12345678-5")).foto, undefined);
+  assert.equal((await foto(new Request(BASE + rutaAna, { headers: { cookie: cAdmin } }), params)).status, 404);
+
+  // Al eliminar la cuenta se borra la foto
+  await foto(imagen(cAdmin, rutaAna), params);
+  await admin(req("/api/admin/usuarios", { metodo: "DELETE", cookie: cAdmin, datos: { rut: "12345678-5" } }));
+  assert.equal(await U.leerFoto("12345678-5"), null);
 });

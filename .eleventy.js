@@ -1,5 +1,6 @@
 const markdownIt = require("markdown-it");
 const md = markdownIt({ html: true, breaks: true, linkify: true });
+const mdSeguro = markdownIt({ html: false, breaks: true, linkify: true });
 
 const MESES = [
   "enero", "febrero", "marzo", "abril", "mayo", "junio",
@@ -54,10 +55,22 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("cv", (base, ruta) => valorCampo(ruta, base));
   // {% campo ruta, base, "p", "clases" %} → <p data-c="ruta" class="clases">valor</p>
   // data-c-base guarda el texto del repositorio cuando el build aplicó un cambio, para poder volver a él en vivo.
-  eleventyConfig.addShortcode("campo", (ruta, base, tag = "span", clases = "") => {
+  const campoHTML = (ruta, base, tag = "span", clases = "") => {
     const valor = valorCampo(ruta, base);
     const conBase = valor !== (base ?? "") ? ` data-c-base="${esc(base ?? "")}"` : "";
     return `<${tag} data-c="${esc(ruta)}"${clases ? ` class="${esc(clases)}"` : ""}${conBase}>${esc(valor)}</${tag}>`;
+  };
+  eleventyConfig.addShortcode("campo", campoHTML);
+  // Lo mismo como filtro, para usarlo dentro de macros: {{ base | comoCampo(ruta, "strong", "clases") | safe }}
+  eleventyConfig.addFilter("comoCampo", (base, ruta, tag, clases) => campoHTML(ruta, base, tag, clases));
+  // {% campoMd ruta, base, "clases" %} → <div data-c="ruta" data-c-md="texto" class="clases">markdown renderizado</div>
+  // data-c-md guarda el texto fuente para que el navegador sepa si cambió. Lo editado en la intranet
+  // se renderiza sin HTML crudo (mdSeguro); lo del repositorio, igual que antes.
+  eleventyConfig.addShortcode("campoMd", (ruta, base, clases = "") => {
+    const valor = valorCampo(ruta, base);
+    const editado = valor !== (base ?? "");
+    const html = valor ? (editado ? mdSeguro : md).render(valor) : "";
+    return `<div data-c="${esc(ruta)}" data-c-md="${esc(valor)}"${clases ? ` class="${esc(clases)}"` : ""}${editado ? ` data-c-base="${esc(base ?? "")}"` : ""}>${html}</div>`;
   });
 
   // Markdown de los campos editados en el CMS

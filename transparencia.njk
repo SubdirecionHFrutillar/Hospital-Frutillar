@@ -10,10 +10,11 @@ permalink: transparencia.html
 
 {% call ui.dosColumnas() %}
   <div class="min-w-0 flex flex-col gap-6">
-    {{ ui.aviso(transparencia.intro) }}
+    {{ ui.aviso(transparencia.intro | comoCampo("transparencia:intro")) }}
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       {% for s in transparencia.secciones %}
+      {% set rs = "transparencia:secciones#" + s.id %}
       {% set externo = s.enlace and s.enlace.startsWith("http") %}
       <div id="{{ s.id }}" class="scroll-mt-24 bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow flex flex-col">
         <div class="px-4 py-3 flex items-center gap-2 border-b border-gray-100 border-l-4 border-l-primary">
@@ -21,11 +22,11 @@ permalink: transparencia.html
           <h2 class="text-primary-deep font-bold text-sm tracking-wide">{{ s.titulo }}</h2>
         </div>
         <div class="px-4 py-4 flex-1 flex flex-col gap-3">
-          <div class="prose max-w-none text-sm text-gray-700 leading-relaxed flex-1">{{ s.descripcion | markdown | safe }}</div>
+          {% campoMd rs + ".descripcion", s.descripcion, "prose max-w-none text-sm text-gray-700 leading-relaxed flex-1" %}
           {% if s.enlace %}
           <a href="{{ s.enlace }}"{% if externo %} target="_blank" rel="noopener"{% endif %} class="mt-auto inline-flex items-center gap-2 bg-primary-bg text-primary border border-primary-pale text-xs font-bold px-3 py-2 rounded-custom hover:bg-primary-pale transition-colors w-fit">
             <span aria-hidden="true" class="material-symbols-outlined text-base">{{ "open_in_new" if externo else "arrow_forward" }}</span>
-            {{ s.enlace_texto or "Ver más" }}
+            {% campo rs + ".enlace_texto", s.enlace_texto or "Ver más" %}
           </a>
           {% endif %}
         </div>

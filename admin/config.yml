@@ -9,7 +9,8 @@ public_folder: "/img/uploads"
 locale: es
 
 collections:
-  # Servicios, Horarios y Autoridades se editan en el Portal Funcionarios → Contenido del sitio (en vivo, sin regenerar el sitio).
+  # Servicios, Horarios, Autoridades, Preguntas frecuentes, Visitas y Transparencia se editan en el
+  # Portal Funcionarios → Contenido del sitio (en vivo, sin regenerar el sitio).
   - name: "paginas"
     label: "Páginas del sitio"
     files:
@@ -22,22 +23,6 @@ collections:
           - { label: "Visión", name: vision, widget: text }
           - { label: "Historia del hospital", name: historia, widget: markdown }
           - { label: "Plan Estratégico", name: plan_estrategico, widget: markdown }
-
-      - label: "Preguntas Frecuentes"
-        name: "faq"
-        file: "_data/faq.json"
-        fields:
-          - label: "Categorías"
-            name: categorias
-            widget: list
-            fields:
-              - { label: "Título de categoría", name: titulo, widget: string }
-              - label: "Preguntas"
-                name: preguntas
-                widget: list
-                fields:
-                  - { label: "Pregunta", name: pregunta, widget: string }
-                  - { label: "Respuesta", name: respuesta, widget: markdown }
 
       - label: "Contacto"
         name: "contacto"
@@ -90,25 +75,6 @@ collections:
           - { label: "Título", name: titulo, widget: string }
           - { label: "Introducción", name: intro, widget: text }
           - { label: "Contenido", name: body, widget: markdown }
-
-      - label: "Visitas a hospitalizados"
-        name: "visitas"
-        file: "_data/visitas.json"
-        fields:
-          - { label: "Título", name: titulo, widget: string }
-          - { label: "Introducción", name: intro, widget: text }
-          - label: "Horario"
-            name: horario
-            widget: list
-            fields:
-              - { label: "Días", name: dias, widget: string }
-              - { label: "Horario", name: horario, widget: string }
-          - { label: "Nota del horario", name: notaHorario, widget: string, required: false }
-          - { label: "Visitas por paciente (ej: 2 personas a la vez)", name: maximoVisitas, widget: string, required: false }
-          - { label: "Información médica a familiares (horario o modalidad)", name: informeMedico, widget: string, required: false }
-          - { label: "Recomendaciones", name: recomendaciones, widget: list, field: { label: "Recomendación", name: texto, widget: string } }
-          - { label: "Información clínica", name: informacionClinica, widget: markdown }
-          - { label: "Compañía y acompañamiento", name: acompanamiento, widget: markdown }
 
       - label: "¿Dónde consultar?"
         name: "donde_consultar"
@@ -182,22 +148,6 @@ collections:
           - { label: "Información general", name: body, widget: markdown }
           - { label: "Cómo postular", name: como_postular, widget: markdown }
           - { label: "Contacto Recursos Humanos", name: contacto_rrhh, widget: text }
-
-      - label: "Transparencia"
-        name: "transparencia"
-        file: "_data/transparencia.json"
-        fields:
-          - { label: "Introducción", name: intro, widget: text }
-          - label: "Secciones"
-            name: secciones
-            widget: list
-            fields:
-              - { label: "ID (ancla HTML, sin #)", name: id, widget: string }
-              - { label: "Título", name: titulo, widget: string }
-              - { label: "Icono (Material Symbol)", name: icon, widget: string }
-              - { label: "Descripción", name: descripcion, widget: markdown }
-              - { label: "Enlace (URL o ruta)", name: enlace, widget: string, required: false }
-              - { label: "Texto del enlace", name: enlace_texto, widget: string, required: false }
 
       - label: "Campañas de salud (portada)"
         name: "campanas"

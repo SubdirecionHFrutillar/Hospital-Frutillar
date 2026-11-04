@@ -35,6 +35,8 @@ function pintarCabecera(u) {
   if (nombre) nombre.textContent = u.nombre;
   const cargo = $('[data-cab="cargo"]');
   if (cargo) cargo.textContent = u.cargo || formatearRut(u.rut);
+  const foto = $('[data-cab="foto"]');
+  if (foto) foto.replaceChildren(avatar(u, "w-9 h-9 text-xs ring-2 ring-white/25", "bg-white/15 text-white"));
   $$("[data-sesion]").forEach((x) => { x.classList.remove("hidden"); if (x.tagName === "DIV") x.classList.add("flex"); });
   if (u.rol === "admin") $$("[data-solo-admin]").forEach((x) => x.classList.remove("hidden"));
   if (PUBLICA_INTRANET.includes(u.rol)) $$("[data-solo-editor]").forEach((x) => x.classList.remove("hidden"));
@@ -80,6 +82,47 @@ const icono = (nombre, clase = "") => {
   s.setAttribute("aria-hidden", "true");
   return s;
 };
+
+// ── Foto de perfil ─────────────────────────────────────────────────────────
+const iniciales = (n) => (n || "").split(/\s+/).filter(Boolean).slice(0, 2).map((x) => x[0]).join("").toUpperCase() || "?";
+const urlFoto = (u) => (u.foto ? `/api/perfil/foto/${encodeURIComponent(u.rut)}?v=${u.foto}` : "");
+/** Círculo con la foto del funcionario o, si no tiene, sus iniciales. */
+function avatar(u, tam = "w-9 h-9 text-xs", color = "bg-primary-bg text-primary") {
+  const conIniciales = () => {
+    const s = el("span", `${tam} ${color} rounded-full inline-flex items-center justify-center font-bold flex-shrink-0 select-none`, iniciales(u.nombre));
+    s.setAttribute("aria-hidden", "true");
+    return s;
+  };
+  if (!u.foto) return conIniciales();
+  const img = el("img", `${tam} rounded-full object-cover bg-gray-100 flex-shrink-0`);
+  img.src = urlFoto(u);
+  img.alt = "";
+  img.onerror = () => img.replaceWith(conIniciales());
+  return img;
+}
+/** Recorta al centro y deja la foto en 256 × 256 (WebP o JPEG, ~20–40 KB). */
+async function fotoCuadrada(f) {
+  if (!/^image\/(jpeg|png|webp)$/.test(f.type)) throw new Error("La foto debe ser JPG, PNG o WebP.");
+  const bmp = await createImageBitmap(f, { imageOrientation: "from-image" });
+  const lado = Math.min(bmp.width, bmp.height);
+  const lienzo = document.createElement("canvas");
+  lienzo.width = lienzo.height = 256;
+  lienzo.getContext("2d").drawImage(bmp, (bmp.width - lado) / 2, (bmp.height - lado) / 2, lado, lado, 0, 0, 256, 256);
+  bmp.close?.();
+  let blob = await new Promise((r) => lienzo.toBlob(r, "image/webp", 0.82));
+  if (!blob || blob.type !== "image/webp") blob = await new Promise((r) => lienzo.toBlob(r, "image/jpeg", 0.85));
+  return blob;
+}
+/** Sube (o, con f = null, quita) la foto propia o, siendo administrador, la de otra cuenta. */
+async function cambiarFoto(rut, f) {
+  const url = "/api/perfil/foto" + (rut ? `/${encodeURIComponent(rut)}` : "");
+  if (!f) return (await api(url, { metodo: "DELETE" })).usuario;
+  const blob = await fotoCuadrada(f);
+  const r = await fetch(url, { method: "PUT", credentials: "same-origin", headers: { "content-type": blob.type }, body: blob });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || "No se pudo guardar la foto.");
+  return j.usuario;
+}
 
 /**
  * Texto de una publicación → nodos seguros: párrafos, saltos de línea, **negrita** y enlaces https.
@@ -253,7 +296,8 @@ const paginas = {
       const a = el("a", "news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow");
       a.href = `/funcionarios/publicacion.html?id=${p.id}`;
       if (p.imagen) {
-        const img = el("img", "block w-full h-auto max-h-[32rem] object-contain bg-gray-100");
+        // Vista previa: ocupa todo el ancho de la tarjeta con alto fijo, mostrando la parte de arriba (afiches y boletines). Completa, al abrir la publicación.
+        const img = el("img", "block w-full h-56 object-cover object-top bg-gray-100");
         img.src = `/api/intranet/archivos/${p.imagen}?tam=min`;
         img.decoding = "async";
         img.alt = "";
@@ -641,7 +685,10 @@ const paginas = {
       caja.replaceChildren(el("p", "p-6 text-sm text-gray-600 bg-white border border-gray-200 rounded-custom", "Solo Comunicaciones o un administrador puede editar el contenido del sitio."));
       return;
     }
-    const VER = { Servicios: "/servicios.html", Horarios: "/horarios.html", Autoridades: "/quienes-somos.html#autoridades" };
+    const VER = {
+      Servicios: "/servicios.html", Horarios: "/horarios.html", Autoridades: "/quienes-somos.html#autoridades",
+      "Preguntas frecuentes": "/faq.html", Visitas: "/visitas.html", Transparencia: "/transparencia.html",
+    };
     const [campos, inicial] = await Promise.all([
       fetch("/funcionarios/contenido-campos.json", { credentials: "same-origin" }).then((r) => r.json()),
       api("/api/contenido"),
@@ -749,7 +796,8 @@ const paginas = {
         boton.disabled = true;
         const alCambiar = () => (boton.disabled = !Object.keys(lote).length);
         for (const c of lista) {
-          const ancho = c.tipo === "largo" || c.tipo === "foto";
+          const largo = c.tipo === "largo" || c.tipo === "markdown";
+          const ancho = largo || c.tipo === "foto";
           const bloque = el("div", ancho ? "md:col-span-2" : "");
           const id = `c-${c.ruta.replace(/[^a-z0-9]+/gi, "-")}`;
           const lab = el("label", "block text-xs font-bold text-gray-600 mb-1", c.etiqueta);
@@ -757,9 +805,9 @@ const paginas = {
           bloque.append(lab);
           if (c.tipo === "foto") bloque.append(campoFoto(c, lote, alCambiar));
           else {
-            const entrada = el(c.tipo === "largo" ? "textarea" : "input", "w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary");
+            const entrada = el(largo ? "textarea" : "input", "w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary");
             entrada.id = id;
-            if (c.tipo === "largo") entrada.rows = 4;
+            if (largo) entrada.rows = c.tipo === "markdown" ? 6 : 4;
             if (c.max) entrada.maxLength = c.max;
             entrada.value = vigente(c);
             entrada.addEventListener("input", () => {
@@ -768,6 +816,7 @@ const paginas = {
               alCambiar();
             });
             bloque.append(entrada);
+            if (c.ayuda) bloque.append(el("p", "text-[11px] text-gray-400 mt-1", c.ayuda));
           }
           const pie = el("div", "flex flex-wrap items-center gap-3 mt-1 text-[11px] text-gray-500");
           const cambio = estado.cambios[c.ruta];
@@ -932,6 +981,30 @@ const paginas = {
       $("#aviso-temporal").classList.remove("hidden");
       $("#volver-portal").classList.add("hidden");
     }
+    if (!u.debeCambiarClave) {
+      const caja = $("#mi-foto");
+      caja.classList.remove("hidden");
+      const fmsg = $("[data-mi-foto-msg]", caja);
+      const quitar = $("[data-mi-foto-quitar]", caja);
+      const pintarFoto = (yo) => {
+        $("[data-mi-foto]", caja).replaceChildren(avatar(yo, "w-20 h-20 text-2xl"));
+        quitar.classList.toggle("hidden", !yo.foto);
+        $("[data-mi-foto-texto]", caja).textContent = yo.foto ? "Cambiar foto" : "Subir foto";
+        pintarCabecera(yo);
+      };
+      pintarFoto(u);
+      const actualizar = async (f) => {
+        fmsg.textContent = f ? "Guardando…" : "Quitando…";
+        try {
+          pintarFoto(await cambiarFoto(null, f));
+          fmsg.textContent = f ? "Foto guardada." : "Foto quitada.";
+        } catch (err) {
+          fmsg.textContent = err.message;
+        }
+      };
+      $("[data-mi-foto-archivo]", caja).addEventListener("change", (e) => { if (e.target.files[0]) actualizar(e.target.files[0]); e.target.value = ""; });
+      quitar.addEventListener("click", () => actualizar(null));
+    }
     const form = $("#form-clave");
     const msg = $("#mensaje");
     form.addEventListener("submit", async (e) => {
@@ -989,9 +1062,12 @@ const paginas = {
     const caja = $("#clave-entregada");
     let usuarios = [];
 
-    const mostrarClave = (u, clave) => {
+    const mostrarClave = (u, clave, deRut) => {
       $('[data-campo="para"]', caja).textContent = `${u.nombre} (${formatearRut(u.rut)})`;
       $('[data-campo="clave"]', caja).textContent = clave;
+      $('[data-campo="explicacion"]', caja).textContent = deRut
+        ? "Son los 4 primeros dígitos de su RUT. Ingresa con su RUT y esta clave; vence en 72 horas y deberá cambiarla en su primer ingreso."
+        : "Entréguela personalmente. Se muestra solo esta vez y vence en 72 horas; el funcionario deberá cambiarla al ingresar.";
       caja.classList.remove("hidden");
       caja.scrollIntoView({ behavior: "smooth", block: "center" });
     };
@@ -1034,10 +1110,31 @@ const paginas = {
       fe.correo.value = u.correo || "";
       fe.rol.value = u.rol;
       fe.rol.disabled = u.rut === yo.rut;
+      pintarFotoEdicion(u);
       $("[data-eliminar]", dlg).classList.toggle("hidden", u.rut === yo.rut);
       emsg.classList.add("hidden");
       dlg.showModal();
     };
+    const pintarFotoEdicion = (u) => {
+      $("[data-e-foto]", dlg).replaceChildren(avatar(u, "w-16 h-16 text-xl"));
+      $("[data-e-foto-texto]", dlg).textContent = u.foto ? "Cambiar foto" : "Subir foto";
+      $("[data-e-foto-quitar]", dlg).classList.toggle("hidden", !u.foto);
+    };
+    const fotoEdicion = async (f) => {
+      try {
+        const nuevo = await cambiarFoto(editando.rut, f);
+        Object.assign(editando, { foto: nuevo.foto });
+        if (!nuevo.foto) delete editando.foto;
+        pintarFotoEdicion(editando);
+        if (editando.rut === yo.rut) pintarCabecera(nuevo);
+        pintar();
+        emsg.classList.add("hidden");
+      } catch (err) {
+        mensaje(emsg, err.message);
+      }
+    };
+    $("[data-e-foto-archivo]", dlg).addEventListener("change", (e) => { if (e.target.files[0]) fotoEdicion(e.target.files[0]); e.target.value = ""; });
+    $("[data-e-foto-quitar]", dlg).addEventListener("click", () => fotoEdicion(null));
     $$("[data-cancelar]", dlg).forEach((b) => b.addEventListener("click", () => dlg.close()));
     fe.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -1071,12 +1168,16 @@ const paginas = {
     });
 
     const celdaNombre = (u) => {
-      const td = celda(u.nombre, "font-semibold text-gray-800");
+      const td = celda("", "font-semibold text-gray-800");
+      const fila = el("div", "flex items-center gap-3");
+      const datos = el("div", "min-w-0", u.nombre);
       if (u.correo) {
         const a = el("a", "block text-xs font-normal text-primary hover:underline", u.correo);
         a.href = `mailto:${u.correo}`;
-        td.append(a);
+        datos.append(a);
       }
+      fila.append(avatar(u, "w-8 h-8 text-[11px]"), datos);
+      td.append(fila);
       return td;
     };
 
@@ -1130,9 +1231,12 @@ const paginas = {
     const cargar = async () => {
       const r = await api("/api/admin/usuarios");
       usuarios = r.usuarios;
-      $("#modo-clave").textContent = r.claveComunConfigurada
-        ? `Las cuentas nuevas parten con la clave inicial común. Vence a las ${r.vigenciaHoras} horas si el funcionario no ingresa y la cambia.`
-        : `Las cuentas nuevas reciben una clave temporal individual que se muestra una sola vez. Vence a las ${r.vigenciaHoras} horas si no se cambia.`;
+      modoClaveActual = r.modoClave || modoClaveActual;
+      $("#modo-clave").textContent = {
+        comun: `Las cuentas nuevas parten con la clave inicial común. Vence a las ${r.vigenciaHoras} horas si el funcionario no ingresa y la cambia.`,
+        aleatoria: `Las cuentas nuevas reciben una clave temporal individual que se muestra una sola vez. Vence a las ${r.vigenciaHoras} horas si no se cambia.`,
+        rut: `Las cuentas nuevas parten con los 4 primeros dígitos del RUT como clave (p. ej. 12.345.678-5 → 1234). Vence a las ${r.vigenciaHoras} horas y debe cambiarse en el primer ingreso.`,
+      }[r.modoClave || (r.claveComunConfigurada ? "comun" : "aleatoria")];
       pintar();
     };
 
@@ -1153,7 +1257,7 @@ const paginas = {
       try {
         const r = await api("/api/admin/usuarios", { metodo: "PATCH", datos });
         await cargar();
-        if (r.claveTemporal) { msg.classList.add("hidden"); mostrarClave(r.usuario, r.claveTemporal); }
+        if (r.claveTemporal) { msg.classList.add("hidden"); mostrarClave(r.usuario, r.claveTemporal, r.claveDeRut); }
         else if (r.claveComun) mensaje(msg, `Contraseña de ${r.usuario.nombre} restablecida a la clave inicial común. Debe ingresar con ella antes del ${fecha(r.usuario.claveTemporalVence)} y cambiarla.`, "ok");
         else msg.classList.add("hidden");
       } catch (err) {
@@ -1163,6 +1267,17 @@ const paginas = {
     });
 
     const form = $("#form-nuevo");
+    const vistaFoto = $("[data-n-foto-vista]", form);
+    form.foto.addEventListener("change", () => {
+      const f = form.foto.files[0];
+      vistaFoto.replaceChildren();
+      if (f) {
+        const img = el("img", "w-9 h-9 rounded-full object-cover");
+        img.src = URL.createObjectURL(f);
+        img.alt = "";
+        vistaFoto.append(img);
+      }
+    });
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const rut = normalizarRut(form.rut.value);
@@ -1174,13 +1289,19 @@ const paginas = {
           metodo: "POST",
           datos: { rut, nombre: form.nombre.value, cargo: form.cargo.value, correo: form.correo.value.trim(), rol: form.rol.value },
         });
+        const foto = form.foto.files[0];
         form.reset();
+        vistaFoto.replaceChildren();
+        let avisoFoto = "";
+        if (foto) {
+          try { r.usuario = await cambiarFoto(rut, foto); } catch (err) { avisoFoto = ` La foto no se pudo guardar: ${err.message}`; }
+        }
         if (r.claveComun) {
           caja.classList.add("hidden");
-          mensaje(msg, `Cuenta creada para ${r.usuario.nombre}. Debe ingresar con la clave inicial común antes del ${fecha(r.usuario.claveTemporalVence)} y cambiarla.`, "ok");
+          mensaje(msg, `Cuenta creada para ${r.usuario.nombre}. Debe ingresar con la clave inicial común antes del ${fecha(r.usuario.claveTemporalVence)} y cambiarla.${avisoFoto}`, "ok");
         } else {
-          msg.classList.add("hidden");
-          mostrarClave(r.usuario, r.claveTemporal);
+          if (avisoFoto) mensaje(msg, avisoFoto.trim()); else msg.classList.add("hidden");
+          mostrarClave(r.usuario, r.claveTemporal, r.claveDeRut);
         }
         await cargar();
       } catch (err) {
@@ -1189,6 +1310,153 @@ const paginas = {
         btn.disabled = false;
       }
     });
+
+    // ── Carga masiva ──
+    const cm = $("#carga-masiva");
+    const cmResumen = $("#cm-resumen");
+    const cmMsg = $("#cm-mensaje");
+    let modoClaveActual = "rut";
+    const sinTilde = (t) => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toLowerCase();
+    // CSV o texto pegado desde Excel (tabulaciones). Admite comillas y ; , o tab como separador.
+    const leerTabla = (texto) => {
+      const lineas = texto.replace(/^﻿/, "").replace(/\r\n?/g, "\n").split("\n").filter((l) => l.trim());
+      if (!lineas.length) return [];
+      const cuenta = (c) => lineas[0].split(c).length;
+      const sep = ["\t", ";", ","].sort((a, b) => cuenta(b) - cuenta(a))[0];
+      const celdas = (l) => {
+        const out = [];
+        let actual = "", comillas = false;
+        for (let i = 0; i < l.length; i++) {
+          const c = l[i];
+          if (comillas) {
+            if (c === '"' && l[i + 1] === '"') { actual += '"'; i++; }
+            else if (c === '"') comillas = false;
+            else actual += c;
+          } else if (c === '"') comillas = true;
+          else if (c === sep) { out.push(actual.trim()); actual = ""; }
+          else actual += c;
+        }
+        out.push(actual.trim());
+        return out;
+      };
+      let filas = lineas.map(celdas);
+      let cols = { rut: 0, nombre: 1, cargo: 2, correo: 3, rol: 4 };
+      const cab = filas[0].map(sinTilde);
+      if (cab.includes("rut")) {
+        const busca = (...n) => cab.findIndex((x) => n.includes(x));
+        cols = { rut: busca("rut"), nombre: busca("nombre", "nombre completo"), cargo: busca("cargo", "cargo / unidad", "unidad"), correo: busca("correo", "email", "e-mail"), rol: busca("rol") };
+        filas = filas.slice(1);
+      }
+      return filas.map((f, i) => ({ fila: i + 1, rut: f[cols.rut] || "", nombre: f[cols.nombre] || "", cargo: cols.cargo >= 0 ? f[cols.cargo] || "" : "", correo: cols.correo >= 0 ? f[cols.correo] || "" : "", rol: cols.rol >= 0 ? sinTilde(f[cols.rol]) : "" }));
+    };
+    const ROL_TEXTO = { funcionario: "funcionario", editor: "editor", comunicaciones: "comunicaciones", admin: "admin", administrador: "admin" };
+    const clasificar = (filas) => {
+      const existentes = new Set(usuarios.map((u) => u.rut));
+      const vistos = new Set();
+      const r = { nuevas: [], existentes: [], errores: [] };
+      for (const f of filas) {
+        const rut = normalizarRut(f.rut);
+        const rol = f.rol ? ROL_TEXTO[f.rol] : "funcionario";
+        let error = "";
+        if (!rut) error = "RUT inválido";
+        else if (f.nombre.trim().length < 3) error = "Falta el nombre";
+        else if (!rol) error = `Rol desconocido "${f.rol}"`;
+        else if (f.correo && !/^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(f.correo)) error = "Correo inválido";
+        else if (vistos.has(rut)) error = "RUT repetido en la planilla";
+        if (error) { r.errores.push({ ...f, error }); continue; }
+        vistos.add(rut);
+        const cuenta = { rut, nombre: f.nombre.trim(), cargo: f.cargo.trim(), correo: f.correo.trim(), rol };
+        (existentes.has(rut) ? r.existentes : r.nuevas).push(cuenta);
+      }
+      return r;
+    };
+    const descargarCSV = (nombre, filas) => {
+      const txt = "﻿" + filas.map((f) => f.map((x) => `"${String(x ?? "").replace(/"/g, '""')}"`).join(";")).join("\r\n");
+      const a = el("a", "font-bold text-primary underline", nombre);
+      a.href = URL.createObjectURL(new Blob([txt], { type: "text/csv;charset=utf-8" }));
+      a.download = nombre;
+      return a;
+    };
+    const mostrarResumen = (texto) => {
+      cmMsg.classList.add("hidden");
+      const r = clasificar(leerTabla(texto));
+      cmResumen.replaceChildren();
+      cmResumen.classList.remove("hidden");
+      const chips = el("div", "flex flex-wrap gap-2 text-xs font-bold");
+      chips.append(
+        el("span", "px-2.5 py-1 rounded bg-green-100 text-green-800", `${r.nuevas.length} cuenta(s) nueva(s)`),
+        el("span", "px-2.5 py-1 rounded bg-gray-100 text-gray-600", `${r.existentes.length} ya existen (se omiten)`),
+        el("span", `px-2.5 py-1 rounded ${r.errores.length ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-600"}`, `${r.errores.length} con errores`),
+      );
+      cmResumen.append(chips);
+      if (r.errores.length) {
+        const ul = el("ul", "text-xs text-red-700 list-disc pl-5 max-h-32 overflow-auto");
+        r.errores.slice(0, 50).forEach((e) => ul.append(el("li", "", `Fila ${e.fila} (${e.rut || "sin RUT"} ${e.nombre}): ${e.error}`)));
+        cmResumen.append(ul);
+      }
+      if (r.nuevas.length) {
+        const vista = el("div", "border border-gray-200 rounded-custom max-h-64 overflow-auto");
+        const t = el("table", "w-full text-xs");
+        const th = el("tr", "bg-gray-50 text-left text-gray-500");
+        ["RUT", "Nombre", "Cargo / unidad", "Rol"].forEach((x) => th.append(el("th", "px-3 py-2 font-bold sticky top-0 bg-gray-50", x)));
+        t.append(th);
+        r.nuevas.forEach((c) => {
+          const tr = el("tr", "border-t border-gray-100");
+          [formatearRut(c.rut), c.nombre, c.cargo || "—", NOMBRES_ROL[c.rol]].forEach((x) => tr.append(el("td", "px-3 py-1.5", x)));
+          t.append(tr);
+        });
+        vista.append(t);
+        const crear = el("button", "self-start bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-5 py-2 rounded-custom shadow", `Crear ${r.nuevas.length} cuenta(s)`);
+        crear.type = "button";
+        const progreso = el("p", "text-xs text-gray-500");
+        crear.addEventListener("click", async () => {
+          const vigencia = Number($("#cm-vigencia").value);
+          if (!confirm(`¿Crear ${r.nuevas.length} cuentas? La clave inicial vencerá en ${$("#cm-vigencia").selectedOptions[0].textContent}.`)) return;
+          crear.disabled = true;
+          const hechas = [], fallidas = [], claves = [];
+          let i = 0;
+          const trabajar = async () => {
+            while (i < r.nuevas.length) {
+              const c = r.nuevas[i++];
+              try {
+                const res = await api("/api/admin/usuarios", { metodo: "POST", datos: { ...c, vigenciaHoras: vigencia } });
+                hechas.push(res.usuario);
+                if (res.claveTemporal && !res.claveDeRut) claves.push([formatearRut(c.rut), c.nombre, res.claveTemporal]);
+              } catch (err) {
+                fallidas.push([formatearRut(c.rut), c.nombre, err.message]);
+              }
+              progreso.textContent = `Creando… ${hechas.length + fallidas.length} de ${r.nuevas.length}`;
+            }
+          };
+          await Promise.all([trabajar(), trabajar(), trabajar()]);
+          await cargar();
+          cmResumen.replaceChildren();
+          const vence = hechas[0]?.claveTemporalVence;
+          const comoIngresan = {
+            rut: "Cada persona ingresa con su RUT y, como clave, los 4 primeros dígitos de su RUT",
+            comun: "Cada persona ingresa con su RUT y la clave inicial común",
+            aleatoria: "Cada persona ingresa con su RUT y la clave temporal de la lista",
+          }[modoClaveActual];
+          mensaje(cmMsg, `${hechas.length} cuenta(s) creada(s)${fallidas.length ? `, ${fallidas.length} con error` : ""}. ${comoIngresan}${vence ? `, antes del ${fecha(vence)}` : ""}, y la cambia en su primer ingreso.`, fallidas.length ? "error" : "ok");
+          if (claves.length) cmResumen.append(el("p", "text-xs text-amber-800", "Claves temporales (se muestran solo ahora): "), descargarCSV("claves-temporales.csv", [["RUT", "Nombre", "Clave"], ...claves]));
+          if (fallidas.length) cmResumen.append(descargarCSV("cuentas-con-error.csv", [["RUT", "Nombre", "Error"], ...fallidas]));
+          cmResumen.classList.toggle("hidden", !cmResumen.childNodes.length);
+          $("#cm-texto").value = "";
+          $("#cm-archivo").value = "";
+        });
+        cmResumen.append(vista, crear, progreso);
+      }
+    };
+    $("#cm-archivo").addEventListener("change", async (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      let texto = await f.text();
+      // Excel en Windows suele guardar el CSV en Latin-1: si no es UTF-8 válido, se relee.
+      if (texto.includes("�")) texto = new TextDecoder("windows-1252").decode(await f.arrayBuffer());
+      mostrarResumen(texto);
+    });
+    let pausa;
+    $("#cm-texto").addEventListener("input", (e) => { clearTimeout(pausa); pausa = setTimeout(() => e.target.value.trim() && mostrarResumen(e.target.value), 400); });
 
     try { await cargar(); } catch (err) { mensaje(msg, err.message); }
   },

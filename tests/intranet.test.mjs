@@ -388,7 +388,7 @@ test("Contenido del sitio: permisos, validación, historial, volver al original 
 test("Contenido del sitio: las rutas de los campos existen en los datos reales", async () => {
   const fs = await import("node:fs");
   const { listarCampos, leer, campo } = await import("../netlify/lib/contenido-campos.mjs");
-  const datos = Object.fromEntries(["servicios", "horarios", "autoridades"].map((n) => [n, JSON.parse(fs.readFileSync(new URL(`../_data/${n}.json`, import.meta.url)))]));
+  const datos = Object.fromEntries(["servicios", "horarios", "autoridades", "faq", "visitas", "transparencia"].map((n) => [n, JSON.parse(fs.readFileSync(new URL(`../_data/${n}.json`, import.meta.url)))]));
   const campos = listarCampos(datos);
   assert.ok(campos.length > 40);
   for (const c of campos) assert.ok(campo(c.ruta), c.ruta);
@@ -396,8 +396,21 @@ test("Contenido del sitio: las rutas de los campos existen en los datos reales",
   assert.equal(leer(datos, "autoridades:lista#director.nombre"), "Dr. Gerardo Salinas Rossel");
   assert.equal(leer(datos, "servicios:servicios#no-existe.descripcion"), undefined);
   // Los identificadores no se repiten
-  for (const lista of [datos.servicios.servicios, datos.horarios.servicios, datos.autoridades.lista]) {
+  assert.equal(leer(datos, "visitas:recomendaciones.0"), datos.visitas.recomendaciones[0]);
+  assert.equal(leer(datos, "faq:categorias#pagos-fonasa.preguntas#ley-ricarte-soto.pregunta"), "¿Qué es la Ley Ricarte Soto?");
+  for (const s of ["Preguntas frecuentes", "Visitas", "Transparencia"]) assert.ok(campos.some((c) => c.seccion === s), s);
+  for (const lista of [datos.servicios.servicios, datos.horarios.servicios, datos.autoridades.lista, datos.faq.categorias, ...datos.faq.categorias.map((c) => c.preguntas), datos.transparencia.secciones]) {
     const ids = lista.map((x) => x.id);
     assert.equal(new Set(ids).size, ids.length);
   }
+});
+
+test("Contenido del sitio: los textos con formato aceptan varias líneas; los cortos no", async () => {
+  const { validar } = await import("../netlify/lib/contenido.mjs");
+  const md = "Párrafo con **negrita**.\n\n- uno\n- dos";
+  assert.equal(validar({ "visitas:acompanamiento": md }).datos["visitas:acompanamiento"], md);
+  assert.equal(validar({ "faq:categorias#hospital.preguntas#ley-x.respuesta": md }).error, undefined);
+  assert.match(validar({ "visitas:notaHorario": "a\nb" }).error, /una sola línea/);
+  assert.match(validar({ "transparencia:secciones#activa.enlace": "https://x" }).error, /no se puede editar/);
+  assert.match(validar({ "visitas:informacionClinica": "x".repeat(2001) }).error, /2000/);
 });

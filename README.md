@@ -46,6 +46,15 @@ Las contraseñas se guardan cifradas con *scrypt*; la sesión es una cookie firm
 3. Abrir `/funcionarios/configuracion-inicial.html`, ingresar la clave de configuración y los datos del administrador.
 4. Borrar la variable `FUNCIONARIOS_SETUP_KEY` (la página deja de funcionar apenas existe un administrador, pero así queda cerrada del todo).
 
+### Clave inicial
+
+**Por defecto**, cada cuenta nueva (o restablecida) parte con los **4 primeros dígitos del RUT** como clave
+(12.345.678-5 → `1234`). Vence a las 72 horas y el funcionario debe cambiarla en su primer ingreso; hasta
+entonces no puede hacer nada más en el portal. Como el RUT no es secreto, conviene que la persona ingrese y la
+cambie el mismo día en que se crea la cuenta.
+
+Con `FUNCIONARIOS_CLAVE_ALEATORIA=si` se vuelve a la clave temporal aleatoria (se muestra una sola vez).
+
 ### Clave inicial común (opcional)
 
 Si se define la variable `FUNCIONARIOS_CLAVE_INICIAL` (secreta, alcance *Functions*), todas las cuentas
@@ -56,11 +65,15 @@ nuevas (y las restablecidas) parten con esa clave en vez de una individual. Hay 
   *Restablecer clave*, que vuelve a la clave común con 72 horas nuevas.
 - Conviene comunicarla por un canal interno y cambiarla de vez en cuando.
 
-Sin esta variable, cada cuenta nueva recibe una clave temporal individual que se muestra una sola vez.
+Esta variable tiene prioridad sobre las otras dos opciones.
 
 ### Uso diario
 
-- **Crear cuentas:** Portal → *Administrar cuentas*. La cuenta parte con la clave inicial común o con una clave temporal individual (ver arriba); en ambos casos el funcionario debe cambiarla en su primer ingreso.
+- **Crear cuentas:** Portal → *Administrar cuentas*. La cuenta parte con la clave inicial (ver arriba) y el funcionario debe cambiarla en su primer ingreso. La **foto de perfil** es opcional: la puede subir el administrador (al crear o editar la cuenta) o el propio funcionario en *Mi cuenta* (clic en su nombre, arriba a la derecha). Se guarda recortada a 256 × 256 en Netlify Blobs y solo se ve dentro del portal.
+- **Carga masiva:** *Administrar cuentas → Carga masiva de cuentas*. Se sube un CSV (o se pegan filas desde
+  Excel) con `rut; nombre; cargo; correo; rol`; muestra una vista previa, omite las cuentas que ya existen y
+  permite elegir cuánto dura la clave inicial (hasta 30 días). Los datos personales **no** se guardan en el
+  repositorio: el CSV se procesa en el navegador y solo viajan las cuentas a la API.
 - **Olvidó su contraseña:** el administrador usa *Restablecer clave* y entrega la nueva temporal.
 - **Dejar sin acceso:** *Desactivar* (cierra sus sesiones abiertas).
 - **Agregar accesos al portal:** editar `_data/portal.json`.
@@ -175,7 +188,7 @@ clínica; apuntan a los documentos y carpetas de Google Drive (los mismos que us
 ## Contenido del sitio editable desde la intranet
 
 **Portal → Contenido del sitio** (roles Comunicaciones y Administrador): textos y fotos de **Servicios**,
-**Horarios** y **Autoridades**. Los cambios se ven al instante y **no regeneran el sitio** (no gastan los
+**Horarios**, **Autoridades**, **Preguntas frecuentes**, **Visitas** y **Transparencia**. Los cambios se ven al instante y **no regeneran el sitio** (no gastan los
 15 créditos por publicación).
 
 - Se guardan en Netlify Blobs (almacén `contenido`): solo lo que difiere del repositorio, con autor, fecha e
@@ -185,5 +198,9 @@ clínica; apuntan a los documentos y carpetas de Google Drive (los mismos que us
   en el HTML.
 - Las rutas usan identificadores estables (`servicios:servicios#farmacia.horario`); los campos permitidos
   están en `netlify/lib/contenido-campos.mjs`.
-- Estas secciones ya no están en el CMS `/admin`. Agregar o quitar un servicio, una fila de horario o una
-  autoridad sigue siendo un cambio de código (con su `id`).
+- Los textos con formato (respuestas de FAQ, descripciones de Transparencia, información clínica de Visitas)
+  usan `{% campoMd ruta, base, "clases" %}`: Markdown simple (**negrita**, listas con "- ", enlaces), sin HTML.
+- Los datos opcionales (p. ej. "Visitas por paciente") van siempre en el HTML con `data-c-ocultar-vacio`, para
+  poder completarlos o vaciarlos desde la intranet.
+- Estas secciones ya no están en el CMS `/admin`. Agregar o quitar un servicio, una fila de horario, una
+  autoridad, una pregunta o una sección de Transparencia sigue siendo un cambio de código (con su `id`).

@@ -20,9 +20,12 @@ export const BLOQUEO_MIN = 15;
 export const VIGENCIA_TEMPORAL_HORAS = 72;
 
 /** Fecha ISO en que vence una clave temporal creada ahora. */
-export function venceTemporal(ahora = Date.now()) {
-  return new Date(ahora + VIGENCIA_TEMPORAL_HORAS * 3600_000).toISOString();
+export function venceTemporal(ahora = Date.now(), horas = VIGENCIA_TEMPORAL_HORAS) {
+  return new Date(ahora + horas * 3600_000).toISOString();
 }
+/** Vigencia pedida por el administrador (p. ej. en una carga masiva): entre 1 hora y 30 días. */
+export const MAX_VIGENCIA_HORAS = 30 * 24;
+export const vigenciaValida = (h) => (Number.isInteger(h) && h >= 1 && h <= MAX_VIGENCIA_HORAS ? h : VIGENCIA_TEMPORAL_HORAS);
 
 /** ¿La clave temporal de este usuario ya venció? (cuentas antiguas sin fecha no vencen) */
 export function temporalVencida(u, ahora = Date.now()) {
@@ -76,6 +79,40 @@ export function claveTemporal() {
   return `${pick(letras, 4)}-${pick(nums, 4)}-${pick(letras, 4)}`;
 }
 
+/** Clave inicial por defecto: los 4 primeros dígitos del RUT ("12.345.678-5" → "1234"). */
+export const claveDeRut = (rut) => String(rut).split("-")[0].slice(0, 4);
+
+/**
+ * Clave con que parte (o se restablece) una cuenta:
+ *  - FUNCIONARIOS_CLAVE_INICIAL definida → esa clave común (no se devuelve: el administrador la conoce);
+ *  - FUNCIONARIOS_CLAVE_ALEATORIA = "si" → clave temporal aleatoria, que se muestra una sola vez;
+ *  - si no (por defecto) → los 4 primeros dígitos del RUT.
+ * En todos los casos vence a las 72 h y debe cambiarse en el primer ingreso.
+ */
+export function claveInicial(rut, leerEnv) {
+  const comun = leerEnv("FUNCIONARIOS_CLAVE_INICIAL");
+  if (comun) return { clave: comun, modo: "comun" };
+  if (/^(1|si|sí|true)$/i.test(leerEnv("FUNCIONARIOS_CLAVE_ALEATORIA") || "")) return { clave: claveTemporal(), modo: "aleatoria" };
+  return { clave: claveDeRut(rut), modo: "rut" };
+}
+export const modoClave = (leerEnv) => claveInicial("0-0", leerEnv).modo;
+
+// ── Foto de perfil (opcional) ──────────────────────────────────────────────
+// fotos/<rut> → imagen pequeña (el navegador la deja en 256 × 256). En la cuenta queda `foto`
+// con una versión corta, para que la URL cambie cuando cambia la foto (caché larga).
+export const TIPOS_FOTO = ["image/jpeg", "image/png", "image/webp"];
+export const MAX_FOTO_KB = 300;
+const kF = (rut) => `fotos/${rut}`;
+export async function guardarFoto(rut, datos, tipo) {
+  await (await almacen()).set(kF(rut), datos, { metadata: { tipo } });
+}
+export async function leerFoto(rut) {
+  return (await almacen()).getWithMetadata(kF(rut), { type: "arrayBuffer" });
+}
+export async function borrarFoto(rut) {
+  await (await almacen()).delete(kF(rut));
+}
+
 // ── Usuarios ───────────────────────────────────────────────────────────────
 const kU = (rut) => `usuarios/${rut}`;
 const kI = (rut) => `intentos/${rut}`;
@@ -98,6 +135,7 @@ export async function eliminar(rut) {
   const st = await almacen();
   await st.delete(kU(rut));
   await st.delete(kI(rut));
+  await st.delete(kF(rut));
 }
 /** Correo de contacto opcional: "" si viene vacío, null si es inválido. */
 export function correoValido(v) {

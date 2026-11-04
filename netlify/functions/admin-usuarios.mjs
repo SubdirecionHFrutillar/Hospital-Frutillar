@@ -1,14 +1,19 @@
 // Gestión de cuentas (solo rol "admin").
 //   GET   /api/admin/usuarios                         → lista
-//   POST  /api/admin/usuarios  { rut, nombre, cargo, rol }   → crea la cuenta
-//         Si FUNCIONARIOS_CLAVE_INICIAL está definida, la cuenta parte con esa clave común;
-//         si no, se genera una clave temporal individual (que se devuelve una sola vez).
-//         En ambos casos vence a las 72 h si no se cambia.
+//   POST  /api/admin/usuarios  { rut, nombre, cargo, rol, correo?, vigenciaHoras? }   → crea la cuenta
+//         (vigenciaHoras: cuánto dura la clave inicial; por defecto 72, máximo 30 días, p. ej. para cargas masivas)
+//         Clave inicial (ver claveInicial en lib/usuarios.mjs): por defecto los 4 primeros dígitos del RUT;
+//         con FUNCIONARIOS_CLAVE_INICIAL, esa clave común; con FUNCIONARIOS_CLAVE_ALEATORIA=si, una aleatoria.
+//         En todos los casos vence a las 72 h si no se cambia.
 //   PATCH /api/admin/usuarios  { rut, accion: "restablecer" | "activar" | "desactivar" | "editar", nombre?, cargo?, rol?, correo? }
 //   DELETE /api/admin/usuarios { rut }  → elimina la cuenta (no la propia ni el último administrador)
 import { normalizarRut } from "../lib/rut.mjs";
 import * as U from "../lib/usuarios.mjs";
 import { manejador, sesionActual, leerJSON, json, error, env } from "../lib/http.mjs";
+
+// La clave común nunca viaja en la respuesta (el administrador ya la conoce).
+const entregarClave = (clave, modo) =>
+  modo === "comun" ? { claveComun: true } : { claveTemporal: clave, ...(modo === "rut" && { claveDeRut: true }) };
 
 const texto = (v, max = 120) => (typeof v === "string" ? v.trim().replace(/\s+/g, " ").slice(0, max) : "");
 
@@ -22,6 +27,7 @@ export default manejador(["GET", "POST", "PATCH", "DELETE"], async (req) => {
     return json({
       usuarios: (await U.listar()).map(U.publico),
       claveComunConfigurada: !!env("FUNCIONARIOS_CLAVE_INICIAL"),
+      modoClave: U.modoClave(env),
       vigenciaHoras: U.VIGENCIA_TEMPORAL_HORAS,
     });
   }
@@ -38,16 +44,14 @@ export default manejador(["GET", "POST", "PATCH", "DELETE"], async (req) => {
     const correo = U.correoValido(datos.correo);
     if (correo === null) return error("El correo de contacto no es válido.");
 
-    const comun = env("FUNCIONARIOS_CLAVE_INICIAL");
-    const temporal = comun || U.claveTemporal();
+    const { clave: temporal, modo } = U.claveInicial(rut, env);
     const ahora = new Date().toISOString();
     const nuevo = await U.guardar({
       rut, nombre, cargo: texto(datos.cargo), correo, rol, activo: true,
-      hash: await U.hashClave(temporal), sv: 1, debeCambiarClave: true, claveTemporalVence: U.venceTemporal(),
+      hash: await U.hashClave(temporal), sv: 1, debeCambiarClave: true, claveTemporalVence: U.venceTemporal(Date.now(), U.vigenciaValida(datos.vigenciaHoras)),
       creado: ahora, creadoPor: yo.rut, ultimoAcceso: null,
     });
-    // La clave común nunca se devuelve: el administrador ya la conoce.
-    return json({ usuario: U.publico(nuevo), ...(comun ? { claveComun: true } : { claveTemporal: temporal }) }, 201);
+    return json({ usuario: U.publico(nuevo), ...entregarClave(temporal, modo) }, 201);
   }
 
   const u = await U.obtener(rut);
@@ -63,16 +67,13 @@ export default manejador(["GET", "POST", "PATCH", "DELETE"], async (req) => {
   }
 
   // PATCH
-  let claveTemporal;
-  let claveComun = false;
+  let entrega = {};
 
   switch (datos.accion) {
     case "restablecer": {
-      // Con FUNCIONARIOS_CLAVE_INICIAL definida se vuelve a la clave común (no se devuelve);
-      // si no, se genera una clave temporal individual que se muestra una sola vez.
-      const comun = env("FUNCIONARIOS_CLAVE_INICIAL");
-      if (comun) claveComun = true; else claveTemporal = U.claveTemporal();
-      u.hash = await U.hashClave(comun || claveTemporal);
+      const { clave, modo } = U.claveInicial(rut, env);
+      entrega = entregarClave(clave, modo);
+      u.hash = await U.hashClave(clave);
       u.debeCambiarClave = true;
       u.claveTemporalVence = U.venceTemporal();
       u.sv += 1;
@@ -112,7 +113,7 @@ export default manejador(["GET", "POST", "PATCH", "DELETE"], async (req) => {
       return error("Acción no reconocida.");
   }
   await U.guardar(u);
-  return json({ usuario: U.publico(u), ...(claveTemporal && { claveTemporal }), ...(claveComun && { claveComun }) });
+  return json({ usuario: U.publico(u), ...entrega });
 });
 
 export const config = { path: "/api/admin/usuarios" };
