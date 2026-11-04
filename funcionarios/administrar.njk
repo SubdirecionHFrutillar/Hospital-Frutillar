@@ -44,6 +44,38 @@ permalink: funcionarios/administrar.html
     </form>
   {% endcall %}
 
+  <details id="carga-masiva" class="bg-white border border-gray-200 rounded-custom shadow-sm">
+    <summary class="px-5 py-4 flex items-center gap-2 cursor-pointer font-bold text-primary-deep">
+      <span aria-hidden="true" class="material-symbols-outlined text-primary">group_add</span>Carga masiva de cuentas
+      <span class="font-normal text-xs text-gray-500">(desde una planilla)</span>
+    </summary>
+    <div class="px-5 pb-5 pt-1 flex flex-col gap-4 text-sm">
+      <p class="text-gray-600">Suba un archivo <strong>CSV</strong> (Excel → Guardar como → CSV) o pegue las filas copiadas desde Excel. Columnas, con encabezado:
+        <code class="text-xs bg-gray-100 px-1.5 py-0.5 rounded">rut; nombre; cargo; correo; rol</code>. Solo <em>rut</em> y <em>nombre</em> son obligatorios; el rol por defecto es <em>funcionario</em>. Las cuentas que ya existen se omiten.</p>
+      <div class="flex flex-wrap items-end gap-4">
+        <div>
+          <label for="cm-archivo" class="block text-xs font-bold text-gray-600 mb-1">Archivo CSV</label>
+          <input id="cm-archivo" type="file" accept=".csv,.txt,text/csv,text/plain" class="text-xs">
+        </div>
+        <div>
+          <label for="cm-vigencia" class="block text-xs font-bold text-gray-600 mb-1">La clave inicial vence en</label>
+          <select id="cm-vigencia" class="border-gray-300 rounded-custom px-3 py-2 text-sm">
+            <option value="72">72 horas</option>
+            <option value="168" selected>7 días</option>
+            <option value="336">14 días</option>
+            <option value="720">30 días</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label for="cm-texto" class="block text-xs font-bold text-gray-600 mb-1">… o pegue aquí las filas</label>
+        <textarea id="cm-texto" rows="4" class="w-full border-gray-300 rounded-custom px-3 py-2 text-xs font-mono" placeholder="rut;nombre;cargo;correo;rol&#10;12.345.678-5;Ana Pérez Soto;TENS · Urgencia;;funcionario"></textarea>
+      </div>
+      <div id="cm-resumen" class="hidden flex flex-col gap-3"></div>
+      <p id="cm-mensaje" role="status" class="hidden text-sm rounded-custom px-4 py-3"></p>
+    </div>
+  </details>
+
   <div id="clave-entregada" role="status" class="hidden bg-amber-50 border border-amber-200 rounded-custom px-5 py-4 text-sm text-amber-900">
     <p class="font-bold mb-1">Clave inicial para <span data-campo="para"></span></p>
     <p class="mb-2" data-campo="explicacion"></p>

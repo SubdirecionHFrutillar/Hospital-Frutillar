@@ -121,6 +121,16 @@ test("Administración: crear cuenta, clave temporal, cambio obligatorio y permis
   assert.equal(claveDeRut, true);
   assert.equal(usuario.debeCambiarClave, true);
 
+  // Vigencia pedida (carga masiva): 7 días; fuera de rango, la normal
+  r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "9.876.543-3", nombre: "Juan Soto", vigenciaHoras: 168 } }));
+  const dias = (Date.parse((await r.json()).usuario.claveTemporalVence) - Date.now()) / 86400000;
+  assert.ok(dias > 6.9 && dias <= 7, `vence en ${dias} días`);
+  r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "15.432.870-K", nombre: "Eva Ruiz", vigenciaHoras: 99999 } }));
+  const horas = (Date.parse((await r.json()).usuario.claveTemporalVence) - Date.now()) / 3600000;
+  assert.ok(horas > 71.9 && horas <= 72);
+  await admin(req("/api/admin/usuarios", { metodo: "DELETE", cookie: cAdmin, datos: { rut: "9876543-3" } }));
+  await admin(req("/api/admin/usuarios", { metodo: "DELETE", cookie: cAdmin, datos: { rut: "15432870-K" } }));
+
   // Duplicado
   r = await admin(req("/api/admin/usuarios", { metodo: "POST", cookie: cAdmin, datos: { rut: "12345678-5", nombre: "Ana Pérez" } }));
   assert.equal(r.status, 409);

@@ -70,6 +70,10 @@ Esta variable tiene prioridad sobre las otras dos opciones.
 ### Uso diario
 
 - **Crear cuentas:** Portal → *Administrar cuentas*. La cuenta parte con la clave inicial (ver arriba) y el funcionario debe cambiarla en su primer ingreso. La **foto de perfil** es opcional: la puede subir el administrador (al crear o editar la cuenta) o el propio funcionario en *Mi cuenta* (clic en su nombre, arriba a la derecha). Se guarda recortada a 256 × 256 en Netlify Blobs y solo se ve dentro del portal.
+- **Carga masiva:** *Administrar cuentas → Carga masiva de cuentas*. Se sube un CSV (o se pegan filas desde
+  Excel) con `rut; nombre; cargo; correo; rol`; muestra una vista previa, omite las cuentas que ya existen y
+  permite elegir cuánto dura la clave inicial (hasta 30 días). Los datos personales **no** se guardan en el
+  repositorio: el CSV se procesa en el navegador y solo viajan las cuentas a la API.
 - **Olvidó su contraseña:** el administrador usa *Restablecer clave* y entrega la nueva temporal.
 - **Dejar sin acceso:** *Desactivar* (cierra sus sesiones abiertas).
 - **Agregar accesos al portal:** editar `_data/portal.json`.

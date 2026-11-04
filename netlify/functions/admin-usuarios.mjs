@@ -1,6 +1,7 @@
 // Gestión de cuentas (solo rol "admin").
 //   GET   /api/admin/usuarios                         → lista
-//   POST  /api/admin/usuarios  { rut, nombre, cargo, rol }   → crea la cuenta
+//   POST  /api/admin/usuarios  { rut, nombre, cargo, rol, correo?, vigenciaHoras? }   → crea la cuenta
+//         (vigenciaHoras: cuánto dura la clave inicial; por defecto 72, máximo 30 días, p. ej. para cargas masivas)
 //         Clave inicial (ver claveInicial en lib/usuarios.mjs): por defecto los 4 primeros dígitos del RUT;
 //         con FUNCIONARIOS_CLAVE_INICIAL, esa clave común; con FUNCIONARIOS_CLAVE_ALEATORIA=si, una aleatoria.
 //         En todos los casos vence a las 72 h si no se cambia.
@@ -47,7 +48,7 @@ export default manejador(["GET", "POST", "PATCH", "DELETE"], async (req) => {
     const ahora = new Date().toISOString();
     const nuevo = await U.guardar({
       rut, nombre, cargo: texto(datos.cargo), correo, rol, activo: true,
-      hash: await U.hashClave(temporal), sv: 1, debeCambiarClave: true, claveTemporalVence: U.venceTemporal(),
+      hash: await U.hashClave(temporal), sv: 1, debeCambiarClave: true, claveTemporalVence: U.venceTemporal(Date.now(), U.vigenciaValida(datos.vigenciaHoras)),
       creado: ahora, creadoPor: yo.rut, ultimoAcceso: null,
     });
     return json({ usuario: U.publico(nuevo), ...entregarClave(temporal, modo) }, 201);

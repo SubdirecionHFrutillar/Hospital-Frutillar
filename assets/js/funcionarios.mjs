@@ -1231,6 +1231,7 @@ const paginas = {
     const cargar = async () => {
       const r = await api("/api/admin/usuarios");
       usuarios = r.usuarios;
+      modoClaveActual = r.modoClave || modoClaveActual;
       $("#modo-clave").textContent = {
         comun: `Las cuentas nuevas parten con la clave inicial común. Vence a las ${r.vigenciaHoras} horas si el funcionario no ingresa y la cambia.`,
         aleatoria: `Las cuentas nuevas reciben una clave temporal individual que se muestra una sola vez. Vence a las ${r.vigenciaHoras} horas si no se cambia.`,
@@ -1309,6 +1310,153 @@ const paginas = {
         btn.disabled = false;
       }
     });
+
+    // ── Carga masiva ──
+    const cm = $("#carga-masiva");
+    const cmResumen = $("#cm-resumen");
+    const cmMsg = $("#cm-mensaje");
+    let modoClaveActual = "rut";
+    const sinTilde = (t) => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toLowerCase();
+    // CSV o texto pegado desde Excel (tabulaciones). Admite comillas y ; , o tab como separador.
+    const leerTabla = (texto) => {
+      const lineas = texto.replace(/^﻿/, "").replace(/\r\n?/g, "\n").split("\n").filter((l) => l.trim());
+      if (!lineas.length) return [];
+      const cuenta = (c) => lineas[0].split(c).length;
+      const sep = ["\t", ";", ","].sort((a, b) => cuenta(b) - cuenta(a))[0];
+      const celdas = (l) => {
+        const out = [];
+        let actual = "", comillas = false;
+        for (let i = 0; i < l.length; i++) {
+          const c = l[i];
+          if (comillas) {
+            if (c === '"' && l[i + 1] === '"') { actual += '"'; i++; }
+            else if (c === '"') comillas = false;
+            else actual += c;
+          } else if (c === '"') comillas = true;
+          else if (c === sep) { out.push(actual.trim()); actual = ""; }
+          else actual += c;
+        }
+        out.push(actual.trim());
+        return out;
+      };
+      let filas = lineas.map(celdas);
+      let cols = { rut: 0, nombre: 1, cargo: 2, correo: 3, rol: 4 };
+      const cab = filas[0].map(sinTilde);
+      if (cab.includes("rut")) {
+        const busca = (...n) => cab.findIndex((x) => n.includes(x));
+        cols = { rut: busca("rut"), nombre: busca("nombre", "nombre completo"), cargo: busca("cargo", "cargo / unidad", "unidad"), correo: busca("correo", "email", "e-mail"), rol: busca("rol") };
+        filas = filas.slice(1);
+      }
+      return filas.map((f, i) => ({ fila: i + 1, rut: f[cols.rut] || "", nombre: f[cols.nombre] || "", cargo: cols.cargo >= 0 ? f[cols.cargo] || "" : "", correo: cols.correo >= 0 ? f[cols.correo] || "" : "", rol: cols.rol >= 0 ? sinTilde(f[cols.rol]) : "" }));
+    };
+    const ROL_TEXTO = { funcionario: "funcionario", editor: "editor", comunicaciones: "comunicaciones", admin: "admin", administrador: "admin" };
+    const clasificar = (filas) => {
+      const existentes = new Set(usuarios.map((u) => u.rut));
+      const vistos = new Set();
+      const r = { nuevas: [], existentes: [], errores: [] };
+      for (const f of filas) {
+        const rut = normalizarRut(f.rut);
+        const rol = f.rol ? ROL_TEXTO[f.rol] : "funcionario";
+        let error = "";
+        if (!rut) error = "RUT inválido";
+        else if (f.nombre.trim().length < 3) error = "Falta el nombre";
+        else if (!rol) error = `Rol desconocido "${f.rol}"`;
+        else if (f.correo && !/^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(f.correo)) error = "Correo inválido";
+        else if (vistos.has(rut)) error = "RUT repetido en la planilla";
+        if (error) { r.errores.push({ ...f, error }); continue; }
+        vistos.add(rut);
+        const cuenta = { rut, nombre: f.nombre.trim(), cargo: f.cargo.trim(), correo: f.correo.trim(), rol };
+        (existentes.has(rut) ? r.existentes : r.nuevas).push(cuenta);
+      }
+      return r;
+    };
+    const descargarCSV = (nombre, filas) => {
+      const txt = "﻿" + filas.map((f) => f.map((x) => `"${String(x ?? "").replace(/"/g, '""')}"`).join(";")).join("\r\n");
+      const a = el("a", "font-bold text-primary underline", nombre);
+      a.href = URL.createObjectURL(new Blob([txt], { type: "text/csv;charset=utf-8" }));
+      a.download = nombre;
+      return a;
+    };
+    const mostrarResumen = (texto) => {
+      cmMsg.classList.add("hidden");
+      const r = clasificar(leerTabla(texto));
+      cmResumen.replaceChildren();
+      cmResumen.classList.remove("hidden");
+      const chips = el("div", "flex flex-wrap gap-2 text-xs font-bold");
+      chips.append(
+        el("span", "px-2.5 py-1 rounded bg-green-100 text-green-800", `${r.nuevas.length} cuenta(s) nueva(s)`),
+        el("span", "px-2.5 py-1 rounded bg-gray-100 text-gray-600", `${r.existentes.length} ya existen (se omiten)`),
+        el("span", `px-2.5 py-1 rounded ${r.errores.length ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-600"}`, `${r.errores.length} con errores`),
+      );
+      cmResumen.append(chips);
+      if (r.errores.length) {
+        const ul = el("ul", "text-xs text-red-700 list-disc pl-5 max-h-32 overflow-auto");
+        r.errores.slice(0, 50).forEach((e) => ul.append(el("li", "", `Fila ${e.fila} (${e.rut || "sin RUT"} ${e.nombre}): ${e.error}`)));
+        cmResumen.append(ul);
+      }
+      if (r.nuevas.length) {
+        const vista = el("div", "border border-gray-200 rounded-custom max-h-64 overflow-auto");
+        const t = el("table", "w-full text-xs");
+        const th = el("tr", "bg-gray-50 text-left text-gray-500");
+        ["RUT", "Nombre", "Cargo / unidad", "Rol"].forEach((x) => th.append(el("th", "px-3 py-2 font-bold sticky top-0 bg-gray-50", x)));
+        t.append(th);
+        r.nuevas.forEach((c) => {
+          const tr = el("tr", "border-t border-gray-100");
+          [formatearRut(c.rut), c.nombre, c.cargo || "—", NOMBRES_ROL[c.rol]].forEach((x) => tr.append(el("td", "px-3 py-1.5", x)));
+          t.append(tr);
+        });
+        vista.append(t);
+        const crear = el("button", "self-start bg-primary hover:bg-primary-dark disabled:opacity-60 text-white font-bold text-sm px-5 py-2 rounded-custom shadow", `Crear ${r.nuevas.length} cuenta(s)`);
+        crear.type = "button";
+        const progreso = el("p", "text-xs text-gray-500");
+        crear.addEventListener("click", async () => {
+          const vigencia = Number($("#cm-vigencia").value);
+          if (!confirm(`¿Crear ${r.nuevas.length} cuentas? La clave inicial vencerá en ${$("#cm-vigencia").selectedOptions[0].textContent}.`)) return;
+          crear.disabled = true;
+          const hechas = [], fallidas = [], claves = [];
+          let i = 0;
+          const trabajar = async () => {
+            while (i < r.nuevas.length) {
+              const c = r.nuevas[i++];
+              try {
+                const res = await api("/api/admin/usuarios", { metodo: "POST", datos: { ...c, vigenciaHoras: vigencia } });
+                hechas.push(res.usuario);
+                if (res.claveTemporal && !res.claveDeRut) claves.push([formatearRut(c.rut), c.nombre, res.claveTemporal]);
+              } catch (err) {
+                fallidas.push([formatearRut(c.rut), c.nombre, err.message]);
+              }
+              progreso.textContent = `Creando… ${hechas.length + fallidas.length} de ${r.nuevas.length}`;
+            }
+          };
+          await Promise.all([trabajar(), trabajar(), trabajar()]);
+          await cargar();
+          cmResumen.replaceChildren();
+          const vence = hechas[0]?.claveTemporalVence;
+          const comoIngresan = {
+            rut: "Cada persona ingresa con su RUT y, como clave, los 4 primeros dígitos de su RUT",
+            comun: "Cada persona ingresa con su RUT y la clave inicial común",
+            aleatoria: "Cada persona ingresa con su RUT y la clave temporal de la lista",
+          }[modoClaveActual];
+          mensaje(cmMsg, `${hechas.length} cuenta(s) creada(s)${fallidas.length ? `, ${fallidas.length} con error` : ""}. ${comoIngresan}${vence ? `, antes del ${fecha(vence)}` : ""}, y la cambia en su primer ingreso.`, fallidas.length ? "error" : "ok");
+          if (claves.length) cmResumen.append(el("p", "text-xs text-amber-800", "Claves temporales (se muestran solo ahora): "), descargarCSV("claves-temporales.csv", [["RUT", "Nombre", "Clave"], ...claves]));
+          if (fallidas.length) cmResumen.append(descargarCSV("cuentas-con-error.csv", [["RUT", "Nombre", "Error"], ...fallidas]));
+          cmResumen.classList.toggle("hidden", !cmResumen.childNodes.length);
+          $("#cm-texto").value = "";
+          $("#cm-archivo").value = "";
+        });
+        cmResumen.append(vista, crear, progreso);
+      }
+    };
+    $("#cm-archivo").addEventListener("change", async (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      let texto = await f.text();
+      // Excel en Windows suele guardar el CSV en Latin-1: si no es UTF-8 válido, se relee.
+      if (texto.includes("�")) texto = new TextDecoder("windows-1252").decode(await f.arrayBuffer());
+      mostrarResumen(texto);
+    });
+    let pausa;
+    $("#cm-texto").addEventListener("input", (e) => { clearTimeout(pausa); pausa = setTimeout(() => e.target.value.trim() && mostrarResumen(e.target.value), 400); });
 
     try { await cargar(); } catch (err) { mensaje(msg, err.message); }
   },

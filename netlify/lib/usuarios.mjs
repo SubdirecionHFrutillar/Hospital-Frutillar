@@ -20,9 +20,12 @@ export const BLOQUEO_MIN = 15;
 export const VIGENCIA_TEMPORAL_HORAS = 72;
 
 /** Fecha ISO en que vence una clave temporal creada ahora. */
-export function venceTemporal(ahora = Date.now()) {
-  return new Date(ahora + VIGENCIA_TEMPORAL_HORAS * 3600_000).toISOString();
+export function venceTemporal(ahora = Date.now(), horas = VIGENCIA_TEMPORAL_HORAS) {
+  return new Date(ahora + horas * 3600_000).toISOString();
 }
+/** Vigencia pedida por el administrador (p. ej. en una carga masiva): entre 1 hora y 30 días. */
+export const MAX_VIGENCIA_HORAS = 30 * 24;
+export const vigenciaValida = (h) => (Number.isInteger(h) && h >= 1 && h <= MAX_VIGENCIA_HORAS ? h : VIGENCIA_TEMPORAL_HORAS);
 
 /** ¿La clave temporal de este usuario ya venció? (cuentas antiguas sin fecha no vencen) */
 export function temporalVencida(u, ahora = Date.now()) {
