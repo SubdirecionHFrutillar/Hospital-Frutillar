@@ -1,51 +1,63 @@
 {
   "categorias": [
     {
+      "id": "antes-venir-hospital",
       "titulo": "Antes de venir al hospital",
       "preguntas": [
         {
+          "id": "documentos-necesito-atenderme",
           "pregunta": "¿Qué documentos necesito para atenderme?",
           "respuesta": "Para su atención necesita:\n\n- Cédula de identidad vigente\n- Credencial FONASA (o número de RUT para verificar en el sistema)\n- Orden de derivación o interconsulta, si fue enviado desde otro establecimiento\n- Exámenes o imágenes previas relacionadas con su consulta\n- Lista de medicamentos que toma regularmente\n\nEn caso de urgencia, no es necesario portar documentación: se atiende primero y se verifica la documentación después."
         },
         {
+          "id": "solicito-hora-atencion",
           "pregunta": "¿Cómo solicito hora de atención?",
           "respuesta": "Depende de la atención que necesite:\n\n- **Especialidades y exámenes:** su CESFAM o el médico del hospital emite una interconsulta u orden; luego Admisión (SOME) lo llama para darle la hora.\n- **Controles con hora ya asignada:** si necesita cambiarla, comuníquese con SOME o con la central del hospital, (65) 2 421 000.\n- **Urgencias:** no necesita hora. Acuda directamente a la Urgencia, abierta las 24 horas.\n\nSi cambió su teléfono o dirección, [actualice sus datos](/actualiza-tus-datos.html) para que podamos contactarlo."
         },
         {
+          "id": "atenderme-tengo-fonasa",
           "pregunta": "¿Puedo atenderme si no tengo FONASA?",
           "respuesta": "Sí. Las urgencias se atienden siempre, tenga o no previsión.\n\nPara la atención programada, las personas sin previsión pagan los aranceles que correspondan. Si no tiene previsión, puede afiliarse a FONASA en www.fonasa.cl o en una sucursal FONASA."
         }
       ]
     },
     {
+      "id": "hospital",
       "titulo": "En el hospital",
       "preguntas": [
         {
+          "id": "son-horarios-visita-hospitalizados",
           "pregunta": "¿Cuáles son los horarios de visita para hospitalizados?",
           "respuesta": "Horario de visita:\n\n- **Todos los días** (incluidos fines de semana y festivos): 10:00 a 19:00 hrs\n\nSe recomiendan dos visitas a la vez por paciente, como máximo. En casos especiales (menores de edad hospitalizados, cuidados paliativos), consulte con el equipo de enfermería.\n\nMás información en [Visitas a hospitalizados](/visitas.html)."
         },
         {
+          "id": "donde-retirar-resultados-examenes-laboratorio",
           "pregunta": "¿Dónde puedo retirar resultados de exámenes de laboratorio?",
           "respuesta": "Los resultados de laboratorio se retiran directamente en la ventanilla del Laboratorio Comunal, presentando su cédula de identidad. Los plazos habituales son:\n\n- Exámenes básicos (hemograma, glicemia, orina): mismo día o al día siguiente\n- Cultivos y exámenes especiales: 3 a 7 días hábiles\n\nHorario del Laboratorio: Lun–Jue 08:00–17:00 hrs, Vie 08:00–16:00 hrs."
         },
         {
+          "id": "solicitar-informe-medico-licencia",
           "pregunta": "¿Cómo puedo solicitar un informe médico o licencia?",
           "respuesta": "Los informes médicos y licencias médicas se solicitan directamente con el médico tratante durante la consulta. Para tramitar una licencia posterior a la consulta:\n\n- Diríjase a la Oficina de Admisión y SOME\n- Presente su cédula y el número de atención\n- El médico debe haber registrado la licencia en el sistema"
         }
       ]
     },
     {
+      "id": "pagos-fonasa",
       "titulo": "Pagos y FONASA",
       "preguntas": [
         {
+          "id": "cubre-fonasa-hospital",
           "pregunta": "¿Qué cubre FONASA en el hospital?",
           "respuesta": "Desde septiembre de 2022, con **Copago Cero**, todas las personas beneficiarias de FONASA (tramos A, B, C y D) se atienden **sin copago** en la red pública, incluido el Hospital de Frutillar.\n\nNo es necesario inscribirse: el beneficio se aplica automáticamente con FONASA vigente. Más detalles en nuestra sección [Copago Cero](/copago-cero.html)."
         },
         {
+          "id": "saber-tramo-fonasa-pertenezco",
           "pregunta": "¿Cómo saber a qué tramo FONASA pertenezco?",
           "respuesta": "Puede consultar su tramo en:\n\n- La página web de FONASA: www.fonasa.cl\n- La app FONASA para móviles\n- Llamando al 600 360 3000 (FONASA)\n- En la Oficina de Admisión del hospital"
         },
         {
+          "id": "ley-ricarte-soto",
           "pregunta": "¿Qué es la Ley Ricarte Soto?",
           "respuesta": "La Ley N° 20.850, conocida como Ley Ricarte Soto, financia diagnósticos y tratamientos de alto costo para enfermedades definidas por decreto. Cubre a los beneficiarios de FONASA, ISAPRE y de las Fuerzas Armadas y de Orden (CAPREDENA y DIPRECA), sin importar sus ingresos.\n\nMás información en nuestra sección [Ley Ricarte Soto](/ley-ricarte-soto.html)."
         }

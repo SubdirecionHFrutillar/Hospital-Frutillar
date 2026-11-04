@@ -642,7 +642,10 @@ const paginas = {
       caja.replaceChildren(el("p", "p-6 text-sm text-gray-600 bg-white border border-gray-200 rounded-custom", "Solo Comunicaciones o un administrador puede editar el contenido del sitio."));
       return;
     }
-    const VER = { Servicios: "/servicios.html", Horarios: "/horarios.html", Autoridades: "/quienes-somos.html#autoridades" };
+    const VER = {
+      Servicios: "/servicios.html", Horarios: "/horarios.html", Autoridades: "/quienes-somos.html#autoridades",
+      "Preguntas frecuentes": "/faq.html", Visitas: "/visitas.html", Transparencia: "/transparencia.html",
+    };
     const [campos, inicial] = await Promise.all([
       fetch("/funcionarios/contenido-campos.json", { credentials: "same-origin" }).then((r) => r.json()),
       api("/api/contenido"),
@@ -750,7 +753,8 @@ const paginas = {
         boton.disabled = true;
         const alCambiar = () => (boton.disabled = !Object.keys(lote).length);
         for (const c of lista) {
-          const ancho = c.tipo === "largo" || c.tipo === "foto";
+          const largo = c.tipo === "largo" || c.tipo === "markdown";
+          const ancho = largo || c.tipo === "foto";
           const bloque = el("div", ancho ? "md:col-span-2" : "");
           const id = `c-${c.ruta.replace(/[^a-z0-9]+/gi, "-")}`;
           const lab = el("label", "block text-xs font-bold text-gray-600 mb-1", c.etiqueta);
@@ -758,9 +762,9 @@ const paginas = {
           bloque.append(lab);
           if (c.tipo === "foto") bloque.append(campoFoto(c, lote, alCambiar));
           else {
-            const entrada = el(c.tipo === "largo" ? "textarea" : "input", "w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary");
+            const entrada = el(largo ? "textarea" : "input", "w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary");
             entrada.id = id;
-            if (c.tipo === "largo") entrada.rows = 4;
+            if (largo) entrada.rows = c.tipo === "markdown" ? 6 : 4;
             if (c.max) entrada.maxLength = c.max;
             entrada.value = vigente(c);
             entrada.addEventListener("input", () => {
@@ -769,6 +773,7 @@ const paginas = {
               alCambiar();
             });
             bloque.append(entrada);
+            if (c.ayuda) bloque.append(el("p", "text-[11px] text-gray-400 mt-1", c.ayuda));
           }
           const pie = el("div", "flex flex-wrap items-center gap-3 mt-1 text-[11px] text-gray-500");
           const cambio = estado.cambios[c.ruta];

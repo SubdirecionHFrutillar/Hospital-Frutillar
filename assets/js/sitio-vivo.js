@@ -62,20 +62,80 @@
     avisos.hidden = !vigentes.length;
   }
 
-  // ---------- Contenido editado desde la intranet (Servicios, Horarios, Autoridades) ----------
+  // ---------- Contenido editado desde la intranet ("Contenido del sitio") ----------
   // El build ya trae lo editado hasta ese momento; aquí se aplican los cambios posteriores.
   // Si un campo vuelve a su texto original, el build dejó ese original en data-c-base.
   function valorDe(el, ruta, mapa) {
     if (Object.prototype.hasOwnProperty.call(mapa, ruta)) return mapa[ruta];
     return el.hasAttribute("data-c-base") ? el.getAttribute("data-c-base") : null;
   }
+  // Markdown simple de los textos editados (sin HTML): párrafos, saltos de línea, listas "- " o "1. ",
+  // **negrita**, *cursiva* y [enlaces](https://…). Todo se arma con nodos de texto.
+  function enLinea(padre, texto) {
+    var re = /\*\*([^*]+)\*\*|\*([^*\s][^*]*)\*|\[([^\]]+)\]\(([^)\s]+)\)|(https?:\/\/[^\s<>()]+)/g;
+    var i = 0, m;
+    while ((m = re.exec(texto))) {
+      if (m.index > i) padre.appendChild(document.createTextNode(texto.slice(i, m.index)));
+      var n;
+      if (m[1]) { n = document.createElement("strong"); n.textContent = m[1]; }
+      else if (m[2]) { n = document.createElement("em"); n.textContent = m[2]; }
+      else {
+        var url = m[4] || m[5];
+        if (/^(https?:|mailto:|tel:|\/|#)/i.test(url)) {
+          n = document.createElement("a");
+          n.href = url;
+          n.textContent = m[3] || url;
+          if (/^https?:/i.test(url)) { n.target = "_blank"; n.rel = "noopener"; }
+        } else n = document.createTextNode(m[0]);
+      }
+      padre.appendChild(n);
+      i = re.lastIndex;
+    }
+    if (i < texto.length) padre.appendChild(document.createTextNode(texto.slice(i)));
+  }
+  function markdown(texto) {
+    var frag = document.createDocumentFragment();
+    String(texto).split(/\n\s*\n/).forEach(function (bloque) {
+      var lineas = bloque.split("\n").filter(function (l) { return l.trim(); });
+      if (!lineas.length) return;
+      var vineta = lineas.every(function (l) { return /^\s*[-*•]\s+/.test(l); });
+      var numero = lineas.every(function (l) { return /^\s*\d+[.)]\s+/.test(l); });
+      if (vineta || numero) {
+        var lista = document.createElement(vineta ? "ul" : "ol");
+        lineas.forEach(function (l) {
+          var li = document.createElement("li");
+          enLinea(li, l.replace(vineta ? /^\s*[-*•]\s+/ : /^\s*\d+[.)]\s+/, ""));
+          lista.appendChild(li);
+        });
+        frag.appendChild(lista);
+      } else {
+        var p = document.createElement("p");
+        lineas.forEach(function (l, k) {
+          if (k) p.appendChild(document.createElement("br"));
+          enLinea(p, l);
+        });
+        frag.appendChild(p);
+      }
+    });
+    return frag;
+  }
+
   function pintarContenido(mapa) {
     [].forEach.call(document.querySelectorAll("[data-c]"), function (el) {
       var v = valorDe(el, el.getAttribute("data-c"), mapa);
       if (v === null) return;
-      if (el.textContent !== v) el.textContent = v;
+      if (el.hasAttribute("data-c-md")) {
+        if (el.getAttribute("data-c-md") !== v) {
+          el.replaceChildren(markdown(v));
+          el.setAttribute("data-c-md", v);
+        }
+      } else if (el.textContent !== v) el.textContent = v;
       var caja = el.closest("[data-c-ocultar-vacio]");
       if (caja) caja.hidden = !v.trim();
+    });
+    // Un grupo se oculta si todos sus datos opcionales quedaron vacíos
+    [].forEach.call(document.querySelectorAll("[data-c-grupo-vacio]"), function (g) {
+      g.hidden = ![].some.call(g.querySelectorAll("[data-c-ocultar-vacio]"), function (x) { return !x.hidden; });
     });
     [].forEach.call(document.querySelectorAll("[data-c-foto]"), function (el) {
       var v = valorDe(el, el.getAttribute("data-c-foto"), mapa);

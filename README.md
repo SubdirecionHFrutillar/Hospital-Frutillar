@@ -175,7 +175,7 @@ clínica; apuntan a los documentos y carpetas de Google Drive (los mismos que us
 ## Contenido del sitio editable desde la intranet
 
 **Portal → Contenido del sitio** (roles Comunicaciones y Administrador): textos y fotos de **Servicios**,
-**Horarios** y **Autoridades**. Los cambios se ven al instante y **no regeneran el sitio** (no gastan los
+**Horarios**, **Autoridades**, **Preguntas frecuentes**, **Visitas** y **Transparencia**. Los cambios se ven al instante y **no regeneran el sitio** (no gastan los
 15 créditos por publicación).
 
 - Se guardan en Netlify Blobs (almacén `contenido`): solo lo que difiere del repositorio, con autor, fecha e
@@ -185,5 +185,9 @@ clínica; apuntan a los documentos y carpetas de Google Drive (los mismos que us
   en el HTML.
 - Las rutas usan identificadores estables (`servicios:servicios#farmacia.horario`); los campos permitidos
   están en `netlify/lib/contenido-campos.mjs`.
-- Estas secciones ya no están en el CMS `/admin`. Agregar o quitar un servicio, una fila de horario o una
-  autoridad sigue siendo un cambio de código (con su `id`).
+- Los textos con formato (respuestas de FAQ, descripciones de Transparencia, información clínica de Visitas)
+  usan `{% campoMd ruta, base, "clases" %}`: Markdown simple (**negrita**, listas con "- ", enlaces), sin HTML.
+- Los datos opcionales (p. ej. "Visitas por paciente") van siempre en el HTML con `data-c-ocultar-vacio`, para
+  poder completarlos o vaciarlos desde la intranet.
+- Estas secciones ya no están en el CMS `/admin`. Agregar o quitar un servicio, una fila de horario, una
+  autoridad, una pregunta o una sección de Transparencia sigue siendo un cambio de código (con su `id`).
