@@ -1,0 +1,22 @@
+---
+title: Contenido del sitio
+permalink: funcionarios/contenido.html
+---
+{% import "componentes.njk" as ui with context %}
+{{ ui.tituloPortal("Contenido del sitio web", "Textos y fotos de Servicios, Horarios y Autoridades. Los cambios se ven al instante en el sitio público.", "edit_note") }}
+
+<div class="container mx-auto px-4 py-8 max-w-5xl flex flex-col gap-5" data-pagina="contenido">
+  <div id="contenido-msg" role="status" class="hidden rounded-custom px-4 py-3 text-sm"></div>
+
+  <div class="flex flex-wrap items-center gap-2" role="tablist" aria-label="Secciones" id="contenido-pestanas"></div>
+
+  <div id="contenido-grupos" class="flex flex-col gap-5" aria-live="polite">
+    <p class="text-sm text-gray-400">Cargando…</p>
+  </div>
+
+  {% call ui.seccion("Últimos cambios", "history", padding="") %}
+    <ol id="contenido-historial" class="divide-y divide-gray-100 text-sm"></ol>
+  {% endcall %}
+
+  <p class="text-xs text-gray-500">"Volver al original" deja el texto que trae el sitio. Los cambios de estructura (agregar o quitar un servicio, una fila de horario o una autoridad) se piden a la Subdirección Médica.</p>
+</div>

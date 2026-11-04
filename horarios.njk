@@ -10,26 +10,30 @@ permalink: horarios.html
 
 {% call ui.dosColumnas() %}
   <div class="min-w-0 flex flex-col gap-7">
-    {{ ui.aviso(horarios.intro) }}
+    <div class="flex items-start gap-3 bg-primary-bg border border-primary-pale rounded-custom px-5 py-4 text-sm text-primary-dark">
+      <span aria-hidden="true" class="material-symbols-outlined text-primary-light mt-0.5 flex-shrink-0">info</span>
+      {% campo "horarios:intro", horarios.intro, "p", "whitespace-pre-line" %}
+    </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       {% for s in horarios.servicios %}
+      {%- set r = "horarios:servicios#" + s.id %}
       <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden hover:shadow-md transition-shadow{% if s.span2 %} md:col-span-2{% endif %}">
         <div class="px-4 py-3 flex items-center gap-2 border-b border-gray-100 border-l-4 border-l-primary">
           <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">{{ s.icon }}</span>
           <h2 class="text-primary-deep font-bold text-sm">{{ s.nombre }}</h2>
         </div>
         <div class="px-4 py-4">
-          {% if s.descripcion %}<p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">{{ s.descripcion }}</p>{% endif %}
+          <div data-c-ocultar-vacio{% if not (s.descripcion | cv(r + ".descripcion")) %} hidden{% endif %}>{% campo r + ".descripcion", s.descripcion or "", "p", "text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2" %}</div>
           <ul class="flex flex-col gap-2 text-sm text-gray-700">
             {% for h in s.horarios %}
             <li class="flex items-start gap-2">
               <span aria-hidden="true" class="material-symbols-outlined text-primary-light text-base mt-0.5">calendar_today</span>
-              <span>{{ h.dias }}: <strong>{{ h.horario }}</strong></span>
+              <span>{% campo r + ".horarios." + loop.index0 + ".dias", h.dias %}: <strong>{% campo r + ".horarios." + loop.index0 + ".horario", h.horario %}</strong></span>
             </li>
             {% endfor %}
           </ul>
-          {% if s.notas %}<p class="text-xs text-gray-400 mt-3">{{ s.notas }}</p>{% endif %}
+          <div data-c-ocultar-vacio{% if not (s.notas | cv(r + ".notas")) %} hidden{% endif %}>{% campo r + ".notas", s.notas or "", "p", "text-xs text-gray-400 mt-3" %}</div>
         </div>
       </div>
       {% endfor %}

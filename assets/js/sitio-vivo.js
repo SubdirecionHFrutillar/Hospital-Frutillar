@@ -6,7 +6,8 @@
   var avisos = document.querySelector("[data-avisos]");
   var portada = document.querySelector("[data-noticias-portada]");
   var lista = document.querySelector("[data-noticias-lista]");
-  if (!avisos && !portada && !lista) return;
+  var campos = document.querySelectorAll("[data-c], [data-c-foto]");
+  if (!avisos && !portada && !lista && !campos.length) return;
 
   var MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
   var TZ = { timeZone: "America/Santiago" };
@@ -59,6 +60,45 @@
       })
       .join("");
     avisos.hidden = !vigentes.length;
+  }
+
+  // ---------- Contenido editado desde la intranet (Servicios, Horarios, Autoridades) ----------
+  // El build ya trae lo editado hasta ese momento; aquí se aplican los cambios posteriores.
+  // Si un campo vuelve a su texto original, el build dejó ese original en data-c-base.
+  function valorDe(el, ruta, mapa) {
+    if (Object.prototype.hasOwnProperty.call(mapa, ruta)) return mapa[ruta];
+    return el.hasAttribute("data-c-base") ? el.getAttribute("data-c-base") : null;
+  }
+  function pintarContenido(mapa) {
+    [].forEach.call(document.querySelectorAll("[data-c]"), function (el) {
+      var v = valorDe(el, el.getAttribute("data-c"), mapa);
+      if (v === null) return;
+      if (el.textContent !== v) el.textContent = v;
+      var caja = el.closest("[data-c-ocultar-vacio]");
+      if (caja) caja.hidden = !v.trim();
+    });
+    [].forEach.call(document.querySelectorAll("[data-c-foto]"), function (el) {
+      var v = valorDe(el, el.getAttribute("data-c-foto"), mapa);
+      if (v === null) return;
+      var actual = el.querySelector("img");
+      if (actual && actual.getAttribute("data-original") === v) return;
+      var plantilla = el.querySelector("template");
+      var nuevo;
+      if (v) {
+        nuevo = document.createElement("img");
+        nuevo.src = cdn(v, 400);
+        nuevo.setAttribute("data-original", v);
+        nuevo.onerror = function () { this.onerror = null; this.src = v; };
+        nuevo.alt = el.getAttribute("data-c-alt") || "";
+        nuevo.className = el.getAttribute("data-c-img") || "";
+        nuevo.loading = "lazy";
+      } else if (plantilla) {
+        nuevo = plantilla.content.cloneNode(true);
+      }
+      if (!nuevo) return;
+      el.replaceChildren(nuevo);
+      if (plantilla) el.appendChild(plantilla);
+    });
   }
 
   // ---------- Noticias ----------
@@ -145,6 +185,7 @@
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (d) {
       if (avisos) pintarAvisos(d.avisos);
+      if (campos.length) pintarContenido(d.contenido || {});
       if (portada || lista) {
         var todas = mezclar(d.noticias || []);
         if (portada) pintarPortada(todas);

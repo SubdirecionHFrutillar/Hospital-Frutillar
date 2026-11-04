@@ -9,6 +9,7 @@ public_folder: "/img/uploads"
 locale: es
 
 collections:
+  # Servicios, Horarios y Autoridades se editan en el Portal Funcionarios → Contenido del sitio (en vivo, sin regenerar el sitio).
   - name: "paginas"
     label: "Páginas del sitio"
     files:
@@ -20,36 +21,7 @@ collections:
           - { label: "Misión", name: mision, widget: text }
           - { label: "Visión", name: vision, widget: text }
           - { label: "Historia del hospital", name: historia, widget: markdown }
-          - label: "Autoridades"
-            name: autoridades
-            widget: list
-            fields:
-              - { label: "Cargo", name: cargo, widget: string }
-              - { label: "Nombre", name: nombre, widget: string }
-              - { label: "Unidad", name: unidad, widget: string }
-              - { label: "Foto (URL o ruta)", name: foto, widget: string, required: false }
           - { label: "Plan Estratégico", name: plan_estrategico, widget: markdown }
-
-      - label: "Horarios de Atención"
-        name: "horarios"
-        file: "_data/horarios.json"
-        fields:
-          - { label: "Nota introductoria", name: intro, widget: text }
-          - label: "Servicios"
-            name: servicios
-            widget: list
-            fields:
-              - { label: "Nombre del servicio", name: nombre, widget: string }
-              - { label: "Descripción corta", name: descripcion, widget: string, required: false }
-              - { label: "Icono (Material Symbol)", name: icon, widget: string }
-              - label: "Horarios"
-                name: horarios
-                widget: list
-                fields:
-                  - { label: "Días", name: dias, widget: string }
-                  - { label: "Horario", name: horario, widget: string }
-              - { label: "Notas adicionales", name: notas, widget: string, required: false }
-              - { label: "¿Ocupa 2 columnas?", name: span2, widget: boolean, default: false }
 
       - label: "Preguntas Frecuentes"
         name: "faq"
@@ -66,22 +38,6 @@ collections:
                 fields:
                   - { label: "Pregunta", name: pregunta, widget: string }
                   - { label: "Respuesta", name: respuesta, widget: markdown }
-
-      - label: "Servicios Clínicos"
-        name: "servicios"
-        file: "_data/servicios.json"
-        fields:
-          - label: "Servicios"
-            name: servicios
-            widget: list
-            fields:
-              - { label: "Nombre del servicio", name: nombre, widget: string }
-              - { label: "ID (ancla HTML, sin #)", name: id, widget: string }
-              - { label: "Icono (Material Symbol)", name: icon, widget: string }
-              - { label: "Descripción", name: descripcion, widget: text }
-              - { label: "Horario", name: horario, widget: string, required: false }
-              - { label: "Icono horario", name: horario_icon, widget: string, required: false }
-              - { label: "Ubicación", name: ubicacion, widget: string, required: false }
 
       - label: "Contacto"
         name: "contacto"

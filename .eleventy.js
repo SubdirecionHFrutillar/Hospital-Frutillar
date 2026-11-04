@@ -6,6 +6,35 @@ const MESES = [
   "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
 ];
 
+// Contenido editado desde la intranet ("Contenido del sitio"), para dejarlo también en el HTML de cada build.
+// En vivo lo aplica assets/js/sitio-vivo.js; aquí solo se adelanta para buscadores y visitas sin JavaScript.
+let contenidoBuild = {};
+async function cargarContenido() {
+  if (process.env.NETLIFY || process.env.NETLIFY_BLOBS_CONTEXT) {
+    try {
+      const { getStore } = await import("@netlify/blobs");
+      const opciones = { name: "contenido", consistency: "strong" };
+      if (process.env.NETLIFY_BLOBS_TOKEN) Object.assign(opciones, { siteID: process.env.SITE_ID, token: process.env.NETLIFY_BLOBS_TOKEN });
+      const c = (await getStore(opciones).get("cambios", { type: "json" })) || {};
+      console.log(`[contenido] ${Object.keys(c).length} campo(s) editado(s) desde la intranet`);
+      return Object.fromEntries(Object.entries(c).map(([r, v]) => [r, v.valor]));
+    } catch (e) {
+      console.warn("[contenido] No se pudo leer Netlify Blobs en el build:", e.message);
+    }
+  }
+  if (process.env.URL) {
+    try {
+      const r = await fetch(`${process.env.URL}/api/sitio-vivo`);
+      if (r.ok) return (await r.json()).contenido || {};
+    } catch (e) {
+      console.warn("[contenido] No se pudo consultar la API pública:", e.message);
+    }
+  }
+  return {};
+}
+const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ESC[c]);
+
 module.exports = function (eleventyConfig) {
   // Archivos estáticos
   eleventyConfig.addPassthroughCopy("img");
@@ -17,6 +46,19 @@ module.exports = function (eleventyConfig) {
 
   // El CSS lo genera Tailwind (npm run build:css); Eleventy solo vigila cambios.
   eleventyConfig.addWatchTarget("./assets/css/");
+
+  eleventyConfig.on("eleventy.before", async () => { contenidoBuild = await cargarContenido(); });
+
+  // Valor vigente de un campo editable: lo editado en la intranet o, si no, el del repositorio.
+  const valorCampo = (ruta, base) => (Object.prototype.hasOwnProperty.call(contenidoBuild, ruta) ? contenidoBuild[ruta] : base ?? "");
+  eleventyConfig.addFilter("cv", (base, ruta) => valorCampo(ruta, base));
+  // {% campo ruta, base, "p", "clases" %} → <p data-c="ruta" class="clases">valor</p>
+  // data-c-base guarda el texto del repositorio cuando el build aplicó un cambio, para poder volver a él en vivo.
+  eleventyConfig.addShortcode("campo", (ruta, base, tag = "span", clases = "") => {
+    const valor = valorCampo(ruta, base);
+    const conBase = valor !== (base ?? "") ? ` data-c-base="${esc(base ?? "")}"` : "";
+    return `<${tag} data-c="${esc(ruta)}"${clases ? ` class="${esc(clases)}"` : ""}${conBase}>${esc(valor)}</${tag}>`;
+  });
 
   // Markdown de los campos editados en el CMS
   eleventyConfig.addFilter("markdown", (texto) => (texto ? md.render(texto) : ""));

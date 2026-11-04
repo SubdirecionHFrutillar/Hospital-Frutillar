@@ -171,3 +171,19 @@ Dibujos (`arte`): ver `_includes/campana-arte.njk`.
 
 `/funcionarios/protocolos.html`, con buscador. Los enlaces están en `_data/protocolos.json`, ordenados por área
 clínica; apuntan a los documentos y carpetas de Google Drive (los mismos que usa Calidad, más los de HODOM y Urgencia).
+
+## Contenido del sitio editable desde la intranet
+
+**Portal → Contenido del sitio** (roles Comunicaciones y Administrador): textos y fotos de **Servicios**,
+**Horarios** y **Autoridades**. Los cambios se ven al instante y **no regeneran el sitio** (no gastan los
+15 créditos por publicación).
+
+- Se guardan en Netlify Blobs (almacén `contenido`): solo lo que difiere del repositorio, con autor, fecha e
+  historial. "Volver al original" deja el texto de `_data/*.json`.
+- Las páginas marcan cada campo con `{% campo ruta, base, "p", "clases" %}` (y `data-c-foto` para las fotos);
+  `assets/js/sitio-vivo.js` aplica lo editado desde `/api/sitio-vivo`. En cada build, lo editado también queda
+  en el HTML.
+- Las rutas usan identificadores estables (`servicios:servicios#farmacia.horario`); los campos permitidos
+  están en `netlify/lib/contenido-campos.mjs`.
+- Estas secciones ya no están en el CMS `/admin`. Agregar o quitar un servicio, una fila de horario o una
+  autoridad sigue siendo un cambio de código (con su `id`).

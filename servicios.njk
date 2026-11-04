@@ -12,25 +12,26 @@ permalink: servicios.html
   <div class="min-w-0 flex flex-col gap-7">
     {% for s in servicios.servicios | rejectattr('oculto') %}
       {% call ui.seccion(s.nombre, s.icon, s.id, padding="px-6 py-5") %}
+        {%- set r = "servicios:servicios#" + s.id %}
+        {%- set foto = s.foto_equipo | cv(r + ".foto_equipo") %}
         <div class="flex flex-col sm:flex-row gap-5">
-          {#- Foto del equipo: cuadrada. Mientras no exista (campo "foto_equipo"), se muestra un recuadro de espera. #}
-          {% if s.foto_equipo %}
-          <img src="{{ s.foto_equipo | imagenCdn(400) }}" onerror="this.onerror=null;this.src='{{ s.foto_equipo }}'" alt="Equipo de {{ s.nombre }}" loading="lazy" class="w-28 sm:w-40 aspect-square object-cover rounded-custom border border-gray-200 flex-shrink-0">
-          {% else %}
-          <div class="foto-equipo-pendiente w-28 sm:w-40 aspect-square flex-shrink-0" role="img" aria-label="Foto del equipo de {{ s.nombre }} (próximamente)">
-            <span aria-hidden="true" class="material-symbols-outlined text-3xl">groups</span>
-            <span class="text-[11px] font-semibold leading-tight text-center px-2">Foto del equipo<br>próximamente</span>
-          </div>
-          {% endif %}
-          <div class="flex-1 min-w-0 flex flex-col gap-3">
-            <p class="text-sm text-gray-700 leading-relaxed">{{ s.descripcion }}</p>
-            {% set detalle = s.horario or s.ubicacion %}
-            {% if detalle %}
-            <div class="flex items-start gap-2 text-sm text-primary bg-primary-bg border border-primary-pale rounded-custom px-4 py-3">
-              <span aria-hidden="true" class="material-symbols-outlined text-primary-light mt-0.5 text-base">{{ s.horario_icon or ("schedule" if s.horario else "location_on") }}</span>
-              <span>{{ detalle }}</span>
-            </div>
+          {#- Foto del equipo (editable desde la intranet). Sin foto se muestra un recuadro de espera. #}
+          <div class="w-28 sm:w-40 aspect-square flex-shrink-0" data-c-foto="{{ r }}.foto_equipo" data-c-alt="Equipo de {{ s.nombre }}" data-c-img="w-full h-full object-cover rounded-custom border border-gray-200"{% if foto != (s.foto_equipo or "") %} data-c-base="{{ s.foto_equipo or '' }}"{% endif %}>
+            <template><div class="foto-equipo-pendiente w-full h-full" role="img" aria-label="Foto del equipo de {{ s.nombre }} (próximamente)"><span aria-hidden="true" class="material-symbols-outlined text-3xl">groups</span><span class="text-[11px] font-semibold leading-tight text-center px-2">Foto del equipo<br>próximamente</span></div></template>
+            {% if foto %}
+            <img src="{{ foto | imagenCdn(400) }}" onerror="this.onerror=null;this.src='{{ foto }}'" alt="Equipo de {{ s.nombre }}" loading="lazy" class="w-full h-full object-cover rounded-custom border border-gray-200">
+            {% else %}
+            <div class="foto-equipo-pendiente w-full h-full" role="img" aria-label="Foto del equipo de {{ s.nombre }} (próximamente)"><span aria-hidden="true" class="material-symbols-outlined text-3xl">groups</span><span class="text-[11px] font-semibold leading-tight text-center px-2">Foto del equipo<br>próximamente</span></div>
             {% endif %}
+          </div>
+          <div class="flex-1 min-w-0 flex flex-col gap-3">
+            {% campo r + ".descripcion", s.descripcion, "p", "text-sm text-gray-700 leading-relaxed whitespace-pre-line" %}
+            {%- set campoDetalle = (r + ".ubicacion") if (s.ubicacion and not s.horario) else (r + ".horario") %}
+            {%- set baseDetalle = s.ubicacion if (s.ubicacion and not s.horario) else s.horario %}
+            <div data-c-ocultar-vacio class="flex items-start gap-2 text-sm text-primary bg-primary-bg border border-primary-pale rounded-custom px-4 py-3"{% if not (baseDetalle | cv(campoDetalle)) %} hidden{% endif %}>
+              <span aria-hidden="true" class="material-symbols-outlined text-primary-light mt-0.5 text-base">{{ s.horario_icon or ("location_on" if (s.ubicacion and not s.horario) else "schedule") }}</span>
+              {% campo campoDetalle, baseDetalle, "span" %}
+            </div>
           </div>
         </div>
       {% endcall %}

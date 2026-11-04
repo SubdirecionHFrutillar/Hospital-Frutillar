@@ -80,12 +80,16 @@ export const imagenCdn = (url, ancho) => `/.netlify/images?url=${encodeURICompon
 export function articuloHTML(n) {
   const img = n.imagen ? urlArchivo(n.imagen) : "";
   const adjuntos = (n.adjuntos || []).filter((a) => a.id !== n.imagen);
-  const hero = img
-    ? `<img src="${esc(imagenCdn(img, 1400))}" onerror="this.onerror=null;this.src='${esc(img)}'" alt="" fetchpriority="high" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>`
-    : `<div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
-          <span class="material-symbols-outlined text-white/10 text-[120px] leading-none">article</span>
-        </div>`;
+  // Con foto: se muestra completa (alto según la imagen, sin pasar el ancho). Sin foto: franja de color.
+  const meta = `<span class="px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded">${esc(n.categoria)}</span>
+        <span class="flex items-center gap-1.5 text-xs text-gray-500"><span aria-hidden="true" class="material-symbols-outlined text-sm">calendar_today</span><time datetime="${esc(fechaISO(n.fecha))}">${esc(fechaES(n.fecha))}</time></span>`;
+  const cabecera = img
+    ? `<img src="${esc(imagenCdn(img, 1400))}" onerror="this.onerror=null;this.src='${esc(img)}'" alt="" fetchpriority="high" class="block w-full h-auto bg-gray-100">
+    <div class="px-6 md:px-8 pt-5 flex flex-wrap items-center gap-3">${meta}</div>`
+    : `<div class="bg-noticia relative h-40 overflow-hidden">
+      <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true"><span class="material-symbols-outlined text-white/10 text-[120px] leading-none">article</span></div>
+    </div>
+    <div class="px-6 md:px-8 pt-5 flex flex-wrap items-center gap-3">${meta}</div>`;
   const lista = adjuntos.length
     ? `<ul class="mt-6 flex flex-col gap-2 border-t border-gray-100 pt-5">${adjuntos
         .map((a) =>
@@ -109,15 +113,8 @@ export function articuloHTML(n) {
     <span class="text-gray-700 font-medium truncate max-w-[200px]" aria-current="page">${esc(n.titulo)}</span>
   </nav>
   <article class="bg-white rounded-custom shadow-md overflow-hidden">
-    <div class="bg-noticia relative ${img ? "h-64 md:h-80" : "h-48"} overflow-hidden">
-      ${hero}
-      <span class="absolute top-4 left-4 px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded shadow-md">${esc(n.categoria)}</span>
-      <div class="absolute bottom-4 left-4 flex items-center gap-1.5 text-white/80 text-xs">
-        <span aria-hidden="true" class="material-symbols-outlined text-sm">calendar_today</span>
-        <time datetime="${esc(fechaISO(n.fecha))}">${esc(fechaES(n.fecha))}</time>
-      </div>
-    </div>
-    <div class="p-6 md:p-8">
+    ${cabecera}
+    <div class="px-6 md:px-8 pt-4 pb-6 md:pb-8">
       <h2 class="text-2xl md:text-3xl font-bold text-gray-900 leading-snug mb-4">${esc(n.titulo)}</h2>
       <p class="text-base text-gray-500 leading-relaxed border-l-4 border-primary-pale pl-4 mb-6">${esc(n.resumen)}</p>
       <div class="prose max-w-none text-gray-700 leading-relaxed">${markdown(n.cuerpo)}</div>

@@ -1,0 +1,23 @@
+{
+  "lista": [
+    {
+      "id": "director",
+      "cargo": "Director",
+      "nombre": "Dr. Gerardo Salinas Rossel",
+      "unidad": "Dirección del Hospital",
+      "foto": "/img/autoridades/director.jpg"
+    },
+    {
+      "id": "subdirector-medico",
+      "cargo": "Subdirector Médico (S)",
+      "nombre": "Dr. Pablo Merino García",
+      "unidad": "Subdirección Médica"
+    },
+    {
+      "id": "subdirector-administrativo",
+      "cargo": "Subdirector Administrativo (S)",
+      "nombre": "Andrés González Cea",
+      "unidad": "Subdirección Administrativa"
+    }
+  ]
+}
