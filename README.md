@@ -186,6 +186,15 @@ Dibujos (`arte`): ver `_includes/campana-arte.njk`.
 `/funcionarios/protocolos.html`, con buscador. Los enlaces están en `_data/protocolos.json`, ordenados por área
 clínica; apuntan a los documentos y carpetas de Google Drive (los mismos que usa Calidad, más los de HODOM y Urgencia).
 
+## Protocolos clínicos (intranet)
+
+`/funcionarios/protocolos.html` se carga en vivo desde `/api/protocolos`. Editores, Comunicaciones y
+administradores **suben protocolos en PDF o Word** (hasta 30 MB, por partes), los editan, los reemplazan por una
+versión nueva (la anterior queda guardada; se conservan las últimas 5) o los eliminan, sin regenerar el sitio.
+Opcionalmente llevan código, versión y fecha de vigencia ("Vence pronto" a 90 días, "Vencido" después).
+Los archivos solo se entregan con sesión y si pertenecen a un protocolo. Las áreas y la lista inicial (enlaces de
+Drive) están en `netlify/lib/protocolos-base.mjs`; esa lista se usa hasta el primer cambio desde el portal.
+
 ## Buscador
 
 `/buscar.html` (ícono **Buscar** en el menú) usa [Pagefind](https://pagefind.app): el índice se genera al final del

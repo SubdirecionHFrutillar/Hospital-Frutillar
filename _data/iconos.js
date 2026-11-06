@@ -11,8 +11,11 @@ const RAIZ = path.join(__dirname, "..");
 const CARPETAS = [".", "_includes", "_data", "funcionarios", "assets/js", "noticias"];
 const EXT = /\.(njk|html|md|json|js|mjs)$/;
 
+// Archivos sueltos con íconos fuera de esas carpetas (p. ej. las áreas de los protocolos)
+const SUELTOS = ["netlify/lib/protocolos-base.mjs"];
+
 function archivos() {
-  const out = [];
+  const out = SUELTOS.map((f) => path.join(RAIZ, f));
   for (const c of CARPETAS) {
     const dir = path.join(RAIZ, c);
     if (!fs.existsSync(dir)) continue;

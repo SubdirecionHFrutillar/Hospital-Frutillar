@@ -464,3 +464,69 @@ test("Íconos: los que arma el JavaScript existen en Material Symbols y quedan e
   assert.deepEqual(malos, [], "íconos con nombre inválido (¿alias antiguo?)");
   assert.deepEqual([...usados].filter((x) => !pedidos.has(x)), [], "íconos que no quedarían en la fuente reducida");
 });
+
+test("Protocolos: lista inicial, subir PDF, reemplazar con versión anterior, permisos y eliminar", async () => {
+  const proto = (await import("../netlify/functions/protocolos.mjs")).default;
+  const parchivos = (await import("../netlify/functions/protocolos-archivos.mjs")).default;
+  const { cEditor, cFunc } = await preparar();
+  const subir = async (cookie, nombre, tipo = "application/pdf") =>
+    parchivos(req("/api/protocolos-archivos", { metodo: "POST", cookie, headers: { "content-type": tipo, "x-nombre": encodeURIComponent(nombre) }, cuerpo: new Uint8Array([37, 80, 68, 70, 45, 49]) }), { params: {} });
+
+  // Sin sesión, nada; un funcionario ve la lista inicial (36 documentos de Drive) pero no edita
+  assert.equal((await proto(req("/api/protocolos"), { params: {} })).status, 401);
+  let r = await proto(req("/api/protocolos", { cookie: cFunc }), { params: {} });
+  let j = await r.json();
+  assert.equal(j.documentos.length, 36);
+  assert.equal(j.areas.length, 7);
+  assert.equal(j.puedeEditar, false);
+  assert.equal((await subir(cFunc, "x.pdf")).status, 403);
+  assert.equal((await proto(req("/api/protocolos", { metodo: "POST", cookie: cFunc, datos: { titulo: "X", area: "urgencia", url: "https://x.cl" } }), { params: {} })).status, 403);
+
+  // Solo PDF o Word
+  assert.equal((await subir(cEditor, "foto.png", "image/png")).status, 415);
+
+  // El editor sube un PDF y crea el protocolo
+  const a1 = (await (await subir(cEditor, "Hemorragia postparto v1.pdf")).json()).archivo;
+  r = await proto(req("/api/protocolos", { metodo: "POST", cookie: cEditor, datos: { titulo: "Hemorragia postparto", area: "hospitalizacion", codigo: "GCL 1.2", version: "1", vigencia: "2030-01-31", archivo: a1.id } }), { params: {} });
+  assert.equal(r.status, 201);
+  const doc = (await r.json()).documento;
+  assert.equal(doc.archivo.nombre, "Hemorragia postparto v1.pdf");
+
+  // Cualquier funcionario lo ve y abre el PDF en el navegador
+  j = await (await proto(req("/api/protocolos", { cookie: cFunc }), { params: {} })).json();
+  assert.equal(j.documentos.length, 37);
+  r = await parchivos(req(`/api/protocolos-archivos/${a1.id}`, { cookie: cFunc }), { params: { id: a1.id } });
+  assert.equal(r.status, 200);
+  assert.match(r.headers.get("content-disposition"), /^inline/);
+  // Un archivo subido que no es de ningún protocolo no se entrega
+  const suelto = (await (await subir(cEditor, "suelto.pdf")).json()).archivo;
+  assert.equal((await parchivos(req(`/api/protocolos-archivos/${suelto.id}`, { cookie: cEditor }), { params: { id: suelto.id } })).status, 404);
+
+  // Versión nueva: la anterior queda en "anteriores" y se sigue pudiendo abrir
+  const a2 = (await (await subir(cEditor, "Hemorragia postparto v2.pdf")).json()).archivo;
+  r = await proto(req(`/api/protocolos/${doc.id}`, { metodo: "PUT", cookie: cEditor, datos: { titulo: "Hemorragia postparto", area: "hospitalizacion", version: "2", archivo: a2.id } }), { params: { id: doc.id } });
+  const d2 = (await r.json()).documento;
+  assert.equal(d2.archivo.id, a2.id);
+  assert.equal(d2.anteriores.length, 1);
+  assert.equal(d2.anteriores[0].version, "1");
+  assert.equal((await parchivos(req(`/api/protocolos-archivos/${a1.id}`, { cookie: cFunc }), { params: { id: a1.id } })).status, 200);
+
+  // Validaciones: sin archivo ni enlace, área inexistente, enlace no https
+  const malo = async (datos) => (await proto(req("/api/protocolos", { metodo: "POST", cookie: cEditor, datos }), { params: {} })).status;
+  assert.equal(await malo({ titulo: "Sin documento", area: "urgencia" }), 400);
+  assert.equal(await malo({ titulo: "Área mala", area: "no-existe", url: "https://x.cl" }), 400);
+  assert.equal(await malo({ titulo: "Enlace malo", area: "urgencia", url: "javascript:alert(1)" }), 400);
+
+  // Editar un documento de la lista inicial (enlace de Drive → PDF)
+  const a3 = (await (await subir(cEditor, "Clave azul.pdf")).json()).archivo;
+  r = await proto(req("/api/protocolos/clave-azul", { metodo: "PUT", cookie: cEditor, datos: { titulo: "Clave azul", area: "urgencia", codigo: "AOC", archivo: a3.id } }), { params: { id: "clave-azul" } });
+  assert.equal(r.status, 200);
+  assert.equal((await r.json()).documento.archivo.id, a3.id);
+
+  // Eliminar borra también sus archivos
+  r = await proto(req(`/api/protocolos/${doc.id}`, { metodo: "DELETE", cookie: cEditor }), { params: { id: doc.id } });
+  assert.equal(r.status, 200);
+  assert.equal((await parchivos(req(`/api/protocolos-archivos/${a2.id}`, { cookie: cFunc }), { params: { id: a2.id } })).status, 404);
+  j = await (await proto(req("/api/protocolos", { cookie: cFunc }), { params: {} })).json();
+  assert.equal(j.documentos.length, 36);
+});
