@@ -388,7 +388,7 @@ test("Contenido del sitio: permisos, validación, historial, volver al original 
 test("Contenido del sitio: las rutas de los campos existen en los datos reales", async () => {
   const fs = await import("node:fs");
   const { listarCampos, leer, campo } = await import("../netlify/lib/contenido-campos.mjs");
-  const datos = Object.fromEntries(["servicios", "horarios", "autoridades", "faq", "visitas", "transparencia"].map((n) => [n, JSON.parse(fs.readFileSync(new URL(`../_data/${n}.json`, import.meta.url)))]));
+  const datos = Object.fromEntries(["servicios", "horarios", "autoridades", "faq", "visitas", "transparencia", "inicio"].map((n) => [n, JSON.parse(fs.readFileSync(new URL(`../_data/${n}.json`, import.meta.url)))]));
   const campos = listarCampos(datos);
   assert.ok(campos.length > 40);
   for (const c of campos) assert.ok(campo(c.ruta), c.ruta);
@@ -398,7 +398,8 @@ test("Contenido del sitio: las rutas de los campos existen en los datos reales",
   // Los identificadores no se repiten
   assert.equal(leer(datos, "visitas:recomendaciones.0"), datos.visitas.recomendaciones[0]);
   assert.equal(leer(datos, "faq:categorias#pagos-fonasa.preguntas#ley-ricarte-soto.pregunta"), "¿Qué es la Ley Ricarte Soto?");
-  for (const s of ["Preguntas frecuentes", "Visitas", "Transparencia"]) assert.ok(campos.some((c) => c.seccion === s), s);
+  assert.equal(leer(datos, "inicio:cifras#funcionarios.valor"), datos.inicio.cifras[0].valor);
+  for (const s of ["Preguntas frecuentes", "Visitas", "Transparencia", "Portada"]) assert.ok(campos.some((c) => c.seccion === s), s);
   for (const lista of [datos.servicios.servicios, datos.horarios.servicios, datos.autoridades.lista, datos.faq.categorias, ...datos.faq.categorias.map((c) => c.preguntas), datos.transparencia.secciones]) {
     const ids = lista.map((x) => x.id);
     assert.equal(new Set(ids).size, ids.length);
@@ -413,4 +414,119 @@ test("Contenido del sitio: los textos con formato aceptan varias líneas; los co
   assert.match(validar({ "visitas:notaHorario": "a\nb" }).error, /una sola línea/);
   assert.match(validar({ "transparencia:secciones#activa.enlace": "https://x" }).error, /no se puede editar/);
   assert.match(validar({ "visitas:informacionClinica": "x".repeat(2001) }).error, /2000/);
+});
+
+test("Avisos: destino público, solo intranet o ambos; los de intranet nunca salen por las API públicas", async () => {
+  const avisos = (await import("../netlify/functions/avisos.mjs")).default;
+  const vivo = (await import("../netlify/functions/sitio-vivo.mjs")).default;
+  const { cAdmin, cEditor } = await preparar();
+  const crear = (datos) => avisos(req("/api/avisos", { metodo: "POST", cookie: cAdmin, datos }), { params: {} });
+  const textos = async (r) => (await r.json()).avisos.map((a) => a.texto).sort();
+
+  assert.equal((await crear({ texto: "Aviso para el público", destino: "publico" })).status, 201);
+  assert.equal((await crear({ texto: "Reunión de jefaturas el jueves", destino: "intranet" })).status, 201);
+  assert.equal((await crear({ texto: "Corte de luz programado", destino: "ambos" })).status, 201);
+  const sinDestino = await (await crear({ texto: "Aviso sin destino indicado" })).json();
+  assert.equal(sinDestino.aviso.destino, "publico");
+
+  const publicos = ["Aviso para el público", "Aviso sin destino indicado", "Corte de luz programado"];
+  assert.deepEqual(await textos(await avisos(req("/api/avisos/vigentes"), { params: { id: "vigentes" } })), publicos);
+  assert.deepEqual(await textos(await vivo(req("/api/sitio-vivo"))), publicos);
+
+  // Intranet: cualquier funcionario con sesión; sin sesión, nada
+  assert.deepEqual(await textos(await avisos(req("/api/avisos/intranet", { cookie: cEditor }), { params: { id: "intranet" } })), ["Corte de luz programado", "Reunión de jefaturas el jueves"]);
+  assert.equal((await avisos(req("/api/avisos/intranet"), { params: { id: "intranet" } })).status, 401);
+
+  // El máximo se cuenta por lugar: con 5 en la intranet, todavía se puede publicar en el sitio público
+  for (let i = 0; i < 3; i++) assert.equal((await crear({ texto: `Interno número ${i}`, destino: "intranet" })).status, 201);
+  assert.equal((await crear({ texto: "Uno interno de más", destino: "intranet" })).status, 409);
+  assert.equal((await crear({ texto: "Otro de ambos lados", destino: "ambos" })).status, 409);
+  assert.equal((await crear({ texto: "Otro para el público", destino: "publico" })).status, 201);
+});
+
+test("Íconos: los que arma el JavaScript existen en Material Symbols y quedan en la fuente reducida", async () => {
+  const fs = await import("node:fs");
+  const { createRequire } = await import("node:module");
+  const { lista } = createRequire(import.meta.url)("../_data/iconos.js")();
+  const pedidos = new Set(lista);
+  const validos = new Set(fs.readFileSync(new URL("../scripts/material-symbols-nombres.txt", import.meta.url), "utf8").split("\n"));
+  const usados = new Set();
+  for (const f of ["funcionarios.mjs", "sitio-vivo.js", "site.js"]) {
+    const js = fs.readFileSync(new URL(`../assets/js/${f}`, import.meta.url), "utf8");
+    // icono("nombre", …) y textContent = cond ? "a" : "b" sobre un ícono
+    for (const m of js.matchAll(/icono\(\s*(?:[^,()]*\?\s*)?"([a-z0-9_]+)"(?:\s*:\s*"([a-z0-9_]+)")?/g)) [m[1], m[2]].filter(Boolean).forEach((x) => usados.add(x));
+    // Plantillas de texto en sitio-vivo.js: '…material-symbols-outlined…">' + (cond ? "a" : "b") + o "nombre"
+    for (const m of js.matchAll(/material-symbols-outlined[^>]*>['"]\s*\+\s*\(?\s*[\w.]+(?:\s*===?\s*"[^"]*")?\s*\?\s*"([a-z0-9_]+)"\s*:\s*"([a-z0-9_]+)"/g)) [m[1], m[2]].forEach((x) => usados.add(x));
+    for (const m of js.matchAll(/\.textContent\s*=\s*\w+\s*\?\s*"([a-z0-9_]+)"\s*:\s*"([a-z0-9_]+)"/g)) [m[1], m[2]].forEach((x) => usados.add(x));
+  }
+  assert.ok(usados.size > 12, `se detectaron ${usados.size} íconos`);
+  const malos = [...usados].filter((x) => !validos.has(x));
+  assert.deepEqual(malos, [], "íconos con nombre inválido (¿alias antiguo?)");
+  assert.deepEqual([...usados].filter((x) => !pedidos.has(x)), [], "íconos que no quedarían en la fuente reducida");
+});
+
+test("Protocolos: lista inicial, subir PDF, reemplazar con versión anterior, permisos y eliminar", async () => {
+  const proto = (await import("../netlify/functions/protocolos.mjs")).default;
+  const parchivos = (await import("../netlify/functions/protocolos-archivos.mjs")).default;
+  const { cEditor, cFunc } = await preparar();
+  const subir = async (cookie, nombre, tipo = "application/pdf") =>
+    parchivos(req("/api/protocolos-archivos", { metodo: "POST", cookie, headers: { "content-type": tipo, "x-nombre": encodeURIComponent(nombre) }, cuerpo: new Uint8Array([37, 80, 68, 70, 45, 49]) }), { params: {} });
+
+  // Sin sesión, nada; un funcionario ve la lista inicial (36 documentos de Drive) pero no edita
+  assert.equal((await proto(req("/api/protocolos"), { params: {} })).status, 401);
+  let r = await proto(req("/api/protocolos", { cookie: cFunc }), { params: {} });
+  let j = await r.json();
+  assert.equal(j.documentos.length, 36);
+  assert.equal(j.areas.length, 7);
+  assert.equal(j.puedeEditar, false);
+  assert.equal((await subir(cFunc, "x.pdf")).status, 403);
+  assert.equal((await proto(req("/api/protocolos", { metodo: "POST", cookie: cFunc, datos: { titulo: "X", area: "urgencia", url: "https://x.cl" } }), { params: {} })).status, 403);
+
+  // Solo PDF o Word
+  assert.equal((await subir(cEditor, "foto.png", "image/png")).status, 415);
+
+  // El editor sube un PDF y crea el protocolo
+  const a1 = (await (await subir(cEditor, "Hemorragia postparto v1.pdf")).json()).archivo;
+  r = await proto(req("/api/protocolos", { metodo: "POST", cookie: cEditor, datos: { titulo: "Hemorragia postparto", area: "hospitalizacion", codigo: "GCL 1.2", version: "1", vigencia: "2030-01-31", archivo: a1.id } }), { params: {} });
+  assert.equal(r.status, 201);
+  const doc = (await r.json()).documento;
+  assert.equal(doc.archivo.nombre, "Hemorragia postparto v1.pdf");
+
+  // Cualquier funcionario lo ve y abre el PDF en el navegador
+  j = await (await proto(req("/api/protocolos", { cookie: cFunc }), { params: {} })).json();
+  assert.equal(j.documentos.length, 37);
+  r = await parchivos(req(`/api/protocolos-archivos/${a1.id}`, { cookie: cFunc }), { params: { id: a1.id } });
+  assert.equal(r.status, 200);
+  assert.match(r.headers.get("content-disposition"), /^inline/);
+  // Un archivo subido que no es de ningún protocolo no se entrega
+  const suelto = (await (await subir(cEditor, "suelto.pdf")).json()).archivo;
+  assert.equal((await parchivos(req(`/api/protocolos-archivos/${suelto.id}`, { cookie: cEditor }), { params: { id: suelto.id } })).status, 404);
+
+  // Versión nueva: la anterior queda en "anteriores" y se sigue pudiendo abrir
+  const a2 = (await (await subir(cEditor, "Hemorragia postparto v2.pdf")).json()).archivo;
+  r = await proto(req(`/api/protocolos/${doc.id}`, { metodo: "PUT", cookie: cEditor, datos: { titulo: "Hemorragia postparto", area: "hospitalizacion", version: "2", archivo: a2.id } }), { params: { id: doc.id } });
+  const d2 = (await r.json()).documento;
+  assert.equal(d2.archivo.id, a2.id);
+  assert.equal(d2.anteriores.length, 1);
+  assert.equal(d2.anteriores[0].version, "1");
+  assert.equal((await parchivos(req(`/api/protocolos-archivos/${a1.id}`, { cookie: cFunc }), { params: { id: a1.id } })).status, 200);
+
+  // Validaciones: sin archivo ni enlace, área inexistente, enlace no https
+  const malo = async (datos) => (await proto(req("/api/protocolos", { metodo: "POST", cookie: cEditor, datos }), { params: {} })).status;
+  assert.equal(await malo({ titulo: "Sin documento", area: "urgencia" }), 400);
+  assert.equal(await malo({ titulo: "Área mala", area: "no-existe", url: "https://x.cl" }), 400);
+  assert.equal(await malo({ titulo: "Enlace malo", area: "urgencia", url: "javascript:alert(1)" }), 400);
+
+  // Editar un documento de la lista inicial (enlace de Drive → PDF)
+  const a3 = (await (await subir(cEditor, "Clave azul.pdf")).json()).archivo;
+  r = await proto(req("/api/protocolos/clave-azul", { metodo: "PUT", cookie: cEditor, datos: { titulo: "Clave azul", area: "urgencia", codigo: "AOC", archivo: a3.id } }), { params: { id: "clave-azul" } });
+  assert.equal(r.status, 200);
+  assert.equal((await r.json()).documento.archivo.id, a3.id);
+
+  // Eliminar borra también sus archivos
+  r = await proto(req(`/api/protocolos/${doc.id}`, { metodo: "DELETE", cookie: cEditor }), { params: { id: doc.id } });
+  assert.equal(r.status, 200);
+  assert.equal((await parchivos(req(`/api/protocolos-archivos/${a2.id}`, { cookie: cFunc }), { params: { id: a2.id } })).status, 404);
+  j = await (await proto(req("/api/protocolos", { cookie: cFunc }), { params: {} })).json();
+  assert.equal(j.documentos.length, 36);
 });

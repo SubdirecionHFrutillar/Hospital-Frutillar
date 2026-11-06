@@ -50,6 +50,23 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.on("eleventy.before", async () => { contenidoBuild = await cargarContenido(); });
 
+  // Los íconos se piden a Google Fonts solo por nombre (_data/iconos.js). Si una página usa uno que no quedó
+  // en la lista, se vería como texto: en ese caso el build falla (Netlify mantiene la versión anterior).
+  eleventyConfig.on("eleventy.after", ({ results }) => {
+    const { lista } = require("./_data/iconos.js")();
+    const pedidos = new Set(lista);
+    const faltan = new Map();
+    for (const r of results || []) {
+      if (!r.outputPath?.endsWith(".html") || r.outputPath.includes("/admin/")) continue;
+      for (const m of String(r.content).matchAll(/class="[^"]*material-symbols-outlined[^"]*"[^>]*>\s*([a-z0-9_]+)\s*</g)) {
+        if (!pedidos.has(m[1])) faltan.set(m[1], r.url);
+      }
+    }
+    if (faltan.size) {
+      throw new Error("Íconos que no existen en Material Symbols (o con nombre antiguo): " + [...faltan].map(([i, u]) => `${i} (${u})`).join(", "));
+    }
+  });
+
   // Valor vigente de un campo editable: lo editado en la intranet o, si no, el del repositorio.
   const valorCampo = (ruta, base) => (Object.prototype.hasOwnProperty.call(contenidoBuild, ruta) ? contenidoBuild[ruta] : base ?? "");
   eleventyConfig.addFilter("cv", (base, ruta) => valorCampo(ruta, base));

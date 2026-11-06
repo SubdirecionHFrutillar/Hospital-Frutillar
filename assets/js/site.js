@@ -17,7 +17,22 @@
       var sub = document.getElementById(b.getAttribute("aria-controls"));
       var abierto = sub.classList.toggle("hidden") === false;
       b.setAttribute("aria-expanded", String(abierto));
-      b.querySelector(".expand-icon").textContent = abierto ? "expand_less" : "expand_more";
+      b.querySelector(".expand-icon").textContent = abierto ? "keyboard_arrow_up" : "keyboard_arrow_down";
+    });
+  });
+
+  // "Ver más" (p. ej. las campañas del Minsal en celular): muestra u oculta el bloque indicado
+  document.querySelectorAll("[data-ver-mas]").forEach(function (b) {
+    var bloque = document.getElementById(b.getAttribute("data-ver-mas"));
+    var texto = b.querySelector("[data-ver-mas-texto]");
+    var original = texto ? texto.textContent : "";
+    b.addEventListener("click", function () {
+      var abrir = bloque.classList.contains("hidden");
+      bloque.classList.toggle("hidden", !abrir);
+      bloque.classList.toggle("flex", abrir);
+      b.setAttribute("aria-expanded", String(abrir));
+      b.querySelector(".material-symbols-outlined").textContent = abrir ? "keyboard_arrow_up" : "keyboard_arrow_down";
+      if (texto) texto.textContent = abrir ? "Ver menos" : original;
     });
   });
 

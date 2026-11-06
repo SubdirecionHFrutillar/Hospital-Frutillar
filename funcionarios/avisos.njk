@@ -1,9 +1,9 @@
 ---
-title: Avisos del sitio
+title: Avisos
 permalink: funcionarios/avisos.html
 ---
 {% import "componentes.njk" as ui with context %}
-{{ ui.tituloPortal("Avisos del sitio web", "Franja breve bajo el menú del sitio público: cambios de horario, cortes de servicio, feriados", "campaign") }}
+{{ ui.tituloPortal("Avisos", "Franja breve bajo el menú, en el sitio público, en la intranet o en ambos: cambios de horario, cortes de servicio, feriados", "campaign") }}
 
 <div class="container mx-auto px-4 py-8 max-w-4xl flex flex-col gap-5" data-pagina="avisos">
   {% call ui.seccion("Nuevo aviso", "add_alert", padding="px-6 py-5") %}
@@ -13,6 +13,23 @@ permalink: funcionarios/avisos.html
       <textarea id="aviso-texto" name="texto" rows="2" maxlength="220" required class="w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary" placeholder="Ej: El sábado 1 de noviembre (feriado) la Farmacia atenderá de 09:00 a 13:00 hrs."></textarea>
       <p class="text-xs text-gray-500 mt-1"><span id="aviso-cuenta">0</span>/220 caracteres. Una o dos frases.</p>
     </div>
+    <fieldset class="md:col-span-6">
+      <legend class="block text-xs font-bold text-gray-600 mb-2">Dónde se muestra</legend>
+      <div class="grid sm:grid-cols-3 gap-2">
+        <label class="flex items-start gap-2.5 border border-gray-200 rounded-custom px-3 py-2.5 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary-bg">
+          <input type="radio" name="destino" value="publico" checked class="mt-0.5 text-primary focus:ring-primary">
+          <span class="text-sm"><strong class="block text-gray-800">Sitio público</strong><span class="text-xs text-gray-500">Lo ve cualquier persona en la web del hospital.</span></span>
+        </label>
+        <label class="flex items-start gap-2.5 border border-gray-200 rounded-custom px-3 py-2.5 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary-bg">
+          <input type="radio" name="destino" value="intranet" class="mt-0.5 text-primary focus:ring-primary">
+          <span class="text-sm"><strong class="block text-gray-800">Solo intranet</strong><span class="text-xs text-gray-500">Solo funcionarios con sesión. No aparece en la web.</span></span>
+        </label>
+        <label class="flex items-start gap-2.5 border border-gray-200 rounded-custom px-3 py-2.5 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary-bg">
+          <input type="radio" name="destino" value="ambos" class="mt-0.5 text-primary focus:ring-primary">
+          <span class="text-sm"><strong class="block text-gray-800">Ambos</strong><span class="text-xs text-gray-500">En la web y en la intranet.</span></span>
+        </label>
+      </div>
+    </fieldset>
     <div class="md:col-span-2">
       <label for="aviso-tipo" class="block text-xs font-bold text-gray-600 mb-1">Tipo</label>
       <select id="aviso-tipo" name="tipo" class="w-full rounded-custom border-gray-300 text-sm focus:border-primary focus:ring-primary">

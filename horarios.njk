@@ -33,7 +33,7 @@ permalink: horarios.html
             </li>
             {% endfor %}
           </ul>
-          <div data-c-ocultar-vacio{% if not (s.notas | cv(r + ".notas")) %} hidden{% endif %}>{% campo r + ".notas", s.notas or "", "p", "text-xs text-gray-400 mt-3" %}</div>
+          <div data-c-ocultar-vacio{% if not (s.notas | cv(r + ".notas")) %} hidden{% endif %}>{% campo r + ".notas", s.notas or "", "p", "text-xs text-gray-500 mt-3" %}</div>
         </div>
       </div>
       {% endfor %}

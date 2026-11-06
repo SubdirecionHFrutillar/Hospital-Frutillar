@@ -43,10 +43,38 @@ function pintarCabecera(u) {
   if (PUBLICA_SITIO.includes(u.rol)) $$("[data-solo-comunicaciones]").forEach((x) => x.classList.remove("hidden"));
 }
 
+// Franja de avisos de la intranet (bajo el encabezado del portal). El texto va siempre como texto.
+async function pintarAvisosIntranet() {
+  const caja = $("[data-avisos-intranet]");
+  if (!caja) return;
+  try {
+    const { avisos } = await api("/api/avisos/intranet");
+    caja.replaceChildren(
+      ...avisos.map((a) => {
+        const imp = a.tipo === "importante";
+        const fila = el("div", `aviso aviso--${imp ? "importante" : "info"}`);
+        const cont = el("div", "container mx-auto px-4 py-2.5 flex items-center gap-3 text-sm");
+        const p = el("p", "flex-1 leading-snug");
+        p.append(el("strong", "font-bold", imp ? "Importante: " : "Aviso: "), document.createTextNode(a.texto));
+        cont.append(icono(imp ? "campaign" : "info", "text-xl flex-shrink-0"), p);
+        if (a.url) {
+          const ver = el("a", "font-bold underline underline-offset-2 whitespace-nowrap", "Ver más");
+          ver.href = a.url;
+          if (/^https?:/.test(a.url)) { ver.target = "_blank"; ver.rel = "noopener"; }
+          cont.append(ver);
+        }
+        fila.append(cont);
+        return fila;
+      }),
+    );
+    caja.hidden = !avisos.length;
+  } catch {}
+}
+
 async function usuarioActual() {
   try {
     const u = (await api("/api/auth/yo")).usuario;
-    if (!u.debeCambiarClave) pintarCabecera(u);
+    if (!u.debeCambiarClave) { pintarCabecera(u); pintarAvisosIntranet(); }
     return u;
   } catch (e) {
     if (e.status === 401) irAlIngreso();
@@ -687,7 +715,7 @@ const paginas = {
     }
     const VER = {
       Servicios: "/servicios.html", Horarios: "/horarios.html", Autoridades: "/quienes-somos.html#autoridades",
-      "Preguntas frecuentes": "/faq.html", Visitas: "/visitas.html", Transparencia: "/transparencia.html",
+      "Preguntas frecuentes": "/faq.html", Visitas: "/visitas.html", Transparencia: "/transparencia.html", Portada: "/",
     };
     const [campos, inicial] = await Promise.all([
       fetch("/funcionarios/contenido-campos.json", { credentials: "same-origin" }).then((r) => r.json()),
@@ -862,30 +890,207 @@ const paginas = {
   async protocolos() {
     const u = await usuarioActual();
     if (u.debeCambiarClave) return (location.href = "/funcionarios/cambiar-clave.html");
-    // Buscador: filtra por área, título o código, sin importar tildes ni mayúsculas
-    const sinTildes = (t) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const sinTildes = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const campo = $("#buscar-protocolo");
-    const areas = [...document.querySelectorAll("[data-area]")];
+    const grilla = $("#areas-protocolos");
     const cuenta = $("#protocolos-cuenta");
-    const total = document.querySelectorAll("[data-protocolo]").length;
-    const filtrar = () => {
-      const q = sinTildes(campo.value.trim());
-      let visibles = 0;
-      for (const a of areas) {
-        let enArea = 0;
-        for (const li of a.querySelectorAll("[data-protocolo]")) {
-          const ok = !q || sinTildes(li.dataset.protocolo).includes(q);
-          li.hidden = !ok;
-          if (ok) enArea++;
-        }
-        a.hidden = enArea === 0;
-        visibles += enArea;
-      }
-      cuenta.textContent = q ? `${visibles} de ${total} protocolos` : `${total} protocolos`;
-      $("#sin-protocolos").classList.toggle("hidden", visibles > 0);
+    const msg = $("#protocolos-msg");
+    const dlg = $("#dlg-protocolo");
+    const form = $("#form-protocolo");
+    const msgDlg = $("[data-msg-dlg]", dlg);
+    let datos = { areas: [], documentos: [], puedeEditar: false, hoy: "" };
+    let editando = null;
+    let archivoAnteriorQuitado = false;
+
+    const urlArchivo = (a) => `/api/protocolos-archivos/${a.id}`;
+    const peso = (b) => (b >= 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
+    const enDias = (fecha) => Math.round((Date.parse(fecha) - Date.parse(datos.hoy)) / 86400000);
+    const estadoVigencia = (d) => {
+      if (!d.vigencia) return null;
+      const dias = enDias(d.vigencia);
+      if (dias < 0) return ["Vencido", "bg-red-100 text-red-800"];
+      if (dias <= 90) return ["Vence pronto", "bg-amber-100 text-amber-900"];
+      return null;
     };
-    campo.addEventListener("input", filtrar);
-    filtrar();
+
+    const pintar = () => {
+      const q = sinTildes(campo.value.trim());
+      grilla.replaceChildren();
+      grilla.removeAttribute("aria-busy");
+      let visibles = 0;
+      for (const a of datos.areas) {
+        const docs = datos.documentos
+          .filter((d) => d.area === a.id)
+          .filter((d) => !q || sinTildes(`${a.nombre} ${d.titulo} ${d.codigo} ${d.archivo?.nombre || ""}`).includes(q))
+          .sort((x, y) => x.titulo.localeCompare(y.titulo, "es"));
+        if (q && !docs.length) continue;
+        visibles += docs.length;
+        const art = el("article", "protocolo-area");
+        const cab = el("header", "flex items-start gap-3");
+        const ic = el("span", "protocolo-area__icono");
+        ic.setAttribute("aria-hidden", "true");
+        ic.append(icono(a.icono, ""));
+        const tx = el("div", "flex-1 min-w-0");
+        tx.append(el("h2", "font-bold text-primary-deep leading-tight", a.nombre), el("p", "text-xs text-gray-500 leading-snug mt-1", a.descripcion));
+        cab.append(ic, tx);
+        if (datos.puedeEditar) {
+          const mas = el("button", "text-indigo-700 hover:bg-indigo-50 rounded-full w-8 h-8 inline-flex items-center justify-center flex-shrink-0");
+          mas.type = "button";
+          mas.title = `Subir protocolo en ${a.nombre}`;
+          mas.setAttribute("aria-label", mas.title);
+          mas.append(icono("add", "text-xl"));
+          mas.addEventListener("click", () => abrir(null, a.id));
+          cab.append(mas);
+        }
+        const ul = el("ul", "mt-3 flex flex-col divide-y divide-gray-100 border-t border-gray-100");
+        for (const d of docs) {
+          const li = el("li", "flex items-center gap-1");
+          const link = el("a", "flex-1 min-w-0 flex items-center gap-2 py-2 text-[13px] text-gray-800 hover:text-indigo-700");
+          link.href = d.archivo ? urlArchivo(d.archivo) : d.url;
+          link.target = "_blank";
+          link.rel = "noopener";
+          const tipoIcono = d.archivo ? (d.archivo.tipo === "application/pdf" ? "picture_as_pdf" : "description") : /\/folders\//.test(d.url) ? "folder" : "link";
+          const cuerpo = el("span", "flex-1 min-w-0");
+          cuerpo.append(el("span", "block", d.titulo));
+          const extra = [d.version && `v${d.version}`, d.archivo && peso(d.archivo.tamano), !d.archivo && "Drive"].filter(Boolean).join(" · ");
+          if (extra) cuerpo.append(el("span", "block text-[11px] text-gray-500", extra));
+          link.append(icono(tipoIcono, `text-base ${d.archivo ? "text-red-700" : "text-indigo-600"}`), cuerpo);
+          const est = estadoVigencia(d);
+          if (est) link.append(el("span", `text-[10px] font-bold uppercase rounded px-1.5 py-0.5 ${est[1]}`, est[0]));
+          if (d.codigo) link.append(el("span", "text-[11px] text-gray-500", d.codigo));
+          li.append(link);
+          if (datos.puedeEditar) {
+            const ed = el("button", "text-gray-500 hover:text-indigo-700 w-8 h-8 inline-flex items-center justify-center flex-shrink-0");
+            ed.type = "button";
+            ed.title = `Editar o reemplazar: ${d.titulo}`;
+            ed.setAttribute("aria-label", ed.title);
+            ed.append(icono("edit", "text-lg"));
+            ed.addEventListener("click", () => abrir(d));
+            li.append(ed);
+          }
+          ul.append(li);
+        }
+        if (!docs.length) ul.append(el("li", "py-3 text-xs text-gray-500", "Aún no hay protocolos en esta área."));
+        art.append(cab, ul);
+        if (a.url) {
+          const ver = el("a", "mt-auto pt-3 inline-flex items-center gap-1.5 text-xs font-bold text-indigo-700 hover:underline", "Ver carpeta completa");
+          ver.href = a.url;
+          ver.target = "_blank";
+          ver.rel = "noopener";
+          ver.append(icono("open_in_new", "text-sm"));
+          art.append(ver);
+        }
+        grilla.append(art);
+      }
+      const total = datos.documentos.length;
+      cuenta.textContent = q ? `${visibles} de ${total} protocolos` : `${total} protocolos`;
+      $("#sin-protocolos").classList.toggle("hidden", visibles > 0 || !q);
+    };
+
+    const cargar = async () => {
+      datos = await api("/api/protocolos");
+      $("#p-area").replaceChildren(...datos.areas.map((a) => { const o = el("option", "", a.nombre); o.value = a.id; return o; }));
+      pintar();
+    };
+
+    // ── Formulario (subir / editar) ──
+    const pintarArchivoActual = () => {
+      const caja = $("[data-archivo-actual]", dlg);
+      caja.replaceChildren();
+      const a = editando?.archivo && !archivoAnteriorQuitado ? editando.archivo : null;
+      caja.classList.toggle("hidden", !a);
+      $("[data-etiqueta-archivo]", dlg).textContent = a ? "Reemplazar por una versión nueva (PDF o Word, hasta 30 MB)" : "Archivo PDF o Word (hasta 30 MB)";
+      if (!a) return;
+      const ver = el("a", "flex-1 min-w-0 truncate font-semibold text-indigo-700 hover:underline", a.nombre);
+      ver.href = urlArchivo(a);
+      ver.target = "_blank";
+      ver.rel = "noopener";
+      const quitar = el("button", "text-xs font-bold text-red-700 hover:underline", "Quitar archivo");
+      quitar.type = "button";
+      quitar.addEventListener("click", () => { archivoAnteriorQuitado = true; pintarArchivoActual(); });
+      caja.append(icono("picture_as_pdf", "text-red-700"), ver, el("span", "text-xs text-gray-500", peso(a.tamano)), quitar);
+    };
+    const abrir = (doc, area) => {
+      editando = doc;
+      archivoAnteriorQuitado = false;
+      form.reset();
+      msgDlg.classList.add("hidden");
+      $("[data-titulo-dlg]", dlg).textContent = doc ? "Editar protocolo" : "Subir protocolo";
+      form.titulo.value = doc?.titulo || "";
+      form.area.value = doc?.area || area || datos.areas[0]?.id;
+      form.codigo.value = doc?.codigo || "";
+      form.version.value = doc?.version || "";
+      form.vigencia.value = doc?.vigencia || "";
+      form.url.value = doc?.url || "";
+      $("[data-eliminar]", dlg).classList.toggle("hidden", !doc);
+      pintarArchivoActual();
+      const ant = $("[data-anteriores]", dlg);
+      ant.replaceChildren();
+      ant.classList.toggle("hidden", !doc?.anteriores?.length);
+      if (doc?.anteriores?.length) {
+        ant.append(el("p", "text-xs font-bold text-gray-600 mb-1", "Versiones anteriores"));
+        const ul = el("ul", "flex flex-col gap-1");
+        for (const v of doc.anteriores) {
+          const li = el("li", "flex items-center gap-2 text-xs");
+          const a = el("a", "text-indigo-700 hover:underline truncate", v.archivo.nombre);
+          a.href = urlArchivo(v.archivo);
+          a.target = "_blank";
+          a.rel = "noopener";
+          li.append(icono("history", "text-sm text-gray-500"), a, el("span", "text-gray-500 whitespace-nowrap", `${v.version ? `v${v.version} · ` : ""}reemplazada el ${fechaCorta(v.reemplazado)}`));
+          ul.append(li);
+        }
+        ant.append(ul);
+      }
+      dlg.showModal();
+      form.titulo.focus();
+    };
+    $("#nuevo-protocolo").addEventListener("click", () => abrir(null));
+    $$("[data-cancelar]", dlg).forEach((b) => b.addEventListener("click", () => dlg.close()));
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const boton = $("[data-guardar]", dlg);
+      const f = $("#p-archivo").files[0];
+      if (f && !/\.(pdf|docx?)$/i.test(f.name)) return mensaje(msgDlg, "El protocolo debe ser PDF o Word.");
+      if (f && f.size > 30 * 1048576) return mensaje(msgDlg, "El archivo supera los 30 MB.");
+      boton.disabled = true;
+      try {
+        let archivo = editando?.archivo && !archivoAnteriorQuitado ? editando.archivo.id : null;
+        if (f) {
+          boton.textContent = "Subiendo…";
+          // Algunos equipos no informan el tipo de los .docx: se deduce de la extensión
+          const TIPO = { pdf: "application/pdf", doc: "application/msword", docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" };
+          const conTipo = f.type ? f : new File([f], f.name, { type: TIPO[f.name.split(".").pop().toLowerCase()] });
+          archivo = (await subirArchivo("/api/protocolos-archivos", conTipo)).id;
+        }
+        boton.textContent = "Guardando…";
+        const cuerpo = { titulo: form.titulo.value, area: form.area.value, codigo: form.codigo.value, version: form.version.value, vigencia: form.vigencia.value, url: form.url.value.trim(), archivo };
+        if (editando) await api(`/api/protocolos/${editando.id}`, { metodo: "PUT", datos: cuerpo });
+        else await api("/api/protocolos", { metodo: "POST", datos: cuerpo });
+        dlg.close();
+        await cargar();
+        mensaje(msg, `Protocolo ${editando ? "actualizado" : "publicado"}: ${cuerpo.titulo}. Ya lo ven todos los funcionarios.`, "ok");
+      } catch (err) {
+        mensaje(msgDlg, err.message);
+      } finally {
+        boton.disabled = false;
+        boton.textContent = "Guardar";
+      }
+    });
+    $("[data-eliminar]", dlg).addEventListener("click", async () => {
+      if (!editando || !confirm(`¿Eliminar "${editando.titulo}" y sus archivos? No se puede deshacer.`)) return;
+      try {
+        await api(`/api/protocolos/${editando.id}`, { metodo: "DELETE" });
+        dlg.close();
+        await cargar();
+        mensaje(msg, "Protocolo eliminado.", "ok");
+      } catch (err) {
+        mensaje(msgDlg, err.message);
+      }
+    });
+
+    campo.addEventListener("input", pintar);
+    try { await cargar(); } catch (err) { mensaje(msg, err.message); grilla.replaceChildren(); }
   },
 
   async calidad() {
@@ -921,7 +1126,8 @@ const paginas = {
     const texto = $("#aviso-texto");
     texto.addEventListener("input", () => ($("#aviso-cuenta").textContent = String(texto.value.length)));
     $("#aviso-hasta").min = new Date().toLocaleDateString("en-CA", TZ);
-    const yaSeVe = " Ya se ve en el sitio.";
+    const DONDE = { publico: "Sitio público", intranet: "Solo intranet", ambos: "Sitio público e intranet" };
+    const yaSeVe = (d) => ({ publico: " Ya se ve en el sitio.", intranet: " Ya se ve en la intranet.", ambos: " Ya se ve en el sitio y en la intranet." })[d] || "";
 
     const cargar = async () => {
       const { avisos } = await api("/api/avisos");
@@ -932,7 +1138,7 @@ const paginas = {
         fila.append(icono(a.tipo === "importante" ? "campaign" : "info", a.tipo === "importante" ? "text-orange-600 mt-0.5" : "text-primary mt-0.5"));
         const info = el("div", "flex-1 min-w-0");
         info.append(el("p", "text-sm text-gray-800", a.texto));
-        const meta = [a.tipo === "importante" ? "Importante" : "Aviso", `por ${a.autor}`, fechaCorta(a.creado)];
+        const meta = [a.tipo === "importante" ? "Importante" : "Aviso", DONDE[a.destino] || DONDE.publico, `por ${a.autor}`, fechaCorta(a.creado)];
         if (a.hasta) meta.push(`hasta ${new Date(a.hasta + "T12:00:00").toLocaleDateString("es-CL", { dateStyle: "medium", ...TZ })}`);
         if (!a.vigente) meta.push("vencido");
         info.append(el("p", "text-xs text-gray-500 mt-1", meta.join(" · ")));
@@ -940,12 +1146,13 @@ const paginas = {
         const borrar = el("button", "text-xs font-bold text-red-600 hover:underline flex-shrink-0", "Eliminar");
         borrar.type = "button";
         borrar.addEventListener("click", async () => {
-          if (!confirm("¿Eliminar este aviso del sitio?")) return;
+          if (!confirm("¿Eliminar este aviso?")) return;
           borrar.disabled = true;
           try {
             const r = await api(`/api/avisos/${a.id}`, { metodo: "DELETE" });
-            mensaje(msg, "Aviso eliminado." + yaSeVe, "ok");
+            mensaje(msg, "Aviso eliminado.", "ok");
             await cargar();
+            pintarAvisosIntranet();
           } catch (err) {
             mensaje(msg, err.message);
             borrar.disabled = false;
@@ -961,11 +1168,12 @@ const paginas = {
       const boton = $("button[type=submit]", form);
       boton.disabled = true;
       try {
-        const r = await api("/api/avisos", { metodo: "POST", datos: { texto: texto.value, tipo: form.tipo.value, hasta: form.hasta.value, url: form.url.value.trim() } });
+        const r = await api("/api/avisos", { metodo: "POST", datos: { texto: texto.value, tipo: form.tipo.value, destino: form.destino.value, hasta: form.hasta.value, url: form.url.value.trim() } });
         form.reset();
         $("#aviso-cuenta").textContent = "0";
-        mensaje(msg, "Aviso publicado." + yaSeVe, "ok");
+        mensaje(msg, "Aviso publicado." + yaSeVe(r.aviso.destino), "ok");
         await cargar();
+        pintarAvisosIntranet();
       } catch (err) {
         mensaje(msg, err.message);
       } finally {

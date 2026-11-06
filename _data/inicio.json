@@ -1,0 +1,6 @@
+{
+  "cifras": [
+    { "id": "funcionarios", "valor": "163", "etiqueta": "Funcionarios" },
+    { "id": "poblacion", "valor": "+24.000", "etiqueta": "Población" }
+  ]
+}

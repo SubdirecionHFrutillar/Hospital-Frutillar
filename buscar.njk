@@ -1,0 +1,40 @@
+---
+layout: base.njk
+title: Buscar
+description: "Buscador del sitio del Hospital de Frutillar: horarios, servicios, trámites, preguntas frecuentes y noticias."
+permalink: buscar.html
+noindex: true
+---
+{#- El índice lo arma Pagefind al final del build (npm run build:buscador), con el contenido de cada página pública. -#}
+{% import "componentes.njk" as ui with context %}
+{{ ui.banner("Buscar en el sitio", "Horarios, servicios, trámites, preguntas frecuentes y noticias", "search", [{ label: "Buscar" }]) }}
+<div class="container mx-auto px-4 py-10 max-w-3xl">
+  <div id="buscador" class="buscador"></div>
+  <noscript><p class="text-sm text-gray-600">El buscador necesita JavaScript. Puede navegar con el menú o revisar las <a href="/faq.html" class="text-primary font-bold underline">Preguntas frecuentes</a>.</p></noscript>
+  <div class="mt-8 text-sm text-gray-600">
+    <p class="font-bold text-gray-700 mb-2">Búsquedas frecuentes</p>
+    <div class="flex flex-wrap gap-2">
+      {% for t in ["horario farmacia", "visitas", "resultados de exámenes", "FONASA", "reclamo", "urgencia"] %}
+      <a href="/buscar.html?q={{ t | urlencode }}" class="px-3 py-1.5 rounded-full bg-white border border-gray-200 hover:border-primary hover:text-primary">{{ t }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
+<script src="/pagefind/pagefind-ui.js"></script>
+<script>
+  (function () {
+    if (!window.PagefindUI) return;
+    var ui = new PagefindUI({
+      element: "#buscador",
+      showSubResults: true,
+      showImages: false,
+      resetStyles: false,
+      translations: { placeholder: "¿Qué busca? Ej: horario de farmacia", zero_results: "No encontramos resultados para [SEARCH_TERM]. Pruebe con otras palabras o llame a Salud Responde 600 360 7777." }
+    });
+    var q = new URLSearchParams(location.search).get("q");
+    if (q) ui.triggerSearch(q);
+    var input = document.querySelector("#buscador input");
+    if (input && !q) input.focus();
+  })();
+</script>

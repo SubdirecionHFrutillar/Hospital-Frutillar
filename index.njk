@@ -5,10 +5,10 @@ title: Inicio
 portada: true
 accesosUsuarios:
   - { titulo: "Ver Imágenes de Exámenes", texto: "Accede a tus imágenes de radiología, ecografía y otros exámenes en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", cta: "Acceder", fondo: "bg-primary-bg border-primary-pale hover:border-primary-light", circulo: "bg-primary", color: "text-primary" }
-  - { titulo: "¿Urgencia o CESFAM?", texto: "Dónde consultar según su problema y cómo se prioriza la atención en Urgencia", url: "/donde-consultar.html", icono: "alt_route", cta: "Ver guía", fondo: "bg-red-50 border-red-100", circulo: "bg-red-600", color: "text-red-600" }
-  - { titulo: "OIRS", texto: "Oficina de Información, Reclamos y Sugerencias. Haz llegar tu opinión o reclamo.", url: "/contacto.html", icono: "campaign", cta: "Contactar", fondo: "bg-teal-50 border-teal-100", circulo: "bg-teal-600", color: "text-teal-600" }
+  - { titulo: "¿Urgencia o CESFAM?", texto: "Dónde consultar según su problema y cómo se prioriza la atención en Urgencia", url: "/donde-consultar.html", icono: "alt_route", cta: "Ver guía", fondo: "bg-red-50 border-red-100", circulo: "bg-red-600", color: "text-red-700" }
+  - { titulo: "OIRS", texto: "Oficina de Información, Reclamos y Sugerencias. Haz llegar tu opinión o reclamo.", url: "/contacto.html", icono: "campaign", cta: "Contactar", fondo: "bg-teal-50 border-teal-100", circulo: "bg-teal-600", color: "text-teal-700" }
   - { titulo: "Actualiza tus datos", texto: "¿Cambió de dirección, teléfono o previsión? Actualice su registro en el hospital", url: "/actualiza-tus-datos.html", icono: "person_edit", cta: "Actualizar", fondo: "bg-amber-50 border-amber-100", circulo: "bg-amber-500", color: "text-amber-700" }
-  - { titulo: "Preguntas Frecuentes", texto: "Respuestas sobre atención, horarios, pagos FONASA y trámites en el hospital", url: "/faq.html", icono: "help", cta: "Ver respuestas", fondo: "bg-purple-50 border-purple-100", circulo: "bg-purple-600", color: "text-purple-600" }
+  - { titulo: "Preguntas Frecuentes", texto: "Respuestas sobre atención, horarios, pagos FONASA y trámites en el hospital", url: "/faq.html", icono: "help", cta: "Ver respuestas", fondo: "bg-purple-50 border-purple-100", circulo: "bg-purple-600", color: "text-purple-700" }
 accesosRapidos:
   - { titulo: "Urgencias", texto: "Atención 24 horas y categorización", url: "/donde-consultar.html#categorizacion", icono: "emergency", tono: "bg-red-50 text-red-500" }
   - { titulo: "Visitas a hospitalizados", texto: "Todos los días, 10:00 a 19:00 hrs", url: "/visitas.html", icono: "groups", tono: "bg-amber-50 text-amber-600" }
@@ -35,7 +35,7 @@ accesosRapidos:
         </div>
         <div class="flex-1">
           <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">{{ a.titulo }}</h3>
-          <p class="text-xs text-gray-500 leading-relaxed">{{ a.texto }}</p>
+          <p class="text-xs text-gray-600 leading-relaxed">{{ a.texto }}</p>
         </div>
         <span class="text-xs font-bold {{ a.color }} group-hover:underline">{{ a.cta }} →</span>
       </a>
@@ -94,7 +94,7 @@ accesosRapidos:
               <span class="px-2 py-0.5 bg-primary-bg text-primary text-[10px] font-bold uppercase tracking-wide rounded w-fit">{{ n.data.categoria }}</span>
               <h3 class="font-bold text-gray-800 text-sm leading-snug">{{ n.data.title }}</h3>
               <div class="flex items-center gap-3">
-                <time datetime="{{ n.date | fechaISO }}" class="text-xs text-gray-400">{{ n.date | fechaES }}</time>
+                <time datetime="{{ n.date | fechaISO }}" class="text-xs text-gray-500">{{ n.date | fechaES }}</time>
                 <a href="{{ n.url }}" class="text-xs font-bold text-primary hover:underline">Leer más<span class="sr-only">: {{ n.data.title }}</span> →</a>
               </div>
             </div>
@@ -129,7 +129,10 @@ accesosRapidos:
 
     <div class="flex flex-col gap-2">
       <h2 class="text-sm font-bold text-gray-600 mt-1">Campañas del Ministerio de Salud</h2>
+      {#- En celular se muestran 3 campañas y el resto con "Ver más" (en escritorio, todas) -#}
+      {% set VISIBLES = 3 %}
       {% for c in campanas.campanas %}
+      {% if loop.index0 == VISIBLES %}<div id="mas-campanas" class="hidden lg:flex flex-col gap-2">{% endif %}
       <a href="{{ c.url }}" target="_blank" rel="noopener" class="campana group{% if c.destacada %} campana--destacada{% endif %}" style="--campana: {{ c.color }}; color: {{ c.color }};">
         {% if c.imagen %}
           <img src="{{ c.imagen }}" alt="{{ c.titular }}" loading="lazy" class="w-full h-auto block">
@@ -143,6 +146,11 @@ accesosRapidos:
         {% endif %}
         <span class="sr-only">(se abre en el sitio del Ministerio de Salud)</span>
       </a>
+      {% if loop.last and loop.length > VISIBLES %}</div>
+      <button type="button" class="lg:hidden flex items-center justify-center gap-1.5 text-sm font-bold text-primary bg-white border border-gray-200 rounded-custom py-2.5 hover:bg-primary-bg" data-ver-mas="mas-campanas" aria-expanded="false" aria-controls="mas-campanas">
+        <span aria-hidden="true" class="material-symbols-outlined text-lg">keyboard_arrow_down</span><span data-ver-mas-texto>Ver {{ loop.length - VISIBLES }} campañas más</span>
+      </button>
+      {% endif %}
       {% endfor %}
       {{ ui.saludResponde() }}
     </div>

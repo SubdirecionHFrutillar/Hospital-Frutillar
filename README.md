@@ -103,11 +103,12 @@ Las noticias del sitio se publican desde el portal (ya no desde el CMS `/admin`)
 - **Build hook:** ya no se usa. Si existe la variable `NETLIFY_BUILD_HOOK` o un *build hook* en Netlify, bórrelos.
 - Las noticias antiguas en `content/noticias/*.md` siguen funcionando; si existe una noticia del portal con la misma dirección, se muestra la del portal.
 
-### Avisos del sitio público
+### Avisos (sitio público e intranet)
 
 Comunicaciones o un administrador publica avisos breves desde **Portal → Avisos** (cambios de horario,
-cortes de servicio, feriados). Aparecen en una franja bajo el menú de todas las páginas públicas;
-máximo 5 a la vez. Con fecha de término, el aviso se oculta solo ese día. Igual que las noticias,
+cortes de servicio, feriados) y elige dónde se muestran: **sitio público**, **solo intranet** o **ambos**.
+Aparecen en una franja bajo el menú (del sitio o del portal); máximo 5 a la vez en cada lugar. Los de
+"solo intranet" se piden con sesión a `/api/avisos/intranet` y nunca salen por las API públicas ni en el HTML. Con fecha de término, el aviso se oculta solo ese día. Igual que las noticias,
 se ven al instante (vía `/api/sitio-vivo`), sin regenerar el sitio.
 
 ### Roles
@@ -185,10 +186,34 @@ Dibujos (`arte`): ver `_includes/campana-arte.njk`.
 `/funcionarios/protocolos.html`, con buscador. Los enlaces están en `_data/protocolos.json`, ordenados por área
 clínica; apuntan a los documentos y carpetas de Google Drive (los mismos que usa Calidad, más los de HODOM y Urgencia).
 
+## Protocolos clínicos (intranet)
+
+`/funcionarios/protocolos.html` se carga en vivo desde `/api/protocolos`. Editores, Comunicaciones y
+administradores **suben protocolos en PDF o Word** (hasta 30 MB, por partes), los editan, los reemplazan por una
+versión nueva (la anterior queda guardada; se conservan las últimas 5) o los eliminan, sin regenerar el sitio.
+Opcionalmente llevan código, versión y fecha de vigencia ("Vence pronto" a 90 días, "Vencido" después).
+Los archivos solo se entregan con sesión y si pertenecen a un protocolo. Las áreas y la lista inicial (enlaces de
+Drive) están en `netlify/lib/protocolos-base.mjs`; esa lista se usa hasta el primer cambio desde el portal.
+
+## Buscador
+
+`/buscar.html` (ícono **Buscar** en el menú) usa [Pagefind](https://pagefind.app): el índice se genera al final del
+build (`npm run build:buscador`) con el contenido de `<main data-pagefind-body>` de las páginas públicas; el portal y
+las páginas `noindex` no se indexan. No necesita servidor ni gasta funciones. Lo editado en vivo desde la intranet
+(noticias del portal, Contenido del sitio) entra al índice en el siguiente build.
+
+## Íconos
+
+Los íconos son de Material Symbols y se piden a Google Fonts **solo los que se usan** (`icon_names=…`, calculado
+en `_data/iconos.js`), lo que reduce mucho la descarga. Usar siempre el nombre canónico (p. ej.
+`keyboard_arrow_down`, no `expand_more`): si una página usa un nombre que no está en
+`scripts/material-symbols-nombres.txt`, **el build falla** para no publicar íconos rotos.
+
 ## Contenido del sitio editable desde la intranet
 
 **Portal → Contenido del sitio** (roles Comunicaciones y Administrador): textos y fotos de **Servicios**,
-**Horarios**, **Autoridades**, **Preguntas frecuentes**, **Visitas** y **Transparencia**. Los cambios se ven al instante y **no regeneran el sitio** (no gastan los
+**Horarios**, **Autoridades**, **Preguntas frecuentes**, **Visitas**, **Transparencia** y las **cifras de la
+portada** (funcionarios, población). Los cambios se ven al instante y **no regeneran el sitio** (no gastan los
 15 créditos por publicación).
 
 - Se guardan en Netlify Blobs (almacén `contenido`): solo lo que difiere del repositorio, con autor, fecha e
