@@ -101,9 +101,12 @@
   .calidad-ambito__sigla { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: #fff; background: #00796B; border-radius: 3px; padding: 1px 6px; vertical-align: 2px; }
 
   /* Ítems de menú lateral */
-  .acceso-item { border-left: 4px solid theme("colors.primary.light"); transition: border-color .15s, background .15s; }
+  /* Ítems de menú lateral: la barra azul marca la página actual (y el ítem bajo el mouse).
+     Va como sombra interior y no como borde, porque divide-gray-100 del contenedor pisaba el color del borde
+     izquierdo desde el segundo ítem y la barra solo se veía en el primero. */
+  .acceso-item { transition: box-shadow .15s, background .15s; }
   .acceso-item:hover,
-  .acceso-item[aria-current="page"] { border-left-color: theme("colors.primary.DEFAULT"); background: theme("colors.primary.bg"); }
+  .acceso-item[aria-current="page"] { box-shadow: inset 4px 0 0 theme("colors.primary.DEFAULT"); background: theme("colors.primary.bg"); }
 
   /* Tarjetas de noticias */
   .news-card { border-left: 4px solid theme("colors.primary.pale"); transition: box-shadow .15s, border-color .15s; }

@@ -12,12 +12,9 @@
           <a href="/servicios.html#urgencia" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-custom transition-colors shadow-lg">
             <span aria-hidden="true" class="material-symbols-outlined text-xl">emergency</span>Urgencias 24/7
           </a>
-          <a href="/horarios.html" class="flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-custom transition-colors border border-white/30 hover:bg-white/15">
-            <span aria-hidden="true" class="material-symbols-outlined text-xl">schedule</span>Horarios
-          </a>
-          <a href="/servicios.html" class="flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-custom transition-colors border border-white/30 hover:bg-white/15">
-            <span aria-hidden="true" class="material-symbols-outlined text-xl">medical_services</span>Servicios
-          </a>
+          {#- Solo el botón rojo lleva ícono, para que Urgencias se distinga de un vistazo -#}
+          <a href="/horarios.html" class="flex items-center text-white font-semibold px-6 py-3 rounded-custom transition-colors border border-white/30 hover:bg-white/15">Horarios</a>
+          <a href="/servicios.html" class="flex items-center text-white font-semibold px-6 py-3 rounded-custom transition-colors border border-white/30 hover:bg-white/15">Servicios</a>
         </div>
       </div>
     </div>

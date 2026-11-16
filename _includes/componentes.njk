@@ -61,14 +61,15 @@
 </div>
 {% endmacro %}
 
-{# Menú lateral. items: lista de { label, url, icon }. Marca el ítem de la página actual. #}
-{% macro menuLateral(titulo, items, iconoPorDefecto="chevron_right") %}
+{# Menú lateral. items: lista de { label, url }. Marca el ítem de la página actual.
+   Solo texto: el nombre basta para encontrar la sección (los íconos se dejan para las tarjetas de la portada
+   y los títulos de sección). Un campo "icon" en los datos se ignora. #}
+{% macro menuLateral(titulo, items) %}
 <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
   <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5">{{ titulo }}</div>
   <div class="flex flex-col divide-y divide-gray-100">
     {% for it in items %}
-    <a href="{{ it.url }}" class="acceso-item flex items-center gap-3 px-4 py-3"{% if it.url == page.url %} aria-current="page"{% endif %}>
-      <span aria-hidden="true" class="material-symbols-outlined text-primary text-xl">{{ it.icon or iconoPorDefecto }}</span>
+    <a href="{{ it.url }}" class="acceso-item block px-4 py-3 text-sm"{% if it.url == page.url %} aria-current="page"{% endif %}>
       {% if it.c %}{{ it.label | comoCampo(it.c, "strong", "text-sm text-primary") | safe }}{% else %}<strong class="text-sm text-primary">{{ it.label }}</strong>{% endif %}
     </a>
     {% endfor %}
