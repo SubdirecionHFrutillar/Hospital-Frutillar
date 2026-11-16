@@ -4,14 +4,14 @@ permalink: index.html
 title: Inicio
 portada: true
 accesosUsuarios:
-  - { titulo: "Urgencias 24 horas", texto: "¿Urgencia o CESFAM? Cómo se prioriza la atención", url: "/donde-consultar.html", icono: "emergency", fondo: "bg-red-50 border-red-100 hover:border-red-200", circulo: "bg-red-600" }
-  - { titulo: "¿Cómo pido hora?", texto: "Especialidades, exámenes y controles", url: "/faq.html#solicito-hora-atencion", icono: "event_available", fondo: "bg-primary-bg border-primary-pale hover:border-primary-light", circulo: "bg-primary" }
-  - { titulo: "Horarios", texto: "SOME, OIRS, Farmacia, Laboratorio y más", url: "/horarios.html", icono: "schedule", fondo: "bg-sky-50 border-sky-100 hover:border-sky-200", circulo: "bg-sky-700" }
-  - { titulo: "Visitas a hospitalizados", texto: "Todos los días, 10:00 a 19:00 hrs", url: "/visitas.html", icono: "groups", fondo: "bg-amber-50 border-amber-100 hover:border-amber-200", circulo: "bg-amber-600" }
-  - { titulo: "Imágenes de exámenes", texto: "Radiografías y ecografías en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", fondo: "bg-indigo-50 border-indigo-100 hover:border-indigo-200", circulo: "bg-indigo-600" }
-  - { titulo: "OIRS: reclamos y sugerencias", texto: "Haga llegar su consulta, reclamo o felicitación", url: "/contacto.html", icono: "campaign", fondo: "bg-teal-50 border-teal-100 hover:border-teal-200", circulo: "bg-teal-600" }
-  - { titulo: "Actualiza tus datos", texto: "Cambio de dirección, teléfono o previsión", url: "/actualiza-tus-datos.html", icono: "person_edit", fondo: "bg-orange-50 border-orange-100 hover:border-orange-200", circulo: "bg-orange-600" }
-  - { titulo: "Llamar al hospital", tel: true, icono: "call", fondo: "bg-green-50 border-green-100 hover:border-green-200", circulo: "bg-green-700" }
+  - { titulo: "Urgencias 24 horas", texto: "¿Urgencia o CESFAM? Cómo se prioriza la atención", url: "/donde-consultar.html", icono: "emergency", urgente: true }
+  - { titulo: "¿Cómo pido hora?", texto: "Especialidades, exámenes y controles", url: "/faq.html#solicito-hora-atencion", icono: "event_available" }
+  - { titulo: "Horarios", texto: "SOME, OIRS, Farmacia, Laboratorio y más", url: "/horarios.html", icono: "schedule" }
+  - { titulo: "Visitas a hospitalizados", texto: "Todos los días, 10:00 a 19:00 hrs", url: "/visitas.html", icono: "groups" }
+  - { titulo: "Imágenes de exámenes", texto: "Radiografías y ecografías en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology" }
+  - { titulo: "OIRS: reclamos y sugerencias", texto: "Haga llegar su consulta, reclamo o felicitación", url: "/contacto.html", icono: "campaign" }
+  - { titulo: "Actualiza tus datos", texto: "Cambio de dirección, teléfono o previsión", url: "/actualiza-tus-datos.html", icono: "person_edit" }
+  - { titulo: "Llamar al hospital", tel: true, icono: "call" }
 ---
 {% import "componentes.njk" as ui with context %}
 {% from "campana-arte.njk" import arte %}
@@ -28,13 +28,14 @@ accesosUsuarios:
       {% for a in accesosUsuarios %}
       {%- set url = site.telefonoCentralHref if a.tel else a.url %}
       {%- set texto = site.telefonoCentral if a.tel else a.texto %}
-      <a href="{{ url }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %} class="group {{ a.fondo }} border rounded-custom p-3 sm:p-5 flex flex-col sm:flex-row lg:flex-col items-start gap-2.5 sm:gap-3 hover:shadow-md transition-all">
-        <div class="w-10 h-10 sm:w-12 sm:h-12 {{ a.circulo }} rounded-full flex items-center justify-center flex-shrink-0">
-          <span aria-hidden="true" class="material-symbols-outlined text-white text-xl sm:text-2xl">{{ a.icono }}</span>
+      {#- Un solo estilo para todos los accesos (azul institucional); el rojo queda reservado para Urgencias -#}
+      <a href="{{ url }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %} class="group bg-white border {{ 'border-red-200 hover:border-red-400' if a.urgente else 'border-gray-200 hover:border-primary-light' }} rounded-custom p-3 sm:p-5 flex flex-col sm:flex-row lg:flex-col items-start gap-2.5 sm:gap-3 hover:shadow-md transition-all">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 {{ 'bg-red-50' if a.urgente else 'bg-primary-bg' }} rounded-full flex items-center justify-center flex-shrink-0">
+          <span aria-hidden="true" class="material-symbols-outlined {{ 'text-red-700' if a.urgente else 'text-primary' }} text-xl sm:text-2xl">{{ a.icono }}</span>
         </div>
         <div class="min-w-0">
           <h3 class="font-bold text-gray-900 text-sm leading-tight group-hover:underline">{{ a.titulo }}</h3>
-          <p class="text-xs text-gray-600 leading-snug mt-1{% if not a.tel %} hidden sm:block{% else %} font-bold text-green-800{% endif %}">{{ texto }}</p>
+          <p class="text-xs text-gray-600 leading-snug mt-1{% if not a.tel %} hidden sm:block{% else %} font-bold text-primary-dark{% endif %}">{{ texto }}</p>
         </div>
         {%- if a.externo %}<span class="sr-only"> (abre en una pestaña nueva)</span>{% endif %}
       </a>
@@ -117,7 +118,7 @@ accesosUsuarios:
       {#- En celular se muestran 3 campañas y el resto con "Ver más" (en escritorio, todas) -#}
       {% set VISIBLES = 3 %}
       {% for c in campanas.campanas %}
-      {% if loop.index0 == VISIBLES %}<div id="mas-campanas" class="hidden lg:flex flex-col gap-2">{% endif %}
+      {% if loop.index0 == VISIBLES %}<div id="mas-campanas" class="hidden flex-col gap-2">{% endif %}
       <a href="{{ c.url }}" target="_blank" rel="noopener" class="campana group{% if c.destacada %} campana--destacada{% endif %}" style="--campana: {{ c.color }}; color: {{ c.color }};">
         {% if c.imagen %}
           <img src="{{ c.imagen }}" alt="{{ c.titular }}" loading="lazy" class="w-full h-auto block">
@@ -132,7 +133,7 @@ accesosUsuarios:
         <span class="sr-only">(se abre en el sitio del Ministerio de Salud)</span>
       </a>
       {% if loop.last and loop.length > VISIBLES %}</div>
-      <button type="button" class="lg:hidden flex items-center justify-center gap-1.5 text-sm font-bold text-primary bg-white border border-gray-200 rounded-custom py-2.5 hover:bg-primary-bg" data-ver-mas="mas-campanas" aria-expanded="false" aria-controls="mas-campanas">
+      <button type="button" class="flex items-center justify-center gap-1.5 text-sm font-bold text-primary bg-white border border-gray-200 rounded-custom py-2.5 hover:bg-primary-bg" data-ver-mas="mas-campanas" aria-expanded="false" aria-controls="mas-campanas">
         <span aria-hidden="true" class="material-symbols-outlined text-lg">keyboard_arrow_down</span><span data-ver-mas-texto>Ver {{ loop.length - VISIBLES }} campañas más</span>
       </button>
       {% endif %}
