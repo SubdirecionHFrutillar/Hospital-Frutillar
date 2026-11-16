@@ -1,3 +1,15 @@
+/* Fuentes de texto alojadas en el propio sitio (@fontsource 5.1, subconjunto latino: incluye tildes y ñ).
+   Antes venían de Google Fonts; así no hay una hoja de estilos externa que bloquee la primera pintura. */
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("/assets/fonts/public-sans-latin-400.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url("/assets/fonts/public-sans-latin-500.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("/assets/fonts/public-sans-latin-600.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 700; font-display: swap; src: url("/assets/fonts/public-sans-latin-700.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 800; font-display: swap; src: url("/assets/fonts/public-sans-latin-800.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Public Sans"; font-style: normal; font-weight: 900; font-display: swap; src: url("/assets/fonts/public-sans-latin-900.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 600; font-display: swap; src: url("/assets/fonts/barlow-condensed-latin-600.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 700; font-display: swap; src: url("/assets/fonts/barlow-condensed-latin-700.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Barlow Condensed"; font-style: normal; font-weight: 800; font-display: swap; src: url("/assets/fonts/barlow-condensed-latin-800.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -84,7 +96,6 @@
   .calidad-tarjeta:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); }
   .calidad-ambito { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-radius: 4px; padding: 1rem 1.1rem; }
   .calidad-ambito__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E0F2F1; color: #00796B; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .foto-equipo-pendiente { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .35rem; border: 2px dashed theme("colors.gray.300"); border-radius: 4px; background: theme("colors.gray.50"); color: theme("colors.gray.500"); }
   .protocolo-area { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid #3949AB; border-radius: 4px; padding: 1rem 1.1rem; }
   .protocolo-area__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E8EAF6; color: #283593; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .calidad-ambito__sigla { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: #fff; background: #00796B; border-radius: 3px; padding: 1px 6px; vertical-align: 2px; }
@@ -115,6 +126,12 @@
   }
   @media (max-width: 1024px) {
     .hero-fondo { background: var(--velo), image-set(url("/img/hero-hospital-1024.webp") type("image/webp"), url("/img/hero-hospital.jpg") type("image/jpeg")) center 50% / cover no-repeat; }
+  }
+  /* Celulares: recorte vertical (el hero es alto y angosto), más nítido y liviano (~28 KB) */
+  @media (max-width: 640px) {
+    /* En celular el texto ocupa todo el ancho: velo parejo para que se lea sobre la foto */
+    .hero-fondo { --velo: linear-gradient(to bottom, rgba(10,42,94,.78) 0%, rgba(10,42,94,.86) 100%); }
+    .hero-fondo { background: var(--velo), image-set(url("/img/hero-hospital-movil.webp") type("image/webp"), url("/img/hero-hospital.jpg") type("image/jpeg")) center 50% / cover no-repeat; }
   }
 
   /* Portada: círculos decorativos del hero */

@@ -4,17 +4,14 @@ permalink: index.html
 title: Inicio
 portada: true
 accesosUsuarios:
-  - { titulo: "Ver Imágenes de Exámenes", texto: "Accede a tus imágenes de radiología, ecografía y otros exámenes en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", cta: "Acceder", fondo: "bg-primary-bg border-primary-pale hover:border-primary-light", circulo: "bg-primary", color: "text-primary" }
-  - { titulo: "¿Urgencia o CESFAM?", texto: "Dónde consultar según su problema y cómo se prioriza la atención en Urgencia", url: "/donde-consultar.html", icono: "alt_route", cta: "Ver guía", fondo: "bg-red-50 border-red-100", circulo: "bg-red-600", color: "text-red-700" }
-  - { titulo: "OIRS", texto: "Oficina de Información, Reclamos y Sugerencias. Haz llegar tu opinión o reclamo.", url: "/contacto.html", icono: "campaign", cta: "Contactar", fondo: "bg-teal-50 border-teal-100", circulo: "bg-teal-600", color: "text-teal-700" }
-  - { titulo: "Actualiza tus datos", texto: "¿Cambió de dirección, teléfono o previsión? Actualice su registro en el hospital", url: "/actualiza-tus-datos.html", icono: "person_edit", cta: "Actualizar", fondo: "bg-amber-50 border-amber-100", circulo: "bg-amber-500", color: "text-amber-700" }
-  - { titulo: "Preguntas Frecuentes", texto: "Respuestas sobre atención, horarios, pagos FONASA y trámites en el hospital", url: "/faq.html", icono: "help", cta: "Ver respuestas", fondo: "bg-purple-50 border-purple-100", circulo: "bg-purple-600", color: "text-purple-700" }
-accesosRapidos:
-  - { titulo: "Urgencias", texto: "Atención 24 horas y categorización", url: "/donde-consultar.html#categorizacion", icono: "emergency", tono: "bg-red-50 text-red-500" }
-  - { titulo: "Visitas a hospitalizados", texto: "Todos los días, 10:00 a 19:00 hrs", url: "/visitas.html", icono: "groups", tono: "bg-amber-50 text-amber-600" }
-  - { titulo: "Horarios de Atención", texto: "Consultas y especialidades", url: "/horarios.html", icono: "schedule", tono: "bg-primary-bg text-primary" }
-  - { titulo: "Imagenología", texto: "Ver exámenes en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", tono: "bg-indigo-50 text-indigo-600" }
-  - { titulo: "Teléfonos del Hospital", texto: "Contacto y cómo llegar", url: "/contacto.html", icono: "call", tono: "bg-green-50 text-green-600" }
+  - { titulo: "Urgencias 24 horas", texto: "¿Urgencia o CESFAM? Cómo se prioriza la atención", url: "/donde-consultar.html", icono: "emergency", fondo: "bg-red-50 border-red-100 hover:border-red-200", circulo: "bg-red-600" }
+  - { titulo: "¿Cómo pido hora?", texto: "Especialidades, exámenes y controles", url: "/faq.html#solicito-hora-atencion", icono: "event_available", fondo: "bg-primary-bg border-primary-pale hover:border-primary-light", circulo: "bg-primary" }
+  - { titulo: "Horarios", texto: "SOME, OIRS, Farmacia, Laboratorio y más", url: "/horarios.html", icono: "schedule", fondo: "bg-sky-50 border-sky-100 hover:border-sky-200", circulo: "bg-sky-700" }
+  - { titulo: "Visitas a hospitalizados", texto: "Todos los días, 10:00 a 19:00 hrs", url: "/visitas.html", icono: "groups", fondo: "bg-amber-50 border-amber-100 hover:border-amber-200", circulo: "bg-amber-600" }
+  - { titulo: "Imágenes de exámenes", texto: "Radiografías y ecografías en línea", url: "https://examenes.ssdr.gob.cl/login", externo: true, icono: "radiology", fondo: "bg-indigo-50 border-indigo-100 hover:border-indigo-200", circulo: "bg-indigo-600" }
+  - { titulo: "OIRS: reclamos y sugerencias", texto: "Haga llegar su consulta, reclamo o felicitación", url: "/contacto.html", icono: "campaign", fondo: "bg-teal-50 border-teal-100 hover:border-teal-200", circulo: "bg-teal-600" }
+  - { titulo: "Actualiza tus datos", texto: "Cambio de dirección, teléfono o previsión", url: "/actualiza-tus-datos.html", icono: "person_edit", fondo: "bg-orange-50 border-orange-100 hover:border-orange-200", circulo: "bg-orange-600" }
+  - { titulo: "Llamar al hospital", tel: true, icono: "call", fondo: "bg-green-50 border-green-100 hover:border-green-200", circulo: "bg-green-700" }
 ---
 {% import "componentes.njk" as ui with context %}
 {% from "campana-arte.njk" import arte %}
@@ -27,17 +24,19 @@ accesosRapidos:
       <h2 id="titulo-atencion" class="text-2xl font-bold text-primary">Atención de Usuarios</h2>
       <div class="h-px bg-gray-200 flex-1"></div>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       {% for a in accesosUsuarios %}
-      <a href="{{ a.url }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %} class="group {{ a.fondo }} border rounded-custom p-5 flex flex-col gap-3 hover:shadow-md transition-all">
-        <div class="w-12 h-12 {{ a.circulo }} rounded-full flex items-center justify-center flex-shrink-0">
-          <span aria-hidden="true" class="material-symbols-outlined text-white text-2xl">{{ a.icono }}</span>
+      {%- set url = site.telefonoCentralHref if a.tel else a.url %}
+      {%- set texto = site.telefonoCentral if a.tel else a.texto %}
+      <a href="{{ url }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %} class="group {{ a.fondo }} border rounded-custom p-3 sm:p-5 flex flex-col sm:flex-row lg:flex-col items-start gap-2.5 sm:gap-3 hover:shadow-md transition-all">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 {{ a.circulo }} rounded-full flex items-center justify-center flex-shrink-0">
+          <span aria-hidden="true" class="material-symbols-outlined text-white text-xl sm:text-2xl">{{ a.icono }}</span>
         </div>
-        <div class="flex-1">
-          <h3 class="font-bold text-gray-900 text-sm leading-tight mb-1">{{ a.titulo }}</h3>
-          <p class="text-xs text-gray-600 leading-relaxed">{{ a.texto }}</p>
+        <div class="min-w-0">
+          <h3 class="font-bold text-gray-900 text-sm leading-tight group-hover:underline">{{ a.titulo }}</h3>
+          <p class="text-xs text-gray-600 leading-snug mt-1{% if not a.tel %} hidden sm:block{% else %} font-bold text-green-800{% endif %}">{{ texto }}</p>
         </div>
-        <span class="text-xs font-bold {{ a.color }} group-hover:underline">{{ a.cta }} →</span>
+        {%- if a.externo %}<span class="sr-only"> (abre en una pestaña nueva)</span>{% endif %}
       </a>
       {% endfor %}
     </div>
@@ -113,22 +112,8 @@ accesosRapidos:
 
   <!-- BARRA LATERAL -->
   <aside class="flex flex-col gap-5">
-    <div class="bg-white border border-gray-200 rounded-custom shadow-sm overflow-hidden">
-      <div class="bg-primary-dark text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5 flex items-center gap-2">
-        <span aria-hidden="true" class="material-symbols-outlined text-base text-primary-light">bolt</span>Accesos Rápidos
-      </div>
-      <div class="flex flex-col divide-y divide-gray-100">
-        {% for a in accesosRapidos %}
-        <a href="{{ a.url }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %} class="acceso-item flex items-center gap-3 px-4 py-3">
-          <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 {{ a.tono }}"><span aria-hidden="true" class="material-symbols-outlined text-lg">{{ a.icono }}</span></div>
-          <div><strong class="text-sm text-primary block">{{ a.titulo }}</strong><span class="text-xs text-gray-500">{{ a.texto }}</span></div>
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-
     <div class="flex flex-col gap-2">
-      <h2 class="text-sm font-bold text-gray-600 mt-1">Campañas del Ministerio de Salud</h2>
+      <h2 class="text-sm font-bold text-gray-600">Campañas del Ministerio de Salud</h2>
       {#- En celular se muestran 3 campañas y el resto con "Ver más" (en escritorio, todas) -#}
       {% set VISIBLES = 3 %}
       {% for c in campanas.campanas %}

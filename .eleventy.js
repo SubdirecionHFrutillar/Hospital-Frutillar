@@ -41,6 +41,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("img");
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("assets/js");
+  eleventyConfig.addPassthroughCopy("assets/fonts");
   eleventyConfig.addPassthroughCopy("robots.txt");
   // Validación de RUT: el mismo módulo que usan las funciones del servidor
   eleventyConfig.addPassthroughCopy({ "netlify/lib/rut.mjs": "assets/js/rut.mjs" });
@@ -161,10 +162,12 @@ module.exports = function (eleventyConfig) {
     ).replace(/</g, "\\u003c")
   );
 
+  // Una noticia destacada va primero solo durante 30 días (igual que en sitio-vivo.js)
+  const destacadaVigente = (n) => n.data.destacada === true && Date.now() - n.date < 30 * 86400000;
   // Portada: destacadas primero, luego por fecha; máximo 5
   eleventyConfig.addCollection("noticiasPortada", (api) =>
     todasLasNoticias(api)
-      .sort((a, b) => (b.data.destacada === true) - (a.data.destacada === true) || b.date - a.date)
+      .sort((a, b) => destacadaVigente(b) - destacadaVigente(a) || b.date - a.date)
       .slice(0, 5)
   );
 

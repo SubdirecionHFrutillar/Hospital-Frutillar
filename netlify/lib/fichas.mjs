@@ -204,7 +204,7 @@ export function correoHTML(e, { sitio = "https://hospitalfrutillar.netlify.app",
   </td></tr>
   <tr><td style="padding:28px 0 0;"><div style="border-top:1px solid #e3e3e3;font-size:0;line-height:0;">&nbsp;</div></td></tr>
   <tr><td style="${F}padding-top:12px;font-size:12px;line-height:1.5;color:#8a8a8a;">
-    Hospital de Frutillar · Av. Las Piedras S/N, Frutillar · (65) 2 421 000<br>
+    Hospital de Frutillar · Av. Las Piedras S/N, Frutillar · (65) 232 6900<br>
     ${copia ? "Mensaje automático enviado porque se ingresó este correo en un formulario del sitio web. Si usted no lo hizo, puede ignorarlo." : "Recibido mediante el formulario del sitio web. Contiene datos personales (Ley N° 19.628)."}
   </td></tr>
 </table>
@@ -390,7 +390,7 @@ export async function fichaPDF(e, { logo, comprobante = false } = {}) {
   const paginas = doc.getPages();
   paginas.forEach((p, i) => {
     pag = p;
-    texto("Hospital de Frutillar · Av. Las Piedras S/N, Frutillar · (65) 2 421 000", M, M, { t: 7.5, c: GRIS });
+    texto("Hospital de Frutillar · Av. Las Piedras S/N, Frutillar · (65) 232 6900", M, M, { t: 7.5, c: GRIS });
     const der = `Página ${i + 1} de ${paginas.length}`;
     texto(der, M + ANCHO - ancho(der, reg, 7.5), M, { t: 7.5, c: GRIS });
   });

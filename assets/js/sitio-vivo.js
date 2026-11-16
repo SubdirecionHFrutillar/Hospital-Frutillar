@@ -143,6 +143,9 @@
       var actual = el.querySelector("img");
       if (actual && actual.getAttribute("data-original") === v) return;
       var plantilla = el.querySelector("template");
+      var ocultarSinFoto = el.hasAttribute("data-c-foto-ocultar");
+      if (ocultarSinFoto) el.hidden = !v;
+      if (!v && ocultarSinFoto) { el.replaceChildren(); return; }
       var nuevo;
       if (v) {
         nuevo = document.createElement("img");
@@ -215,11 +218,15 @@
     );
   }
 
+  // Una noticia "destacada" va primero solo durante 30 días; después se ordena por fecha como las demás.
+  var DESTACADA_MS = 30 * 86400000;
+  function destacadaVigente(n) { return n.destacada === true && Date.now() - diaYHora(n) < DESTACADA_MS; }
+
   function pintarPortada(todas) {
-    // Destacadas primero, luego por fecha; máximo 5 (igual que la colección noticiasPortada)
+    // Destacadas vigentes primero, luego por fecha; máximo 5 (igual que la colección noticiasPortada)
     var lista5 = todas
       .slice()
-      .sort(function (a, b) { return (b.destacada === true) - (a.destacada === true) || diaYHora(b) - diaYHora(a); })
+      .sort(function (a, b) { return destacadaVigente(b) - destacadaVigente(a) || diaYHora(b) - diaYHora(a); })
       .slice(0, 5);
     portada.innerHTML = lista5.length
       ? lista5.map(function (n, i) { return i === 0 ? principal(n) : secundaria(n); }).join("")

@@ -1,4 +1,24 @@
 (function () {
+  // Años de servicio: se recalculan en el navegador (hora de Chile), así el número cambia el día del
+  // aniversario aunque no se regenere el sitio.
+  document.querySelectorAll("[data-anios-desde]").forEach(function (el) {
+    var p = el.getAttribute("data-anios-desde").split("-").map(Number);
+    var hoy;
+    try { hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Santiago" }).split("-").map(Number); }
+    catch (e) { var d = new Date(); hoy = [d.getFullYear(), d.getMonth() + 1, d.getDate()]; }
+    var anios = hoy[0] - p[0] - (hoy[1] < p[1] || (hoy[1] === p[1] && hoy[2] < p[2]) ? 1 : 0);
+    if (anios > 0) el.textContent = String(anios);
+  });
+
+  // Un enlace a /faq.html#pregunta abre esa pregunta
+  function abrirDetalle() {
+    var id = decodeURIComponent(location.hash.slice(1));
+    var d = id && document.getElementById(id);
+    if (d && d.tagName === "DETAILS") { d.open = true; d.scrollIntoView({ block: "start" }); }
+  }
+  abrirDetalle();
+  window.addEventListener("hashchange", abrirDetalle);
+
   // Menú móvil
   var boton = document.getElementById("menu-toggle");
   var menu = document.getElementById("mobile-menu");
