@@ -10,18 +10,22 @@ permalink: servicios.html
 
 {% call ui.dosColumnas() %}
   <div class="min-w-0 flex flex-col gap-7">
+    <nav aria-label="Ir a un servicio" class="lg:hidden -mb-2">
+      <ul class="flex flex-wrap gap-2">
+        {% for s in servicios.servicios | rejectattr('oculto') %}
+        <li><a href="#{{ s.id }}" class="inline-flex items-center gap-1.5 bg-white border border-gray-200 rounded-full px-3 py-1.5 text-xs font-semibold text-primary hover:border-primary"><span aria-hidden="true" class="material-symbols-outlined text-sm">{{ s.icon }}</span>{{ s.nombre }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
     {% for s in servicios.servicios | rejectattr('oculto') %}
       {% call ui.seccion(s.nombre, s.icon, s.id, padding="px-6 py-5") %}
         {%- set r = "servicios:servicios#" + s.id %}
         {%- set foto = s.foto_equipo | cv(r + ".foto_equipo") %}
         <div class="flex flex-col sm:flex-row gap-5">
-          {#- Foto del equipo (editable desde la intranet). Sin foto se muestra un recuadro de espera. #}
-          <div class="w-28 sm:w-40 aspect-square flex-shrink-0" data-c-foto="{{ r }}.foto_equipo" data-c-alt="Equipo de {{ s.nombre }}" data-c-img="w-full h-full object-cover rounded-custom border border-gray-200"{% if foto != (s.foto_equipo or "") %} data-c-base="{{ s.foto_equipo or '' }}"{% endif %}>
-            <template><div class="foto-equipo-pendiente w-full h-full" role="img" aria-label="Foto del equipo de {{ s.nombre }} (próximamente)"><span aria-hidden="true" class="material-symbols-outlined text-3xl">groups</span><span class="text-[11px] font-semibold leading-tight text-center px-2">Foto del equipo<br>próximamente</span></div></template>
+          {#- Foto del equipo (editable desde la intranet). Sin foto, el recuadro no se muestra (data-c-foto-ocultar). #}
+          <div class="w-28 sm:w-40 aspect-square flex-shrink-0" data-c-foto="{{ r }}.foto_equipo" data-c-foto-ocultar data-c-alt="Equipo de {{ s.nombre }}" data-c-img="w-full h-full object-cover rounded-custom border border-gray-200"{% if foto != (s.foto_equipo or "") %} data-c-base="{{ s.foto_equipo or '' }}"{% endif %}{% if not foto %} hidden{% endif %}>
             {% if foto %}
             <img src="{{ foto | imagenCdn(400) }}" onerror="this.onerror=null;this.src='{{ foto }}'" alt="Equipo de {{ s.nombre }}" loading="lazy" class="w-full h-full object-cover rounded-custom border border-gray-200">
-            {% else %}
-            <div class="foto-equipo-pendiente w-full h-full" role="img" aria-label="Foto del equipo de {{ s.nombre }} (próximamente)"><span aria-hidden="true" class="material-symbols-outlined text-3xl">groups</span><span class="text-[11px] font-semibold leading-tight text-center px-2">Foto del equipo<br>próximamente</span></div>
             {% endif %}
           </div>
           <div class="flex-1 min-w-0 flex flex-col gap-3">

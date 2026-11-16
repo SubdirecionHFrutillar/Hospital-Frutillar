@@ -17,4 +17,4 @@ La Farmacia del Hospital de Frutillar informa a la comunidad los horarios de ate
 
 **Cobertura:** Se atiende a beneficiarios FONASA tramos A, B, C y D con receta médica vigente del sistema público de salud.
 
-Para consultas sobre disponibilidad de medicamentos, comunicarse al (65) 2 421 000.
+Para consultas sobre disponibilidad de medicamentos, comunicarse al (65) 232 6900.

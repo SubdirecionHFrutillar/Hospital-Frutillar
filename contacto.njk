@@ -94,7 +94,7 @@ scripts: ["/assets/js/formularios.mjs"]
         </div>
         <div id="form-error" data-error role="alert" class="hidden flex items-start gap-2 text-sm text-red-700 bg-red-50 border border-red-200 rounded-custom px-4 py-3">
           <span aria-hidden="true" class="material-symbols-outlined text-red-600 mt-0.5 text-base">error</span>
-          <span data-error-texto>No pudimos enviar su consulta. Intente nuevamente o llame a {{ site.telefonoLabel }} {{ site.telefono }}.</span>
+          <span data-error-texto>No pudimos enviar su consulta. Intente nuevamente o llame a la central del hospital, {{ site.telefonoCentral }}.</span>
         </div>
       </form>
     {% endcall %}
@@ -118,7 +118,7 @@ scripts: ["/assets/js/formularios.mjs"]
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {% set tarjetas = [
         { icono: "location_on", titulo: "Dirección", html: site.direccion + "<br>" + site.region + ", Chile" },
-        { icono: "call", titulo: "Teléfonos", html: '<a href="' + site.telefonoHref + '" class="text-primary font-bold hover:underline">' + site.telefono + '</a> <span class="text-xs text-gray-400">' + site.telefonoLabel + ' (24 hrs)</span><br>Central: <a href="' + site.telefonoCentralHref + '" class="text-primary font-bold hover:underline">' + site.telefonoCentral + '</a>' },
+        { icono: "call", titulo: "Teléfonos", html: 'Central: <a href="' + site.telefonoCentralHref + '" class="text-primary font-bold hover:underline">' + site.telefonoCentral + '</a><br><a href="' + site.telefonoHref + '" class="text-primary font-bold hover:underline">' + site.telefono + '</a> <span class="text-xs text-gray-500">' + site.telefonoLabel + ' (24 hrs)</span>' },
         { icono: "schedule", titulo: "Urgencias", html: "Abierto <strong>24 horas</strong><br>todos los días del año" },
         { icono: "directions_bus", titulo: "Cómo llegar", html: "Buses desde Puerto Montt, Puerto Varas y Osorno. Parada frente al hospital en Av. Philippi." }
       ] %}
@@ -140,7 +140,7 @@ scripts: ["/assets/js/formularios.mjs"]
       <div>
         <p class="text-sm font-bold text-primary mb-1">OIRS — Oficina de Informaciones, Reclamos y Sugerencias</p>
         <p class="text-sm text-gray-700">{{ contacto.oirs_descripcion }}</p>
-        {% if contacto.oirs_horario %}<p class="text-xs text-gray-500 mt-2"><strong>Horario:</strong> {{ contacto.oirs_horario }}</p>{% endif %}
+        {% if contacto.oirs_horario %}<p class="text-xs text-gray-600 mt-2"><strong>Horario:</strong> {{ contacto.oirs_horario }}</p>{% endif %}
       </div>
     </div>
 
@@ -162,7 +162,8 @@ scripts: ["/assets/js/formularios.mjs"]
       <ul class="flex flex-col divide-y divide-gray-100">
         {% for d in [
           { i: "emergency", c: "text-red-500", t: "Urgencias", s: "24 horas · acceso directo" },
-          { i: "call", c: "text-primary", t: site.telefonoLabel, s: site.telefono, href: site.telefonoHref },
+          { i: "call", c: "text-primary", t: "Central del hospital", s: site.telefonoCentral, href: site.telefonoCentralHref },
+          { i: "support_agent", c: "text-primary", t: site.telefonoLabel, s: site.telefono + " · 24 horas", href: site.telefonoHref },
           { i: "campaign", c: "text-primary", t: "OIRS", s: "Oficina de Información, Reclamos y Sugerencias" },
           { i: "account_balance", c: "text-primary", t: "Admisión y SOME", s: "Solicitud de horas y trámites" }
         ] %}

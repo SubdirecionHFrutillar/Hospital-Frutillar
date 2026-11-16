@@ -32,7 +32,7 @@
       "id": "pabellon",
       "icon": "surgical",
       "descripcion": "El Pabellón Quirúrgico se encuentra cerrado por remodelación. Cuando reabra realizará cirugía mayor ambulatoria: intervenciones programadas en las que el paciente vuelve a su casa el mismo día.",
-      "horario": "Cerrado por remodelación · reapertura estimada a fines de 2026",
+      "horario": "Cerrado por remodelación · sin fecha de reapertura definida",
       "horario_icon": "construction",
       "ubicacion": ""
     },
@@ -65,7 +65,7 @@
       "id": "laboratorio",
       "icon": "biotech",
       "descripcion": "El Laboratorio Clínico realiza exámenes de hematología, bioquímica, microbiología y otros análisis. Atiende a pacientes hospitalizados y a pacientes ambulatorios con orden médica.",
-      "horario": "Lunes a viernes, con atención programada",
+      "horario": "Ventanilla: lunes a sábado 07:30–12:00 · toma de muestras con hora programada",
       "horario_icon": "schedule",
       "ubicacion": ""
     },

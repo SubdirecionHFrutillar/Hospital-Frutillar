@@ -12,4 +12,4 @@ La Dirección del Hospital de Frutillar informa que se encuentra disponible el r
 
 El documento puede ser consultado por los funcionarios del establecimiento a través del Portal Funcionarios, en la sección Documentos Institucionales.
 
-Para acceder al portal: [Portal Funcionarios](https://hospitaldefrutilla.wixsite.com/salud)
+Para acceder al portal: [Portal Funcionarios](/funcionarios/)

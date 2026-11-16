@@ -33,7 +33,7 @@
         {% campo r + ".valor", c[0].valor, "dd", "font-black text-4xl text-primary-light leading-none tabular-nums" %}
         {% else %}
         <dt class="text-sm text-white/60 mt-1.5 font-medium">{{ c[1] }}</dt>
-        <dd class="font-black text-4xl text-primary-light leading-none tabular-nums">{{ c[0] }}</dd>
+        <dd class="font-black text-4xl text-primary-light leading-none tabular-nums"{% if c[1] == "Años de servicio" %} data-anios-desde="{{ site.fundacion }}"{% endif %}>{{ c[0] }}</dd>
         {% endif %}
       </div>
       {% endfor %}

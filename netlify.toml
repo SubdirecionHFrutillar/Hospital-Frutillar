@@ -23,6 +23,12 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
+# Fuentes del sitio: no cambian (si se actualizan, cambia el nombre del archivo)
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # Imágenes del sitio: una semana de caché
 [[headers]]
   for = "/img/*"

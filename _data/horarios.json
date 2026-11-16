@@ -1,5 +1,5 @@
 {
-  "intro": "Los horarios pueden cambiar en festivos o en períodos de alta demanda. Para confirmar, llame a la central del hospital: (65) 2 421 000.",
+  "intro": "Los horarios pueden cambiar en festivos o en períodos de alta demanda. Para confirmar, llame a la central del hospital: (65) 232 6900.",
   "servicios": [
     {
       "id": "some",
@@ -86,11 +86,15 @@
     {
       "id": "laboratorio",
       "nombre": "Laboratorio",
-      "descripcion": "",
+      "descripcion": "Entrega de resultados y toma de muestras",
       "icon": "biotech",
       "horarios": [
         {
-          "dias": "Lunes a Viernes",
+          "dias": "Ventanilla, lunes a sábado",
+          "horario": "07:30 – 12:00 hrs"
+        },
+        {
+          "dias": "Toma de muestras",
           "horario": "Con hora programada"
         }
       ],

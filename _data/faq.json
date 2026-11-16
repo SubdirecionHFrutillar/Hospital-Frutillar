@@ -12,7 +12,7 @@
         {
           "id": "solicito-hora-atencion",
           "pregunta": "¿Cómo solicito hora de atención?",
-          "respuesta": "Depende de la atención que necesite:\n\n- **Especialidades y exámenes:** su CESFAM o el médico del hospital emite una interconsulta u orden; luego Admisión (SOME) lo llama para darle la hora.\n- **Controles con hora ya asignada:** si necesita cambiarla, comuníquese con SOME o con la central del hospital, (65) 2 421 000.\n- **Urgencias:** no necesita hora. Acuda directamente a la Urgencia, abierta las 24 horas.\n\nSi cambió su teléfono o dirección, [actualice sus datos](/actualiza-tus-datos.html) para que podamos contactarlo."
+          "respuesta": "Depende de la atención que necesite:\n\n- **Especialidades y exámenes:** su CESFAM o el médico del hospital emite una interconsulta u orden; luego Admisión (SOME) lo llama para darle la hora.\n- **Controles con hora ya asignada:** si necesita cambiarla, comuníquese con SOME o con la central del hospital, (65) 232 6900.\n- **Urgencias:** no necesita hora. Acuda directamente a la Urgencia, abierta las 24 horas.\n\nSi cambió su teléfono o dirección, [actualice sus datos](/actualiza-tus-datos.html) para que podamos contactarlo."
         },
         {
           "id": "atenderme-tengo-fonasa",
@@ -33,7 +33,7 @@
         {
           "id": "donde-retirar-resultados-examenes-laboratorio",
           "pregunta": "¿Dónde puedo retirar resultados de exámenes de laboratorio?",
-          "respuesta": "Los resultados de laboratorio se retiran directamente en la ventanilla del Laboratorio Comunal, presentando su cédula de identidad. Los plazos habituales son:\n\n- Exámenes básicos (hemograma, glicemia, orina): mismo día o al día siguiente\n- Cultivos y exámenes especiales: 3 a 7 días hábiles\n\nHorario del Laboratorio: Lun–Jue 08:00–17:00 hrs, Vie 08:00–16:00 hrs."
+          "respuesta": "Los resultados de laboratorio se retiran directamente en la ventanilla del Laboratorio Comunal, presentando su cédula de identidad. Los plazos habituales son:\n\n- Exámenes básicos (hemograma, glicemia, orina): mismo día o al día siguiente\n- Cultivos y exámenes especiales: 3 a 7 días hábiles\n\nHorario de la ventanilla: lunes a sábado, 07:30 a 12:00 hrs. La toma de muestras es con hora programada."
         },
         {
           "id": "solicitar-informe-medico-licencia",

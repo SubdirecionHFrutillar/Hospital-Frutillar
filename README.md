@@ -204,7 +204,7 @@ las páginas `noindex` no se indexan. No necesita servidor ni gasta funciones. L
 
 ## Íconos
 
-Los íconos son de Material Symbols y se piden a Google Fonts **solo los que se usan** (`icon_names=…`, calculado
+Las fuentes de texto (Public Sans y Barlow Condensed) están en `assets/fonts/` (copiadas de @fontsource 5.1, subconjunto latino), sin depender de Google Fonts. Los íconos son de Material Symbols y se piden a Google Fonts **solo los que se usan** (`icon_names=…`, calculado
 en `_data/iconos.js`), lo que reduce mucho la descarga. Usar siempre el nombre canónico (p. ej.
 `keyboard_arrow_down`, no `expand_more`): si una página usa un nombre que no está en
 `scripts/material-symbols-nombres.txt`, **el build falla** para no publicar íconos rotos.
