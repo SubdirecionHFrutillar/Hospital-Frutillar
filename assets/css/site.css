@@ -176,16 +176,23 @@
   .campana--destacada .campana__titular { font-size: 1.75rem; max-width: 12ch; }
   .campana--destacada .campana__bajada { font-size: 12.5px; max-width: 30ch; }
   .campana--destacada .campana__arte { right: -10px; top: -14px; bottom: auto; width: 128px; height: 128px; }
-  /* Campañas en versión clara (como las tarjetas de gob.cl): fondo tenue del color de la campaña,
-     título y dibujo en el color de la campaña, texto en gris. Menos chillonas sin quedar oscuras. */
-  .campana { background: color-mix(in srgb, var(--campana) 9%, #fff); box-shadow: inset 4px 0 0 var(--campana); border: 1px solid color-mix(in srgb, var(--campana) 22%, #fff); }
-  .campana:hover::after { background: color-mix(in srgb, var(--campana) 6%, transparent); }
-  .campana__texto { color: inherit; }
-  .campana__titular, .campana__dato { color: inherit; }
-  .campana__bajada { color: theme("colors.gray.700"); }
-  .campana__arte { color: #fff; opacity: .55; }
-  .campana__arte [stroke="#fff"] { stroke: var(--campana); }
-  .campana__arte [fill="#fff"] { fill: var(--campana); }
+  /* Campañas con la paleta de Minsal y gob.cl: una sola familia de azules institucionales
+     (la destacada en azul índigo con texto blanco, el resto en celeste claro con título azul)
+     y la franja azul-roja del Gobierno arriba a la derecha. El color propio de cada campaña ya no se usa. */
+  .campana { --c-fondo: #E8F0FA; --c-tinta: #0A2A5E; --c-arte: #0F69B4;
+    background: var(--c-fondo); color: var(--c-tinta) !important; box-shadow: none; border: 1px solid #D3E1F2; }
+  .campana--destacada { --c-fondo: #2B3990; --c-tinta: #fff; --c-arte: #fff; border-color: #2B3990; }
+  .campana::before { content: ""; position: absolute; top: 0; right: 14px; width: 44px; height: 5px; z-index: 2;
+    background: linear-gradient(90deg, #0F69B4 0 50%, #EB3C46 50% 100%); }
+  .campana:hover::after { background: rgba(10,42,94,.05); }
+  .campana__texto, .campana__titular, .campana__dato { color: inherit; }
+  .campana__bajada { color: #374151; }
+  .campana--destacada .campana__bajada { color: rgba(255,255,255,.88); }
+  .campana__arte { color: var(--c-fondo); opacity: .5; }
+  .campana--destacada .campana__arte { opacity: .9; }
+  .campana__arte svg { stroke: var(--c-arte); }
+  .campana__arte [stroke="#fff"] { stroke: var(--c-arte); }
+  .campana__arte [fill="#fff"] { fill: var(--c-arte); }
   /* Banner rotativo de campañas estacionales */
   .rotativo { position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
   .lamina { --fondo: #F7DC7A; --tinta: #2B2100; --banda: #3A3010; --banda-tinta: #FFF4CC; --boton: #F7DC7A; --boton-hover: #FBE699;
