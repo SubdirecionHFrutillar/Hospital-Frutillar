@@ -29,14 +29,13 @@ accesosUsuarios:
       {%- set url = site.telefonoCentralHref if a.tel else a.url %}
       {%- set texto = site.telefonoCentral if a.tel else a.texto %}
       {#- Un solo estilo para todos los accesos (azul institucional); el rojo queda reservado para Urgencias -#}
-      <a href="{{ url }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %} class="group bg-white border {{ 'border-red-200 hover:border-red-400' if a.urgente else 'border-gray-200 hover:border-primary-light' }} rounded-custom p-3 sm:p-5 flex flex-col sm:flex-row lg:flex-col items-start gap-2.5 sm:gap-3 hover:shadow-md transition-all">
-        <div class="w-10 h-10 sm:w-12 sm:h-12 {{ 'bg-red-50' if a.urgente else 'bg-primary-bg' }} rounded-full flex items-center justify-center flex-shrink-0">
-          <span aria-hidden="true" class="material-symbols-outlined {{ 'text-red-700' if a.urgente else 'text-primary' }} text-xl sm:text-2xl">{{ a.icono }}</span>
-        </div>
-        <div class="min-w-0">
-          <h3 class="font-bold text-gray-900 text-sm leading-tight group-hover:underline">{{ a.titulo }}</h3>
-          <p class="text-xs text-gray-600 leading-snug mt-1{% if not a.tel %} hidden sm:block{% else %} font-bold text-primary-dark{% endif %}">{{ texto }}</p>
-        </div>
+      <a href="{{ url }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %} class="group bg-white border {{ 'border-red-200 hover:border-red-400' if a.urgente else 'border-gray-200 hover:border-primary-light' }} rounded-custom p-3 sm:p-4 flex flex-col hover:shadow-md transition-all">
+        {#- Ícono pequeño en la misma línea del título, sin círculo -#}
+        <h3 class="flex items-start gap-1.5 font-bold text-gray-900 text-sm leading-tight group-hover:underline">
+          <span aria-hidden="true" class="material-symbols-outlined {{ 'text-red-700' if a.urgente else 'text-primary' }} text-lg leading-none -mt-px flex-shrink-0">{{ a.icono }}</span>
+          <span>{{ a.titulo }}</span>
+        </h3>
+        <p class="text-xs text-gray-600 leading-snug mt-1 pl-6{% if not a.tel %} hidden sm:block{% else %} font-bold text-primary-dark{% endif %}">{{ texto }}</p>
         {%- if a.externo %}<span class="sr-only"> (abre en una pestaña nueva)</span>{% endif %}
       </a>
       {% endfor %}
