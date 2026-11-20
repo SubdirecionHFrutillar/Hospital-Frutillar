@@ -163,6 +163,8 @@
     background: var(--campana); border-radius: 4px; text-decoration: none;
     box-shadow: inset 0 -3px 0 rgba(0,0,0,.18);
   }
+  /* Colores de campañas algo apagados para que no compitan con el resto (la luminancia, y con ella el contraste del texto, se mantiene) */
+  .campana, .rotativo { filter: saturate(.6); }
   .campana::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background .15s; }
   .campana:hover::after { background: rgba(0,0,0,.12); }
   .campana:focus-visible { outline: 3px solid theme("colors.gob.rojo"); outline-offset: 2px; }
