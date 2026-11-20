@@ -42,6 +42,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("admin");
   eleventyConfig.addPassthroughCopy("assets/js");
   eleventyConfig.addPassthroughCopy("assets/fonts");
+  // pdf.js (versión "legacy", para navegadores antiguos del hospital): vista previa de PDF en la intranet
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/pdfjs-dist/legacy/build/pdf.min.mjs": "assets/vendor/pdfjs/pdf.min.mjs",
+    "node_modules/pdfjs-dist/legacy/build/pdf.worker.min.mjs": "assets/vendor/pdfjs/pdf.worker.min.mjs",
+  });
   eleventyConfig.addPassthroughCopy("robots.txt");
   // Validación de RUT: el mismo módulo que usan las funciones del servidor
   eleventyConfig.addPassthroughCopy({ "netlify/lib/rut.mjs": "assets/js/rut.mjs" });

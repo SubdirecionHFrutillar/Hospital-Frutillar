@@ -72,7 +72,7 @@ export function repoArchivos(nombreAlmacen) {
       if (!esId(id)) return false;
       const st = await almacen();
       const m = (await st.getMetadata(`archivos/${id}`))?.metadata;
-      if (!m || !m.tipo?.startsWith("image/")) return false;
+      if (!m || !(m.tipo?.startsWith("image/") || m.tipo === "application/pdf")) return false; // PDF: primera página como imagen
       await st.set(`miniaturas/${id}`, datos, { metadata: { nombre: m.nombre, tipo, tamano: datos.byteLength } });
       return true;
     },

@@ -231,8 +231,11 @@ test("Miniaturas de imágenes: solo editores las suben; el listado las usa y cae
   // Un PDF no admite miniatura
   r = await archivos(req("/api/intranet/archivos", { metodo: "POST", cookie: cEditor, headers: { "content-type": "application/pdf", "x-nombre": "a.pdf" }, cuerpo: new Uint8Array([37, 80, 68, 70]) }), { params: {} });
   const pdf = (await r.json()).archivo;
+  // Un PDF sí acepta miniatura (su primera página, para la vista previa del muro)
   r = await archivos(req(`/api/intranet/archivos/${pdf.id}/miniatura`, { metodo: "POST", cookie: cEditor, headers: { "content-type": "image/webp" }, cuerpo: new Uint8Array(10) }), { params: { id: pdf.id, accion: "miniatura" } });
-  assert.equal(r.status, 404);
+  assert.equal(r.status, 201);
+  r = await archivos(req(`/api/intranet/archivos/${pdf.id}?tam=min`, { cookie: cEditor }), { params: { id: pdf.id } });
+  assert.equal(r.headers.get("content-type"), "image/webp");
 });
 
 test("Avisos del sitio: solo Comunicaciones/Admin; validación, máximo y API pública de vigentes", async () => {
