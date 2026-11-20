@@ -29,7 +29,6 @@
     "b": "600 360 7777",
     "tipo": "pila",
     "barra": "ambas",
-    "icono": "support_agent",
     "url": "https://saludresponde.minsal.cl/",
     "nombre": "Salud Responde, 600 360 7777"
   },
@@ -62,7 +61,6 @@
     "a": "Solicitud de información",
     "b": "Transparencia",
     "tipo": "pila",
-    "icono": "description",
     "barra": "linea",
     "url": "https://www.portaltransparencia.cl",
     "nombre": "Solicitud de información, Ley de Transparencia"
@@ -71,7 +69,6 @@
     "a": "Plataforma de",
     "b": "Ley del Lobby",
     "tipo": "pila",
-    "icono": "contract",
     "barra": "linea",
     "url": "https://www.leylobby.gob.cl",
     "nombre": "Plataforma Ley del Lobby"

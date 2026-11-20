@@ -13,7 +13,7 @@ permalink: servicios.html
     <nav aria-label="Ir a un servicio" class="lg:hidden -mb-2">
       <ul class="flex flex-wrap gap-2">
         {% for s in servicios.servicios | rejectattr('oculto') %}
-        <li><a href="#{{ s.id }}" class="inline-flex items-center gap-1.5 bg-white border border-gray-200 rounded-full px-3 py-1.5 text-xs font-semibold text-primary hover:border-primary"><span aria-hidden="true" class="material-symbols-outlined text-sm">{{ s.icon }}</span>{{ s.nombre }}</a></li>
+        <li><a href="#{{ s.id }}" class="inline-flex items-center gap-1.5 bg-white border border-gray-200 rounded-full px-3 py-1.5 text-xs font-semibold text-primary hover:border-primary">{{ s.nombre }}</a></li>
         {% endfor %}
       </ul>
     </nav>
