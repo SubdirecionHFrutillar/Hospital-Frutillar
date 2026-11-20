@@ -163,8 +163,6 @@
     background: var(--campana); border-radius: 4px; text-decoration: none;
     box-shadow: inset 0 -3px 0 rgba(0,0,0,.18);
   }
-  /* Colores de campañas algo apagados para que no compitan con el resto (la luminancia, y con ella el contraste del texto, se mantiene) */
-  .campana, .rotativo { filter: saturate(.6); }
   .campana::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background .15s; }
   .campana:hover::after { background: rgba(0,0,0,.12); }
   .campana:focus-visible { outline: 3px solid theme("colors.gob.rojo"); outline-offset: 2px; }
@@ -178,9 +176,19 @@
   .campana--destacada .campana__titular { font-size: 1.75rem; max-width: 12ch; }
   .campana--destacada .campana__bajada { font-size: 12.5px; max-width: 30ch; }
   .campana--destacada .campana__arte { right: -10px; top: -14px; bottom: auto; width: 128px; height: 128px; }
+  /* Campañas en versión clara (como las tarjetas de gob.cl): fondo tenue del color de la campaña,
+     título y dibujo en el color de la campaña, texto en gris. Menos chillonas sin quedar oscuras. */
+  .campana { background: color-mix(in srgb, var(--campana) 9%, #fff); box-shadow: inset 4px 0 0 var(--campana); border: 1px solid color-mix(in srgb, var(--campana) 22%, #fff); }
+  .campana:hover::after { background: color-mix(in srgb, var(--campana) 6%, transparent); }
+  .campana__texto { color: inherit; }
+  .campana__titular, .campana__dato { color: inherit; }
+  .campana__bajada { color: theme("colors.gray.700"); }
+  .campana__arte { color: #fff; opacity: .55; }
+  .campana__arte [stroke="#fff"] { stroke: var(--campana); }
+  .campana__arte [fill="#fff"] { fill: var(--campana); }
   /* Banner rotativo de campañas estacionales */
   .rotativo { position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
-  .lamina { --fondo: #F2B705; --tinta: #2B2100; --banda: #2B2100; --banda-tinta: #FFF4CC; --boton: #F2B705; --boton-hover: #FFC928;
+  .lamina { --fondo: #F7DC7A; --tinta: #2B2100; --banda: #3A3010; --banda-tinta: #FFF4CC; --boton: #F7DC7A; --boton-hover: #FBE699;
     background: var(--fondo); color: var(--tinta); display: flex; flex-direction: column; min-height: 100%; }
   .lamina--naranjo { --fondo: #F57C00; --tinta: #2A1300; --banda: #3A1C00; --banda-tinta: #FFE7CC; --boton: #F57C00; --boton-hover: #FF9800; }
   .lamina--azul { --fondo: #1D5DB4; --tinta: #fff; --banda: #0A2A5E; --banda-tinta: #DCE9FA; --boton: #1D5DB4; --boton-hover: #2A6FCC; }
