@@ -13,8 +13,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Public Sans", "sans-serif"],
-        cartel: ["Barlow Condensed", "Public Sans", "sans-serif"],
+        sans: ["gobCL", "Segoe UI", "Roboto", "Arial", "sans-serif"],
+        cartel: ["gobCL", "Segoe UI", "Arial", "sans-serif"],
       },
       colors: {
         primary: {
