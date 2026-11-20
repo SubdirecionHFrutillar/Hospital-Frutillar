@@ -37,7 +37,7 @@ permalink: faq.html
   <aside class="flex flex-col gap-5">
     {% set menuFaq = [] %}
     {% for cat in faq.categorias %}{% set menuFaq = (menuFaq.push({ label: cat.titulo, url: "#categoria-" + loop.index, c: "faq:categorias#" + cat.id + ".titulo" }), menuFaq) %}{% endfor %}
-    {{ ui.menuLateral("Categorías", menuFaq, "help") }}
+    {{ ui.menuLateral("Categorías", menuFaq) }}
     <div class="flex flex-col gap-2.5">
       {{ ui.botonTarjeta("/horarios.html", "Horarios de Atención") }}
       {{ ui.botonTarjeta("/aranceles.html", "Aranceles") }}
