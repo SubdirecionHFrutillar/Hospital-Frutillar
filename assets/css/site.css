@@ -92,13 +92,13 @@
   .sistema-ssr:hover .sistema-ssr__icono { background: rgba(255,255,255,.16); }
 
   /* Portal: página de Calidad */
-  .calidad-tarjeta { display: flex; flex-direction: column; gap: .35rem; background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid #00796B; border-radius: 4px; padding: 1rem 1.1rem; text-decoration: none; transition: box-shadow .15s; }
+  .calidad-tarjeta { display: flex; flex-direction: column; gap: .35rem; background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid theme("colors.primary.DEFAULT"); border-radius: 4px; padding: 1rem 1.1rem; text-decoration: none; transition: box-shadow .15s; }
   .calidad-tarjeta:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); }
   .calidad-ambito { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-radius: 4px; padding: 1rem 1.1rem; }
-  .calidad-ambito__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E0F2F1; color: #00796B; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .protocolo-area { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid #3949AB; border-radius: 4px; padding: 1rem 1.1rem; }
-  .protocolo-area__icono { width: 40px; height: 40px; border-radius: 9999px; background: #E8EAF6; color: #283593; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .calidad-ambito__sigla { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: #fff; background: #00796B; border-radius: 3px; padding: 1px 6px; vertical-align: 2px; }
+  .calidad-ambito__icono { width: 40px; height: 40px; border-radius: 9999px; background: theme("colors.primary.bg"); color: theme("colors.primary.DEFAULT"); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .protocolo-area { display: flex; flex-direction: column; background: #fff; border: 1px solid theme("colors.gray.200"); border-top: 4px solid theme("colors.primary.DEFAULT"); border-radius: 4px; padding: 1rem 1.1rem; }
+  .protocolo-area__icono { width: 40px; height: 40px; border-radius: 9999px; background: theme("colors.primary.bg"); color: theme("colors.primary.DEFAULT"); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .calidad-ambito__sigla { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: theme("colors.primary.DEFAULT"); background: theme("colors.primary.bg"); border-radius: 3px; padding: 1px 6px; vertical-align: 2px; }
 
   /* Ítems de menú lateral */
   /* Ítems de menú lateral: la barra azul marca la página actual (y el ítem bajo el mouse).

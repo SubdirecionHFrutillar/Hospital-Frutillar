@@ -32,6 +32,7 @@ export const guardarMiniatura = archivos.guardarMiniatura;
 function resumen(p) {
   const plano = p.cuerpo.replace(/[#*_>`\[\]()!-]/g, " ").replace(/\s+/g, " ").trim();
   const imagen = p.adjuntos.find((a) => a.tipo?.startsWith("image/"));
+  const pdf = imagen ? null : p.adjuntos.find((a) => a.tipo === "application/pdf");
   return {
     id: p.id,
     titulo: p.titulo,
@@ -41,6 +42,7 @@ function resumen(p) {
     autor: p.autor?.nombre,
     extracto: plano.slice(0, 220),
     imagen: imagen?.id || null,
+    pdf: pdf?.id || null, // sin imagen: la primera página del PDF sirve de vista previa
     adjuntos: p.adjuntos.length,
   };
 }

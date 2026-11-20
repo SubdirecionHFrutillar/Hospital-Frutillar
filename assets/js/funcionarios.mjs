@@ -206,8 +206,58 @@ async function optimizarImagen(f) {
   }
 }
 
-// Miniatura liviana (640 px) para los listados del muro.
+// Vista previa de PDF: la primera página como imagen. pdf.js se carga solo cuando hace falta.
+let pdfjs;
+function cargarPdfjs() {
+  pdfjs ||= import("/assets/vendor/pdfjs/pdf.min.mjs").then((m) => {
+    m.GlobalWorkerOptions.workerSrc = "/assets/vendor/pdfjs/pdf.worker.min.mjs";
+    return m;
+  });
+  return pdfjs;
+}
+async function primeraPagina(datos, ancho = 640) {
+  try {
+    const lib = await cargarPdfjs();
+    const doc = await lib.getDocument({ data: datos }).promise;
+    try {
+      const pag = await doc.getPage(1);
+      const vp = pag.getViewport({ scale: ancho / pag.getViewport({ scale: 1 }).width });
+      const lienzo = document.createElement("canvas");
+      lienzo.width = Math.round(vp.width);
+      lienzo.height = Math.round(vp.height);
+      const ctx = lienzo.getContext("2d");
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, lienzo.width, lienzo.height);
+      await pag.render({ canvasContext: ctx, viewport: vp }).promise;
+      let blob = await new Promise((r) => lienzo.toBlob(r, "image/webp", 0.72));
+      if (!blob || blob.type !== "image/webp") blob = await new Promise((r) => lienzo.toBlob(r, "image/jpeg", 0.75));
+      return blob && blob.size <= 290 * 1024 ? blob : null;
+    } finally {
+      doc.destroy();
+    }
+  } catch {
+    return null;
+  }
+}
+
+/** Pone en `img` la vista previa de un PDF adjunto. Usa la miniatura guardada; si no existe (PDF subido antes),
+ *  la dibuja desde el PDF y, si quien mira puede publicar, la guarda para los demás. */
+async function vistaPdf(img, id, guardar) {
+  const r = await fetch(`/api/intranet/archivos/${id}?tam=min`, { credentials: "same-origin" });
+  if (!r.ok) throw new Error("sin archivo");
+  let blob = await r.blob();
+  if (!blob.type.startsWith("image/")) {
+    const mini = await primeraPagina(await blob.arrayBuffer());
+    if (!mini) throw new Error("sin vista previa");
+    if (await guardar) fetch(`/api/intranet/archivos/${id}/miniatura`, { method: "POST", credentials: "same-origin", headers: { "content-type": mini.type }, body: mini }).catch(() => {});
+    blob = mini;
+  }
+  img.src = URL.createObjectURL(blob);
+}
+
+// Miniatura liviana (640 px) para los listados del muro (imágenes, y la primera página de los PDF).
 async function miniatura(f) {
+  if (f.type === "application/pdf") return primeraPagina(await f.arrayBuffer());
   if (!/^image\/(jpeg|png|webp)$/.test(f.type)) return null;
   try {
     const bmp = await createImageBitmap(f, { imageOrientation: "from-image" });
@@ -320,18 +370,34 @@ const paginas = {
     let categoria = params.get("categoria") || "";
     let pagina = Math.max(1, Number(params.get("pagina")) || 1);
 
+    const puedeGuardarVistas = usuarioActual().then((u) => PUBLICA_INTRANET.includes(u.rol)).catch(() => false);
+    // Zona de imagen del mismo alto en todas las tarjetas: foto, primera página del PDF o el logo del hospital.
+    const sinImagen = () => {
+      const d = el("div", "h-full w-full flex items-center justify-center bg-primary-bg");
+      const logo = el("img", "h-14 w-auto opacity-30");
+      logo.src = "/img/logo-hospital.png";
+      logo.alt = "";
+      d.append(logo);
+      return d;
+    };
     const tarjeta = (p) => {
       const a = el("a", "news-card bg-white rounded-custom shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow");
       a.href = `/funcionarios/publicacion.html?id=${p.id}`;
-      if (p.imagen) {
-        // Vista previa: ocupa todo el ancho de la tarjeta con alto fijo, mostrando la parte de arriba (afiches y boletines). Completa, al abrir la publicación.
-        const img = el("img", "block w-full h-56 object-cover object-top bg-gray-100");
-        img.src = `/api/intranet/archivos/${p.imagen}?tam=min`;
+      const media = el("div", "relative h-48 overflow-hidden bg-gray-100 border-b border-gray-100");
+      if (p.imagen || p.pdf) {
+        // Vista previa: todo el ancho, alto fijo, mostrando la parte de arriba (afiches, boletines, documentos)
+        const img = el("img", "block w-full h-full object-cover object-top");
         img.decoding = "async";
         img.alt = "";
         img.loading = "lazy";
-        a.append(img);
-      }
+        media.append(img);
+        if (p.imagen) img.src = `/api/intranet/archivos/${p.imagen}?tam=min`;
+        else {
+          media.append(el("span", "absolute top-2 left-2 bg-white/95 border border-gray-200 text-[10px] font-bold text-gray-700 px-1.5 py-0.5 rounded", "PDF"));
+          vistaPdf(img, p.pdf, puedeGuardarVistas).catch(() => img.replaceWith(sinImagen()));
+        }
+      } else media.append(sinImagen());
+      a.append(media);
       const cuerpo = el("div", "p-4 flex flex-col gap-1.5 flex-1");
       const meta = el("div", "flex flex-wrap items-center gap-2 text-[11px]");
       meta.append(el("span", "px-2 py-0.5 bg-primary-bg text-primary font-bold uppercase tracking-wide rounded", p.categoria));
@@ -470,6 +536,17 @@ const paginas = {
       img.loading = "lazy";
       link.append(img);
       caja.append(link);
+    }
+    // Primera página de cada PDF como vista previa (abre el documento)
+    for (const a of otros.filter((x) => x.tipo === "application/pdf")) {
+      const link = el("a", "block border border-gray-200 rounded-custom overflow-hidden bg-gray-50 hover:border-primary-pale");
+      link.href = `/api/intranet/archivos/${a.id}`;
+      link.target = "_blank";
+      const img = el("img", "block w-full max-h-[34rem] object-cover object-top");
+      img.alt = `Primera página de ${a.nombre}`;
+      link.append(img);
+      caja.append(link);
+      vistaPdf(img, a.id, r.puedeEditar).catch(() => link.remove());
     }
     if (otros.length) {
       const lista = el("ul", "flex flex-col gap-2 border-t border-gray-100 pt-4");
@@ -934,7 +1011,7 @@ const paginas = {
         tx.append(el("h2", "font-bold text-primary-deep leading-tight", a.nombre), el("p", "text-xs text-gray-500 leading-snug mt-1", a.descripcion));
         cab.append(ic, tx);
         if (datos.puedeEditar) {
-          const mas = el("button", "text-indigo-700 hover:bg-indigo-50 rounded-full w-8 h-8 inline-flex items-center justify-center flex-shrink-0");
+          const mas = el("button", "text-primary hover:bg-primary-bg rounded-full w-8 h-8 inline-flex items-center justify-center flex-shrink-0");
           mas.type = "button";
           mas.title = `Subir protocolo en ${a.nombre}`;
           mas.setAttribute("aria-label", mas.title);
@@ -945,22 +1022,21 @@ const paginas = {
         const ul = el("ul", "mt-3 flex flex-col divide-y divide-gray-100 border-t border-gray-100");
         for (const d of docs) {
           const li = el("li", "flex items-center gap-1");
-          const link = el("a", "flex-1 min-w-0 flex items-center gap-2 py-2 text-[13px] text-gray-800 hover:text-indigo-700");
+          const link = el("a", "flex-1 min-w-0 flex items-center gap-2 py-2 text-[13px] text-gray-800 hover:text-primary");
           link.href = d.archivo ? urlArchivo(d.archivo) : d.url;
           link.target = "_blank";
           link.rel = "noopener";
-          const tipoIcono = d.archivo ? (d.archivo.tipo === "application/pdf" ? "picture_as_pdf" : "description") : /\/folders\//.test(d.url) ? "folder" : "link";
           const cuerpo = el("span", "flex-1 min-w-0");
           cuerpo.append(el("span", "block", d.titulo));
           const extra = [d.version && `v${d.version}`, d.archivo && peso(d.archivo.tamano), !d.archivo && "Drive"].filter(Boolean).join(" · ");
           if (extra) cuerpo.append(el("span", "block text-[11px] text-gray-500", extra));
-          link.append(icono(tipoIcono, `text-base ${d.archivo ? "text-red-700" : "text-indigo-600"}`), cuerpo);
+          link.append(cuerpo); // sin ícono por fila: la línea de abajo ya dice si es archivo o Drive
           const est = estadoVigencia(d);
           if (est) link.append(el("span", `text-[10px] font-bold uppercase rounded px-1.5 py-0.5 ${est[1]}`, est[0]));
           if (d.codigo) link.append(el("span", "text-[11px] text-gray-500", d.codigo));
           li.append(link);
           if (datos.puedeEditar) {
-            const ed = el("button", "text-gray-500 hover:text-indigo-700 w-8 h-8 inline-flex items-center justify-center flex-shrink-0");
+            const ed = el("button", "text-gray-300 hover:text-primary w-8 h-8 inline-flex items-center justify-center flex-shrink-0");
             ed.type = "button";
             ed.title = `Editar o reemplazar: ${d.titulo}`;
             ed.setAttribute("aria-label", ed.title);
@@ -973,7 +1049,7 @@ const paginas = {
         if (!docs.length) ul.append(el("li", "py-3 text-xs text-gray-500", "Aún no hay protocolos en esta área."));
         art.append(cab, ul);
         if (a.url) {
-          const ver = el("a", "mt-auto pt-3 inline-flex items-center gap-1.5 text-xs font-bold text-indigo-700 hover:underline", "Ver carpeta completa");
+          const ver = el("a", "mt-auto pt-3 inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline", "Ver carpeta completa");
           ver.href = a.url;
           ver.target = "_blank";
           ver.rel = "noopener";
@@ -1001,7 +1077,7 @@ const paginas = {
       caja.classList.toggle("hidden", !a);
       $("[data-etiqueta-archivo]", dlg).textContent = a ? "Reemplazar por una versión nueva (PDF o Word, hasta 30 MB)" : "Archivo PDF o Word (hasta 30 MB)";
       if (!a) return;
-      const ver = el("a", "flex-1 min-w-0 truncate font-semibold text-indigo-700 hover:underline", a.nombre);
+      const ver = el("a", "flex-1 min-w-0 truncate font-semibold text-primary hover:underline", a.nombre);
       ver.href = urlArchivo(a);
       ver.target = "_blank";
       ver.rel = "noopener";
@@ -1032,7 +1108,7 @@ const paginas = {
         const ul = el("ul", "flex flex-col gap-1");
         for (const v of doc.anteriores) {
           const li = el("li", "flex items-center gap-2 text-xs");
-          const a = el("a", "text-indigo-700 hover:underline truncate", v.archivo.nombre);
+          const a = el("a", "text-primary hover:underline truncate", v.archivo.nombre);
           a.href = urlArchivo(v.archivo);
           a.target = "_blank";
           a.rel = "noopener";
@@ -1103,7 +1179,7 @@ const paginas = {
         const a = el("a", "calidad-tarjeta group");
         a.href = `/funcionarios/publicacion.html?id=${p.id}`;
         a.append(
-          el("span", "text-[10px] font-bold uppercase tracking-widest text-teal-700", fechaCorta(p.fecha)),
+          el("span", "text-[10px] font-bold uppercase tracking-widest text-primary", fechaCorta(p.fecha)),
           el("strong", "block text-[15px] text-primary-deep leading-snug group-hover:underline", p.titulo),
         );
         if (p.extracto) a.append(el("span", "block text-[13px] text-gray-600 leading-snug line-clamp-2", p.extracto));
